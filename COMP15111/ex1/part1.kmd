@@ -1,0 +1,25 @@
+KMD
+00000000: E59F0028    ;         LDR     R0, tom
+00000004: E59F1020    ;         LDR     R1, jill
+00000008: E59F2018    ;         LDR     R2, jack
+0000000C: E59F3020    ;         LDR     R3, one
+00000010: E59F4020    ;         LDR     R4, zero
+00000014: E0800001    ; loop    ADD     R0, R0, R1
+00000018: E0422003    ;         SUB     R2, R2, R3
+0000001C: E1520004    ;         CMP     R2, R4
+00000020: 1AFFFFFB    ;         BNE     loop
+00000024: EF000002    ;         SVC     2
+00000028: 00000003    ; jack    DEFW    3
+0000002C: 00000004    ; jill    DEFW    4
+00000030: 00000000    ; tom     DEFW    0
+00000034: 00000001    ; one     DEFW    1
+00000038: 00000000    ; zero    DEFW    0
+0000003C:             ; 
+
+Symbol Table: Labels
+: loop                              00000014  Local -- ARM
+: jack                              00000028  Local -- ARM
+: jill                              0000002C  Local -- ARM
+: tom                               00000030  Local -- ARM
+: one                               00000034  Local -- ARM
+: zero                              00000038  Local -- ARM

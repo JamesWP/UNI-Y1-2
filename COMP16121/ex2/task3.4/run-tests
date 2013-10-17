@@ -1,0 +1,9 @@
+#/bin/bash
+echo Compiling =============
+javac *.java
+echo Running ===============
+java YearsBeforeRetirement 19
+echo 
+java YearsBeforeRetirement -100
+echo 
+java YearsBeforeRetirement blah

@@ -1,0 +1,5 @@
+#/bin/bash
+echo Compiling =============
+javac *.java
+echo Running ===============
+java ThreeWeights 1 3 9 | sort -n

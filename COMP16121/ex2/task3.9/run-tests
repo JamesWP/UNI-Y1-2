@@ -1,0 +1,9 @@
+#/bin/bash
+echo Compiling =============
+javac *.java
+echo Running ===============
+java FahrenheitToCelsius -49
+java FahrenheitToCelsius 49
+java FahrenheitToCelsius 50
+java FahrenheitToCelsius 749
+java FahrenheitToCelsius -40

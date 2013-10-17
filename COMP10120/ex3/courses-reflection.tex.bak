@@ -1,0 +1,81 @@
+\documentclass[a4paper]{article}
+\usepackage{graphicx}
+\begin{document}
+\tableofcontents
+\newpage
+\section{Introduction}
+This document contains information about the different course units that
+i am currently taking this semester. and some things i like about them. (or not).
+\section{COMP10120}
+  This is the first year group project we will be learning to work as a group
+  to produce a web application.
+  \subsection{Things i like}
+  \begin{enumerate}
+    \item Latex
+    \item Pi
+    \item Independant research
+  \end{enumerate}
+  \subsection{Things i don't like}
+  \begin{enumerate}
+    \item Reasearch
+    \item Online tests
+    \item Presenting
+  \end{enumerate}
+\section{COMP11120}
+  This course is about the mathematics behind computing.
+  \subsection{Things i like}
+  \begin{enumerate}
+    \item Set theory
+    \item Language
+    \item Expressions
+  \end{enumerate}
+  \subsection{Things i don't like}
+  \begin{enumerate}
+    \item Questions
+    \item Assesments
+    \item Lectures in a church
+  \end{enumerate}
+\section{COMP12111}
+This course is about the components and logic behind the computer hardware
+\subsection{Things i like}
+\begin{enumerate}
+  \item Practical work
+  \item Logic puzles
+  \item Cadence!
+\end{enumerate}
+\subsection{Things i don't like}
+\begin{enumerate}
+  \item Getting confused with the wires
+  \item When Cadence breaks
+  \item Cold room
+\end{enumerate}
+\section{COMP15111}
+This is the Computer Arcitechure course, it teaches us about the fundemental
+programming techniques
+\subsection{Things i like}
+\begin{enumerate}
+  \item Learning assembily code
+  \item Optimising loops
+  \item Finding bugs with the simulator
+\end{enumerate}
+\subsection{Things i don't like}
+\begin{enumerate}
+  \item Bugs
+  \item When the microphone dosen't work
+  \item the many many different ARM codes
+\end{enumerate}
+\section{COMP16121}
+The first year java lectures by John Latham
+\subsection{Things i like}
+\begin{enumerate}
+  \item Hawain Shirts!
+  \item Learning Java ... Properly
+  \item Coffee Time
+\end{enumerate}
+\subsection{Things i don't like}
+\begin{enumerate}
+  \item Most of the lessons i know already
+  \item No Clicker time :(
+  \item not long enough
+\end{enumerate}
+\end{document}
