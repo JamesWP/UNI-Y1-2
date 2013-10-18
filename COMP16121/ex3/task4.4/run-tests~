@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java DegreeCategory 75
+java DegreeCategory 70
+java DegreeCategory 69
+java DegreeCategory 60
+java DegreeCategory 59
+java DegreeCategory 50
+java DegreeCategory 49
+java DegreeCategory 40
+java DegreeCategory 33
+java DegreeCategory 10
+
+

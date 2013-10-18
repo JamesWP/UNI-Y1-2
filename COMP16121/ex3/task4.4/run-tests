@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java PassFailDistinction 10
+java PassFailDistinction 49
+java PassFailDistinction 50
+java PassFailDistinction 69
+java PassFailDistinction 70
+java PassFailDistinction 100
+
+
