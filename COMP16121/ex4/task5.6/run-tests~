@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java Power 2 2
+java Power 5 2
+java Power 4 4
+java Power -1 1
+java Power -1 2
+java Power -1 3
