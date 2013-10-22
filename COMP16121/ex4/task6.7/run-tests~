@@ -3,4 +3,4 @@
 echo "Compiling ---"
 javac *.java
 echo "Running -----"
-java PrintTriangleMirror 10
+java Standard

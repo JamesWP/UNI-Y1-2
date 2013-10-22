@@ -6,4 +6,3 @@ echo "Running -----"
 java PrintHoledRectangle 10 10
 java PrintHoledRectangle 11 11
 java PrintHoledRectangle 6 8
-java PrintHoledRectangle 2 8
