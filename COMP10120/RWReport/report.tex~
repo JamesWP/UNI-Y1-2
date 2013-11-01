@@ -1,0 +1,124 @@
+\documentclass[a4paper]{article}
+\author{James Peach}
+\title{Reading week report}
+\begin{document}
+\tableofcontents
+\newpage
+\maketitle
+\section{The IEEE Code of Ethics}
+\subsection{Overview}
+\subsubsection{What it achieives}
+
+The IEEE code of ethics provides a guideline about ethical practice for its members regarding their responsibilities and actions. 
+The code aims to make it clear what actions are ethical and what isn’t in an agreement that members must agree to when working with the IEEE.
+\subsubsection{Why it's necessary}
+\paragraph{Guiding decisions in a field of work}
+
+Sometimes during research or investigation, working alone or in a team there are tricky ethical decisions to be made. It is not always clear what is acceptable practice and with some the boundaries between right and wrong are subjective.
+
+The Code of ethics tries to make these sorts of decisions easier and outlines acceptable practices.
+\paragraph{Protecting end user or affected parties}
+
+The decisions made in day to day work in any field can effect directly or indirectly the end user of the work. For example the research into a new form of chip technology can have a huge impact on consumer electronics around the globe. So In many cases it is not just the decision maker that can be affected by the decisions made but also many others.
+\paragraph{Law, court disciplinary action}
+
+The code of ethics and the points it makes are backed up by an agreement that the IEEE member must agree to. This enforcement ensures that members are working to the correct standard when it comes to these requirements.
+
+A breech of one of the agreements in the Code of ethics can lead to a member being expelled or suspended: “In accordance with IEEE Bylaw I-110.1, a member of the IEEE may be expelled, suspended, or censured for cause” (7.10 IEEE policies 2013)
+
+In many other cases such as racism there are also laws that can be linked and further prosecution can occur as the law stands in the jurisdiction
+\subsection{Key points}
+\subsubsection{Ownership and responsibility of work}
+
+The first point in the Code states that a member must “accept responsibility in making decisions consistent with the safety, health and welfare of the public…” the importance of responsibility within a team is important often because if you are not willing to accept responsibility then the decision must not be an easy one. These harder to make decisions should be discussed to find a acceptable solution and not just ignored.
+
+The second point regarding conflicts of interest is of equal importance for much the same reason. 
+
+Any disagreements within the group or between different parties must be dealt with and resolved as unresolved conflicts can have consequences in different areas and on future work. 
+\subsubsection{Furthering research into technology}
+
+An interesting point in the Code states that a member must “assist colleagues and co-workers in their professional development and to support them in following this code of ethics.” This point encourages helping co-workers in their understanding. This will help as the mentor and the mentored both learn in the process. The code also makes a point about gaining understanding of technology and its consequences because as with all technology there are some inherent dangers and these need to be properly understood to prevent injury. The guidelines point out that this is the responsibility of the individual and should not be left out in research.
+\subsubsection{Wrong doing}
+
+An important part of the code of ethics is about understanding what acceptable practice is. The Code makes it very clear that bribery, discrimination, racism etc. are not tolerated and are bad ethical practice and must be avoided. These are not only harmful to people but also get in the way of the work at hand and can be a hindrance to development.
+
+\section{Decision analysis}
+
+\subsection{Overview}
+\subsubsection{The problem}
+
+In the case of the killer robot there were several decisions made by different individuals that lead to the unfortunate series of events ending with a death.
+This was allowed to happen by several parts of the system going wrong and or not working as per the specification agreed.
+
+The death was not caused by one individual but is a consequence of several bad decisions made by management and employees.
+\subsubsection{Some ``bad decisions'' and there outcomes}
+
+The project needed to be a success. The project was also running behind schedule. These two factors had catastrophic effects on the outcome of the project. Things were rushed and decisions were made that should not have been. And as a result things did not go to plan.
+\subsection{The decisions}
+
+The project manager Sam Reynolds was transferred from the data processing division to the CX30 project. This was seen as a bad decision by many because the experience required to lead a software project was a necessary part of the job whilst he had experience to manage projects he did not understand the mechanics behind the project. 
+The code of ethics could have helped to prevent this decision because point 6 says that you must only “undertake technological tasks for others only if qualified by training or experience…” Sam did not have any experience to take this project and was not qualified to manage the teams properly. This increased pressure within the teams by forcing them to work under abnormal circumstances and without fully understanding each area.
+
+Sam also decided to, against the wishes of the team; use the waterfall model of development rather than the better suited prototyping model. This resulted with an employee being fired and big disagreements within the management.
+
+The code of conduct says that members should ``avoid real or perceived conflicts of interest…'' and this indicates that instead of Sam just pulling his weight and adopting his method, the benefits and negatives should have been discussed and a group decision should have been made.
+
+Ray made the decision to instruct team leaders that the project’s completion by the deadline is more important than it being 100\% perfect. ``Perfection is the enemy of the good.'' (Ray Johnson) this founded his idea of ``Ivory Snow'' he chose risking bugs and incompleteness to get the project in on time. This is a disregard for safety and lead to the death of a user.
+
+Randy Samuels was the programmer involved with the programming of the robot. He was against helping others and would often complete others tasks without explanation or teaching. He also was against having his own code checked as was customary in the business.
+Because of this no one saw the flaw in the code he had written and his mistake with the maths. The code of ethics plainly states ``to seek, accept, and offer honest criticism of technical work…'' if this agreement was in place then it would have been spotted and fixed before deployment of the code. 
+\subsection{Summary}
+
+If the code of conduct was more clear on the ethics of rushing the project at the cost of sub-par quality. Then the issue of Ray and his “Ivory Snow” idea would not have arisen. This was the root of the rushed testing and flawed implementation of the interface that lead to the death of the operator.
+
+If the employees felt they were under stress to get things done by deadlines then they should be able to talk to someone about it so that it does not affect the quality of work. 
+When people work in situations like this work is usually not to the same standard and can have an impact on the person with stress related illnesses.
+
+
+\section{Comparison of ethical frameworks}
+\subsection{Overview}
+
+The different codes that other in the group have looked at all have a common base of ethics within. They all have points regarding conflicts of interest and discrimination for example as these points are fairly well regarded as best practice to avoid. There are many other points that are also echoed in the various codes.
+
+The main differences in each I will explain in the following paragraphs
+
+\subsection{Biadu  Code of Ethics}
+
+The code stipulates that all breaches must be reported to the company and then action can be taken.
+
+The code focuses on employee relations and harassment / discrimination / violence prevention more than the IEEE. This is because the code is for a business rather than a group. 
+
+\subsection{Intel  Code of Ethics}
+
+Another large section is dedicated to conflicts of interest and how to properly deal with them. 
+Both Intel and Biadu both have larger codes of ethics than the IEEE. They elaborate on the from the IEEE code but are essentially the same.
+
+\subsection{Australian Computer Society  Code of Ethics}
+
+The code refers to enhancing the integrity of the profession. This is one main difference to the other codes. Similarly to the IEEE code of ethics the points are more generic and simple than the more elaborated ones in the Intel and Biadu ones.
+
+\subsection{HP  Code of Ethics}
+
+The Code points to and emphasises HP’s “passion for customers” this is an important part of any large consumer brand and is therefore part of the code for the business.
+
+\section{Sources}
+
+\paragraph{Code of Practice}
+\url{http://en.wikipedia.org/wiki/Ethical\_code\#Code\_of\_practice\_.28professional\_ethics.29}
+
+\paragraph{IEEE Code of ethics}
+\url{http://www.ieee.org/about/corporate/governance/p7-8.html}
+
+\paragraph{Case study - Killer robot}
+\url{http://studentnet.cs.manchester.ac.uk/ugt/COMP10120/AbridgedKillerRobot.html}
+
+\paragraph{IEEE Policies}
+\url{http://www.ieee.org/documents/ieee\_policies.pdf}
+
+\paragraph{Hp Code of ethics}
+\url{http://moodle.cs.man.ac.uk/mod/wiki/view.php?id=8882\&page=Hp+-+Code+of+Ethics}
+
+
+\end{document}
+
+

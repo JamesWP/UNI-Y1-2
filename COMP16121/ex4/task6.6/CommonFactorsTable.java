@@ -6,6 +6,7 @@ public class CommonFactorsTable
     //top line
     horizLine();
   
+    // Prints column headings
     System.out.print("|     |");
     for(int col = 2;col<=SIZE+1;col++)
       printLen(col);
@@ -13,12 +14,16 @@ public class CommonFactorsTable
 
     //head and body seperator
     horizLine();
-
+    
+    // prints each row
     for(int row = 2;row<=SIZE+1;row++)
     {
+      // prints row heading
       System.out.print("| ");
       printLen(row);
       System.out.print(" |");
+
+      // prints intersecting lines
       for(int col = 2;col<=SIZE+1;col++)
           if(gcd(row,col)>1) 
             System.out.print("--#");
@@ -62,7 +67,7 @@ public class CommonFactorsTable
   /**
   *	prints a horizontal line
   *
-  *//
+  */
   public static void horizLine()
   {
     System.out.print("|-----|");

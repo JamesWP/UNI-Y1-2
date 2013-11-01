@@ -45,6 +45,10 @@ public class CommonFactorsTable
     }
     return one;
   }
+  /**
+  *  prints the first argument to stdout as three characters space padded left
+  *
+  **/
   public static void printLen(int no)
   {
     if(no>=100)
@@ -55,6 +59,10 @@ public class CommonFactorsTable
       System.out.print("  "+no);
     
   }
+  /**
+  *	prints a horizontal line
+  *
+  */
   public static void horizLine()
   {
     System.out.print("|-----|");
