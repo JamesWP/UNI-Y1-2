@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Compiling  ------"
+javac *.java
+echo "Running ---------"
+java QuadPoly
+java AddQuadPoly
+java CompareQuadPoly

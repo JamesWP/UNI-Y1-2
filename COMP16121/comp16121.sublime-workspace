@@ -3,10 +3,98 @@
 	{
 		"selected_items":
 		[
+			[
+				"b",
+				"bpolly"
+			],
+			[
+				"pr",
+				"println"
+			],
+			[
+				"print",
+				"printLine"
+			],
+			[
+				"te",
+				"text-align"
+			],
+			[
+				"bo",
+				"border-spacing"
+			],
+			[
+				"bor",
+				"border"
+			],
+			[
+				"padd",
+				"padding"
+			],
+			[
+				"pa",
+				"padding"
+			],
+			[
+				"font",
+				"font-family"
+			],
+			[
+				"padding",
+				"padding-bottom"
+			],
+			[
+				"border",
+				"border-bottom"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"inl",
+				"inline-block"
+			],
+			[
+				"bl",
+				"inline-block"
+			],
+			[
+				"di",
+				"display"
+			],
+			[
+				"font-",
+				"font-family"
+			]
 		]
 	},
 	"buffers":
 	[
+		{
+			"file": "ex6/task10.2/AddQuadPoly.java",
+			"settings":
+			{
+				"buffer_size": 668,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ex6/task10.2/QuadPoly.java",
+			"settings":
+			{
+				"buffer_size": 636,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ex6/task10.2/run-tests",
+			"settings":
+			{
+				"buffer_size": 105,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -40,16 +128,26 @@
 	},
 	"file_history":
 	[
+		"/home/mbax3jp2/COMP16121/ex6/task10.2/QuadPoly.java",
+		"/home/mbax3jp2/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
+		"/home/mbax3jp2/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
+		"/home/mbax3jp2/COMP16121/ex6/task8.8/run-tests",
+		"/home/mbax3jp2/COMP16121/ex6/task8.8/CalendarHighlight.java",
+		"/home/mbax3jp2/COMP16121/ex6/task8.7/TruthTable34.java",
+		"/home/mbax3jp2/COMP16121/ex6/task8.6/TruthTable34.java",
+		"/home/mbax3jp2/COMP10120/ex5/style.css",
+		"/home/mbax3jp2/COMP10120/ex5/index.html",
+		"/home/mbax3jp2/COMP10120/ex5/implementation.html",
 		"/home/mbax3jp2/COMP16121/ex4/run-all-tests",
 		"/home/mbax3jp2/.config/sublime-text-2/Packages/CSS/css_completions.py"
 	],
 	"find":
 	{
-		"height": 0.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
-		"height": 0.0,
+		"height": 93.0,
 		"where_history":
 		[
 		]
@@ -76,8 +174,89 @@
 	"groups":
 	[
 		{
+			"selected": 2,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "ex6/task10.2/AddQuadPoly.java",
+					"settings":
+					{
+						"buffer_size": 668,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								405,
+								405
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "ex6/task10.2/QuadPoly.java",
+					"settings":
+					{
+						"buffer_size": 636,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								628,
+								628
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 306.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "ex6/task10.2/run-tests",
+					"settings":
+					{
+						"buffer_size": 105,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								94,
+								94
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -87,7 +266,7 @@
 	},
 	"input":
 	{
-		"height": 0.0
+		"height": 33.0
 	},
 	"layout":
 	{
@@ -112,6 +291,10 @@
 		]
 	},
 	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 112.0
+	},
 	"replace":
 	{
 		"height": 0.0
