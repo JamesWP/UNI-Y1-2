@@ -71,30 +71,6 @@
 	},
 	"buffers":
 	[
-		{
-			"file": "ex6/task10.2/AddQuadPoly.java",
-			"settings":
-			{
-				"buffer_size": 668,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "ex6/task10.2/QuadPoly.java",
-			"settings":
-			{
-				"buffer_size": 636,
-				"line_ending": "Unix"
-			}
-		},
-		{
-			"file": "ex6/task10.2/run-tests",
-			"settings":
-			{
-				"buffer_size": 105,
-				"line_ending": "Unix"
-			}
-		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -128,7 +104,9 @@
 	},
 	"file_history":
 	[
+		"/home/mbax3jp2/COMP16121/ex6/task10.2/AddQuadPoly.java",
 		"/home/mbax3jp2/COMP16121/ex6/task10.2/QuadPoly.java",
+		"/home/mbax3jp2/COMP16121/ex6/task10.2/run-tests",
 		"/home/mbax3jp2/.config/sublime-text-2/Packages/Default/Preferences.sublime-settings",
 		"/home/mbax3jp2/.config/sublime-text-2/Packages/User/Preferences.sublime-settings",
 		"/home/mbax3jp2/COMP16121/ex6/task8.8/run-tests",
@@ -147,7 +125,7 @@
 	},
 	"find_in_files":
 	{
-		"height": 93.0,
+		"height": 0.0,
 		"where_history":
 		[
 		]
@@ -174,89 +152,8 @@
 	"groups":
 	[
 		{
-			"selected": 2,
 			"sheets":
 			[
-				{
-					"buffer": 0,
-					"file": "ex6/task10.2/AddQuadPoly.java",
-					"settings":
-					{
-						"buffer_size": 668,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								405,
-								405
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 1,
-					"file": "ex6/task10.2/QuadPoly.java",
-					"settings":
-					{
-						"buffer_size": 636,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								628,
-								628
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/Java/Java.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 306.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 2,
-					"file": "ex6/task10.2/run-tests",
-					"settings":
-					{
-						"buffer_size": 105,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								94,
-								94
-							]
-						],
-						"settings":
-						{
-							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				}
 			]
 		}
 	],
