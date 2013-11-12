@@ -19,7 +19,9 @@
 	<body>
 		<nav>
 			<ul>
-				<li><a class="active" href="#">PHP - Fun!</a></li>
+        <li><a href="/aboutme">ABOUT ME</a></li>
+        <li><a href="/aboutme/implementation.html">IMPLEMENTATION</a></li>
+        <li><a class="active" href="/php">PHP - Fun!</a></li>
 			</ul>
 		</nav>
 		<div id="wrapper">
