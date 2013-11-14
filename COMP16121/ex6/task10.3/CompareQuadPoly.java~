@@ -16,7 +16,7 @@ public class CompareQuadPoly
     System.out.println("The pollynomial:\t" + pollyToString(apolly));
     if(apolly.equals(bpolly))
     {
-      System.out.println("is equal to \t\t" + pollyToString(apolly));
+      System.out.println("is equal to \t" + pollyToString(apolly));
     } else if(apolly.lessThan(bpolly))
     {
       System.out.println("is less than:\t\t" + pollyToString(apolly));

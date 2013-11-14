@@ -32,8 +32,8 @@ public class QuadPoly
   public boolean lessThan(QuadPoly a)
   {
   	return x2c < a.x2c 
-  		|| (x2c == a.x2c && xc < a.xc)
-  		|| (x2c == a.x2c && xc == a.xc && consta < a.consta);
+  		|| (x2c = a.x2c && xc < a.xc)
+  		|| (x2c = a.x2c && xc = a.xc && consta < a.consta);
   }
 
   /**
