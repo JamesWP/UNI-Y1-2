@@ -16,10 +16,10 @@ public class QuadPoly
   /**
   * adds the two instances and creats another with the sum
   **/
-  public static QuadPoly add(QuadPoly a, QuadPoly b)
-  {
-    return new QuadPoly(a.x2c+b.x2c,a.xc+b.xc,a.consta+b.consta);
-  }
+  //public static QuadPoly add(QuadPoly a, QuadPoly b)
+  //{
+  //  return new QuadPoly(a.x2c+b.x2c,a.xc+b.xc,a.consta+b.consta);
+  //}
 
   /**
   * to string returns a string repersentaion of the QuadPoly

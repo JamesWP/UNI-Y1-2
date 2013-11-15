@@ -1,3 +1,6 @@
+/**
+* outputs a truth table for three expressions p1-3
+**/
 public class TruthTable34
 {
   public static void main(String[] args)
@@ -8,6 +11,7 @@ public class TruthTable34
 
     printLine();
 
+    // loop through combinations of the four inputs
     boolean a = true,b = true, c = true,d=true;
     for(int counta = 0;counta<2;counta++,a=!a)
       for(int countb = 0;countb<2;countb++,b=!b)
@@ -24,6 +28,10 @@ public class TruthTable34
     printLine();
   }
 
+  //
+  // follows are the three expressions with the 4 variables passed as arguments
+  //
+
   public static boolean p1(boolean a, boolean b, boolean c, boolean d)
   {
     return (((a||b)&&c)||((b||c)&&d))&&(a||d);
@@ -39,6 +47,9 @@ public class TruthTable34
     return (b||c)&&(c||d)&& (a||d);
   }
 
+  /**
+  * outputs one line for the table
+  **/
   public static void printLine()
   {
     System.out.println("---------------------------------------------------"

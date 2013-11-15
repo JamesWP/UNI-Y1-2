@@ -1,3 +1,6 @@
+/**
+* compairs two polys and prints the comparison
+**/
 public class CompareQuadPoly
 {
   public static void main(String[] args)
@@ -25,6 +28,10 @@ public class CompareQuadPoly
       System.out.println("is greater than:\t" + pollyToString(apolly));
     }
   }
+
+  /**
+  * returns a string representation of the poly object passed in
+  **/
   public static String pollyToString(QuadPoly polly)
   {
     return polly.x2c + "x^2 + " + polly.xc + "x + " + polly.consta;
