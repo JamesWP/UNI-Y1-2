@@ -1,0 +1,10 @@
+#!/bin/bash
+
+echo "Compiling  ------"
+javac *.java
+echo "Running ---------"
+java Point
+java Circle
+java Triangle
+java Rectangle
+java ShapeShift
