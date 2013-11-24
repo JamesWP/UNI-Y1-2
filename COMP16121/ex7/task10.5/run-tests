@@ -3,5 +3,7 @@
 echo "Compiling  ------"
 javac *.java
 echo "Running ---------"
-java AddQuadPoly
-java QuadPoly
+java AddQuadPoly 6 4 2 3 2 1
+java AddQuadPoly -6 4 2 3 2 1
+java AddQuadPoly 3 3 3 -3 -3 -3
+java AddQuadPoly 1 1 1 0 0 0

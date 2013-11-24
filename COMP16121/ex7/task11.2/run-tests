@@ -3,8 +3,8 @@
 echo "Compiling  ------"
 javac *.java
 echo "Running ---------"
-java Point
-java Circle
-java Triangle
-java Rectangle
-java ShapeShift
+echo "1 0 0 1 2 2" | java ShapeShift
+echo
+echo "2 0 0 10 0 0 20 5 10" | java ShapeShift
+echo
+echo "3 0 0 10 20 0 0" | java ShapeShift
