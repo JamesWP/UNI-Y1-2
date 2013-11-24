@@ -1,5 +1,5 @@
 KMD
-00000000: EA000081    ;         B part3 ; part1 or part2 or part3
+00000000: EA00004A    ;         B part1 ; part1 or part2 or part3
 00000004:             ; 
 00000004: 00 00 00 00 ; buffer  DEFS 100,0
 00000008: 00 00 00 00 ; 
