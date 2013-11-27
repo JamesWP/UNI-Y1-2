@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Compiling  ------"
+javac *.java
+echo "Running ---------"
+java Account
+java Phone
+java Student
+java StudentsCalling
