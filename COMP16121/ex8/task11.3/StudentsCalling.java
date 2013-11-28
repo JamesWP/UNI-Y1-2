@@ -1,7 +1,17 @@
 import java.util.Random;
-
+/**
+*
+*StudentsCalling
+* model to represent several students who have phones and phones that have
+* accounts this is where the simulation id run
+* @author James Peach
+**/
 public class StudentsCalling
 {
+  /**
+  *  main method starts the simulation
+  *
+  **/
   public static void main(String[] args)
   {
     Random rand = new Random();
@@ -44,11 +54,21 @@ public class StudentsCalling
                        + " is not used by anyone!");
   }
 
+  /**
+  * prints the heading
+  * @param name the name of the heading
+  * @return nothing
+  **/
   public static void heading(String name)
   {
     System.out.println("-- " + name + " --");
   }
 
+  /**
+  * creates an account and prints out the name to stdout
+  * @param name name of the account to create
+  * @return account the account created
+  **/
   public static Account createAccount(String name)
   {
     Account account = new Account(name);
@@ -57,6 +77,12 @@ public class StudentsCalling
     return account;
   }
 
+  /**
+  *  createStudent creates a student and returns it while printing 
+  *  comments to stdout
+  *  @param name the name of the student to create
+  *  @return the created student
+  **/
   public static Student createStudent(String name)
   {
     Student student = new Student(name);
@@ -65,6 +91,12 @@ public class StudentsCalling
     return student;
   }
 
+  /**
+  *  creates a phone with the given name and account
+  *  @param name the name the phone to be created
+  *  @param account the account to create the phone with
+  *  @return the created phone 
+  **/
   public static Phone createPhone(String name,Account account)
   {
     System.out.println("Creating phone called " + name + " on account "
@@ -75,6 +107,11 @@ public class StudentsCalling
     return phone;
   }
 
+  /**
+  * tops up a student with the amount of pounds
+  * @param student the studnet to top up
+  * @param amount the amount of pounds to top up the account by 
+  **/
   public static void studentTopsUp(Student student, int amount)
   {
     System.out.println(student+ " is trying to top up £" + amount);

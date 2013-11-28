@@ -4,6 +4,14 @@
 		"selected_items":
 		[
 			[
+				"po",
+				"pointFour"
+			],
+			[
+				"r",
+				"radius"
+			],
+			[
 				"b",
 				"bpolly"
 			],
@@ -71,6 +79,62 @@
 	},
 	"buffers":
 	[
+		{
+			"file": "ex7/task11.2/Circle.java",
+			"settings":
+			{
+				"buffer_size": 515,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ex7/task11.2/Point.java",
+			"settings":
+			{
+				"buffer_size": 539,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ex7/task11.2/Rectangle.java",
+			"settings":
+			{
+				"buffer_size": 697,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ex7/task11.2/Polygon.java",
+			"settings":
+			{
+				"buffer_size": 917,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ex7/task11.2/Triangle.java",
+			"settings":
+			{
+				"buffer_size": 770,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ex7/task11.2/ShapeShift.java",
+			"settings":
+			{
+				"buffer_size": 5644,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ex7/task11.2/run-tests",
+			"settings":
+			{
+				"buffer_size": 210,
+				"line_ending": "Unix"
+			}
+		}
 	],
 	"build_system": "",
 	"command_palette":
@@ -104,6 +168,10 @@
 	},
 	"file_history":
 	[
+		"/home/james/gits/compexercises/COMP16121/ex7/task11.2/Triangle.java",
+		"/home/james/gits/compexercises/COMP16121/ex7/task10.5/AddQuadPoly.java",
+		"/home/james/gits/compexercises/COMP16121/ex7/task10.5/run-tests",
+		"/home/james/gits/compexercises/COMP16121/ex7/task10.5/QuadPoly.java",
 		"/home/mbax3jp2/COMP16121/ex6/task10.2/AddQuadPoly.java",
 		"/home/mbax3jp2/COMP16121/ex6/task10.2/QuadPoly.java",
 		"/home/mbax3jp2/COMP16121/ex6/task10.2/run-tests",
@@ -128,6 +196,7 @@
 		"height": 0.0,
 		"where_history":
 		[
+			""
 		]
 	},
 	"find_state":
@@ -135,6 +204,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"IrregularRectangle",
+			"Rectangle"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -152,8 +223,209 @@
 	"groups":
 	[
 		{
+			"selected": 3,
 			"sheets":
 			[
+				{
+					"buffer": 0,
+					"file": "ex7/task11.2/Circle.java",
+					"settings":
+					{
+						"buffer_size": 515,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								430,
+								430
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 153.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "ex7/task11.2/Point.java",
+					"settings":
+					{
+						"buffer_size": 539,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								472,
+								472
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 459.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "ex7/task11.2/Rectangle.java",
+					"settings":
+					{
+						"buffer_size": 697,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								697,
+								697
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "ex7/task11.2/Polygon.java",
+					"settings":
+					{
+						"buffer_size": 917,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								524,
+								524
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "ex7/task11.2/Triangle.java",
+					"settings":
+					{
+						"buffer_size": 770,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								687,
+								687
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 306.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 5,
+					"file": "ex7/task11.2/ShapeShift.java",
+					"settings":
+					{
+						"buffer_size": 5644,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5148,
+								5148
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Java/Java.tmLanguage",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1524.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "ex7/task11.2/run-tests",
+					"settings":
+					{
+						"buffer_size": 210,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								168,
+								168
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/ShellScript/Shell-Unix-Generic.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 78.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
 			]
 		}
 	],
@@ -174,11 +446,18 @@
 				0,
 				1,
 				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
 			]
 		],
 		"cols":
 		[
 			0.0,
+			0.404924027489,
 			1.0
 		],
 		"rows":
