@@ -3,4 +3,4 @@
 echo "Compiling  ------"
 javac *.java
 echo "Running ---------"
-java TimesTable
+java TimesTable 5 5
