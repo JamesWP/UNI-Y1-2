@@ -3,4 +3,4 @@
 echo "Compiling  ------"
 javac *.java
 echo "Running ---------"
-java ThreeWeights
+java ThreeWeights 7 8 9

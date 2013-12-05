@@ -1,7 +1,19 @@
 public class MyMath
 {
-  public static void main(String[] args)
+  public static int greatestCommonDivisor(int firstNo, int secondNo)
   {
-    System.out.println("Hello World: MyMath");
+    while(firstNo!=secondNo)
+      if(firstNo>secondNo)
+        firstNo-=secondNo;
+      else
+        secondNo-=firstNo;
+    return firstNo;
+  }
+
+  public static int greatestCommonDivisor(int firstNo, int secondNo,
+                                          int thirdNo)
+  {
+    return greatestCommonDivisor(firstNo,
+                                 greatestCommonDivisor(secondNo,thirdNo));
   }
 }

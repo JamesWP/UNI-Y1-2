@@ -4,4 +4,4 @@ echo "Compiling  ------"
 javac *.java
 echo "Running ---------"
 java GCD
-java MyMath
+
