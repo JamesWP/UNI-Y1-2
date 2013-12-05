@@ -26,7 +26,7 @@ today		DEFB	" today!",0
 willbe		DEFB	"This person will be ",0
 		ALIGN
 
-pDay		DEFW	23		; static int pDay = 23; //or whatever is today's date
+pDay		DEFW	23		; static int pDay = 23; //or whatever is todays date
 pMonth		DEFW	11		; static int pMonth = 11; //or whatever is this month
 pYear		DEFW	2005		; static int pYear = 2005; //or whatever is this year
 
