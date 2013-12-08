@@ -1,4 +1,8 @@
 import java.util.Scanner;
+/**
+ * gets a list of marks from the user and prints out a report based on
+ * the input
+ */
 public class MarkAnalysis
 {
   public static void main(String[] args)

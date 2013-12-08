@@ -1,7 +1,6 @@
 #!/bin/bash
 
 echo "Compiling  ------"
-javac *.java
+javac *.java 
 echo "Running ---------"
 java MarkAnalysis
-java Student
