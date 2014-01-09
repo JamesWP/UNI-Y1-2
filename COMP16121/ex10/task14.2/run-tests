@@ -3,4 +3,4 @@
 echo "Compiling  ------"
 javac *.java
 echo "Running ---------"
-java MarkAnalysis
+echo "6 1 2 3 4 5 10" | java MarkAnalysis
