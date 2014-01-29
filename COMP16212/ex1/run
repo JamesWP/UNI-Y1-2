@@ -1,0 +1,4 @@
+#!/bin/bash
+
+java -classpath /opt/info/courses/COMP16212/ex1/Snake.jar:. Snake "$@"
+
