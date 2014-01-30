@@ -1,4 +1,4 @@
 #!/bin/bash
 
-javac -classpath /opt/info/courses/COMP16212/ex1/Snake.jar:. Game.java
+javac -classpath Snake.jar:. Game.java
 

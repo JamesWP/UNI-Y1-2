@@ -178,7 +178,7 @@ public class Game
         crashSnakeAt(newHeadX,newHeadY);
       }
     }
-    updateOtherTiles();
+
   } // move
 
 
@@ -203,7 +203,7 @@ public class Game
     Cell snakeTail = getGridCell(tailX,tailY);
     tailX += Direction.xDelta(snakeTail.getSnakeOutDirection());
     tailY += Direction.yDelta(snakeTail.getSnakeOutDirection());
-    snakeTail.setOther(50);
+    snakeTail.setClear();
     Cell newTail = getGridCell(tailX,tailY);
     newTail.setSnakeTail();
   }
@@ -246,7 +246,7 @@ public class Game
   {
     int rawIncrease = moveValue 
           * ((length++ / (gridSize * gridSize / 36 + 1)) + 1);
-    int actualIncrease = rawIncrease * (treesEnabled&&trees>0?trees:1);
+    int actualIncrease = rawIncrease * (treesEnabled?trees:1);
     score += actualIncrease;
     
     setScoreMessage("You gained " + rawIncrease + " points; " + (treesEnabled?
@@ -347,58 +347,15 @@ public class Game
 // ----------------------------------------------------------------------
 // Part i: optional extras
 
-  public void updateOtherTiles()
-  {
-    for (int index = 0;index<gridSize*gridSize;index++)
-    {
-      Cell cell = grid[index/gridSize][index%gridSize];
-      if(cell.getType()==Cell.OTHER)
-      {
-        int curentLevel = cell.getOtherLevel();
-        curentLevel -= 5;
-        if(curentLevel<0)
-          cell.setClear();
-        else
-          cell.setOther(curentLevel);
-      }
-    }
-      
-  }
-
-  public void burnTrees()
-  {
-    int direction = getGridCell(headX,headY).getSnakeOutDirection();
-    int xDelta = Direction.xDelta(direction);
-    int yDelta = Direction.yDelta(direction);
-    int curentX = headX + xDelta;
-    int curentY = headY + yDelta;
-
-    while(isOnGrid(curentX,curentY))
-    {
-      Cell curentCell = getGridCell(curentX,curentY);
-      int cellType = curentCell.getType();
-      if(cellType==Cell.TREE)
-        trees--;
-      if(cellType==Cell.CLEAR||cellType==Cell.TREE)
-        curentCell.setOther(20);
-      curentX += xDelta;
-      curentY += yDelta;
-    }
-  }
 
   public String optionalExtras()
   {
-    return "  b: BURN BURN\n";
+    return "  No optional extras defined\n";
   } // optionalExtras
 
 
   public void optionalExtraInterface(char c)
   {
-    if(c == 'b')
-    {
-      burnTrees();
-      return;
-    }
     if (c > ' ' && c <= '~')
       setScoreMessage("Key " + new Character(c).toString()
                       + " is unrecognised (try h)");
