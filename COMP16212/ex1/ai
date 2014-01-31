@@ -1,0 +1,27 @@
+
+
+ai:
+
+
+method: get list of moves, @returns list of moves to make
+{
+  create empty grid[][]
+  create empty completednodeslist
+  create empty workingnodeslist
+  curentcell = snake head
+  add curentcell to queue
+
+  while queue not empty
+  {
+    take and remove top from queue as curentcell
+    add curentcell to completednodeslist
+    suroundingcells = curentcell's neigbours that are not in completed
+    traveldist = curentcell's value + 1  
+    for each suroundinccells as neigbour
+      if neigbour is food return result path STOP
+      if neigbour has value is less than travelddist
+        set new value to traveldist
+      add neigbour to queue
+  }
+  no path to food here so blaahh
+}

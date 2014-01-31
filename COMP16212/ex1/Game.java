@@ -1,4 +1,6 @@
 import java.util.Random;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 public class Game
 {
@@ -386,6 +388,91 @@ public class Game
     }
   }
 
+  public LinkedList<Integer> getMovesList()
+  {
+    int[][] grid = new int[gridSize][gridSize];
+    HashSet<GridPosition> completedPositions 
+        = new HashSet<GridPosition>(gridSize*gridSize);
+    LinkedList<GridPosition> workingNodes
+        = new LinkedList<GridPosition>();
+
+    workingNodes.add(new GridPosition(headX,headY));
+
+    int itt = 10;
+
+    while(!workingNodes.isEmpty())
+    {
+      GridPosition curentCell = workingNodes.remove();
+      completedPositions.add(curentCell);
+      int travelDistance = grid[curentCell.getX()][curentCell.getY()] + 1;
+      
+      processCell(curentCell.getCellTop(),grid,completedPositions
+                  ,workingNodes,travelDistance);
+      processCell(curentCell.getCellRight(),grid,completedPositions
+                  ,workingNodes,travelDistance);
+      processCell(curentCell.getCellBottom(),grid,completedPositions
+                  ,workingNodes,travelDistance);
+      processCell(curentCell.getCellLeft(),grid,completedPositions
+                  ,workingNodes,travelDistance);
+
+      if(itt--<0){
+        printGrid(grid);
+        for(GridPosition g : completedPositions) System.out.println(g);
+        System.exit(0);
+      }
+    }
+
+    // no path found !!!
+    throw new RuntimeException("No path found!");
+  }
+
+  public void processCell(GridPosition cell
+              , int[][] grid
+              , HashSet<GridPosition> completedPositions
+              , LinkedList<GridPosition> workingNodes
+              , int travelDistance)
+  {
+    if(isOnGridAndClear(cell)&&!completedPositions.contains(cell))
+      {
+        if(isCellFood(cell))
+        {
+          grid[cell.getX()][cell.getY()] = -1;
+          printGrid(grid);
+          System.exit(0);
+        } else {
+          int curValue = grid[cell.getX()][cell.getY()];
+          if(curValue>travelDistance || curValue == 0)
+            grid[cell.getX()][cell.getY()] = travelDistance;
+          workingNodes.add(cell);
+        }
+      }
+  }
+
+  public boolean isCellFood(GridPosition position)
+  {
+    Cell cell = getGridCell(position.getX(),position.getY());
+    return cell.getType()==Cell.FOOD;
+  }
+
+  public boolean isOnGridAndClear(GridPosition position)
+  {
+    if(!isOnGrid(position.getX(),position.getY())) return false;
+    Cell cell = getGridCell(position.getX(),position.getY());
+    return cell.getType()==Cell.OTHER
+        ||cell.getType()==Cell.CLEAR
+        ||cell.getType()==Cell.FOOD;
+  }
+
+  public void printGrid(int[][] grid)
+  {
+    for(int y = 0;y<gridSize;y++)
+    {
+      for(int x = 0;x<gridSize;x++)
+        System.out.printf("%2d ",grid[x][y]);
+      System.out.println();
+    }
+  }
+
   public String optionalExtras()
   {
     return "  b: BURN BURN\n";
@@ -399,9 +486,36 @@ public class Game
       burnTrees();
       return;
     }
+    if(c == 'v')
+    {
+      getMovesList();
+      return;
+    }
     if (c > ' ' && c <= '~')
       setScoreMessage("Key " + new Character(c).toString()
                       + " is unrecognised (try h)");
   } // optionalExtraInterface
 
+  public static class GridPosition
+  {
+    private int x,y;
+    public GridPosition(int x, int y)
+    {
+      this.x = x;
+      this.y = y;
+    }
+    public boolean equals(Object other)
+    {
+      if(!(other instanceof GridPosition)) return false;
+      GridPosition gridPosition = (GridPosition)other;
+      return x == gridPosition.x && y == gridPosition.y;
+    }
+    public int getX() {return x;}
+    public int getY() {return y;}
+    public GridPosition getCellTop(){return new GridPosition(x,y+1);}
+    public GridPosition getCellRight(){return new GridPosition(x+1,y);}
+    public GridPosition getCellBottom(){return new GridPosition(x,y-1);}
+    public GridPosition getCellLeft(){return new GridPosition(x-1,y);}
+    public String toString(){return getX()+ " "+getY();}
+  }
 } // class Game
