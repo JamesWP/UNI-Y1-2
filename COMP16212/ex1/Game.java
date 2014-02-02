@@ -1,6 +1,7 @@
 import java.util.Random;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.Iterator;
 
 public class Game
 {
@@ -159,6 +160,9 @@ public class Game
   public void move(int moveValue)
   {
     Cell snakeHead = getGridCell(headX,headY);
+    nextMoves = getMovesList();
+    if(!nextMoves.isEmpty())
+      snakeHead.setSnakeOutDirection(nextMoves.removeLast());
     if(snakeHead.isSnakeBloody()) return;
     int newHeadX = headX + Direction.xDelta(snakeHead.getSnakeOutDirection());
     int newHeadY = headY + Direction.yDelta(snakeHead.getSnakeOutDirection());
@@ -348,6 +352,7 @@ public class Game
   }
 // ----------------------------------------------------------------------
 // Part i: optional extras
+  public LinkedList<Integer> nextMoves = new LinkedList<Integer>();
 
   public void updateOtherTiles()
   {
@@ -391,12 +396,16 @@ public class Game
   public LinkedList<Integer> getMovesList()
   {
     int[][] grid = new int[gridSize][gridSize];
+    for(int y = 0;y<gridSize;y++)
+      for(int x = 0;x<gridSize;x++)
+        grid[x][y] = 99;
     HashSet<GridPosition> completedPositions 
         = new HashSet<GridPosition>(gridSize*gridSize);
     LinkedList<GridPosition> workingNodes
         = new LinkedList<GridPosition>();
 
     workingNodes.add(new GridPosition(headX,headY));
+    grid[headX][headY] = 0;
 
     int itt = 10;
 
@@ -405,28 +414,27 @@ public class Game
       GridPosition curentCell = workingNodes.remove();
       completedPositions.add(curentCell);
       int travelDistance = grid[curentCell.getX()][curentCell.getY()] + 1;
-      
-      processCell(curentCell.getCellTop(),grid,completedPositions
-                  ,workingNodes,travelDistance);
-      processCell(curentCell.getCellRight(),grid,completedPositions
-                  ,workingNodes,travelDistance);
-      processCell(curentCell.getCellBottom(),grid,completedPositions
-                  ,workingNodes,travelDistance);
-      processCell(curentCell.getCellLeft(),grid,completedPositions
-                  ,workingNodes,travelDistance);
+      LinkedList<Integer> path = null;
 
-      if(itt--<0){
-        printGrid(grid);
-        for(GridPosition g : completedPositions) System.out.println(g);
-        System.exit(0);
-      }
+      path = processCell(curentCell.getCellTop(),grid,completedPositions
+                  ,workingNodes,travelDistance);
+      if(path != null) return path;
+      path = processCell(curentCell.getCellRight(),grid,completedPositions
+                  ,workingNodes,travelDistance);
+      if(path != null) return path;
+      path = processCell(curentCell.getCellBottom(),grid,completedPositions
+                  ,workingNodes,travelDistance);
+      if(path != null) return path;
+      path = processCell(curentCell.getCellLeft(),grid,completedPositions
+                  ,workingNodes,travelDistance);
+      if(path != null) return path;
     }
 
     // no path found !!!
     throw new RuntimeException("No path found!");
   }
 
-  public void processCell(GridPosition cell
+  public LinkedList<Integer> processCell(GridPosition cell
               , int[][] grid
               , HashSet<GridPosition> completedPositions
               , LinkedList<GridPosition> workingNodes
@@ -436,16 +444,63 @@ public class Game
       {
         if(isCellFood(cell))
         {
-          grid[cell.getX()][cell.getY()] = -1;
-          printGrid(grid);
-          System.exit(0);
+          grid[cell.getX()][cell.getY()] = travelDistance;
+          return getMovesFromGrid(cell.getX(),cell.getY(),grid);
         } else {
           int curValue = grid[cell.getX()][cell.getY()];
-          if(curValue>travelDistance || curValue == 0)
+          if(curValue>travelDistance || curValue == 99)
             grid[cell.getX()][cell.getY()] = travelDistance;
           workingNodes.add(cell);
         }
       }
+      return null;
+  }
+
+  public LinkedList<Integer> getMovesFromGrid(int finishX,int finishY
+                            ,int[][] grid)
+  {
+    
+    int curentX = finishX;
+    int curentY = finishY;
+    LinkedList<Integer> moves = new LinkedList<Integer>();
+    int min = grid[curentX][curentY];
+    while(min!=0)
+    {
+      System.out.println(min);
+      int top = curentY+1<gridSize? grid[curentX][curentY+1]:min+1;
+      int right = curentX+1<gridSize? grid[curentX+1][curentY]:min+1;
+      int bottom = curentY>0? grid[curentX][curentY-1]:min+1;
+      int left = curentX>0? grid[curentX-1][curentY]:min+1;
+      
+      //System.out.println(top + " " + right + " " + bottom + " " + left + " " + min);
+
+      min = Math.min(top,Math.min(left,Math.min(right,bottom)));
+      if(min==top){
+        curentY++;
+        moves.add(Direction.NORTH);
+      }else if(min ==left){
+        curentX--;
+        moves.add(Direction.EAST);
+      }else if(min ==right){
+        curentX++;
+        moves.add(Direction.WEST);
+      }else if(min==bottom){
+        curentY--;
+        moves.add(Direction.SOUTH);
+      }else throw new RuntimeException("math broke... again");
+    }
+
+    System.out.println("SOUTH" + Direction.SOUTH);
+    System.out.println("EAST" + Direction.EAST);
+    System.out.println("WEST" + Direction.WEST);
+    System.out.println("NORTH" + Direction.NORTH);
+    System.out.println();
+
+    //Iterator<Integer> it = moves.descendingIterator();
+    //while(it.hasNext())
+    // System.out.println(it.next());
+    
+    return moves;
   }
 
   public boolean isCellFood(GridPosition position)
@@ -488,7 +543,7 @@ public class Game
     }
     if(c == 'v')
     {
-      getMovesList();
+      nextMoves = getMovesList();
       return;
     }
     if (c > ' ' && c <= '~')
@@ -509,6 +564,10 @@ public class Game
       if(!(other instanceof GridPosition)) return false;
       GridPosition gridPosition = (GridPosition)other;
       return x == gridPosition.x && y == gridPosition.y;
+    }
+    public int hashCode()
+    {
+      return 7+59*x+7*y;
     }
     public int getX() {return x;}
     public int getY() {return y;}
