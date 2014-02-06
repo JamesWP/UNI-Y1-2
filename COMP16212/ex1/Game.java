@@ -1,6 +1,8 @@
 import java.util.Random;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
+import java.util.Comparator;
 import java.util.Iterator;
 
 public class Game
@@ -39,6 +41,7 @@ public class Game
   public final Cell[][] grid;
   public final int gridSize;
 
+  // contructs the game state and initialises it
   public Game(int requiredGridSize)
   {
     // sets the grid size 
@@ -51,13 +54,14 @@ public class Game
         grid[index/requiredGridSize][index%requiredGridSize] = new Cell();
   } // Game
 
-
+  // returns the grid size
   public int getGridSize()
   {
     return gridSize;
   } // getGridSize
 
 
+  // returns the reference to the grid
   public Cell getGridCell(int x, int y)
   {
     return grid[x][y];
@@ -69,10 +73,15 @@ public class Game
 
 // Part c-1: setInitialGameState method
 
+  // variable to store the current score
   private int score = 0;
+  // variable to get random positions from also used for testing seeds
   private Random random = new Random();
+  // variables to keep track of positions of items and length
   private int headX,headY,tailX,tailY,direction,length;
 
+
+  // method to initialise the game state to initial 
   public void setInitialGameState(int requiredTailX, int requiredTailY,
                                   int requiredLength, int requiredDirection)
   {
@@ -84,6 +93,7 @@ public class Game
     if(treesEnabled) placeTree();
   } // setInitialGameState
 
+  // sets the score 
   private void setScore(int newScore)
   {
     this.score = newScore;
@@ -99,19 +109,31 @@ public class Game
   }
 // ----------------------------------------------------------------------
 // Part c-2 place food
+// //places the food on the board in an empty cell
+
+// stores the location of the food used in ai
+  private int foodX,foodY;
+
+
   private void placeFood()
   {
     int randX = random.nextInt(gridSize);
     int randY = random.nextInt(gridSize);
     Cell randCell = getGridCell(randX,randY);
-    if(randCell.getType()==Cell.CLEAR)
+    if(randCell.getType()==Cell.CLEAR||randCell.getType()==Cell.OTHER)
+    {
       randCell.setFood();
+      foodX = randX;
+      foodY = randY;
+    }
     else
       placeFood();
   }
 
 // ----------------------------------------------------------------------
 // Part c-3: place snake
+// 
+  // places the snake in the given position
   private void placeSnake(int tailX, int tailY, int length, int direction)
   {
     this.tailX = tailX;
@@ -140,7 +162,7 @@ public class Game
 // ----------------------------------------------------------------------
 // Part d: set snake direction
 
-
+  // called by gui to set the direction of the snake
   public void setSnakeDirection(int requiredDirection)
   {
     Cell snakeHead = getGridCell(headX,headY);
@@ -156,14 +178,31 @@ public class Game
 
 // Part e-1: move method
 
-
+  // called to update game state for the next move
   public void move(int moveValue)
   {
     Cell snakeHead = getGridCell(headX,headY);
-    nextMoves = getMovesList();
-    if(!nextMoves.isEmpty())
-      snakeHead.setSnakeOutDirection(nextMoves.removeLast());
     if(snakeHead.isSnakeBloody()) return;
+
+    // if enabled this block deals with the ai implementation
+    if(aiEnabled)
+    {
+      // if there are no moves then recalculate path
+      if(nextMoves.size()<gridSize*2||nextMoves.size()==0)
+        nextMoves = getMovesList();
+      if(!nextMoves.isEmpty())
+        snakeHead.setSnakeOutDirection(nextMoves.removeLast());
+      else
+        // go in random direction no moves available 
+        snakeHead.setSnakeOutDirection(getNextHeadDirection());
+    }
+
+    // if food move then move it!
+    if(foodMoveEnabled)
+    {
+      moveFood();
+    }
+
     int newHeadX = headX + Direction.xDelta(snakeHead.getSnakeOutDirection());
     int newHeadY = headY + Direction.yDelta(snakeHead.getSnakeOutDirection());
 
@@ -190,6 +229,7 @@ public class Game
 
 // ----------------------------------------------------------------------
 // Part e-2: move the snake head
+// moves the snake head to the given cell
   public void moveSnakeHead(int newHeadX, int newHeadY)
   {
     Cell curentHead = getGridCell(headX,headY);
@@ -204,6 +244,7 @@ public class Game
 
 // ----------------------------------------------------------------------
 // Part e-3: move the snake tail
+// moves the snake tail to the next place
   public void moveSnakeTail()
   {
     Cell snakeTail = getGridCell(tailX,tailY);
@@ -216,6 +257,7 @@ public class Game
 
 // ----------------------------------------------------------------------
 // Part e-4: check for and deal with crashes
+// //helper method to check tile is on grid and able to move to by snake
   public boolean canMoveTo(int testX,int testY)
   {
     if(isOnGrid(testX,testY))
@@ -228,12 +270,13 @@ public class Game
     } else
       return false;
   }
-
+  // returns true if coords is on grid
   public boolean isOnGrid(int testX, int testY)
   {
     return testX>=0&&testY>=0&&testX<gridSize&&testY<gridSize;
   }
 
+  // crashes the snake at the cellx,celly position
   public void crashSnakeAt(int cellX, int cellY)
   {
     if(isOnGrid(cellX,cellY))
@@ -248,6 +291,7 @@ public class Game
 
 // ----------------------------------------------------------------------
 // Part e-5: eat the food
+// // eats the food with the given value
   public void eatFood(int moveValue)
   {
     int rawIncrease = moveValue 
@@ -262,13 +306,13 @@ public class Game
     placeFood();
     if(treesEnabled) placeTree();
   }
-
+  // tests for food at the given location
   public boolean isFoodAt(int cellX, int cellY)
   {
     return getGridCell(cellX,cellY).getType()==Cell.FOOD;
   }
 
-
+  // retuns the score
   public int getScore()
   {
     return score;
@@ -279,12 +323,15 @@ public class Game
 // Part f: cheat
 
 
+  // enabled the player to continue playing after death
   public void cheat()
   {
     setScoreMessage("You cheated you lost " + getScore()/2 + " score");
+    // loops through each cell and un bloodys it
     for (int index = 0;index<gridSize*gridSize;index++)
         grid[index/gridSize][index%gridSize]
             .setSnakeBloody(false);
+    // resets death countdown
     resetCountdown();
   } // cheat
 
@@ -294,6 +341,8 @@ public class Game
 
   private int trees;
   private boolean treesEnabled = false;
+
+  // toggles the display of trees and updates number of trees
   public void toggleTrees()
   {
     if(treesEnabled)
@@ -315,6 +364,8 @@ public class Game
     treesEnabled = !treesEnabled;
   } // toggleTrees
 
+
+  // places tree in empty area of grid
   public void placeTree()
   {
     int randX = random.nextInt(gridSize);
@@ -329,9 +380,17 @@ public class Game
 
 // ----------------------------------------------------------------------
 // Part h: crash countdown
+// 
+// no of turns of countdown to stat with
   private final int countdownStart = 5;
+// no of turns of countdown currently left
   private int curentCountdown = countdownStart;
 
+  private boolean aiEnabled = true;
+  private boolean foodMoveEnabled = true;
+
+
+  // resets countdown after danger has been avoided
   public void resetCountdown()
   {
     if(curentCountdown<countdownStart)
@@ -340,6 +399,7 @@ public class Game
     curentCountdown = countdownStart;
   }
 
+  // reduce countdown and return if snake dead
   public boolean reduceCountdown()
   {
     if(curentCountdown-->0)
@@ -352,6 +412,16 @@ public class Game
   }
 // ----------------------------------------------------------------------
 // Part i: optional extras
+/**     ___    _________
+ *     / . \   |_______|
+ *    / / \ \     | |
+ *    |*|-| |   __| |__
+ *    |_|-|_|  |_______|
+ *    
+ *    copyright james peach 2014
+ */
+
+  
   public LinkedList<Integer> nextMoves = new LinkedList<Integer>();
 
   public void updateOtherTiles()
@@ -393,6 +463,37 @@ public class Game
     }
   }
 
+  public void moveFood()
+  {
+    int newFoodX = foodX;
+    int newFoodY = foodY;
+
+    if(foodX>headX)
+      newFoodX++;
+    else if(foodX<headX)
+      newFoodX--;
+
+    if(foodY>headY)
+      newFoodY++;
+    else if(foodY<headY)
+      newFoodY--;
+
+    if(newFoodY<0||newFoodY>=gridSize)
+      newFoodY = foodY;
+
+    if(newFoodX<0||newFoodX>=gridSize)
+      newFoodX = foodX;
+
+    if(getGridCell(newFoodX,newFoodY).getType()==Cell.CLEAR)
+    {
+      getGridCell(foodX,foodY).setClear();
+      getGridCell(newFoodX,newFoodY).setFood();
+      foodY = newFoodY;
+      foodX = newFoodX;
+    }
+  }
+
+
   public LinkedList<Integer> getMovesList()
   {
     int[][] grid = new int[gridSize][gridSize];
@@ -401,13 +502,14 @@ public class Game
         grid[x][y] = 99;
     HashSet<GridPosition> completedPositions 
         = new HashSet<GridPosition>(gridSize*gridSize);
-    LinkedList<GridPosition> workingNodes
-        = new LinkedList<GridPosition>();
+    PriorityQueue<GridPosition> workingNodes
+        = new PriorityQueue<GridPosition>(gridSize,
+                                          new GridPositionComparator());
 
     workingNodes.add(new GridPosition(headX,headY));
     grid[headX][headY] = 0;
 
-    int itt = 10;
+    //int itt = 99999;
 
     while(!workingNodes.isEmpty())
     {
@@ -428,16 +530,22 @@ public class Game
       path = processCell(curentCell.getCellLeft(),grid,completedPositions
                   ,workingNodes,travelDistance);
       if(path != null) return path;
+
+      // if(itt--<0)
+      // {
+      //   printGrid(grid);
+      //   System.exit(1);
+      // }
     }
 
-    // no path found !!!
-    throw new RuntimeException("No path found!");
+    // no path found so return no moves!
+    return new LinkedList<Integer>();
   }
 
   public LinkedList<Integer> processCell(GridPosition cell
               , int[][] grid
               , HashSet<GridPosition> completedPositions
-              , LinkedList<GridPosition> workingNodes
+              , PriorityQueue<GridPosition> workingNodes
               , int travelDistance)
   {
     if(isOnGridAndClear(cell)&&!completedPositions.contains(cell))
@@ -466,7 +574,7 @@ public class Game
     int min = grid[curentX][curentY];
     while(min!=0)
     {
-      System.out.println(min);
+      //System.out.println(min);
       int top = curentY+1<gridSize? grid[curentX][curentY+1]:min+1;
       int right = curentX+1<gridSize? grid[curentX+1][curentY]:min+1;
       int bottom = curentY>0? grid[curentX][curentY-1]:min+1;
@@ -489,13 +597,6 @@ public class Game
         moves.add(Direction.SOUTH);
       }else throw new RuntimeException("math broke... again");
     }
-
-    System.out.println("SOUTH" + Direction.SOUTH);
-    System.out.println("EAST" + Direction.EAST);
-    System.out.println("WEST" + Direction.WEST);
-    System.out.println("NORTH" + Direction.NORTH);
-    System.out.println();
-
     //Iterator<Integer> it = moves.descendingIterator();
     //while(it.hasNext())
     // System.out.println(it.next());
@@ -518,6 +619,35 @@ public class Game
         ||cell.getType()==Cell.FOOD;
   }
 
+  public int getNextHeadDirection()
+  {
+    if(canGoToCell(headX+1,headY))
+      return Direction.EAST;
+
+    if(canGoToCell(headX-1,headY))
+      return Direction.WEST;
+    
+    if(canGoToCell(headX,headY+1))
+      return Direction.SOUTH;
+    
+    if(canGoToCell(headX,headY-1))
+      return Direction.NORTH;
+
+    //throw new RuntimeException("couldnt find direction");
+    return Direction.NORTH;
+  }
+
+  public boolean canGoToCell(int xPosition,int yPosition)
+  {
+    return (isOnGrid(xPosition,yPosition)
+            && (
+                getGridCell(xPosition,yPosition).getType()==Cell.CLEAR
+                || getGridCell(xPosition,yPosition).getType()==Cell.OTHER
+                || getGridCell(xPosition,yPosition).getType()==Cell.FOOD
+               )
+           );
+  }
+
   public void printGrid(int[][] grid)
   {
     for(int y = 0;y<gridSize;y++)
@@ -530,7 +660,7 @@ public class Game
 
   public String optionalExtras()
   {
-    return "  b: BURN BURN\n";
+    return "  b: BURN BURN\n  b: toggle ai\n  n: toggle food movement";
   } // optionalExtras
 
 
@@ -543,7 +673,18 @@ public class Game
     }
     if(c == 'v')
     {
-      nextMoves = getMovesList();
+      aiEnabled = !aiEnabled;
+      setScoreMessage("Ai is currently " + (aiEnabled?"enabled":"disabled") 
+                      + " toggle to " +(!aiEnabled?"enable":"disable") + " it");
+      return;
+    }
+    if(c == 'n')
+    {
+      foodMoveEnabled = !foodMoveEnabled;
+      setScoreMessage("Food movement is currently " 
+                      + (foodMoveEnabled?"enabled":"disabled") 
+                      + " toggle to " +(!foodMoveEnabled?"enable":"disable") 
+                      + " it");
       return;
     }
     if (c > ' ' && c <= '~')
@@ -576,5 +717,19 @@ public class Game
     public GridPosition getCellBottom(){return new GridPosition(x,y-1);}
     public GridPosition getCellLeft(){return new GridPosition(x-1,y);}
     public String toString(){return getX()+ " "+getY();}
+  }
+
+  public class GridPositionComparator implements Comparator<GridPosition>
+  {
+    public int compare(GridPosition p1, GridPosition p2)
+    {
+      return manhattenDist(p1) - manhattenDist(p2);
+    }
+    public int manhattenDist(GridPosition pos)
+    {
+      int xDelta = pos.getX() - foodX;
+      int yDelta = pos.getY() - foodY;
+      return (xDelta>0?xDelta:-xDelta)+(yDelta>0?yDelta:-yDelta);
+    }
   }
 } // class Game
