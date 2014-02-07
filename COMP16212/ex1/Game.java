@@ -463,20 +463,28 @@ public class Game
     }
   }
 
+  private boolean moveUpDown = true;
   public void moveFood()
   {
     int newFoodX = foodX;
     int newFoodY = foodY;
 
-    if(foodX>headX)
-      newFoodX++;
-    else if(foodX<headX)
-      newFoodX--;
+    int headRandX = headX + random.nextInt(4) - 2;
+    int headRandY = headY + random.nextInt(4) - 2;
 
-    if(foodY>headY)
-      newFoodY++;
-    else if(foodY<headY)
-      newFoodY--;
+    if(!moveUpDown)
+    {
+      if(foodX>headRandX)
+        newFoodX++;
+      else if(foodX<headRandX)
+        newFoodX--;
+    }else{
+      if(foodY>headRandY)
+        newFoodY++;
+      else if(foodY<headRandY)
+        newFoodY--;
+    }
+    moveUpDown = !moveUpDown;
 
     if(newFoodY<0||newFoodY>=gridSize)
       newFoodY = foodY;
