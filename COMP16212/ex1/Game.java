@@ -326,7 +326,9 @@ public class Game
   // enabled the player to continue playing after death
   public void cheat()
   {
-    setScoreMessage("You cheated you lost " + getScore()/2 + " score");
+    int lostScore = getScore()-getScore()/2;
+    setScore(getScore()-lostScore);
+    setScoreMessage("You cheated you lost " + lostScore + " score");
     // loops through each cell and un bloodys it
     for (int index = 0;index<gridSize*gridSize;index++)
         grid[index/gridSize][index%gridSize]
@@ -588,7 +590,7 @@ public class Game
       int bottom = curentY>0? grid[curentX][curentY-1]:min+1;
       int left = curentX>0? grid[curentX-1][curentY]:min+1;
       
-      //System.out.println(top + " " + right + " " + bottom + " " + left + " " + min);
+      
 
       min = Math.min(top,Math.min(left,Math.min(right,bottom)));
       if(min==top){
