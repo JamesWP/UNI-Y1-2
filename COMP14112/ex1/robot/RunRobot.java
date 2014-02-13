@@ -45,7 +45,7 @@ public class RunRobot{
 
     // Make robot's mind using the map
     System.out.println("Initializing robot's mind... .");
-    // RobotBeliefState r= new SolutionRobotBeliefState(m,probActionToggler);
+    //RobotBeliefState r= new SolutionRobotBeliefState(m,probActionToggler);
     RobotBeliefState r= new RobotBeliefState(m,probActionToggler);
 
     // Make new pose for robot

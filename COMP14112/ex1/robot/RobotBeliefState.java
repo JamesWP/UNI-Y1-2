@@ -66,10 +66,16 @@ public class RobotBeliefState{
 
     */
 
+    int totalBlocked = 0;
     for(int i= 0;i < RunRobot.SIZE; i++)            
       for(int j= 0;j < RunRobot.SIZE; j++)
-	for(int k= 0;k < RunRobot.SIZE; k++)
-	  beliefMatrix[i][j][k]= 1;  // Dummy: set probabilites to 1 (nonsense value)
+	      totalBlocked += map.isOccupied(i,j)?1:0;
+
+    double probability = 1.0/((RunRobot.SIZE*RunRobot.SIZE-totalBlocked)*RunRobot.SIZE);
+    for(int i= 0;i < RunRobot.SIZE; i++)            
+      for(int j= 0;j < RunRobot.SIZE; j++)
+	      for(int k= 0;k < RunRobot.SIZE; k++)
+	        beliefMatrix[i][j][k]=map.isOccupied(i,j)?0:probability;
 
     /* End of dummy code */
 
@@ -122,10 +128,16 @@ public class RobotBeliefState{
       stored in beliefMatrix[][][] by conditionalizing on the observation o.
 
     */
+    Pose curPose = new Pose();
     for(int x= 0;x < RunRobot.SIZE; x++)
       for(int y= 0;y < RunRobot.SIZE; y++)
-	for(int t= 0;t < RunRobot.SIZE; t++)
-	  beliefMatrix[x][y][t]= 1; // Dummy: set probabilites to 1 (nonsense value)
+        for(int t= 0;t < RunRobot.SIZE; t++)
+        {
+          curPose.x = x;
+          curPose.y = y;
+          curPose.theta = t;
+	        beliefMatrix[x][y][t]= beliefMatrix[x][y][t] * map.getObservationProbability(curPose,o);
+        }
 
     /* End of dummy code */
 
@@ -146,18 +158,32 @@ public class RobotBeliefState{
        ************** Dummy code follows **************
 	
        The following code does not work. In its current state, it sets
-       the probability of any given pose to 1.
+       he probability of any given pose to 1.
 
        The method should actually revise the probability distribution
        stored in beliefMatrix[][][] by conditionalizing on the action a
     */
-	
+    
+
     for(int x= 0;x < RunRobot.SIZE; x++)
       for(int y= 0;y < RunRobot.SIZE; y++)
-	for(int t= 0;t < RunRobot.SIZE; t++)
-	  beliefMatrix[x][y][t]= 1; // Dummy: set probabilites to 1 (nonsense value)
+      	for(int t= 0;t < RunRobot.SIZE; t++)
+	        workMatrix[x][y][t]= 0;
 
-    /* End of dummy code */
+    Pose newP = new Pose();
+    for(int x= 0;x < RunRobot.SIZE; x++)
+      for(int y= 0;y < RunRobot.SIZE; y++)
+      	for(int t= 0;t < RunRobot.SIZE; t++)
+        {
+          map.fillPoseOnAction(newP,x,y,t,a);
+          workMatrix[newP.x][newP.y][newP.theta] = beliefMatrix[x][y][t];
+        }
+   
+
+    for(int x= 0;x < RunRobot.SIZE; x++)
+      for(int y= 0;y < RunRobot.SIZE; y++)
+      	for(int t= 0;t < RunRobot.SIZE; t++)
+	        beliefMatrix[x][y][t] = workMatrix[x][y][t];
 
     updateMaxProbabilities();  // Update member variables used by public access 
                                // functions. (Do not change this line.)
