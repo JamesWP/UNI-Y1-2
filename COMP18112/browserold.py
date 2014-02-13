@@ -2,13 +2,13 @@
 import urllib
 import re
 import sys
-from BeautifulSoup import BeautifulSoup 
 import os
 
 #vars
 #url = "http://studentnet.cs.manchester.ac.uk/ugt/COMP18112/page1.html"
 #url = "http://studentnet.cs.manchester.ac.uk/ugt/COMP18112/page2.html"
 url = "http://studentnet.cs.manchester.ac.uk/ugt/COMP18112/page3.html"
+labels = {"<title>":"Page title : ","<h1>":"HEADING: ","<p>":"PARAGRAPH: "}
 
 #console colors
 BOLD = '\033[1m'
@@ -17,13 +17,34 @@ RED = '\033[0;31m'
 
 def browse (url):
   os.system('clear')
+  links = []
   data = urllib.urlopen(url)
-  dom = BeautifulSoup(data)
+  tokens = data.read().split()
 
-  for element in dom.html.body:
-    print element
+  insideTag = False
+  insideLink = False
 
-  raise SystemExit
+  for token in tokens:
+    if insideTag:
+      if insideTag.replace('<','</') == token:
+        insideTag = False
+        print
+      elif token=='<em>':  print BOLD,
+      elif token=='</em>' or token=='</a>': insideLink = False ;print RESET,
+      elif token == '<a':
+        insideLink = True
+        print RED,  
+      elif re.match('href=".*"',token):
+        links.append({'href':re.match('href="(.*)"',token).groups()[0],'text':''})
+      elif insideLink:
+        links[-1]['text']+=token+' '
+        print token,
+      else: print token,
+    elif re.match('<.*>',token):
+      label = labels.get(token,False)
+      if label:
+        insideTag = token
+        print '\033[1m' + label + '\t\033[0;0m',
 
   if len(links)>0:
     print '\n\nLINKS:'
