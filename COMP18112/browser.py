@@ -2,7 +2,7 @@
 import urllib
 import re
 import sys
-from BeautifulSoup import BeautifulSoup 
+from bs4 import BeautifulSoup,NavigableString,Tag 
 import os
 
 #vars
@@ -15,22 +15,43 @@ BOLD = '\033[1m'
 RESET = '\033[0;0m'
 RED = '\033[0;31m'
 
+
+
+def elementString(element):
+  text = ''
+  for part in element.contents:
+    if isinstance(part,NavigableString):
+      text += str(part)
+    else:
+      if isinstance(part,Tag):
+        if part.name=='a':
+          text += RED + part.text + RESET
+
+  return text
+
+
 def browse (url):
   os.system('clear')
   data = urllib.urlopen(url)
   dom = BeautifulSoup(data)
 
-  for element in dom.html.body:
-    print element
+  title = dom.html.head.title
+  print 'Page title: ' + title.text
 
-  raise SystemExit
+  for element in dom.html.body.findChildren():
+    if element.name == 'h1':
+      print 'HEADING:\t' + elementString(element)
+    if element.name == 'p':
+      print 'PARAGRAPH:\t' + elementString(element)
+
+  links = dom.html.body.findAll('a')
 
   if len(links)>0:
     print '\n\nLINKS:'
     linkNumber = 0
     for link in links:
       print ' (' + RED + str(linkNumber) + RESET + ')' + '\t',
-      print RED + link['text'] + RESET + '(' + link['href'] + ')'
+      print RED + link.text + RESET + '(' + link.attrs['href'] + ')'
       linkNumber += 1
     print 
     print 'Which link:',
