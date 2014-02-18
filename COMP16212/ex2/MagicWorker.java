@@ -22,6 +22,7 @@ public class MagicWorker extends Worker
   @Override
   public Ball makeNewBall(int number, Color color)
   {
+    // create new 
     MagicBall newBall = new MagicBall(number,color);
     newBall.setType(myType);
     myBalls.add(newBall);

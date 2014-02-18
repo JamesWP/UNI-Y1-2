@@ -1,0 +1,26 @@
+DBTITLE=Alan's Database of Songs
+Mara	Brenda Kayne	Easy Listening	http://www.cs.man.ac.uk/~alanw/CS1092/Brenda_C._Kayne-Mara.mp3	2
+Carol of the Three Kings	Meredith Ryan Packer	Soundtrack	http://www.cs.man.ac.uk/~alanw/CS1092/One_Christmas_Eve-Carol_of_the_Three_Kings.mp3	4
+Non-existent Melody	The Ghostwriter	Easy Listening	http://www.cs.man.ac.uk/~alanw/aBrokenURL.mp3	0
+Another Non-existent Melody	The Ghostwriter	Easy Listening		0
+Morning Star/Three Jolly BlackSheepskins	Albireo	Folk	http://www.cs.man.ac.uk/~seanb/teaching/CS1092/mp3/morning.mp3	0
+(Not) the Fisher's Hornpipe	Albireo	Folk	http://www.cs.man.ac.uk/~seanb/teaching/CS1092/mp3/fishers.mp3	1
+Moonlight	Sean	Easy Listening		6
+Fly Me to the Moon	Sean Sinatra	Easy Listening		5
+Jupiter and Mars	Frank Sinatra	Easy Listening		4
+Fly Me to the Moon	Frank Sinatra	Easy Listening		6
+Moon River	Frank Sinatra	Easy Listening		3
+Moon Unit	Frank Zappa	Easy Listening		2
+Over the Moon	Alan	Easy Listening		3
+Mars	Alan	Easy Listening	http://brokenURL.com	2
+Venus	Sean	Rock	file:/nonExistentFile.mp3	0
+Moonrock	Howard	Rock		5
+Mars 	Howard	Classical		4
+Mars	Sean	Classical		3
+Mars Attacks	Alan	Classical		2
+Earth	Alan	Classical		1
+Mars	John	Folk		0
+Earth Attacks	John	Classical		5
+Earth	John	Rock		4
+A Title	An Artist	Classical		3
+A Title	An Artist	Classical		3

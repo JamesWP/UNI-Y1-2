@@ -1,0 +1,90 @@
+#!/bin/bash
+
+# COMP16212 exercise 11o, part C:
+# a crude spelling checker script by John Latham.
+
+# This takes a document from standard input, and produces on standard output
+# a list of words which are in this document but not in the dictionary.
+
+# It uses your Java sort program (which is not as quick as the Unix sort
+# program, but hey this is only an exercise, and besides there are already
+# several posh spelling checkers for Linux which are much better than this
+# script!).
+
+# Set the variable $dictionary to the name of the file of words.
+# Amazingly, /usr/share/dict/words is not sorted into Ascii order!
+# It is not even in en_US collation order, although it is close.
+# Here is an Ascii sorted version of it.
+dictionary=/opt/info/courses/COMP16212/ascii-sorted-words
+
+# Set the variable $tempFile to the name of the temporary file
+tempFile=spell-check-temp
+
+# First we take the document from standard input and:
+#	attempt to remove some obvious latex commands
+#		using sed
+#	replace any characters which are non-alphabetic with spaces
+#		using sed
+#	replace new lines with spaces
+#		using tr
+#	remove multiple spaces
+#		using sed
+
+#	replace capital letter preceded by space and followed by a lower case
+#	letter with corresponding lower case letter (this is definitely a bit
+#	crude, but allows for capitalized words to be spelled okay.)
+#		using sed
+#	replace spaces with new lines
+#		using tr
+#	remove any single characters words on the lines
+#		using sed
+#	remove any remaining blank lines
+#		using grep
+# and pipe the resulting one-word-per-line document through your sort program
+# then through uniq (which removes adjacent multiple lines)
+# and into a temporary file.
+
+  sed -e "s,\\\documentclass\[.*\]{.*},,g" \
+      -e "s,\\\usepackage{.*},,g" \
+      -e "s,\\\input{.*},,g" \
+      -e "s,\\\begin{figure}\[.*\],,g" \
+      -e "s,\\\begin{.*},,g" \
+      -e "s,\\\end{.*},,g" \
+      -e "s,\\\vspace{.*},,g" \
+      -e "s,\\\ref{.*},,g" \
+      -e "s,\\\includegraphics\[.*\]{.*},,g" \
+      -e "s,\\\label{.*},,g" \
+      -e "s,\\\[A-Za-z]*,,g" \
+      -e "s,[^A-Za-z], ,g" \
+  | tr "\012" " " \
+  | sed "s,  *, ,g" \
+  | sed -e "s, A\([a-z]\), a\1,g" -e "s, B\([a-z]\), b\1,g" \
+        -e "s, C\([a-z]\), c\1,g" -e "s, D\([a-z]\), d\1,g" \
+        -e "s, E\([a-z]\), e\1,g" -e "s, F\([a-z]\), f\1,g" \
+        -e "s, G\([a-z]\), g\1,g" -e "s, H\([a-z]\), h\1,g" \
+        -e "s, I\([a-z]\), i\1,g" -e "s, J\([a-z]\), j\1,g" \
+        -e "s, K\([a-z]\), k\1,g" -e "s, L\([a-z]\), l\1,g" \
+        -e "s, M\([a-z]\), m\1,g" -e "s, N\([a-z]\), n\1,g" \
+        -e "s, O\([a-z]\), o\1,g" -e "s, P\([a-z]\), p\1,g" \
+        -e "s, Q\([a-z]\), q\1,g" -e "s, R\([a-z]\), r\1,g" \
+        -e "s, S\([a-z]\), s\1,g" -e "s, T\([a-z]\), t\1,g" \
+        -e "s, U\([a-z]\), u\1,g" -e "s, V\([a-z]\), v\1,g" \
+        -e "s, W\([a-z]\), w\1,g" -e "s, X\([a-z]\), x\1,g" \
+        -e "s, Y\([a-z]\), y\1,g" -e "s, Z\([a-z]\), z\1,g" \
+  | tr " " "\012" \
+  | sed "s,^.$,,g" \
+  | grep -v "^$" \
+  | java Sort | uniq > $tempFile
+
+# Next we want to compare this file with the dictionary and list those words
+# not in the the dictionary. Because they are both sorted into order we can do
+# this using the program comm.
+
+# In order for the comm program to work, we must ensure the dictionary file is
+# in the same order as the output of your Java program, and that comm operates
+# in that same locale.
+export LC_COLLATE=C
+
+# Now we run the comm, and suppress output from columns 1 and 3, thus showing
+# only column 2 which is those words in file 2 that are not in file 1.
+comm -13 $dictionary $tempFile

@@ -1,0 +1,196 @@
+#!/bin/bash
+
+# COMP16212 exercise 11o, depth-size test rig script by John Latham.
+
+# This script is a test rig for the tree depth experiment. It takes a number
+# of words at random from the dictionary and offers them one on each line to
+# your Java program. It then takes the output from your Java program, wrapped
+# with some gnuplot commands, and followed by data for balanced trees of the
+# same size, and puts it as input into gnuplot to produce a graph comparing
+# actual results with theoretical best (balanced).
+
+# The script is annotated to help you understand the shell constructs being
+# used. You should use this as an opportunity to learn more about shell
+# scripts.
+
+# The first argument might be -s, which means sorting is required
+# We use a case statement to match the first argument against the pattern -s.
+# Each case is ended by ;;
+case $1 in
+
+# If the argument is -s we want to set the variable $sortFilter to something
+# which will sort the input into order before it goes to output. This is done
+# by the Unix sort program.
+-s) sortFilter=sort
+    # We also want to set the graph label to "Sorted".
+    graphLabel=Sorted
+    
+    # Having used this argument, we shift the arguments to delete it,
+    # then argument 2 becomes argument 1, etc..
+    shift ;;
+
+# The pattern * matches anything. In this case we set the variable $sortFilter
+# to just cat -- the program which simply copies input to output.
+*)  sortFilter=cat
+    # We also want to set the graph label to "Random".
+    graphLabel=Random ;;
+
+# Case statements are ended with esac.
+esac
+
+# If we are going to sort the words, we want sort to use the same order as
+# compareTo on Java strings. That means a byte order, rather than a locale
+# dependant one (e.g. ignoring punctuation, case insensitive, etc..). Setting
+# LC_COLLATE to C ensures simple byte order comparisons.
+export LC_COLLATE=C
+
+# Set the variable $noOfWords to be either the next (now first) argument
+# or 100 if there is no argument.
+noOfWords=${1:-100}
+
+# Set the variable $dictionary to the name of the file of words.
+dictionary=/usr/share/dict/words
+
+# Set the variable $dictLength to the size of the dictionary.
+# This is done by taking the output of the wc command using back-quotes.
+dictLength=`cat $dictionary | wc -l`
+
+# Set the variable $plotFile to the name of the gnuplot data file.
+plotFile=depth-size-test-plot
+
+
+# We now start a sub shell with a left bracket. This is a convenient way of
+# constructing the required output in separate stages, but being able to pipe
+# all of it into the next main stage of the program. The output of this
+# sub-shell will be used as input to the gnuplot program, so the output is a
+# sequence of gnuplot commands and data.
+(
+
+# Produce some initial gnuplot commands using echo.
+
+# The command "set title" tells gnuplot to put the given title on the graph
+# The -n option of echo produces no end of line,
+# so these two echos actually make one line of output, as required by gnuplot.
+# Note the use of \ to escape the double quotes inside double quotes.
+# We use the output of the programs whoami and date, via back quotes.
+echo -n "set title \"Ordered binary tree depth experiment, run by "
+echo    "`whoami` at `date`\""
+
+# The command "set key left top" tells gnuplot where to put the key.
+echo set key left top
+
+# These commands specify the x and y labels.
+# Note the use of \ to escape the double quotes inside double quotes.
+echo "set xlabel \"Tree size\""
+echo "set ylabel \"Tree depth\""
+
+# This next part tells gnuplot there are two graphs coming in the input,
+# called $graphLabel and Balanced,
+# each to be drawn in the linespoints style with line width 2.
+# The -n option of echo produces no end of line,
+# so these two echos actually make one line of output, as required by gnuplot.
+# Note the use of \ to escape the double quotes inside double quotes.
+echo -n "plot '-' title \"$graphLabel\" with linespoints lw 2,"
+echo         "'-' title \"Balanced\" with linespoints lw 2"
+
+# Now we extract $noOfWords words randomly from $dictionary.
+# We do this using a while loop.
+
+# First set wordCount to 0.
+wordCount=0
+
+# The loop is using a test to continue: $wordCount is less than $noOfWords.
+# While loops have the keywords while, do and done.
+while test $wordCount -lt $noOfWords
+do
+  # Set randomWordNo to a random number between 1 and $dictLength
+  # $(( ... )) is how we do arithmetic in bash.
+  # $RANDOM is a bash builtin variable giving a number between 0 and 32767.
+  randomWordNo=$(( $dictLength * $RANDOM / 32768 + 1 ))
+
+  # Extract the word at position $randomWordNo in the file.
+  # Each word is on one line.
+
+  # We use the standard program called tail to get the lines of the file
+  # starting with the one we want, and pipe that into the standard program
+  # called head, to keep just the first of those lines. The resulting word
+  # stays on standard output where we want it.
+  tail -n +$randomWordNo $dictionary | head -1
+
+  # Add one to $wordCount.
+  wordCount=$(( $wordCount + 1 ))
+
+  # Now we end the loop with the keyword done.
+  # The output produced by the loop is piped through the sort filter
+  # and then straight into your program.
+done | $sortFilter | java DepthSizeTest
+
+# After the output from your Java program, we have a single e to tell gnuplot
+# that there is no more data for this graph.
+echo e
+
+# Next we produce the data for balanced trees of the same sizes.
+
+# First set the variable $size to 0.
+size=0
+
+# Set the variable $idealDepth to 0 too.
+# This is the ideal depth of a tree of size $size.
+idealDepth=0
+
+# Set the variable $maxSizeForIdealDepth to 0 too.
+# This is the maximum size of a tree of depth $idealDepth
+maxSizeForIdealDepth=0
+
+# Loop while $size is less than $noOfWords.
+while test $size -lt $noOfWords
+do
+  # Add one to $size
+  size=$(( $size + 1 ))
+
+  # If $size is greater than $maxSizeForIdealDepth,
+  # it is time to increase $idealDepth.
+  # The If statement has keywords if, then and fi.
+  if test $size -gt $maxSizeForIdealDepth
+  then
+    # Add one to $idealDepth.
+    idealDepth=$(( $idealDepth + 1 ))
+
+    # Compute the new $maxSizeForIdealDepth.
+    maxSizeForIdealDepth=$(( ($maxSizeForIdealDepth + 1) * 2 - 1 ))
+  fi
+
+  # Echo the plot data.
+  echo $size $idealDepth
+done
+
+# End the data with an e again.
+echo e
+
+# Produce a gnuplot command to make gnuplot hang around for 10 minutes before
+# exitting. You can type q into the graph display window, if you want it to go
+# before this time is up.
+echo pause 600
+echo exit
+
+# Now we end the sub-shell.
+# We pipe the output of the sub-shell through a program called tee.
+# This copies its input to the named file as well as to its output.
+# So we save the plot file at the same time as we see it being produced.
+) | tee $plotFile
+
+# Finally we run gnuplot on our data.
+# We run this in the background (&) so we get our prompt back.
+
+# We use the output of the program whoami, via back quotes, as part of the
+# title for the graph window.
+gnuplot -title "Ordered binary tree depth experiment, run by `whoami` at `date`" \
+  $plotFile &
+
+# Added bonus! Produce a postscript generating version of the plot commands
+(echo "set terminal postscript"
+ grep -v "pause 600" depth-size-test-plot
+) > depth-size-test-plot-for-postscript
+
+# To print this postscript version of the graph, you can run the command
+# 	gnuplot depth-size-test-plot-for-postscript | lpr

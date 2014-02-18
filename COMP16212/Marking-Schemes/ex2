@@ -1,0 +1,12 @@
+# First (non-comment) line is name of file to be marked
+compile run
++AudienceMember.java CleverPunter.java Director.java MoodyPerson.java
++Psychic.java Punter.java Teenager.java TraineeWorker.java TVHost.java
++Worker.java LotteryTestA.java
+?DramaticGame.java DramaticMachine.java LotteryTestB.java
+?MagicBall.java LotteryTestC.java
+?MagicWorker.java LotteryTestD.java
+?LotteryTestE.java
+# Second (non-comment) line is title of exercise
+Lottery Extra
+# Then comes the marking scheme

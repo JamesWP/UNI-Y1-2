@@ -37,25 +37,33 @@ public class MagicBall extends Ball
 
   public void doMagic(int spellNumber)
   {
+    // look up the action to take regarding the spell number
     switch (spellNumber)
     {
+      // if is right click:...
       case 3:
+        // find the type of action to take regarding how the ball was created
         switch(myType)
         {
           case CAHOS:
             // chaos breaks due to stack overflow
             this.curentState = curentState.getNextState();
+
+            // stop propegation at some point to prevent stack overflow
             int random = rand.nextInt(10);
             if(random>3) break;
+            
+            // trigger same spell on neigbours
             if(this.nextBall!=null&&this.nextBall instanceof MagicBall)
               ((MagicBall)(this.nextBall)).doMagic(3);
             if(this.previousBall!=null&&this.previousBall instanceof MagicBall)
               ((MagicBall)(this.previousBall)).doMagic(3);
             break;
           case SWAP:
-            // swap ball
+            // swap ball with another at random
             if(machine!=null)
             {
+              // find my index in the machine
               int myPosition = whereIs(machine);
               int randomPosition = (int)(Math.random()*(machine.getNoOfBalls()-1));
               machine.swapBalls(myPosition,randomPosition);
@@ -75,6 +83,11 @@ public class MagicBall extends Ball
     getImage().update();
   }
 
+  /**
+   * finds the position in the given machine
+   * @param  machine  the machine
+   * @return         the index of this in the machine
+   */
   public int whereIs(Machine machine)
   {
     for(int index = 0;index<machine.getNoOfBalls();index++)

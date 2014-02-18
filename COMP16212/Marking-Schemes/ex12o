@@ -1,0 +1,5 @@
+# First (non-comment) line is name of file to be marked
+BookFlightWindow.java FlightBookingManagerGUI.java ShowBookingsWindow.java
+# Second (non-comment) line is title of exercise
+A GUI for a Flight Booking System
+# Then comes the marking scheme

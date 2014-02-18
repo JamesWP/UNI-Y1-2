@@ -36,4 +36,10 @@ public class Teenager extends MoodyPerson
       return "It's not fair!";
   } // getCurrentSaying
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "Teenager>" + super.getClassHierarchy();
+  }
+
 } // class Teenager

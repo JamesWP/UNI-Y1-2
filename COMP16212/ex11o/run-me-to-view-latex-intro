@@ -1,0 +1,5 @@
+#!/bin/sh
+
+latex latex-intro.tex
+latex latex-intro.tex
+xdvi latex-intro

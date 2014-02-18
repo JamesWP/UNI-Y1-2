@@ -34,6 +34,8 @@ public class LotteryTestA
     TraineeWorker traineeWorker = new TraineeWorker("Jim", 0);
     gui.addPerson(traineeWorker);
 
+    Teenager teeneger = new Teenager("Terry ");
+    gui.addPerson(teeneger);
   } // main
 
 } // class LotteryTest
