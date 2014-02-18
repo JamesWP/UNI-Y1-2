@@ -1,7 +1,9 @@
 import java.awt.Color;
+import java.util.Random;
 
 public class MagicBall extends Ball
 {
+  private static Random rand = new Random();
   private int curentCountingNo = 0;
   private State curentState;
   private Ball nextBall,previousBall;
@@ -42,11 +44,13 @@ public class MagicBall extends Ball
         {
           case CAHOS:
             // chaos breaks due to stack overflow
+            this.curentState = curentState.getNextState();
+            int random = rand.nextInt(10);
+            if(random>3) break;
             if(this.nextBall!=null&&this.nextBall instanceof MagicBall)
               ((MagicBall)(this.nextBall)).doMagic(3);
-            if(this.previousBall!=null)
+            if(this.previousBall!=null&&this.previousBall instanceof MagicBall)
               ((MagicBall)(this.previousBall)).doMagic(3);
-            this.curentState = curentState.getNextState();
             break;
           case SWAP:
             // swap ball
