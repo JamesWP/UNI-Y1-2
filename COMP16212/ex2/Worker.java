@@ -75,4 +75,9 @@ public class Worker extends MoodyPerson
     speak();
   } // fillMachine
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "Worker>" + super.getClassHierarchy();
+  }
 } // class Worker

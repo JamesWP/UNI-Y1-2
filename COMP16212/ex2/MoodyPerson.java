@@ -38,5 +38,10 @@ public abstract class MoodyPerson extends Person
     isHappyNow = newHappiness;
     getImage().update();
   } // setHappy
-  
+
+  @Override
+  public String getClassHierarchy()
+  {
+    return "MoodyPerson>" + super.getClassHierarchy();
+  }
 } // class MoodyPerson

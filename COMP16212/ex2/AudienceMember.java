@@ -33,4 +33,10 @@ public class AudienceMember extends Person
     return "Oooooh!";
   } // getCurrentSaying
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "AudienceMember>"+super.getClassHierarchy();
+  }
+
 } // class AudienceMember

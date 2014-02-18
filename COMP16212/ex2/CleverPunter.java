@@ -104,4 +104,9 @@ public class CleverPunter extends MoodyPerson
     getImage().update();
   } // setGame
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "CleverPunter>" + super.getClassHierarchy();
+  }
 } // class CleverPunter

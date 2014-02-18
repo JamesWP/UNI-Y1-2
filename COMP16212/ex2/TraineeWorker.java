@@ -45,4 +45,9 @@ public class TraineeWorker extends Worker
     return new Ball(number, colour);
   } // newBall
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "TraineeWorker>" + super.getClassHierarchy();
+  }
 } // class TraineeWorker

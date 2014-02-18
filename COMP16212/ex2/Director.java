@@ -33,4 +33,10 @@ public class Director extends Person
     return "This business is MY pleasure";
   } // getCurrentSaying
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "Director>" + super.getClassHierarchy();
+  }
+
 } // class Director

@@ -33,4 +33,9 @@ public class Psychic extends Person
     return "I can see someone very happy!";
   } // getCurrentSaying
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "Psychic>" + super.getClassHierarchy();
+  }
 } // class Psychic

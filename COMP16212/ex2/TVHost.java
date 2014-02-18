@@ -33,4 +33,9 @@ public class TVHost extends Person
     return "Welcome, suckers!";
   } // getCurrentSaying
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "TVHost>" + super.getClassHierarchy();
+  }
 } // class TVHost

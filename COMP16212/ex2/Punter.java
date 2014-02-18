@@ -40,4 +40,9 @@ public class Punter extends Person
     return false;
   } // isHappy
 
+  @Override
+  public String getClassHierarchy()
+  {
+    return "Punter>" + super.getClassHierarchy();
+  }
 } // class Punter
