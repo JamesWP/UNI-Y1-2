@@ -390,7 +390,7 @@ public class Date
       return new Date(day,month,year-1);
     }catch(Exception e1)
     {
-      try{ return new Date(29, 2, year-1);}
+      try{ return new Date(28, 2, year-1);}
       catch(Exception e2) {return null;}
     }
   } // subtractYear
