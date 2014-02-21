@@ -5,6 +5,8 @@ public class FishTankVolume
   public static void main(String [] args)
   {
     try{
+      if(args.length!=3) throw new IndexOutOfBoundsException(
+          "you must provide three arguments");
       int width = Integer.parseInt(args[0]);
       int depth = Integer.parseInt(args[1]);
       int height = Integer.parseInt(args[2]);
@@ -16,10 +18,12 @@ public class FishTankVolume
     catch (NullPointerException e)
     {
       System.out.println("You must provide an array of arguments");
+      System.out.println(e.getMessage());
     }
     catch (IndexOutOfBoundsException e)
     {
       System.out.println("You must provide at least three arguments"); 
+      System.out.println(e.getMessage());
     }
     catch (NumberFormatException e)
     {

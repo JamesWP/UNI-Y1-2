@@ -2,4 +2,8 @@
 echo Compiling =============
 javac *.java
 echo Running ===============
-java YearsBeforeRetirement
+java TestRelativeDates 
+
+echo "running diff"
+java TestRelativeDates | diff orig.out -
+

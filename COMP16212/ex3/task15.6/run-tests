@@ -2,4 +2,9 @@
 echo Compiling =============
 javac *.java
 echo Running ===============
-java FishTankVolume
+java FishTankVolume 10 10 10
+java FishTankVolume 10 10 10 10 
+java FishTankVolume 10 
+java FishTankVolume 
+java FishTankVolume ff ff ff
+java FishTankVolume 10 10 ff
