@@ -65,16 +65,18 @@ public class RobotBeliefState{
        occupied square, then beliefMatrix[i][j][k] should be zero for all k.)
 
     */
-
+    // calculate number of blocked squares in the grid
     int totalBlocked = 0;
     for(int i= 0;i < RunRobot.SIZE; i++)            
       for(int j= 0;j < RunRobot.SIZE; j++)
 	      totalBlocked += map.isOccupied(i,j)?1:0;
 
+    // calculate the probabaility for these unblocked tiles
     double probability = 1.0/((RunRobot.SIZE*RunRobot.SIZE-totalBlocked)*RunRobot.SIZE);
     for(int i= 0;i < RunRobot.SIZE; i++)            
       for(int j= 0;j < RunRobot.SIZE; j++)
 	      for(int k= 0;k < RunRobot.SIZE; k++)
+          // set the probibility
 	        beliefMatrix[i][j][k]=map.isOccupied(i,j)?0:probability;
 
     /* End of dummy code */
@@ -147,14 +149,17 @@ public class RobotBeliefState{
 
 
   public void updateProbabilityOnAction(Action a){
+    //initialise work matrix
     for(int x= 0;x < RunRobot.SIZE; x++)
       for(int y= 0;y < RunRobot.SIZE; y++)
         for(int t= 0;t < RunRobot.SIZE; t++)
           workMatrix[x][y][t]= 0;
     
     Pose newP = new Pose();
+    // if deterministic
     if(!probActionToggler.probActions())
     {
+      // calculate new probability for each position
       for(int x= 0;x < RunRobot.SIZE; x++)
         for(int y= 0;y < RunRobot.SIZE; y++)
           for(int t= 0;t < RunRobot.SIZE; t++)
@@ -165,10 +170,12 @@ public class RobotBeliefState{
     }else{
       Action newAction = new Action();
       newAction.type = a.type;
+      // calculate for all positions and all possibilities of the action
+      // happening
       for(int x= 0;x < RunRobot.SIZE; x++)
         for(int y= 0;y < RunRobot.SIZE; y++)
           for(int t= 0;t < RunRobot.SIZE; t++)
-            for(int u = 0;u<=20;u++)
+            for(int u = 0;u<=20;u++)// for each possibility
             {
               newAction.parameter = u;
               map.fillPoseOnAction(newP,x,y,t,newAction);
@@ -178,6 +185,7 @@ public class RobotBeliefState{
             }
     }
 
+    // copy to work array
     for(int x= 0;x < RunRobot.SIZE; x++)
       for(int y= 0;y < RunRobot.SIZE; y++)
       	for(int t= 0;t < RunRobot.SIZE; t++)
