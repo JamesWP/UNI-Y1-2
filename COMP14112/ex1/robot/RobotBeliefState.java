@@ -147,38 +147,36 @@ public class RobotBeliefState{
 
 
   public void updateProbabilityOnAction(Action a){
-
-    /** 
-	Revise beliefMatrix by conditionalizing on the knowledge that
-	Action a has been performed. Assume deterministic actions for
-	the moment.
-    */
-
-    /*
-       ************** Dummy code follows **************
-	
-       The following code does not work. In its current state, it sets
-       he probability of any given pose to 1.
-
-       The method should actually revise the probability distribution
-       stored in beliefMatrix[][][] by conditionalizing on the action a
-    */
+    for(int x= 0;x < RunRobot.SIZE; x++)
+      for(int y= 0;y < RunRobot.SIZE; y++)
+        for(int t= 0;t < RunRobot.SIZE; t++)
+          workMatrix[x][y][t]= 0;
     
-
-    for(int x= 0;x < RunRobot.SIZE; x++)
-      for(int y= 0;y < RunRobot.SIZE; y++)
-      	for(int t= 0;t < RunRobot.SIZE; t++)
-	        workMatrix[x][y][t]= 0;
-
     Pose newP = new Pose();
-    for(int x= 0;x < RunRobot.SIZE; x++)
-      for(int y= 0;y < RunRobot.SIZE; y++)
-      	for(int t= 0;t < RunRobot.SIZE; t++)
-        {
-          map.fillPoseOnAction(newP,x,y,t,a);
-          workMatrix[newP.x][newP.y][newP.theta] = beliefMatrix[x][y][t];
-        }
-   
+    if(!probActionToggler.probActions())
+    {
+      for(int x= 0;x < RunRobot.SIZE; x++)
+        for(int y= 0;y < RunRobot.SIZE; y++)
+          for(int t= 0;t < RunRobot.SIZE; t++)
+          {
+            map.fillPoseOnAction(newP,x,y,t,a);
+            workMatrix[newP.x][newP.y][newP.theta] += beliefMatrix[x][y][t];
+          }
+    }else{
+      Action newAction = new Action();
+      newAction.type = a.type;
+      for(int x= 0;x < RunRobot.SIZE; x++)
+        for(int y= 0;y < RunRobot.SIZE; y++)
+          for(int t= 0;t < RunRobot.SIZE; t++)
+            for(int u = 0;u<=20;u++)
+            {
+              newAction.parameter = u;
+              map.fillPoseOnAction(newP,x,y,t,newAction);
+              workMatrix[newP.x][newP.y][newP.theta] += 
+                WorldMap.probabilify(a.parameter,newAction.parameter) 
+                * beliefMatrix[x][y][t];
+            }
+    }
 
     for(int x= 0;x < RunRobot.SIZE; x++)
       for(int y= 0;y < RunRobot.SIZE; y++)
