@@ -26,9 +26,10 @@
 
 
 // Get parameters from query string
-$action =  $_GET['action'];
-$key = $_GET['key'];
-$value = $_GET['value'];
+
+$action = isset($_GET['action'])? $_GET['action']:'';
+$key = isset($_GET['key'])?$_GET['key']:'';
+$value = isset($_GET['value'])?$_GET['value']:'';
 
 
 // Read in values from file
@@ -81,6 +82,8 @@ switch ($action)
     // for any other action, just print out 
     // a reassuring message
     echo "<html><body><h1>COMP18112 IM Server</h1>";
+    echo nl2br(print_r($_APP,true));
+    echo "";
     if (file_exists(DATA_FILE))
     {
        include DATA_FILE;
