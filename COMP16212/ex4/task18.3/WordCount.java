@@ -10,14 +10,18 @@ public class WordCount
       // read byte from file and check for last byte
       while((curentByte=System.in.read())!=-1)
       {
+        // count word at next whitespace char
         char curentChar = (char) curentByte; 
         if(Character.isWhitespace(curentChar))
         {
           wordCount++;
+          // skip to next non ws char return if found one
           if(!skipToNextChar())
+            // no char found so break loop EOF
             break;
         }
       }
+      // print result
       System.out.println(wordCount);
     }
     catch(IOException exc)
@@ -43,6 +47,7 @@ public class WordCount
       if(!Character.isWhitespace((char) nextByte))
         return true;
     }
+    // no non ws char found return false
     return false;
   }
 }
