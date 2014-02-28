@@ -1,19 +1,32 @@
 import uuid
 import im
+from multiprocessing import Process
+
 server = im.IMServerProxy('http://webdev.cs.manchester.ac.uk/~mbax3jp2/IMServer.php')
 
-userid = str(uuid.uuid1())
+#last message id
+#lmid = str(uuid.uuid1())
 
-try:
+#server['message'] = 'new user logged in'
+#server['lmid'] = lmid
+
+def messageReceiver():
+  lmid = str(uuid.uuid1())
+  while True:
+    while server['lmid']==lmid: pass;
+    print "\nmessage<", server['message'], "\nmessage>",
+    lmid = server['lmid']
+
+def messageSender():
+  lmid = str(uuid.uuid1())
   while True:
     server['message'] = message = raw_input('message> ')
-    
     if message == 'exit': break;
-    
-    server['user'] = userid
+    server['lmid'] = lmid = str(uuid.uuid1())
 
-    while server['user']==userid: pass;
-
-    print "message<", server['message']
+try:
+  Process(target=messageReceiver).start()
+  #Process(target=messageSender).start()
+  messageSender()
 except KeyboardInterrupt:
   raise SystemExit

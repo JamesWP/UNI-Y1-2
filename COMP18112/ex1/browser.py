@@ -6,9 +6,9 @@ from bs4 import BeautifulSoup,NavigableString,Tag
 import os
 
 #vars
-#url = "http://studentnet.cs.manchester.ac.uk/ugt/COMP18112/page1.html"
+url = "http://studentnet.cs.manchester.ac.uk/ugt/COMP18112/page1.html"
 #url = "http://studentnet.cs.manchester.ac.uk/ugt/COMP18112/page2.html"
-url = "http://studentnet.cs.manchester.ac.uk/ugt/COMP18112/page3.html"
+#url = "http://studentnet.cs.manchester.ac.uk/ugt/COMP18112/page3.html"
 
 #console colors
 BOLD = '\033[1m'
