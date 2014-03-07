@@ -52,7 +52,16 @@ public class DeleteField
               :"\n");
         }
       }
-    } catch (IOException e) { System.out.println("Error reading"); }
+    } catch (IOException e) 
+    { 
+      System.out.println(new DeleteFieldException(e.toString()));
+    } catch (ArrayIndexOutOfBoundsException e)
+    {
+      System.out.println(e);
+    } catch (IllegalArgumentException e)
+    {
+      System.out.println(e);
+    }
     finally
     {
       try
