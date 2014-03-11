@@ -18,7 +18,8 @@ public class YesNoClassifier {
 
       // Build a naive Bayes classifier
 
-      Classifier classifier = new Classifier(yesData.getMeanMfcc(),noData.getMeanMfcc(),0.5);
+      //Classifier classifier = new Classifier(yesData.getMeanMfcc(),noData.getMeanMfcc(),0.5);
+      Classifier classifier = new Classifier(yesData,noData);
 
       // Compute the probability of being in class one for the first yes example
       // using the 1st time-averaged MFCC as the feature
@@ -31,11 +32,11 @@ public class YesNoClassifier {
       int totalIncorect = 0;
 
       for (int i=0; i<yesData.getNumberExamples();i++)
-        if (classifier.classify(yesData.getMeanMfcc(i),featureNumber)<0.5)
+        if (classifier.classify(yesData.getMeanMfcc(i))<0.5)
           totalIncorect++;
         
       for (int i=0; i<noData.getNumberExamples();i++)
-        if (classifier.classify(noData.getMeanMfcc(i),featureNumber)>0.5)
+        if (classifier.classify(noData.getMeanMfcc(i))>0.5)
           totalIncorect++;
 
       System.out.println("The percentage of incorrect classifications is "

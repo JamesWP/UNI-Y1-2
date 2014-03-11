@@ -18,39 +18,47 @@ public class Classifier {
     /**
      * This constructor method fits the parameters of two normal densities
      * and stores the priors for each class
-     */ 
+     */
 
-    public Classifier (double[][] featureClass1, double[][] featureClass2, double pC1) {
-	priorClass1 = pC1;
-	priorClass2 = 1.0 - pC1;  // The prior probabilities for each class must sum to one
-	d = featureClass1.length;
-
-	// Fit a normal density for each feature dimension
-
-	pxGivenClass1 = new Normal[d];
-	pxGivenClass2 = new Normal[d];
-	for (int i=0;i<d;i++){
-	    pxGivenClass1[i] = new Normal(featureClass1[i]);
-	    pxGivenClass2[i] = new Normal(featureClass2[i]);
-	}
+    public Classifier (Data feature1,Data feature2) {
+      double priorClass1 = (double) feature1.getNumberExamples()/feature2.getNumberExamples()+feature1.getNumberExamples();
+      init(feature1.getMeanMfcc(),feature2.getMeanMfcc(),priorClass1);
     }
 
+    public Classifier (double[][] featureClass1,double[][] featureClass2, double pC1)
+    {
+      init(featureClass1,featureClass2,pC1);
+    }
+    
+    private void init(double[][] featureClass1, double[][] featureClass2, double pC1) {
+      priorClass1 = pC1;
+      priorClass2 = 1.0 - pC1;  // The prior probabilities for each class must sum to one
+      d = featureClass1.length;
+
+      // Fit a normal density for each feature dimension
+
+      pxGivenClass1 = new Normal[d];
+      pxGivenClass2 = new Normal[d];
+      for (int i=0;i<d;i++){
+          pxGivenClass1[i] = new Normal(featureClass1[i]);
+          pxGivenClass2[i] = new Normal(featureClass2[i]);
+      }
+    }
     /**
      * This method returns the probability of being in class 1 using only data from one feature
      * which is in featureVector[featureNo]
      */
 
     public double classify (double[] featureVector, int featureNo) {
+      // Numerator of Bayes' theorem as given in the Lecture notes
 
-	// Numerator of Bayes' theorem as given in the Lecture notes
+      double numerator = pxGivenClass1[featureNo].density(featureVector[featureNo])*priorClass1;
 
-	double numerator = pxGivenClass1[featureNo].density(featureVector[featureNo])*priorClass1;
+      // Denominator of Bayes' theorem 
 
-	// Denominator of Bayes' theorem 
+      double denominator = numerator + pxGivenClass2[featureNo].density(featureVector[featureNo])*priorClass2;
 
-	double denominator = numerator + pxGivenClass2[featureNo].density(featureVector[featureNo])*priorClass2;
-
-	return numerator/denominator;
+      return numerator/denominator;
     }
 
     
@@ -61,10 +69,16 @@ public class Classifier {
 
     public double classify (double[] featureVector) {
 
-	// Your code should go here
-
-	return 0.5;
-
+      double numerator = 1;
+      for (int i = 0;i < d; i++)
+        numerator *= pxGivenClass1[i].density(featureVector[i]);
+      numerator *= priorClass1;
+     
+      double denominator = 1;
+      for (int i = 0;i < d; i++)
+        denominator *= pxGivenClass2[i].density(featureVector[i]);
+      denominator *= priorClass2;
+      denominator+=numerator;
+      return numerator/denominator;
     }
-}
-    
+} 
