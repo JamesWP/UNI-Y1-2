@@ -20,16 +20,23 @@ public class Classifier {
      * and stores the priors for each class
      */
 
+
+    /**
+      * this constructor creats a classifier from two data sets and constructs the probabaility on the number of eachh
+      *
+      */
     public Classifier (Data feature1,Data feature2) {
       double priorClass1 = (double) feature1.getNumberExamples()/feature2.getNumberExamples()+feature1.getNumberExamples();
       init(feature1.getMeanMfcc(),feature2.getMeanMfcc(),priorClass1);
     }
 
+    // this constructor creates a classifier from the given data with the given previous belief
     public Classifier (double[][] featureClass1,double[][] featureClass2, double pC1)
     {
       init(featureClass1,featureClass2,pC1);
     }
     
+    // performes the standard init
     private void init(double[][] featureClass1, double[][] featureClass2, double pC1) {
       priorClass1 = pC1;
       priorClass2 = 1.0 - pC1;  // The prior probabilities for each class must sum to one

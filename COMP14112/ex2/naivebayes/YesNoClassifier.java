@@ -26,19 +26,22 @@ public class YesNoClassifier {
 
       int featureNumber = 0; // Using this MFCC component (0 is 1st component)
 
+      // find the total samples and for each sample in yes no data add one to incorect count when incorrect
+
       int totalSamples = yesData.getNumberExamples();
       totalSamples += noData.getNumberExamples();
 
       int totalIncorect = 0;
 
       for (int i=0; i<yesData.getNumberExamples();i++)
-        if (classifier.classify(yesData.getMeanMfcc(i))<0.5)
+        if (classifier.classify(yesData.getMeanMfcc(i))<=0.5)
           totalIncorect++;
         
       for (int i=0; i<noData.getNumberExamples();i++)
         if (classifier.classify(noData.getMeanMfcc(i))>0.5)
           totalIncorect++;
-
+ 
+      // print output to screen
       System.out.println("The percentage of incorrect classifications is "
         +Float.toString((float) totalIncorect / totalSamples * 100));
       System.out.println("with " + totalIncorect + " incorrect out of " + totalSamples);
