@@ -1,0 +1,4 @@
+#!/bin/bash
+mainClass=TestMoodyGroup
+#java -classpath .:/opt/info/courses/COMP16212/ex2/Lottery.jar $mainClass
+java -classpath .:./Lottery.jar $mainClass $2
