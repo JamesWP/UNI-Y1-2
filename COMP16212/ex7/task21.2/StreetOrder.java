@@ -8,11 +8,11 @@ import java.util.List;
 
 /**
  * Created by james on 21/03/2014.
- *
+ * <p/>
  * StreetOrder takes a file of ordered house names and prints them in
  * "delivery order" by first  printing the even numbers from the input then
  * reversing the input and printing the odd house numbers
- *
+ * <p/>
  * usage java StreetOrder <input file name > <output file name>
  */
 public class StreetOrder
@@ -23,7 +23,7 @@ public class StreetOrder
     BufferedReader input = null;
     try
     {
-      if(args.length!=2)
+      if (args.length != 2)
         throw new IllegalArgumentException("you must provide two filenames " +
                                                    "<input> <output>");
       output = new PrintWriter(args[1]);
@@ -63,12 +63,13 @@ public class StreetOrder
                                  "readable file in args[0] and a writable " +
                                  "file in args[1]");
       System.err.println(error.getMessage());
-    } catch (IllegalArgumentException error){
-      System.err.println(error.getMessage());
-    }finally
+    } catch (IllegalArgumentException error)
     {
-      if(output!=null) output.close();
-      if(input!=null)  try {input.close(); } catch(IOException iox) {}
+      System.err.println(error.getMessage());
+    } finally
+    {
+      if (output != null) output.close();
+      if (input != null) try {input.close(); } catch (IOException iox) {}
     }
   }
 }
