@@ -5,3 +5,6 @@ java TestMinMaxArray `seq 100`
 java TestMinMaxArray -10 10 20 `seq 34`
 java TestMinMaxArray 0 failed test
 java TestMinMaxArray
+
+
+rm *.class

@@ -21,7 +21,7 @@ public class Pair<TypeOne, TypeTwo>
   }
 
   /**
-   * returns the first object
+   * returns the first object stored
    *
    * @return
    */
@@ -41,7 +41,7 @@ public class Pair<TypeOne, TypeTwo>
   }
 
   /**
-   * returns a sting reperesentation of the objects stored using there toString
+   * returns a sting representation of the objects stored using there toString
    *
    * @return
    */

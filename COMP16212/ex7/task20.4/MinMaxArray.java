@@ -7,7 +7,8 @@ import java.util.Iterator;
  */
 public class MinMaxArray
 {
-  public static <Type extends Comparable<Type>> Pair<Type, Type> getMinMax(Type[] list)
+  public static <Type extends Comparable<Type>> Pair<Type, Type>
+          getMinMax(Type[] list)
   {
     /*
     using the iterator from Collections to serch for the largest and
@@ -18,11 +19,15 @@ public class MinMaxArray
     Iterator<Type> iterator = Arrays.asList(list).iterator();
     if (iterator.hasNext())
     {
-      Type min, max; min = max = iterator.next(); while (iterator.hasNext())
-    {
-      Type next = iterator.next(); min = min.compareTo(next) > 0 ? next : min;
-      max = max.compareTo(next) < 0 ? next : max;
-    } return new Pair<Type, Type>(min, max);
+      Type min, max;
+      min = max = iterator.next();
+      while (iterator.hasNext())
+      {
+        Type next = iterator.next();
+        min = min.compareTo(next) > 0 ? next : min;
+        max = max.compareTo(next) < 0 ? next : max;
+      }
+      return new Pair<Type, Type>(min, max);
     } else
     {
       return null;
