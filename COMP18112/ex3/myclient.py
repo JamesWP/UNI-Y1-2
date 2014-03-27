@@ -28,9 +28,11 @@ class MyClient(Client):
 
   def onMessage(self, socket, message):
     (type,sep,message) = message.strip().partition(' ')
-    (username,sep,message) = message.strip().partition(':')
-
-    printRight(message + " <: " + username + " @ " + strftime("%H:%M:%S")
+    (username,sep,nmessage) = message.strip().partition(':')
+    if type == 'raw':
+      print message
+    else:
+      printRight(nmessage + " <: " + username + " @ " + strftime("%H:%M:%S")
                , (WARNING if type == 'pm' else OKBLUE))
     return True
   def sendAsync(self,message):
@@ -58,6 +60,8 @@ while client.isRunning():
       client.sendAsync('setname %s' % message.partition('newname ')[2])
     elif message.find('pm ') == 0:
       client.sendAsync('pm %s' % message.partition('pm ')[2])
+    elif message.find('list') == 0:
+      client.sendAsync(message)
     else:
       client.sendAsync('message %s' % message)
 

@@ -1,7 +1,7 @@
 import sys
 from ex3utils import Server
 from sets import Set
-
+import re
 
 class MyServer(Server):
 
@@ -23,9 +23,21 @@ class MyServer(Server):
           eachsocket.send("all " + username + ":" + params)
     elif command == 'pm':
       (name,sep,message) = params.partition(' ')
+      regex = re.compile(name+'.*')
       for socket,info in self.clients.iteritems():
-        if info.get('name',None) == name:
+        pname = info.get('name','anon')
+        if regex.match(pname):
           socket.send("pm " + username + ":" + message)
+    elif command == 'list':
+      regex = re.compile(params+'.*')
+      if len(params)>0:
+        socket.send("raw Clients matching " + params)
+      else:
+        socket.send("raw Clients")
+      for eachsocket,info in self.clients.iteritems():
+        name = info.get('name','anon')
+        if regex.match(name):
+          socket.send("raw > " + name)
     return True
 
   def onConnect(self, socket):
