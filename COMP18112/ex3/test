@@ -1,9 +1,0 @@
-#!/bin/bash
-xterm -e "(
-xterm -e \"python myclient.py\"&
-xterm -e \"python myclient.py\"&
-xterm -e \"python myclient.py\"&
-xterm -e \"python myclient.py\"&
-
-xterm -e \"python myserver.py\"&
-)"

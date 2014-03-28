@@ -6,5 +6,6 @@ java DuplicateVoters
 java DuplicateVoters voting.txt
 java DuplicateVoters voting2.txt
 java DuplicateVoters voting.txt duplicates.txt
-
+echo outputing the results
+cat duplicates.txt
 rm duplicates.txt
