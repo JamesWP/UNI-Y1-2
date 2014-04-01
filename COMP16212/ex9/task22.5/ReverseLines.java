@@ -15,12 +15,19 @@ public class ReverseLines
     BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
     PrintWriter output = new PrintWriter(System.out);
 
+    // starts the recursion function to print the input in reverse to output
     printReverse(input, output);
 
     input.close();
     output.close();
   }
 
+  /**
+   * printReverse 
+   * prints the input in reverse recursivley each run, the next line is printed
+   * after all the other lines
+   * if there are no more lines then the function returns without calling itself
+   */ 
   public static void printReverse(BufferedReader input, PrintWriter output)
       throws Exception
   {
