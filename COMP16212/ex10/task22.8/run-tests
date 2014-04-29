@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+set -v 
+
+javac *.java
+
+java Anagrams
+java Anagrams 1 1
+java Anagrams 1
+java Anagrams 12
+java Anagrams 123
