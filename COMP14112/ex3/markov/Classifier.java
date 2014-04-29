@@ -44,8 +44,7 @@ public class Classifier
   {
     MathContext con = MathContext.DECIMAL128;
     BigDecimal numerator = hmmClass1.forward(dataSequence)
-                           .multiply(new BigDecimal
-                                     (priorClass1, con));
+                           .multiply(new BigDecimal(priorClass1, con));
     BigDecimal denominator = numerator.add(hmmClass2.forward(dataSequence)
                                            .multiply(new BigDecimal
                                                      (priorClass2, con)));

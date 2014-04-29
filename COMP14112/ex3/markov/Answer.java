@@ -74,6 +74,110 @@ public class Answer
 
     // Task 3
 
+    //       sil yes no sil stop
+    // sil   +   y   n  +   +
+    double sil_sil1 = yesModel.getTransitionProbability(0,0)
+                     + noModel.getTransitionProbability(0,0);
+    double sil_yes  = yesModel.getTransitionProbability(0,1);
+    double sil_no   =  noModel.getTransitionProbability(0,1);
+    double sil_sil2 = yesModel.getTransitionProbability(0,2)
+                     + noModel.getTransitionProbability(0,2);
+    double sil_stop = yesModel.getTransitionProbability(0,3)
+                     + noModel.getTransitionProbability(0,3);
+    double sil_total = sil_sil1 + sil_yes + sil_no + sil_sil2 + sil_stop;
+
+    sil_sil1 = sil_sil1/sil_total;
+    sil_yes  = sil_yes /sil_total;
+    sil_no   = sil_no  /sil_total;
+    sil_sil2 = sil_sil2/sil_total;
+
+    //       sil yes no sil stop
+    // yes   0   y   0  y   y
+    double yes_sil1 = 0;
+    double yes_yes  = yesModel.getTransitionProbability(1,1);
+    double yes_no   = 0;
+    double yes_sil2 = yesModel.getTransitionProbability(1,2);
+    double yes_stop = yesModel.getTransitionProbability(1,3);
+    
+    //       sil yes no sil stop
+    // no    0   0   n  n   n
+    double no_sil1 = 0;
+    double no_yes  = 0;
+    double no_no   = noModel.getTransitionProbability(1,1);
+    double no_sil2 = noModel.getTransitionProbability(1,2);
+    double no_stop = noModel.getTransitionProbability(1,3);
+    
+    //       sil yes no sil stop
+    // sil2  0   0   0  +   +
+    double sil2_sil1 = 0; 
+    double sil2_yes  = 0;
+    double sil2_no   = 0;
+    double sil2_sil2 = yesModel.getTransitionProbability(2,2)
+                      + noModel.getTransitionProbability(2,2);
+    double sil2_stop = yesModel.getTransitionProbability(2,3)
+                      + noModel.getTransitionProbability(2,3);
+    double sil2_total = sil2_sil1 + sil2_yes + sil2_no + sil2_sil2 + sil2_stop;
+
+    sil2_sil1 = sil2_sil1/sil2_total;
+    sil2_yes  = sil2_yes /sil2_total;
+    sil2_no   = sil2_no  /sil2_total;
+    sil2_sil2 = sil2_sil2/sil2_total;
+    
+    //       sil yes no sil stop
+    // start 1   0   0  0   0
+    double start_sil1 = 1; 
+    
+    
+    HiddenMarkovModel combined = new HiddenMarkovModel(4);
+    
+    combined.setTransitionProbability(sil_sil1,0,0);
+    combined.setTransitionProbability(sil_yes ,0,1);
+    combined.setTransitionProbability(sil_no  ,0,2);
+    combined.setTransitionProbability(sil_sil2,0,3);
+    combined.setTransitionProbability(sil_stop,0,4);
+    
+    combined.setTransitionProbability(yes_sil1,1,0);
+    combined.setTransitionProbability(yes_yes ,1,1);
+    combined.setTransitionProbability(yes_no  ,1,2);
+    combined.setTransitionProbability(yes_sil2,1,3);
+    combined.setTransitionProbability(yes_stop,1,4);
+
+    combined.setTransitionProbability(no_sil1,2,0);
+    combined.setTransitionProbability(no_yes ,2,1);
+    combined.setTransitionProbability(no_no  ,2,2);
+    combined.setTransitionProbability(no_sil2,2,3);
+    combined.setTransitionProbability(no_stop,2,4);
+
+    combined.setTransitionProbability(sil2_sil1,3,0);
+    combined.setTransitionProbability(sil2_yes ,3,1);
+    combined.setTransitionProbability(sil2_no  ,3,2);
+    combined.setTransitionProbability(sil2_sil2,3,3);
+    combined.setTransitionProbability(sil2_stop,3,4);
+
+    combined.setTransitionProbability(start_sil1,4,0);
+    combined.setTransitionProbability(0.0       ,4,1);
+    combined.setTransitionProbability(0.0       ,4,2);
+    combined.setTransitionProbability(0.0       ,4,3);
+    combined.setTransitionProbability(0.0       ,4,4);
+
+  
+    System.out.println("Combined data");
+    for (int startState = 0; startState <= combined.getNoStates(); startState++)
+    {
+      for (int nextState = 0; nextState <= combined.getNoStates(); nextState++)
+        System.out.printf(
+                         "%1.2f ",
+                         combined.getTransitionProbability(startState,
+                                                          nextState)
+        );
+      System.out.println();
+    }
     // Task 4
+
+    
+
+
+
+
   }
 }
