@@ -1,15 +1,20 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2014.5.2)  9 MAY 2014 13:07
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2013.9.6)  9 MAY 2014 16:42
 entering extended mode
- restricted \write18 enabled.
  %&-line parsing enabled.
 **report.tex
 (./report.tex
-LaTeX2e <2011/06/27>
-Babel <3.9f> and hyphenation patterns for 21 languages loaded.
-(/usr/local/texlive/2013basic/texmf-dist/tex/latex/base/article.cls
-Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
-(/usr/local/texlive/2013basic/texmf-dist/tex/latex/base/size11.clo
-File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+LaTeX2e <2005/12/01>
+Babel <v3.8h> and hyphenation patterns for english, usenglishmax, dumylang, noh
+yphenation, arabic, basque, bulgarian, coptic, welsh, czech, slovak, german, ng
+erman, danish, esperanto, spanish, catalan, galician, estonian, farsi, finnish,
+ french, greek, monogreek, ancientgreek, croatian, hungarian, interlingua, ibyc
+us, indonesian, icelandic, italian, latin, mongolian, dutch, norsk, polish, por
+tuguese, pinyin, romanian, russian, slovenian, uppersorbian, serbian, swedish, 
+turkish, ukenglish, ukrainian, loaded.
+(/usr/share/texmf/tex/latex/base/article.cls
+Document Class: article 2005/09/16 v1.4f Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/size11.clo
+File: size11.clo 2005/09/16 v1.4f Standard LaTeX file (size option)
 )
 \c@part=\count79
 \c@section=\count80
@@ -23,7 +28,7 @@ File: size11.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
 \belowcaptionskip=\skip42
 \bibindent=\dimen102
 )
-(./report.aux)
+No file report.aux.
 \openout1 = `report.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 4.
@@ -44,29 +49,26 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <8> on input line 7.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <6> on input line 7.
- [1
+[1
 
-{/usr/local/texlive/2013basic/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2
-] [3] [4] [5] (./report.aux) ) 
+{/usr/share/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2] [3] [4] [5]
+(./report.aux) ) 
 Here is how much of TeX's memory you used:
- 232 strings out of 494536
- 2518 string characters out of 6167447
- 53931 words of memory out of 5000000
- 3555 multiletter control sequences out of 15000+600000
- 8234 words of font info for 29 fonts, out of 8000000 for 9000
- 319 hyphenation exceptions out of 8191
- 21i,6n,19p,1000b,189s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/local/texlive/2013basic/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2013basic/texmf-dist/font
-s/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2013basic/texmf-dist/
-fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2013basic/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/local/texlive/2013basic/texmf
--dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2013basic/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb>
-Output written on report.pdf (5 pages, 90082 bytes).
+ 230 strings out of 256216
+ 2417 string characters out of 1917073
+ 52804 words of memory out of 1500000
+ 3591 multiletter control sequences out of 10000+200000
+ 8234 words of font info for 29 fonts, out of 1200000 for 2000
+ 645 hyphenation exceptions out of 8191
+ 21i,6n,19p,1067b,189s stack positions out of 5000i,500n,6000p,200000b,15000s
+</usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share
+/texmf/fonts/type1/bluesky/cm/cmbx12.pfb></usr/share/texmf/fonts/type1/bluesky/
+cm/cmr10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr12.pfb></usr/share/tex
+mf/fonts/type1/bluesky/cm/cmr17.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cm
+ti10.pfb>
+Output written on report.pdf (5 pages, 56310 bytes).
 PDF statistics:
- 44 PDF objects out of 1000 (max. 8388607)
- 30 compressed objects within 1 object stream
- 0 named destinations out of 1000 (max. 500000)
+ 42 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
  1 words of extra memory for PDF output out of 10000 (max. 10000000)
 
