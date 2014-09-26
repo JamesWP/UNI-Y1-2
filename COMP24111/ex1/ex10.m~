@@ -1,0 +1,10 @@
+%reciprocol
+sa = size(A);
+cols = sa(1)
+rows = sa(2)
+AR = zeros()
+for col 1:cols
+    for row 1:rows
+        
+    end;
+end;
