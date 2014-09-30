@@ -1,0 +1,57 @@
+A:)
+
+  1)
+    size = size(A)
+    index = 0
+
+    for each a in A
+      if a == index
+        return index
+      index++
+    end for
+
+    return "No"
+
+  Correctness:
+  this checks each position and only skips over it
+  if its value is not its index 
+  otherwise if it is equal then return it
+  at the end of the loop all numbers have been discarded
+  and we know that a discarded number was not the solution
+  so we know there were no solutions in A
+
+  Complexity:
+  O(n)
+  this checks each element in the array once 
+
+  2)
+
+    high = size(A) - 1
+    low = 0
+
+    while high > low
+      midpoint = (high - low) / 2
+      if A[midpoint] > midpoint
+        high = midpoint
+      else if A[midpoint] == midpoint
+        return midpoint
+      else
+        low = midpoint
+    end while
+
+    return "No"
+
+  Correctness:
+  the list is already sorted
+  so when we check a position pos
+  we know that all elements to the left are less and right are greater
+
+  if the value A[pos] > pos then all the numbers to the right are > A[pos]
+  and so are further away from pos (because numbers must increase by n>=1)
+  these numbers can be discarded 
+  the same argument works for numbers  A[pos] < pos and the lower numbers
+
+  Complexity:
+  this halves the number of items in the array each itteration and so is
+  O(log(n)) at worst
+
