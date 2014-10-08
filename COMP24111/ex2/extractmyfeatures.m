@@ -1,4 +1,7 @@
 function x = extractmyfeatures( digdata )
 dreshape = reshape(digdata,16,16);
-x = [ sum(dreshape(1:2:16),1)  sum(dreshape(:,1:2:16)',1) ];
+%a1 = mean(dreshape);
+%a2 = mean(dreshape');
+x = [ mean(dreshape)  mean(dreshape') ];
+%x = [ a1 a2 ];
 
