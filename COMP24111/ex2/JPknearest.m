@@ -37,7 +37,13 @@ data = double(data);
 x = double(x);
 
 % search the data for the nearest k points in data
+% ranking of distance calcs:
+%   euclidiean (default) score: 14.5502
+%   minkowski            score: 14.4444
+%   cosine               score: 14.3030
 ids = knnsearch(data,x,'k',k);
+
+
 
 % lookup the labels for the nearest elements
 % if k is not 1 then find the most common class and return that

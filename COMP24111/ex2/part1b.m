@@ -15,5 +15,5 @@ for k = ks
 	Y = [Y acc]; 
 end
 
-figure;
+%figure;
 plot(X,Y);
