@@ -1,0 +1,2 @@
+Write a program that, given a file-name as a program parameter, will read from it to count how many instances of each different character are in the file, and then output the counts. You should use an array of integers to hold the counts.
+Only output non-zero counts at the end.
