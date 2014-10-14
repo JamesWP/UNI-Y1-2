@@ -1,9 +1,24 @@
 function x = extractmyfeatures( digdata )
 d = reshape(digdata,16,16);
+%% VERSION6
+
+%t = sum(sum(d(1:8,:)));
+%b = sum(sum(d(9:16,:)));
+
+%tl = mean(mean(d(1:8,1:8)));
+%tr = mean(mean(d(9:16,1:8)));
+%bl = mean(mean(d(1:8,9:16)));
+%br = mean(mean(d(9:16,9:16)));
+
+%m = [tl tr; bl br];
+
+%dm = (tl-br) / (tr-bl);
+
+%x = [t/b dm];
+
 
 %% VERSION5
 % mean score 22.7356 with 4 features
-
 
 %quadrants
 tl = d(1:8,1:8);
@@ -13,9 +28,6 @@ br = d(9:16,9:16);
 
 %means
 x = [mean(mean(tl)) mean(mean(tr)) mean(mean(bl)) mean(mean(br))];
-
-%norm
-x = x/norm(x);
 
 %% VERSION4
 %this got average score of 14.4 with 6 features
