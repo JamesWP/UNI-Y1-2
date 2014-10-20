@@ -2,7 +2,9 @@
 .DS_Store
 !/COMP*/
 !/COMP*/**
-!/Cadence/COMP22111/src/**
-!/Cadence/COMP22111/src/
+!/Cadence*/
+!/Cadence*/**
+!~/Cadence/COMP22111/src/
+!~/Cadence/COMP22111/src/**
 !.gitignore
 *.iml
