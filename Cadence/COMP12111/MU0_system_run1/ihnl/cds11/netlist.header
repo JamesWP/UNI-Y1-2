@@ -1,0 +1,18 @@
+// Library - MU0_lib, Cell - mux_2_1, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:54 2013
+// NETLIST TIME: Dec 12 15:35:38 2013
+`timescale 1ns / 10ps 
+
+module mux_2_1 ( Q, D0, D1, sel );
+
+output  Q;
+
+input  D0, D1, sel;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "mux_2_1";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

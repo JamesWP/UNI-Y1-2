@@ -1,0 +1,13 @@
+CADENCE IHNL010711
+
+ENGLAB_12111 Sevenseg_R schematic cds0
+ENGLAB_12111 Sevenseg_L schematic cds1
+ENGLAB_12111 Keys schematic cds2
+ENGLAB_12111 Keyboard schematic cds3
+ENGLAB_12111 count_10 schematic cds4
+ENGLAB_12111 count_5 schematic cds5
+ENGLAB_12111 Clocks schematic cds6
+ENGLAB_12111 Bargraph schematic cds7
+ENGLAB_12111 Traffic_lights schematic cds8
+ENGLAB_12111 Board schematic cds9
+COMP12111 counter09_test schematic cds10

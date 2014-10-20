@@ -1,0 +1,27 @@
+// Library - ENGLAB_12111, Cell - count_5, View - schematic
+// LAST TIME SAVED: Aug 19 11:24:49 2013
+// NETLIST TIME: Nov 22 13:14:33 2013
+`timescale 1ns / 10ps 
+
+module count_5 ( D0, D1, D2, TC, CE, Clk, Clr );
+
+output  D0, D1, D2, TC;
+
+input  CE, Clk, Clr;
+
+
+specify 
+    specparam CDS_LIBNAME  = "ENGLAB_12111";
+    specparam CDS_CELLNAME = "count_5";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+FDCE  I8 ( .C(Clk), .CE(CE), .CLR(Clr), .Q(D1), .D(net10));
+FDCE  I7 ( .C(Clk), .CE(CE), .CLR(Clr), .Q(D2), .D(net7));
+FDCE  I9 ( .C(Clk), .CE(CE), .CLR(Clr), .Q(D0), .D(net13));
+AND2  I5 ( .I0(D1), .I1(D0), .O(net7));
+AND2  I6 ( .I0(D2), .I1(CE), .O(TC));
+XOR2  I4 ( .I0(D1), .I1(D0), .O(net10));
+NOR2  I3 ( .I0(D2), .I1(D0), .O(net13));
+
+endmodule

@@ -1,0 +1,36 @@
+// Library - COMP12111, Cell - counter09_test, View - schematic
+// LAST TIME SAVED: Nov 14 16:03:27 2013
+// NETLIST TIME: Nov 28 15:57:43 2013
+`timescale 1ns / 10ps 
+
+module counter09_test (  );
+
+// Buses in the design
+
+wire  [5:0]  traffic;
+
+wire  [4:0]  display_en;
+
+wire  [0:7]  net2;
+
+wire  [0:5]  net010;
+
+wire  [7:0]  keys;
+
+wire  [0:7]  net16;
+
+wire  [0:7]  net14;
+
+wire  [0:7]  net5;
+
+wire  [0:3]  net06;
+
+wire  [0:7]  net1;
+
+
+specify 
+    specparam CDS_LIBNAME  = "COMP12111";
+    specparam CDS_CELLNAME = "counter09_test";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

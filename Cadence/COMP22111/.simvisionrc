@@ -1,0 +1,16 @@
+mmap new -reuse -name States -radix %x -contents {
+{%x=0 -label Fetch}
+{%x=1 -label Execute}
+{%x=2 -label Memory}
+}
+mmap new -reuse -name {Instruction} -radix %x -contents {
+{%x=0 -label ADD}
+{%x=1 -label ADC}
+{%x=2 -label SUB}
+{%x=3 -label SBC}
+{%x=4 -label AND}
+{%x=5 -label OR}
+{%x=6 -label {LD/ST}}
+{%x=7 -label Bcc}
+}
+

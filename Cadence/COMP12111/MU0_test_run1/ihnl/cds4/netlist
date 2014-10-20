@@ -1,0 +1,42 @@
+// Library - MU0_lib, Cell - MU0_ALU, View - schematic
+// LAST TIME SAVED: Dec  3 16:02:51 2013
+// NETLIST TIME: Dec 12 15:47:27 2013
+`timescale 1ns / 10ps 
+
+module MU0_ALU ( Q, M, X, Y );
+
+
+
+output [15:0]  Q;
+
+input [15:0]  Y;
+input [15:0]  X;
+input [1:0]  M;
+
+// Buses in the design
+
+wire  [15:0]  b;
+
+wire  [0:15]  net15;
+
+wire  [0:15]  net9;
+
+wire  [15:0]  a;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "MU0_ALU";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+INV  I6 ( .I(M[1]), .O(net1));
+OR2  I4[15:0] ( .O(b[15:0]), .I0(net15[0:15]), .I1(net9[0:15]));
+OR2  I5 ( .I0(M[1]), .I1(M[0]), .O(net3));
+AND2B1  I3[15:0] ( .O(net9[0:15]), .I0(Y[15:0]), .I1(net12));
+AND2  I1[15:0] ( .O(a[15:0]), .I0(net3), .I1(X[15:0]));
+AND2  I2[15:0] ( .O(net15[0:15]), .I0(net1), .I1(Y[15:0]));
+AND2  I7 ( .I0(M[1]), .I1(M[0]), .O(net12));
+adder_16bit I8 ( net013, Q[15:0], a[15:0], b[15:0], M[1]);
+
+endmodule

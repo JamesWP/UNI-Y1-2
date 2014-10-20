@@ -1,0 +1,35 @@
+( ( nil
+  version "2.1"
+  mapType "incremental"
+  repList "behavioral functional system verilog pld_verilog lai_verilog lmsi_verilog schematic symbol"
+  stopList "verilog pld_verilog lai_verilog lmsi_verilog symbol"
+  hierDelim "."
+  hierPrefix "test.top"
+  globalHierPrefix "cds_globals."
+  busRef   "ORDERED"
+  netType   "BUS"
+  leftStr  "["
+  rangeStr  ":"
+  rightStr  "]"
+ )
+( defbus
+( "M" 1 0  "M" 1 0  )
+( "F" 3 0  "F" 3 0  )
+ )
+( net
+( "F<3>" "F[3]" )
+( "F<0>" "F[0]" )
+( "F<1>" "F[1]" )
+( "F<2>" "F[2]" )
+( "M<0>" "M[0]" )
+( "M<1>" "M[1]" )
+ )
+( inst
+ )
+( model
+ )
+( term
+ )
+( param
+ )
+ )

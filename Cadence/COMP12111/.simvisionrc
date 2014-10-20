@@ -1,0 +1,9 @@
+set A [window find -type console]
+window close [lindex $A 0]
+waveform new
+browser hierarchy expand  test
+browser hierarchy expand  test.top
+browser highlight -scope test.top
+
+
+

@@ -1,0 +1,772 @@
+;******************************************************************************
+; schematic.menus - Copyright (C) 1994-2006 Cadence Design Systems, Inc.
+;                       All Rights Reserved.
+;
+; This file contains the default menu definitions for the schematic and
+; symbol editors. Some definitions reference items defined in the
+; schView.menus file. For information regarding the customization of these
+; menu items, refer to the user's guide and the file:
+;
+;     <installPath>/etc/tools/schematic/menus.doc
+;
+; $Revision: #1 $
+; $Date: 2012/07/23 $
+;
+;******************************************************************************
+
+;******************************************************************************
+; The following define the sliders that appear in more than one pulldown
+; menu set. They are defined here to avoid incorrectly changing one instance
+; of a menu item without changing all instances.
+;******************************************************************************
+ 
+schcNewItem       = '(NewCV         "&New..."                "schHiNewCellView()")
+schcCheckSave     = '(CkSave        "Chec&k and Save"        "schHiCheckAndSave()"      editOnly)
+schcSymCheckSave  = '(SymCkSave     "Chec&k and Save"        "schHiVICAndSave()"        editOnly)
+schcImportCPF     = '(ImportCPF     "Impo&rt Power Intent..." "schHiAddCPFNetSets()"    xlEditOnly)
+schcRmMarker      = '(RmMark        "Delete &Marker"         "geHiDeleteMarker()"       editOnly)
+schcRmAllMarker   = '(RmAllMarker   "Delete &All Markers..." "geHiDeleteAllMarker()"    editOnly)
+schcStretchItem   = '(StretchItem   "&Stretch"               "schHiStretch()"           editOnly)
+schcCopyItem      = '(CopyItem      "&Copy"                  "schHiCopy()")
+schcMoveItem      = '(MoveItem      "&Move"                  "schHiMove()"              editOnly)
+schcDeleteItem    = '(DeleteItem    "&Delete"                "schHiDelete()"            editOnly)
+schcDownEditItem  = '(DownEdit      "Descend &Edit..."       "schHiDescendEdit()"       canDescendOrEIP)
+schcDownReadItem  = '(DownRead      "Descend &Read..."       "schHiDescendRead()"       canDescendOrEIP)
+schcEIPItem       = '(InPlace       "Edit In &Place"         "schHiEditInPlace()"       canDescendOrEIP)
+schcWireItem      = '(WireItem      "&Wire (narrow)"         "schHiCreateWire(0.0)"     editOnly)
+schcPathItem      = '(PathItem      "Wire (wi&de)"           "schHiCreateWire(schGetEnv(\"defWideWireWidth\"))" editOnly)
+schcRenumberInsts = '(RenumberInsts "Renum&ber Instances..." "schHiRenumberInstances()" editOnly)
+schcResetInvisibleLabels = '(ResetInvisibleLabels "Reset Invisible &Labels" "schHiResetInvisibleLabels()"  editOnly)
+schcEditTextItem =  '(EditTextItem  "Direct Te&xt Edit"       "schHiEditText()"         editOnly)
+
+;******************************************************************************
+; Define often referenced slider menu items.
+;******************************************************************************
+
+schcExportSlider = '(schExportSlider "&Cellview" (
+    (FromCV     "From &Cellview..."      "schHiViewToView()")
+    (FromPins   "From &Pin List..."      "schHiPinListToView()")
+    (FromInst   "From &Instance..."      "schHiInstToView()")
+))
+
+schcExportSlider2 = '(schExportSlider2 "&Cellview" (
+    (FromCV     "From &Cellview..."      "schHiViewToView()")
+    (FromPins   "From &Pin List..."      "schHiPinListToView()")
+    (FromInst   "From &Instance..."      "schHiInstToView()" alwaysDisable)
+))
+
+schcSelectSlider = '(schSelectSlider "Se&lect" (
+    (All        "&All..."                "schHiSelectAll()")
+    (ByProp     "By &Property..."        "schHiSelectByProperty(\"select\")")
+    (Filter     "&Filter..."             "schSetSelectOptions()")
+))
+
+schcPropSlider = '(schPropSlider "&Properties" (
+    (Objects    "&Objects..."            "schHiObjectProperty()")
+    (CellView   "&Cellview..."           "schHiCellViewProperty()")
+    (PinOrder   "&Pin Order..."          "schHiEditPinOrder()"          editOnly)
+    (VHDL       "V&HDL..."               "schHiVHDLProperty()"          editOnly)
+))
+
+schcPropSymSlider = '(schPropSymSlider "&Properties" (
+    (Objects    "&Objects..."            "schHiObjectProperty()")
+    (CellView   "&Cellview..."           "schHiCellViewProperty()")
+    (PinOrder   "&Pin Order..."          "schHiEditPinOrder()"          editOnly)
+    (VHDL       "V&HDL..."               "schHiVHDLProperty()"          editOnly)
+))
+
+schcSearchSlider = '(schSearchItem "Search" (
+    (Find       "&Find..."               "schHiFind()")
+    (Replace    "R&eplace..."            "schHiReplace()"               editOnly)
+))
+
+schcPowerIntentSlider = '(schPowerIntentItem "Power &Intent" (
+    (RemoveNetsetProps   "&Remove netSet Properties"      "schHiRemoveCPFNetSets()"    xlEditOnly)
+    (PropagateSigType    "&Propagate Pin Signal Types..." "cpfHiPropagateSignalType()" xlEditOnly)
+    (RegisterSpecialCell "Register As &Special Cell..."   "cpfRegisterSpecialCell()"   xlEditOnly)
+))
+
+schcPowerIntentSymSlider = '(schPowerIntentSymItem "Power &Intent" (
+    (RemoveNetsetProps   "&Remove netSet Properties"      "schHiRemoveCPFNetSets()"    xlEditOnly)
+    (RegisterSpecialCell "Register As &Special Cell..."   "cpfRegisterSpecialCell()"   xlEditOnly)
+))
+
+schcNoteTextItem  = '(NText      "&Text..."          "schHiCreateNoteLabel()"       editOnly)
+schcNoteShapeItem = '(NShape     "&Shape..."         "schHiCreateNoteShape()"       editOnly)
+schcNoteKanjiItem = '(NKanji     "&Kanji ..."        "schHiCreateKanjiSymbol()"     editOnly)
+
+schcAddConNotes		= '(schAddConNotes 	"&Add Constraint Notes"		"_schHiAddConstraintNotes()"	validCon)
+schcRemoveConNotes	= '(schRemoveConNotes	"&Remove Constraint Notes"	"_schHiRemoveConstraintNotes()"	validCon)
+schcUpdateConNotes	= '(schUpdateConNotes	"&Update Constraint Notes"	"_schHiAddConstraintNotes()"	validCon)
+schcAddHierConNotes	= '(schAddHierConNotes	"A&dd All Constraint Notes in Hierarchy"	"_schHiAddHierConstraintNotes()"	validCon)
+schcRemoveHierConNotes	= '(schRemoveHierConNotes	"R&emove All Constraint Notes in Hierarchy"	"_schHiRemoveHierConstraintNotes()"	validCon)
+schcUpdateHierConNotes	= '(schUpdateHierConNotes	"U&pdate All Constraint Notes in Hierarchy"	"_schHiAddHierConstraintNotes()"	validCon)
+
+if( schGetEnv("enableKanjiNotes") then
+    schcNoteItem = '(schNoteItem "&Note" ( schcNoteTextItem schcNoteShapeItem schcNoteKanjiItem schcAddConNotes schcRemoveConNotes schcUpdateConNotes schcAddHierConNotes schcRemoveHierConNotes schcUpdateHierConNotes))
+    schcNoteItem1 = '(schNoteItem "&Note" ( schcNoteTextItem schcNoteShapeItem schcNoteKanjiItem ))
+else
+    schcNoteItem = '(schNoteItem "&Note" ( schcNoteTextItem schcNoteShapeItem schcAddConNotes schcRemoveConNotes schcUpdateConNotes schcAddHierConNotes schcRemoveHierConNotes schcUpdateHierConNotes))
+    schcNoteItem1 = '(schNoteItem "&Note" ( schcNoteTextItem schcNoteShapeItem ))
+)
+
+schcNetExprSlider = '(schNetExprItem "&Net Expression" (
+    (AvailProps "Available &Properties..." "schHiNetExprAvailProps()")
+    (EvalNames  "Evaluated &Names..."    "schHiNetExprEvalNames()")
+))
+
+;******************************************************************************
+; Define the Design/File pulldown for index, sheet, and symbol cellViews.
+; A unique pulldown is created per window so that the state of the items can
+; be changed per window (for the other pulldowns, the items are shared across
+; windows). Note that for each, we use the schFileMenuCB function to update the
+; menu item text for some of the items here based on the state of the data.
+;******************************************************************************
+
+schcFileMenu = '(schFileMenu "&File" (
+    schcNewItem
+    schcOpenItem
+    schcSwitchSymSch
+    schcCloseItem
+    schcSep ;;--------------------
+    schcSaveItem
+    schcSaveAsItem
+    schcDiscardItem
+    schcCheckSave
+    schcSep ;;--------------------
+    schcModeItem
+    schcSep ;;--------------------
+    schcImportCPF
+    schcExportCPF
+    schcReferences
+    schcExportHtml
+    schcExportImage
+    schcSep ;;--------------------
+    schcPlotSubmit
+    schcQueueStatus
+    schcSep ;;--------------------
+    ciwAppBookmarkPulldown
+    schcSep ;;--------------------
+    schcDesignSetDefaultAppItem
+    schcCloseAll
+) schFileMenuCB)
+
+;; file reference manager (FRM) only available under text support
+unless(env("CDS_TEXT_SUPPORT") remd('schcReferences caddr(schcFileMenu)))
+
+schcIndexFileMenu = schcFileMenu
+
+schcSymFileMenu = '(schSymFileMenu "&File" (
+    schcNewItem
+    schcOpenItem
+    schcSwitchSymSch
+    schcCloseItem
+    schcSep ;;--------------------
+    schcSaveItem
+    schcSaveAsItem
+    schcDiscardItem
+    schcSymCheckSave
+    schcSep ;;--------------------
+    schcModeItem
+    schcSep ;;--------------------
+    schcImportCPF
+    schcExportCPF
+    schcExportHtml
+    schcExportImage
+    schcSep ;;--------------------
+    schcPlotSubmit
+    schcQueueStatus
+    schcSep ;;--------------------
+    ciwAppBookmarkPulldown
+    schcSep ;;--------------------
+    schcDesignSetDefaultAppItem
+    schcCloseAll
+) schFileMenuCB)
+
+schcMSymFileMenu = schcSymFileMenu
+
+;******************************************************************************
+; Define the Migrate pulldown which allows migration of a schematic
+;******************************************************************************
+
+schcMigratePulldown = '(schMigratePulldown "&Migrate" (
+    (MigrateItem                "&Migrate..."            "_loMigrateSchematics()")))
+
+;******************************************************************************
+; Define the Window pulldown for schematic, index, and symbol windows.
+;******************************************************************************
+
+schWindow = '(schWindowMenu "&Window" (
+  (AssistSlider "&Assistants"
+    (
+      (SeparatorBar separator)
+      (ShowAllAssistants   "Show &All"    "_deShowAllAssistants()")
+      (HideAllAssistants   "&Hide All"    "_deHideAllAssistants()")
+    )
+  )
+  (ConfigSlider "&Workspaces"
+    (
+      (SeparatorBar separator)
+      (SaveConfig       "&Save As..."           "_deSaveWinConfig()")
+      (DeleteConfig     "&Delete..."            "_deDeleteWinConfig()")
+      (LoadConfig       "&Load..."              "_deLoadWinConfigCB(t)")
+      (SetDefault       "Set D&efault..."       "_deSetDefaultWinConfig()")
+      (RevertConfig     "&Revert to Saved"      "_deLoadWinConfigCB()")
+      (ToggleAssistants "Show/&Hide Assistants" "deToggleAssistants()")
+    )
+  )
+  (ToolbarsSlider "&Toolbars"
+    (
+      (SeparatorBar separator)
+      (ShowAllToolbars   "Show &All"  "_deShowAllToolbars()")
+      (HideAllToolbars   "&Hide All"  "_deHideAllToolbars()")
+    )
+  )
+  (TabsSlider "Ta&bs"
+    (
+     (SeparatorBar separator)
+     (CloseCurrentTab   "Close &Current Tab" "_deCloseCurrentTab()")
+     (CloseOtherTabs    "Close &Other Tabs"  "_deCloseOtherTabs()")
+    )
+  )
+  (SeparatorBar separator) 
+  (CopyWin "&Copy Window" "_deCopyCurrentWindow()")
+) _deRunWindowMenuCB)
+
+;******************************************************************************
+; Define the Edit pulldowns for schematic, index, and symbol windows.
+;******************************************************************************
+
+schEditPulldown = '(schEditMenu "&Edit" (
+    (UndoItem           "&Undo"                  "hiUndo()"             editOnly)
+    (RedoItem           "&Redo"                  "hiRedo()"             editOnly)
+    schcSep ;;--------------------
+    schcMoveItem
+    schcCopyItem
+    schcStretchItem
+    schcDeleteItem
+    (RotateItem         "R&otate"                "schHiRotate()"        editOnly)
+    schcEditTextItem
+    schcSep ;;--------------------
+    (SheetSizeItem      "Sheet Si&ze..."         "schHiEditSheetSize()"  editOnly)
+    (SheetTitleItem     "Sheet &Title..."        "schHiEditTitleBlock()" editOnly)
+    schcSep ;;--------------------
+    schcViewHierSlider
+    schcPropSlider
+    schcPowerIntentSlider
+    schcNetExprSlider
+    schcSelectSlider
+    schcSep ;;--------------------
+    (FlightItem         "Route Fli&ght"             "schHiRouteFlightLine()"    editOnly)
+    schcRenumberInsts
+    (LabDispItem        "Component Displa&y..."     "asaEditCompDisplay()"      )
+    (AltItem            "&Alternate View"           "schHiAlternateView()"      editOnly)
+    (UpdatePinsItem     "Update Pins From &View..." "schHiUpdatePinsFromView()" editOnly)
+    schcSep ;;--------------------
+    (Find               "&Find..."                  "schHiFind()")
+    (Replace            "R&eplace..."               "schHiReplace()"            editOnly)
+))
+
+schIndexEditPulldown = schEditPulldown
+
+schSymEditPulldown = '(schSymEditMenu "&Edit" (
+    (UndoItem           "&Undo"                   "hiUndo()"            editOnly)
+    (RedoItem           "&Redo"                   "hiRedo()"            editOnly)
+    schcSep ;;--------------------
+    schcMoveItem
+    schcCopyItem
+    (SymStretchItem     "&Stretch"                "schHiSymStretch()"    editOnly)
+    schcDeleteItem
+    (RotateItem         "R&otate"                 "schHiRotate()"        editOnly)
+    schcEditTextItem
+    schcSep ;;--------------------
+    schcViewHierSlider
+    schcPropSymSlider
+    schcPowerIntentSymSlider
+    schcSelectSlider
+    schcSep ;;--------------------
+    (OriginItem         "Ori&gin"                 "schHiSetSymbolOrigin()"   editOnly)
+    (UpdatePinsItem     "Update Pins From Vie&w..." "schHiUpdatePinsFromView()"     editOnly)
+    schcSep ;;--------------------
+    (Find               "&Find..."               "schHiFind()")
+    (Replace            "R&eplace..."            "schHiReplace()"        editOnly)
+))
+
+schMSymEditPulldown = schSymEditPulldown
+
+;******************************************************************************
+; Define the Add pulldowns for schematic, index, and symbol windows.
+;******************************************************************************
+
+schAddPulldown = '(schAddMenu "&Create" (
+    (InstItem           "&Instance..."   "schHiCreateInst()"            editOnly)
+    schcSep ;;--------------------
+    schcWireItem
+    schcPathItem
+    (NameItem           "Wire Na&me..."  "schHiCreateWireLabel()"       editOnly)
+    (WireStubItem       "Wir&e Stubs and Names" "schHiCreateWireStubs()"  editOnly)
+    (NetExprItem        "Net E&xpression..." "schHiCreateNetExpression()"  editOnly)
+    schcSep ;;--------------------
+    (PinItem            "&Pin..."        "schHiCreatePin()"             editOnly)
+    (BlockItem          "&Block..."      "schHiCreateBlockInst()"       editOnly)
+    (MapItem            "Mappin&g Schematic..." "schHiCreateMappingSchematic()"  editOnly)
+    schcExportSlider
+    (SolderItem         "&Solder Dot"    "schHiSolder()"                editOnly)
+    schcNoteItem
+    (PatchcordItem      "Pa&tchcord..."  "schHiCreatePatchcord()"       editOnly)
+    schcProbeSlider1
+    (MakeMsheet         "M&ultiSheet..."   "schHiCreateSheet()"    editOnly)
+) schCreateMenuCB)
+
+schIndexAddPulldown = '(schIndexAddMenu "&Create" (
+    (InstItem           "&Instance..."   "schHiCreateInst()"            alwaysDisable)
+    schcSep ;;--------------------
+    (WireItem      "&Wire (narrow)"         "schHiCreateWire(0.0)"     alwaysDisable)
+    (PathItem      "Wire (wi&de)"           "schHiCreateWire(schGetEnv(\"defWideWireWidth\"))" alwaysDisable)
+    (NameItem           "Wire Na&me..."  "schHiCreateWireLabel()"       alwaysDisable)
+    (WireStubItem       "Wir&e Stubs and Names" "schHiCreateWireStubs()"  alwaysDisable)
+    (NetExprItem        "Net E&xpression..." "schHiCreateNetExpression()"  alwaysDisable)
+    schcSep ;;--------------------
+    (PinItem            "&Pin..."        "schHiCreatePin()"             alwaysDisable)
+    (BlockItem          "&Block..."      "schHiCreateBlockInst()"       alwaysDisable)
+    (MapItem            "Mappin&g Schematic..." "schHiCreateMappingSchematic()"  alwaysDisable)
+    schcExportSlider2
+    (SolderItem         "&Solder Dot"    "schHiSolder()"                alwaysDisable)
+    schcNoteItem
+    (PatchcordItem      "Pa&tchcord..."  "schHiCreatePatchcord()"       alwaysDisable)
+    (schProbeSlider1 "Pr&obe" (
+      (AddNet	"Add &Net"		"geEnterAddNetProbe()" alwaysDisable)
+      (AddTerm	"Add &Pin"		"geEnterAddTermProbe()" alwaysDisable)
+      (AddInst	"Add &Instance"		"geEnterAddInstProbe()" alwaysDisable)
+      (Explain	"E&xplain"		"geExplainProbe()" alwaysDisable)
+      (RmNet	"&Remove Net"		"geEnterDeleteNetProbe()" alwaysDisable)
+      (RmTerm	"Re&move Pin"		"geEnterDeleteTermProbe()" alwaysDisable)
+      (RmInst	"Remo&ve Instance"	"geEnterDeleteInstProbe()" alwaysDisable)
+      (RmAll	"Remove &All"	        "geDeleteAllProbe(getCurrentWindow() t)" alwaysDisable)
+      (Load	"&Load..."		"geiLoadProbe()" alwaysDisable)
+      (Save	"&Save..."		"geiSaveProbe()" alwaysDisable)
+    ))
+    (MakeMsheet         "M&ultiSheet..."    "schHiCreateSheet()"    editOnly)
+))
+
+schSymAddPulldown = '(schSymAddMenu "&Create" (
+    (ShapeItem          "&Shape" (
+        (Line    "&Line"
+                 "schHiCreateSymbolShape(\"line\" \"outline\")"        editOnly)
+        (Rect    "&Rectangle"
+                 "schHiCreateSymbolShape(\"rectangle\" \"outline\")"   editOnly)
+        (Polygon "&Polygon"
+                 "schHiCreateSymbolShape(\"polygon\" \"outline\")"     editOnly)
+        (Circle  "&Circle"
+                 "schHiCreateSymbolShape(\"circle\" \"outline\")"      editOnly)
+        (Ellipse "&Ellipse"
+                 "schHiCreateSymbolShape(\"ellipse\" \"outline\")"     editOnly)
+        (Arc     "&Arc"  "schHiCreateSymbolShape(\"arc\" \"outline\")"  editOnly)
+    ))
+    (PinItem            "&Pin..."        "schHiCreateSymbolPin()"       editOnly)
+    (LabelItem          "&Label..."      "schHiCreateSymbolLabel()"     editOnly)
+    (InstBoxItem        "Selection &Box..." "schHiCreateInstBox()"      editOnly)
+    schcExportSlider2
+    (MapItem            "Mappin&g Schematic..." "schHiCreateMappingSchematic()" editOnly)
+    schcNoteItem1
+    (NetExprItem        "Net E&xpression..." "schHiCreateNetExpression()"  editOnly)
+    (DrawPinItem        "Custom Pin..."    "schHiDrawSymbolPin()"     editOnly)
+    (ImportItem         "Import S&ymbol..." "schHiCloneSymbol()"       editOnly)
+    schcProbeSlider2
+))
+
+
+;******************************************************************************
+; Define the Check pulldowns for schematic and symbol cellviews.
+;******************************************************************************
+
+schCheckPulldown = '(schCheckMenu "Chec&k" (
+    (CheckItem          "Current &Cellview"      "schHiCheck(\"run\")"  editOnly)
+    (HierItem           "&Hierarchy..."          "schHiCheckHier()"     editOnly)
+    (CVCItem            "Cross-&View..."         "schHiVIC()"           editOnly)
+    (AttachItem         "&Label Attachment..."   "schHiHiliteLabel()")
+    schcSep ;;--------------------
+    (RulesItem          "&Rules Setup..."        "schHiSRC(\"editOptions\")" editOnly)
+    schcSep ;;--------------------
+    (MFindItem          "&Find Marker..."        "schHiFindMarker()")
+    schcRmMarker
+    schcRmAllMarker
+))
+
+schSymCheckPulldown = '(schSymCheckMenu "Chec&k" (
+    (CheckItem          "Current &Cellview"      "_schHiVICCurrent()"  editOnly)
+    (CVCItem            "Cross-&View..."         "schHiVIC()"           editOnly)
+    schcSep ;;--------------------
+    (RulesItem          "&Rules Setup..."        "schHiSRC(\"editOptions\")" editOnly)
+    schcSep ;;--------------------
+    (MFindItem          "&Find Marker..."        "schHiFindMarker()")
+    schcRmMarker
+    schcRmAllMarker
+))
+
+
+;******************************************************************************
+; Define the Sheet pulldowns: non-sheet, index/sheet
+;******************************************************************************
+
+schSheetPulldown = '(schSheetMenu "&Sheet" (
+    (MakeMsheet         "Make M&ultiSheet..."    "schHiCreateSheet()"   editOnly)
+    (SizeItem           "Edit &Size..."          "schHiEditSheetSize()" editOnly)
+    (TitleItem          "Edit &Title..."         "schHiEditTitleBlock()"
+                                                                       editOnly)
+))
+
+schMSheetPulldown = '(schMSheetMenu "&Sheet" (
+    (GotoItem           "&Go To..."              "schHiGotoSheet()")
+    (PinRefItem         "Cross &Reference..."    "schHiComputePinRef()" editOnly)
+    (GoPinItem          "Go To &Pin..."          "schHiFollowPin()")
+    (MshDeleteItem      "&Delete..."             "schHiDeleteSheet()"   editOnly indexOnly)
+    (RenumItem          "Re&number..."           "schHiRenumberSheet()" editOnly indexOnly)
+    (ReseqItem          "Re&sequence"            "schHiRenumberAllSheet()" editOnly indexOnly)
+))
+
+schSSheetPulldown = '(schSSheetMenu "&Sheet" (
+    (GotoItem           "&Go To..."              "schHiGotoSheet()")
+    (PinRefItem         "Cross &Reference..."    "schHiComputePinRef()" editOnly)
+    (GoPinItem          "Go To &Pin..."          "schHiFollowPin()")
+    (MshDeleteItem      "&Delete..."             "schHiDeleteSheet()"   alwaysDisable)
+    (RenumItem          "Re&number..."           "schHiRenumberSheet()" alwaysDisable)
+    (ReseqItem          "Re&sequence"            "schHiRenumberAllSheet()" alwaysDisable)
+))
+
+
+;******************************************************************************
+; Define the menus for CS121
+;******************************************************************************
+
+NC_Vlog="NC-Verilog"
+dirAppendValue="_run1"
+simulationPulldown = '(xilinx "Xilinx" (
+     (simDesign         "Simulation"            "windowId=getCurrentWindow()
+                                                 deInstallApp(getCurrentWindow() NC_Vlog) 
+                                                 vtoolsIseGNCForm->simulateRunDir->value=strcat(windowId~>cellView~>cellName dirAppendValue)
+                                                 vtoolsIseGNCForm->simulateLib->value=windowId~>cellView~>libName
+                                                 vtoolsIseGNCForm->simulateCell->value=windowId~>cellView~>cellName
+                                                 vtoolsIseGNCForm->simulateView->value=windowId~>cellView~>viewName 
+                                                 vtoolsIseGNCForm->simulateRunDir->enabled='nil
+                                                 vtoolsIseGNCForm->runDirBrowser->enabled='nil
+                                                 vtoolsIseGNCForm->simulateLib->enabled='nil
+                                                 vtoolsIseGNCForm->simulateCell->enabled='nil
+                                                 vtoolsIseGNCForm->simulateView->enabled='nil
+                                                 vtoolsIseGNCForm->designBrowse->enabled='nil
+                                                 vlogifVicNCFirstSetting='t
+                                                                                             " )
+
+))
+
+
+;******************************************************************************
+; Using the definitions from above and the schView.menus file, combine them to
+; define the pulldown menu sets for a) regular schematic menus, b) index
+; schematic menus, c) sheet schematic menus, and d) symbol menus. Note that
+; the definitions below do not include the File & Windows pulldowns are
+; handled separately.
+;******************************************************************************
+
+
+
+schMenus = '(
+    schEditPulldown
+    schcViewMenu
+    schAddPulldown
+    schCheckPulldown
+    schSOptionPulldown
+    simulationPulldown
+)
+
+;when(isCallable('_schTestForVLMMenu) && _schTestForVLMMenu()
+;        schMenus = append1(schMenus 'schcMigratePulldown))
+
+schMenus = append1(schMenus 'schcHelpMenu)
+
+
+schIndexMenus = '(
+    schEditPulldown
+    schcViewMenu
+    schIndexAddPulldown
+    schCheckPulldown
+    schMSheetPulldown
+    schSOptionPulldown
+    schcHelpMenu
+)
+
+schSheetMenus = '(
+    schEditPulldown
+    schcViewMenu
+    schAddPulldown
+    schCheckPulldown
+    schSSheetPulldown
+    schSOptionPulldown
+    schcHelpMenu
+)
+
+schSymbolMenus = '(
+    schSymEditPulldown
+    schcViewMenu
+    schSymAddPulldown
+    schSymCheckPulldown
+    schcOptionPulldown
+    schcHelpMenu
+)
+
+schMSymbolMenus = '(
+    schMSymEditPulldown
+    schcViewMenu
+    schIndexAddPulldown
+    schSymCheckPulldown
+    schcOptionPulldown
+    schcHelpMenu
+)
+
+
+;******************************************************************************
+; Define the popUp menus. These definitions provide the editor with the
+; template for the default popUps. User can copy and modify these definitions
+; in their own menu files or use the existing method for registering their
+; own popUp menus to the schematic editor.  Since these are the default popUp
+; definitions for the editor, the SKILL symbols for the popUp menus should not
+; be changed since there is code within the editor that references them.
+;
+; The popUp menus are categorized and the category names (listed in comments)
+; match those defined in the global schOSMCategories variable.
+;******************************************************************************
+
+; Category: "instance"
+schcInstPopUp = '(schInstPopUp "Instance" (
+    schcStretchItem
+    schcCopyItem
+    schcDeleteItem
+    schcPopUpPropItem
+    schcDownEditItem
+    schcDownReadItem
+    schcEIPItem
+    (PUFromInst         "Create CellView..."    "schHiInstToView()" editOnly)
+    (PURotateItem       "Rotate"                "schHiRotate()"     editOnly)
+    schcZoomToSelSet
+) _ciSchPopUpCB)
+
+; Category: "wire"
+schcWirePopUp = '(schWirePopUp "Wire" (
+    schcStretchItem
+    schcWireItem
+    schcPathItem
+    schcDeleteItem
+    schcPopUpPropItem
+    (PUAddNameItem      "Add Name..."   "schHiCreateWireLabel()" editOnly)
+    (PUAddProbeItem     "Add Probe"     "geEnterAddNetProbe()")
+    (PURemoveProbeItem  "Remove Probe"  "geEnterDeleteNetProbe()")
+    (PURemoveAllProbeItem "Remove All Probes" "geDeleteAllProbe()")
+) _ciSchPopUpCB)
+
+; Category: "schPin"
+schcPinPopUp = '(schPinPopUp "Pin" (
+    schcWireItem
+    schcPathItem
+    schcPopUpPropItem
+    schcDeleteItem
+    schcStretchItem
+    schcCopyItem
+) _ciSchPopUpCB)
+
+; Category: "instPin"
+schcInstPinPopUp = '(schInstPinPopUp "Instance Pin" (
+    schcWireItem
+    schcPathItem
+    schcPopUpPropItem
+    (PUFindMarkerItem2  "Find Marker..."        "schHiFindMarker()")
+    schcZoomOutItem
+    schcFitItem
+) _ciSchPopUpCB)
+
+; Category: "label"
+schcNamePopUp = '(schNamePopUp "Name" (
+    schcEditTextItem
+    schcPopUpPropItem
+    schcMoveItem
+    schcDeleteItem
+    schcZoomOutItem
+    schcFitItem
+))
+
+; Category: "marker"
+schcMarkerPopUp = '(schMarkerPopUp "Marker" (
+    (PUFindMarkerItem   "Find..."               "schHiFindMarker()")
+    (PUDelMarkerItem    "Delete"                "geHiDeleteMarker()" editOnly)
+    schcZoomOutItem
+    schcFitItem
+))
+
+; Category: "schStandard"
+schcPopUp = '(schPopUp "Schematic" (
+    (PUAddInstItem      "Add Instance..."       "schHiCreateInst()"    editOnly)
+    (PUAddPinItem       "Add Pin..."            "schHiCreatePin()"     editOnly)
+    schcWireItem
+    schcStretchItem
+    schcMoveItem
+    schcCopyItem
+    schcFitItem
+    schcZoomOutItem
+))
+
+; Category: "symStandard"
+schcSymbolPopUp = '(schSymbolPopUp "Symbol" (
+    schcMoveItem
+    schcCopyItem
+    schcFitItem
+    schcPanItem
+    schcZoom2InItem
+    schcZoomOutItem
+))
+
+; Category: "symPin"
+schcSymbolPinPopUp = '(schSymbolPinPopUp "Pin" (
+    schcDeleteItem
+    schcCopyItem
+    schcMoveItem
+    (PULineItem         "Shape Line"
+                "schHiCreateSymbolShape(\"line\" \"outline\")"  editOnly)
+    schcPopUpPropItem
+    schcZoomOutItem
+    schcFitItem
+))
+
+; Category: "shapes"
+schcSymbolShapePopUp = '(schSymbolShapePopUp "Shape" (
+    schcDeleteItem
+    schcCopyItem
+    schcMoveItem
+    (PULineItem         "Shape Line"
+                "schHiCreateSymbolShape(\"line\" \"outline\")"  editOnly)
+    (PUArcItem          "Shape Arc"
+                "schHiCreateSymbolShape(\"arc\" \"outline\")"   editOnly)
+    (PURectItem         "Shape Arc"
+                "schHiCreateSymbolShape(\"rectangle\" \"outline\")" editOnly)
+    schcFitItem
+))
+
+; Category: "symNone"
+schcSymbolNonePopUp = '(schSymbolNonePopUp "Symbol" (
+    schcZoomInItem
+    schcZoomOutItem
+    schcFitItem
+    (PUUndoItem         "Undo"                  "hiUndo()"      editOnly)
+    (PUSelFilterItem    "Select Filter..."      "schSetSelectOptions()")
+    (PUSymPinItem       "Add Pin..."
+                        "schHiCreateSymbolPin()"                editOnly)
+    (PUUp               "Return"                "schHiReturn()" canReturn)
+))
+
+; Category: "indexDefault"
+schcIndexPopUp = '(schIndexPopUp "Index" (
+    schcZoomInItem
+    schcZoomOutItem
+    schcFitItem
+    (PUUp               "Return"                "schHiReturn()" canReturn)
+))
+
+; Category: "indexSheet"
+schcIndexSheetPopUp = '(schIndexSheetPopUp "Sheet" (
+    (PUGotoItem         "Go To" "schHiGotoSheet(schGetEnv(\"gotoSheet\"))")
+    (PURenumItem        "Edit Number..."        "schHiRenumberSheet()" editOnly)
+    schcFitItem
+))
+
+; Category: "indexPin"
+schcIndexPinPopUp = '(schIndexPinPopUp "Pin" (
+    schcPopUpPropItem
+    (PUGotoPin          "Go To Pin"             "schHiFollowPin()")
+))
+
+; Category: "indexInstPin"
+schcIndexInstPinPopUp = '(schIndexInstPinPopUp "Pin" (
+    schcPopUpPropItem
+    schcZoomOutItem
+    schcFitItem
+))
+
+; Category: "border"
+schcBorderPopUp = '(schBorderPopUp "Border" (
+    (PUBorderSizeItem   "Edit Size..."   "schHiEditSheetSize()" editOnly)
+    (PUBorderTitleItem  "Edit Title..." "schHiEditTitleBlock()" editOnly)
+    schcFitItem
+))
+
+; Category: "schUnknown", "symUnknown"
+schcUnknownPopUp = '(schUnknownPopUp "Default" (
+    schcZoomInItem
+    schcZoomOutItem
+    schcFitItem
+    schcDeleteItem
+    schcCopyItem
+    schcMoveItem
+))
+
+; Category: "schMultiple"
+schcMultiPopUp = '(schMultiPopUp "Multiple" (
+    (PUDeselectAllItem  "Deselect All"          "geDeselectAllFig()")
+    schcDeleteItem
+    schcStretchItem
+    schcCopyItem
+    schcMoveItem
+    schcPopUpPropItem
+    (PUFindMarkerItem   "Find..."               "schHiFindMarker()")
+    schcZoomToSelSet
+    schcZoomOutItem
+    schcFitItem
+) _ciSchPopUpCB)
+
+; Category: "symMultiple"
+schcSymbolMultiPopUp = '(schSymbolMultiPopUp "Multiple" (
+    (PUDeselectAllItem  "Deselect All"          "geDeselectAllFig()")
+    schcDeleteItem
+    schcCopyItem
+    schcMoveItem
+    schcPopUpPropItem
+    schcZoomToSelSet
+    schcZoomOutItem
+    schcFitItem
+))
+
+; Category: "schNone"
+schcNonePopUp = '(schNonePopUp "Schematic" (
+    schcZoomInItem
+    schcZoomOutItem
+    schcFitItem
+    (PUAddInstItem      "Add Instance..."       "schHiCreateInst()"    editOnly)
+    (PUAddPinItem       "Add Pin..."            "schHiCreatePin()"     editOnly)
+    (PUExportCVItem     "Create Cellview..."    "schHiInstToView()"    editOnly)
+    schcWireItem
+    (PUUp               "Return"                "schHiReturn()" canReturn)
+) _ciSchPopUpCB)
+
+;******************************************************************************
+; Define the list of schematic popUps.
+;******************************************************************************
+
+schPopUps = '(
+    schcWirePopUp
+    schcInstPopUp
+    schcInstPinPopUp
+    schcNamePopUp
+    schcMarkerPopUp
+    schcNonePopUp
+    schcPinPopUp
+    schcMultiPopUp
+    schcUnknownPopUp
+    schcSymbolShapePopUp
+    schcSymbolPinPopUp
+    schcSymbolNonePopUp
+    schcSymbolMultiPopUp
+    schcPopUp
+    schcSymbolPopUp
+    schcIndexPopUp
+    schcIndexInstPinPopUp
+    schcIndexPinPopUp
+    schcIndexSheetPopUp
+    schcBorderPopUp
+)

@@ -1,0 +1,23 @@
+// Library - COMP12111, Cell - adder_16bit, View - schematic
+// LAST TIME SAVED: Oct 17 16:03:58 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module adder_16bit ( cout, s, a, b, cin );
+
+output  cout;
+
+input  cin;
+
+output [15:0]  s;
+
+input [15:0]  a;
+input [15:0]  b;
+
+
+specify 
+    specparam CDS_LIBNAME  = "COMP12111";
+    specparam CDS_CELLNAME = "adder_16bit";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

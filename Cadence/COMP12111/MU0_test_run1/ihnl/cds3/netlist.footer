@@ -1,0 +1,6 @@
+adder_4bit I3 ( cout, s[15:12], a[15:12], b[15:12], net9);
+adder_4bit I2 ( net9, s[11:8], a[11:8], b[11:8], net10);
+adder_4bit I1 ( net10, s[7:4], a[7:4], b[7:4], net11);
+adder_4bit I0 ( net11, s[3:0], a[3:0], b[3:0], cin);
+
+endmodule

@@ -1,0 +1,34 @@
+CADENCE IHNL01070
+$model
+OR3 OR3
+MU0_lib/MU0/schematic MU0
+AND4B1 AND4B1
+MU0_lib/MU0_control/schematic MU0_control
+COMP12111/fulladder/schematic fulladder
+BUF BUF
+MU0_lib/MU0_datapath/schematic MU0_datapath
+OR2B1 OR2B1
+NOR4 NOR4
+AND4 AND4
+INV INV
+AND4B3 AND4B3
+AND2B1 AND2B1
+MU0_lib/MU0_ALU/schematic MU0_ALU
+OR4 OR4
+OR2 OR2
+AND4B2 AND4B2
+MU0_lib/decoder_3_8/schematic decoder_3_8
+MU0_lib/MU0_conditions/schematic MU0_conditions
+AND2 AND2
+COMP12111/adder_4bit/schematic adder_4bit
+FDC FDC
+COMP12111/halfadder/schematic halfadder
+MU0_lib/MU0_test/schematic MU0_test
+COMP12111/adder_16bit/schematic adder_16bit
+FDCE FDCE
+GND GND
+$endmodel
+$net
+$endnet
+$param
+$endparam

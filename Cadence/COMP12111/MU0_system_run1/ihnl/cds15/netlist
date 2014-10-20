@@ -1,0 +1,34 @@
+// Library - MU0_lib, Cell - mux_8_1, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:55 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module mux_8_1 ( Q, D[0], D[1], D[2], D[3], D[4], D[5], D[6], D[7],
+     S[2:0] );
+
+output  Q;
+
+
+input [0:7]  D;
+input [2:0]  S;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "mux_8_1";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+OR2  I10 ( .I0(net14), .I1(net19), .O(Q));
+OR4  I8 ( .I0(net44), .I1(net34), .I2(net29), .I3(net24), .O(net19));
+OR4  I9 ( .I0(net59), .I1(net54), .I2(net49), .I3(net39), .O(net14));
+AND4B3  I7 ( .I0(S[2]), .I1(S[1]), .I2(S[0]), .I3(D[0]), .O(net24));
+AND4B2  I3 ( .I0(S[1]), .I1(S[0]), .I2(S[2]), .I3(D[4]), .O(net39));
+AND4B2  I5 ( .I0(S[2]), .I1(S[0]), .I2(S[1]), .I3(D[2]), .O(net34));
+AND4B2  I6 ( .I0(S[2]), .I1(S[1]), .I2(S[0]), .I3(D[1]), .O(net29));
+AND4B1  I1 ( .I0(S[0]), .I1(S[2]), .I2(S[1]), .I3(D[6]), .O(net54));
+AND4B1  I2 ( .I0(S[1]), .I1(S[2]), .I2(S[0]), .I3(D[5]), .O(net49));
+AND4B1  I4 ( .I0(S[2]), .I1(S[1]), .I2(S[0]), .I3(D[3]), .O(net44));
+AND4  I0 ( .I0(S[2]), .I1(S[1]), .I2(S[0]), .I3(D[7]), .O(net59));
+
+endmodule

@@ -1,0 +1,59 @@
+tmLCVDPLList = '((nil viewType "schematicSymbol" viewName "symbol"
+    cellName "GND" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "INV" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "OR2" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "AND2B1" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "AND2" libName "spartan3"
+    )
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "BUF" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "NOR4" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "OR4" libName "spartan3"
+    ) 
+    (nil viewType "netlist" viewName "functional"
+    cellName "mux_2to1_16bit" libName "MU0_lib"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "FDCE" libName "spartan3"
+    )
+    (nil viewType "netlist" viewName "functional"
+    cellName "mux_2to1_12bit" libName "MU0_lib"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "AND4B1" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "AND4B2" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "AND4B3" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "AND4" libName "spartan3"
+    )
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "FDC" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "OR3" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "OR2B1" libName "spartan3"
+    ) 
+    (nil viewType "netlist" viewName "functional"
+    cellName "memory_1" libName "MU0_lib"
+    )
+)
+xxxInternalGlobAliasList = '(nil)

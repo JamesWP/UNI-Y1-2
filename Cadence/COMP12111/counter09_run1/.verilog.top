@@ -1,0 +1,16 @@
+
+`timescale 1ns / 10ps
+
+module test;
+
+
+wire  carry;
+
+reg  clock, enable, reset;
+
+wire [3:0]  digits;
+
+
+
+counter09 top(digits, carry, clock, reset, enable); 
+ 

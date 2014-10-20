@@ -1,0 +1,19 @@
+// Verilog HDL and netlist files of
+// "COMP12111 sevensegmentdecoder functional"
+
+// HDL models
+
+// HDL file for COMP12111, sevensegmentdecoder, functional.
+/home/mbax3jp2/Cadence/COMP12111/COMP12111/sevensegmentdecoder/functional/verilog.v
+
+
+
+// End HDL models
+
+// Netlisted models
+
+// netlist file - COMP12111, sevensegmentdecoder, functional.
+ihnl/cds0/netlist
+
+
+// End HDL models

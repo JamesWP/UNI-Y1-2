@@ -1,0 +1,19 @@
+// Library - MU0_lib, Cell - MU0_conditions, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:53 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module MU0_conditions ( N, Z, Acc );
+
+output  N, Z;
+
+
+input [15:0]  Acc;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "MU0_conditions";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

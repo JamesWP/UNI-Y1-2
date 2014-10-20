@@ -1,0 +1,28 @@
+
+`timescale 1ns / 10ps
+
+module test;
+
+
+wire  enable_count, reset_count;
+
+reg  clock, reset;
+
+wire [5:0]  lightseq;
+
+reg [3:0]  count;
+
+
+
+trafficlight top(reset_count, enable_count, lightseq, clock, reset, 
+     count); 
+ 
+
+`ifdef verilog
+
+ //please enter any additional verilog stimulus in the /home/mbax3jp2/Cadence/COMP12111/trafficlight_run1/testfixture.verilog file
+`include 
+     "/home/mbax3jp2/Cadence/COMP12111/trafficlight_run1/testfixture.verilog"
+`endif
+
+endmodule 

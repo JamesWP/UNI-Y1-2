@@ -1,0 +1,13 @@
+cellViewCounterTable = makeTable('cellViewCounterTableType nil)
+cellViewCounterTable['("COMP12111" "adder_4bit" "schematic" )] =  1191
+cellViewCounterTable['("spartan3" "OR2" "symbol" )] =  51
+cellViewCounterTable['("COMP12111" "adder_4bit" "symbol" )] =  97
+cellViewCounterTable['("spartan3" "AND2" "symbol" )] =  50
+cellViewCounterTable['("basic" "ipin" "symbol" )] =  22
+cellViewCounterTable['("spartan3" "INV" "symbol" )] =  40
+cellViewCounterTable['("COMP12111" "halfadder" "symbol" )] =  71
+cellViewCounterTable['("COMP12111" "halfadder" "schematic" )] =  571
+cellViewCounterTable['("COMP12111" "adder_16bit" "schematic" )] =  1107
+cellViewCounterTable['("COMP12111" "fulladder" "symbol" )] =  85
+cellViewCounterTable['("basic" "opin" "symbol" )] =  22
+cellViewCounterTable['("COMP12111" "fulladder" "schematic" )] =  868

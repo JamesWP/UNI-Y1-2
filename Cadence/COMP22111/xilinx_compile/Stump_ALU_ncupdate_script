@@ -1,0 +1,5 @@
+ncupdate(64): 12.10-s005: (c) Copyright 1995-2012 Cadence Design Systems, Inc.
+ncupdate: *W,CNTCHM: Unable to make '/dev/null' executable (Operation not permitted).
+ncupdate: *W,HDLWRN: The hdl.var variable NCELABOPTS may interfere with the script's operation.
+/opt/cadtools5/cds_root/INCISIV121/tools/bin/64bit/ncvlog -MESSAGES -CDSLIB !!./home/mbassjsp/Cadence/COMP22111/cds.lib!!../../cds.lib!! -LINEDEBUG -ERRORMAX 15 -STATUS -PRAGMA -INCDIR ./bin -NOCOPYRIGHT -SPECIFICUNIT stump.Stump_ALU:module /home/mbax3jp2/Cadence/COMP22111/src/Stump/Stump_ALU.v
+ncelab -CDSLIB ./cds.lib -WORK stump -TIMESCALE 1ns/1ps -ACCESS rwc stump.Stump_ALU glbl -NOCOPYRIGHT -SNAPSHOT stump.Stump_ALU:module

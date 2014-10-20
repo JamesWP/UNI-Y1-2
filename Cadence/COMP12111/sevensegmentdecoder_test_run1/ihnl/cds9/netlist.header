@@ -1,0 +1,49 @@
+// Library - ENGLAB_12111, Cell - Board, View - schematic
+// LAST TIME SAVED: Sep 20 12:22:51 2013
+// NETLIST TIME: Nov  7 16:03:30 2013
+`timescale 1ns / 10ps 
+
+module Board ( Clk_1Hz, Clk_1MHz, Clk_1kHz, Clk_10Hz, Clk_50MHz,
+     Clk_100Hz, Key_row1, Key_row2, Key_row3, Key_row4, Bargraph,
+     Digit0, Digit1, Digit2, Digit3, Digit4, Digit5, Display_en,
+     Traffic_lights );
+
+output  Clk_1Hz, Clk_1MHz, Clk_1kHz, Clk_10Hz, Clk_50MHz, Clk_100Hz;
+
+
+output [7:0]  Key_row2;
+output [7:0]  Key_row3;
+output [7:0]  Key_row4;
+output [7:0]  Key_row1;
+
+input [7:0]  Digit4;
+input [7:0]  Bargraph;
+input [7:0]  Digit0;
+input [5:0]  Traffic_lights;
+input [7:0]  Digit2;
+input [7:0]  Digit1;
+input [7:0]  Digit3;
+input [7:0]  Digit5;
+input [5:0]  Display_en;
+
+// Buses in the design
+
+wire  [0:7]  net42;
+
+wire  [5:0]  TL;
+
+wire  [2:0]  Seg_En_R;
+
+wire  [7:0]  Segs_L;
+
+wire  [7:0]  Segs_R;
+
+wire  [2:0]  Seg_En_L;
+
+
+specify 
+    specparam CDS_LIBNAME  = "ENGLAB_12111";
+    specparam CDS_CELLNAME = "Board";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

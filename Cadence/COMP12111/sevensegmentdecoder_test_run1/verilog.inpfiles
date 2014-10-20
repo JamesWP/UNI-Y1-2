@@ -1,0 +1,44 @@
+// Verilog HDL and netlist files of
+// "COMP12111 sevensegmentdecoder_test schematic"
+
+// HDL models
+
+// HDL file - COMP12111, sevensegmentdecoder, functional.
+/home/mbax3jp2/Cadence/COMP12111/COMP12111/sevensegmentdecoder/functional/verilog.v
+
+// HDL file - ENGLAB_12111, key_scan, functional.
+/cadtools5/xil_cds_design_kits/ENGLAB_12111/key_scan/functional/verilog.v
+
+// HDL file - ENGLAB_12111, display_scan, functional.
+/cadtools5/xil_cds_design_kits/ENGLAB_12111/display_scan/functional/verilog.v
+
+
+// End HDL models
+
+// Netlisted models
+
+// netlist file - ENGLAB_12111, Sevenseg_R, schematic.
+ihnl/cds0/netlist
+// netlist file - ENGLAB_12111, Sevenseg_L, schematic.
+ihnl/cds1/netlist
+// netlist file - ENGLAB_12111, Keys, schematic.
+ihnl/cds2/netlist
+// netlist file - ENGLAB_12111, Keyboard, schematic.
+ihnl/cds3/netlist
+// netlist file - ENGLAB_12111, count_10, schematic.
+ihnl/cds4/netlist
+// netlist file - ENGLAB_12111, count_5, schematic.
+ihnl/cds5/netlist
+// netlist file - ENGLAB_12111, Clocks, schematic.
+ihnl/cds6/netlist
+// netlist file - ENGLAB_12111, Bargraph, schematic.
+ihnl/cds7/netlist
+// netlist file - ENGLAB_12111, Traffic_lights, schematic.
+ihnl/cds8/netlist
+// netlist file - ENGLAB_12111, Board, schematic.
+ihnl/cds9/netlist
+// netlist file - COMP12111, sevensegmentdecoder_test, schematic.
+ihnl/cds10/netlist
+
+
+// End HDL models

@@ -1,0 +1,12 @@
+// Verilog HDL and netlist files of
+// "COMP12111 fulladder schematic"
+
+// Netlisted models
+
+// netlist file - COMP12111, halfadder, schematic.
+ihnl/cds0/netlist
+// netlist file - COMP12111, fulladder, schematic.
+ihnl/cds1/netlist
+
+
+// End HDL models

@@ -1,0 +1,8 @@
+CADENCE IHNL01070
+$model
+COMP12111/trafficlight/functional trafficlight
+$endmodel
+$net
+$endnet
+$param
+$endparam

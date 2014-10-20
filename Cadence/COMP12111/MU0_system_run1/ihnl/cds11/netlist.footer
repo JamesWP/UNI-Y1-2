@@ -1,0 +1,5 @@
+OR2  I2 ( .I0(net11), .I1(net8), .O(Q));
+AND2B1  I1 ( .I0(sel), .I1(D0), .O(net8));
+AND2  I0 ( .I0(D1), .I1(sel), .O(net11));
+
+endmodule

@@ -1,0 +1,14 @@
+
+`timescale 1ns / 10ps
+
+module test;
+
+
+wire  cout, s;
+
+reg  a, b, cin;
+
+
+
+fulladder top(cout, s, a, b, cin); 
+ 

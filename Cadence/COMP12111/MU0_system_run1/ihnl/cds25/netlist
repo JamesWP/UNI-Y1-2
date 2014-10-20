@@ -1,0 +1,36 @@
+// Library - MU0_lib, Cell - MU0, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:53 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module MU0 ( Addr, Dout, Halted, Rd, Wr, Clk, Din, Reset );
+
+output  Halted, Rd, Wr;
+
+input  Clk, Reset;
+
+output [15:0]  Dout;
+output [11:0]  Addr;
+
+input [15:0]  Din;
+
+// Buses in the design
+
+wire  [1:0]  M;
+
+wire  [0:3]  net16;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "MU0";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+MU0_datapath Datapath ( Addr[11:0], Dout[15:0], net16[0:3], N, Z,
+     Acc_En, Clk, Din[15:0], IR_En, M[1:0], PC_En, Reset, X_sel, Y_sel,
+     addr_sel);
+MU0_control Control ( Acc_En, Halted, IR_En, M[1:0], PC_En, Rd, Wr,
+     X_sel, Y_sel, addr_sel, Clk, net16[0:3], N, Reset, Z);
+
+endmodule

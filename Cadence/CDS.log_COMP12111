@@ -1,0 +1,78 @@
+\# Program start time UTC 2013.12.16 10:46:51.215
+\# Local time Monday 16 December 2013, 10:46 am
+\o Program:		@(#)$CDS: virtuoso version 6.1.5-64b 09/26/2012 02:00 (sjfdl052) $
+\o Hierarchy:		/cadtools5/cds_root/IC615/tools.lnx86/dfII/
+\o Sub version:		sub-version  IC6.1.5-64b.500.132  (64-bit addresses)
+\# Host name (type):	kilburn (x86_64)
+\# Operating system:	Linux 2.6.32-358.18.1.el6.x86_64 #1 SMP Tue Aug 27 14:23:09 CDT 2013
+\# X display name (WxH):	localhost:11.0 (3200x1080)
+\# Available geometry:			TL(0:0) BR(3199:1079)
+\# X server:			Colin Harrison
+\# Depth of Visual (Root):	24 (24)
+\# Number of Planes Used:	24
+\# X version:		11.0 (vendor release 60900031)
+\# X resource pool:	base 0x800000, mask 0x1fffff (2097151), shift 0
+\# 			current id 0x0, current max 0x1ffffa (2097146)
+\# Memory report:	maximum data size 18446744073709551615 (0xffffffffffffffff) bytes
+\# Memory report:	maximum process size 18446744073709551615 (0xffffffffffffffff) bytes
+\# Initial sbrk value:	283353088 (0x10e3a000) bytes
+\# Available memory:	132904376 (0x7ebf5b8) kilobytes
+\# System memory:	134080748 (0x7fde8ec) kilobytes
+\# Maximum memory size:	137298685952 (0x1ff7a3b000) bytes
+\# Max mem available:	136142995456 (0x1fb2c14000) bytes
+\# Initial memory used:	48914432 (0x2ea6000) bytes
+\# Qt version:		4.5.3
+\# Window Manager:	other
+\# User Name:		mbax3jp2
+\o Working Directory:	kilburn:/home/mbax3jp2/Cadence/COMP12111
+\# Process Id:		10400
+\o 
+\o COPYRIGHT © 1992-2012  CADENCE DESIGN SYSTEMS INC.  ALL RIGHTS RESERVED.
+\o           © 1992-2012  UNIX SYSTEMS Laboratories INC.,
+\o                          Reproduced with permission.
+\o 
+\o This Cadence Design Systems program and online documentation are
+\o proprietary/confidential information and may be disclosed/used only
+\o as authorized in a license agreement controlling such use and disclosure.
+\o 
+\o           RESTRICTED RIGHTS NOTICE (SHORT FORM)
+\o Use/reproduction/disclosure is subject to restriction
+\o set forth at FAR 1252.227-19 or its equivalent.
+\# Available memory:	132902812 (0x7ebef9c) kilobytes UTC 2013.12.16 10:46:52.449
+\# Memory report: Maximum memory size now 136144470016 (0x1fb2d7c000) bytes, UTC 2013.12.16 10:46:52.449
+\o Loading geView.cxt 
+\o Loading menuBuilder.cxt 
+\o Loading schView.cxt 
+\o Loading selectSv.cxt 
+\o Loading LVS.cxt 
+\o Loading layerProc.cxt 
+\o Loading xlUI.cxt 
+\o Loading auCore.cxt 
+\o Loading dcm.cxt 
+\o Loading vhdl.cxt 
+\o Loading seismic.cxt 
+\o Loading ci.cxt 
+\o Loading ams.cxt 
+\o Virtuoso Framework License (111) was checked out successfully. Total checkout time was 0.05s.
+\# Memory report: now 181968896 (0xad8a000) bytes, UTC 2013.12.16 10:47:53.157
+\p > 
+\a hiResizeWindow(window(1) list(1668:289 2393:482))
+\r t
+\a hiResizeWindow(window(1) list(1676:447 2401:640))
+\r t
+\a hiResizeWindow(window(1) list(1610:447 2335:640))
+\r t
+\a hiQuit()
+\p > 
+\a hiDBoxCancel(hiQuitDBox)
+\r t
+\r nil
+\a hiResizeWindow(window(1) list(1494:449 2219:642))
+\r t
+\a hiQuit()
+\p > 
+\a hiDBoxOK(hiQuitDBox)
+\r t
+\o 
+\# Memory report: on exit 181407744 (0xad01000) bytes, UTC 2013.12.16 10:50:22.742
+\# Memory report: peak usage 181968896 (0xad8a000) bytes

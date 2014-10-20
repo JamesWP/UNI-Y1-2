@@ -1,0 +1,19 @@
+// Library - ENGLAB_12111, Cell - Sevenseg_L, View - schematic
+// LAST TIME SAVED: Aug 19 11:24:48 2013
+// NETLIST TIME: Dec 12 15:35:38 2013
+`timescale 1ns / 10ps 
+
+module Sevenseg_L ( DP, En[0], En[1], En[2], Seg_A, Seg_B, Seg_C,
+     Seg_D, Seg_E, Seg_F, Seg_G );
+
+input  DP, Seg_A, Seg_B, Seg_C, Seg_D, Seg_E, Seg_F, Seg_G;
+
+input [0:2]  En;
+
+
+specify 
+    specparam CDS_LIBNAME  = "ENGLAB_12111";
+    specparam CDS_CELLNAME = "Sevenseg_L";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

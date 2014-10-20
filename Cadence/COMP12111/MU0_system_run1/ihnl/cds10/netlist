@@ -1,0 +1,35 @@
+// Library - MU0_lib, Cell - count_10, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:54 2013
+// NETLIST TIME: Dec 12 15:35:38 2013
+`timescale 1ns / 10ps 
+
+module count_10_schematic ( D, TC, CE, Clk, Clr );
+
+output  TC;
+
+input  CE, Clk, Clr;
+
+output [3:0]  D;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "count_10";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+FDCE  I14 ( .C(Clk), .CE(CE), .CLR(Clr), .Q(D[3]), .D(net22));
+FDCE  I15 ( .C(Clk), .CE(CE), .CLR(Clr), .Q(D[2]), .D(net25));
+FDCE  I17 ( .C(Clk), .CE(CE), .CLR(Clr), .Q(D[0]), .D(net31));
+FDCE  I16 ( .C(Clk), .CE(CE), .CLR(Clr), .Q(D[1]), .D(net19));
+OR2  I9 ( .I0(net0137), .I1(net12), .O(net22));
+AND3  I10 ( .I0(D[2]), .I1(D[1]), .I2(D[0]), .O(net12));
+AND3  I12 ( .I0(D[3]), .I1(D[0]), .I2(CE), .O(TC));
+AND2  I8 ( .I0(D[1]), .I1(D[0]), .O(net16));
+AND2B1  I6 ( .I0(D[3]), .I1(net30), .O(net19));
+AND2B1  I13 ( .I0(D[0]), .I1(D[3]), .O(net0137));
+XOR2  I5 ( .O(net30), .I0(D[1]), .I1(D[0]));
+XOR2  I7 ( .I0(D[2]), .I1(net16), .O(net25));
+INV  I4 ( .I(D[0]), .O(net31));
+
+endmodule

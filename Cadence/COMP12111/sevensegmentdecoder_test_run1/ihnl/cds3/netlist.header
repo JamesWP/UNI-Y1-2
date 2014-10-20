@@ -1,0 +1,28 @@
+// Library - ENGLAB_12111, Cell - Keyboard, View - schematic
+// LAST TIME SAVED: Aug 19 11:24:49 2013
+// NETLIST TIME: Nov  7 16:03:30 2013
+`timescale 1ns / 10ps 
+
+module Keyboard ( Key_row1, Key_row2, Key_row3, Key_row4, Clk );
+
+
+input  Clk;
+
+output [7:0]  Key_row2;
+output [7:0]  Key_row4;
+output [7:0]  Key_row3;
+output [7:0]  Key_row1;
+
+// Buses in the design
+
+wire  [0:5]  net021;
+
+wire  [0:5]  net4;
+
+
+specify 
+    specparam CDS_LIBNAME  = "ENGLAB_12111";
+    specparam CDS_CELLNAME = "Keyboard";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

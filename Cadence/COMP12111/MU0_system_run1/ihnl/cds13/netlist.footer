@@ -1,0 +1,57 @@
+OR5  I39 ( .I0(digit[3]), .I1(digit[2]), .I2(key_0), .I3(digit[1]),
+     .I4(digit[0]), .O(key_digit));
+BUF  I23 ( .I(key_row4[4]), .O(key_0));
+BUF  I24 ( .I(key_row3[5]), .O(key_1));
+BUF  I25 ( .I(key_row3[4]), .O(key_2));
+BUF  I26 ( .I(key_row3[3]), .O(key_3));
+BUF  I27 ( .I(key_row2[5]), .O(key_4));
+BUF  I28 ( .I(key_row2[4]), .O(key_5));
+BUF  I29 ( .I(key_row2[3]), .O(key_6));
+BUF  I30 ( .I(key_row1[5]), .O(key_7));
+BUF  I31 ( .I(key_row3[6]), .O(key_F));
+BUF  I32 ( .I(key_row3[7]), .O(key_E));
+BUF  I33 ( .I(key_row2[6]), .O(key_D));
+BUF  I34 ( .I(key_row2[7]), .O(key_C));
+BUF  I35 ( .I(key_row1[6]), .O(key_B));
+BUF  I36 ( .I(key_row1[7]), .O(key_A));
+BUF  I37 ( .I(key_row1[3]), .O(key_9));
+BUF  I38 ( .I(key_row1[4]), .O(key_8));
+BUF  I42 ( .I(key_row4[0]), .O(key_eq));
+BUF  I41 ( .I(key_row4[1]), .O(key_mi));
+BUF  I40 ( .I(key_row4[2]), .O(key_pl));
+OR2  I10 ( .I0(net97), .I1(net92), .O(net49));
+OR2  I19 ( .I0(net82), .I1(net87), .O(digit[0]));
+OR2  I20 ( .I0(net72), .I1(net77), .O(digit[1]));
+OR2  I21 ( .I0(net62), .I1(net67), .O(digit[2]));
+OR2  I22 ( .I0(net52), .I1(net57), .O(digit[3]));
+OR2  I43 ( .I0(key_pl), .I1(key_mi), .O(key_func));
+OR4  I0 ( .I0(key_row1[7]), .I1(key_row1[6]), .I2(key_row1[5]),
+     .I3(key_row1[4]), .O(net137));
+OR4  I1 ( .I0(key_row1[3]), .I1(key_row1[2]), .I2(key_row1[1]),
+     .I3(key_row1[0]), .O(net132));
+OR4  I2 ( .I0(key_row2[7]), .I1(key_row2[6]), .I2(key_row2[5]),
+     .I3(key_row2[4]), .O(net127));
+OR4  I3 ( .I0(key_row2[3]), .I1(key_row2[2]), .I2(key_row2[1]),
+     .I3(key_row2[0]), .O(net122));
+OR4  I4 ( .I0(key_row3[7]), .I1(key_row3[6]), .I2(key_row3[5]),
+     .I3(key_row3[4]), .O(net117));
+OR4  I5 ( .I0(key_row3[3]), .I1(key_row3[2]), .I2(key_row3[1]),
+     .I3(key_row3[0]), .O(net112));
+OR4  I6 ( .I0(key_row4[7]), .I1(key_row4[6]), .I2(key_row4[5]),
+     .I3(key_row4[4]), .O(net107));
+OR4  I7 ( .I0(key_row4[3]), .I1(key_row4[2]), .I2(key_row4[1]),
+     .I3(key_row4[0]), .O(net102));
+OR4  I8 ( .I0(net137), .I1(net132), .I2(net127), .I3(net122),
+     .O(net97));
+OR4  I9 ( .I0(net117), .I1(net112), .I2(net107), .I3(net102),
+     .O(net92));
+OR4  I11 ( .I0(key_7), .I1(key_5), .I2(key_3), .I3(key_1), .O(net87));
+OR4  I12 ( .I0(key_F), .I1(key_D), .I2(key_B), .I3(key_9), .O(net82));
+OR4  I13 ( .I0(key_7), .I1(key_6), .I2(key_3), .I3(key_2), .O(net77));
+OR4  I14 ( .I0(key_F), .I1(key_E), .I2(key_B), .I3(key_A), .O(net72));
+OR4  I15 ( .I0(key_7), .I1(key_6), .I2(key_5), .I3(key_4), .O(net67));
+OR4  I16 ( .I0(key_F), .I1(key_E), .I2(key_D), .I3(key_C), .O(net62));
+OR4  I17 ( .I0(key_B), .I1(key_A), .I2(key_9), .I3(key_8), .O(net57));
+OR4  I18 ( .I0(key_F), .I1(key_E), .I2(key_D), .I3(key_C), .O(net52));
+
+endmodule

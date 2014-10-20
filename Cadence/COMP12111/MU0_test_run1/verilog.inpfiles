@@ -1,0 +1,44 @@
+// Verilog HDL and netlist files of
+// "MU0_lib MU0_test schematic"
+
+// HDL models
+
+// HDL file - MU0_lib, memory_1, functional.
+/home/mbax3jp2/Cadence/COMP12111/MU0_lib/memory_1/functional/verilog.v
+
+// HDL file - MU0_lib, mux_2to1_12bit, functional.
+/home/mbax3jp2/Cadence/COMP12111/MU0_lib/mux_2to1_12bit/functional/verilog.v
+
+// HDL file - MU0_lib, mux_2to1_16bit, functional.
+/home/mbax3jp2/Cadence/COMP12111/MU0_lib/mux_2to1_16bit/functional/verilog.v
+
+
+// End HDL models
+
+// Netlisted models
+
+// netlist file - COMP12111, halfadder, schematic.
+ihnl/cds0/netlist
+// netlist file - COMP12111, fulladder, schematic.
+ihnl/cds1/netlist
+// netlist file - COMP12111, adder_4bit, schematic.
+ihnl/cds2/netlist
+// netlist file - COMP12111, adder_16bit, schematic.
+ihnl/cds3/netlist
+// netlist file - MU0_lib, MU0_ALU, schematic.
+ihnl/cds4/netlist
+// netlist file - MU0_lib, MU0_conditions, schematic.
+ihnl/cds5/netlist
+// netlist file - MU0_lib, MU0_datapath, schematic.
+ihnl/cds6/netlist
+// netlist file - MU0_lib, decoder_3_8, schematic.
+ihnl/cds7/netlist
+// netlist file - MU0_lib, MU0_control, schematic.
+ihnl/cds8/netlist
+// netlist file - MU0_lib, MU0, schematic.
+ihnl/cds9/netlist
+// netlist file - MU0_lib, MU0_test, schematic.
+ihnl/cds10/netlist
+
+
+// End HDL models

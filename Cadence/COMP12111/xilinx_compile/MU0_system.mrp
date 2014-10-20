@@ -1,0 +1,559 @@
+Release 8.1i Map I.24
+Xilinx Mapping Report File for Design 'MU0_system'
+
+Design Information
+------------------
+Command Line   : map -u -p xc3s200-ft256-4 -cm area -pr b -k 4 -c 100 MU0_system
+Target Device  : xc3s200
+Target Package : ft256
+Target Speed   : -4
+Mapper Version : spartan3 -- $Revision: 1.34 $
+Mapped Date    : Thu Dec 12 15:36:18 2013
+
+Design Summary
+--------------
+Number of errors:      0
+Number of warnings:    8
+Logic Utilization:
+  Total Number Slice Registers:       157 out of   3,840    4%
+    Number used as Flip Flops:                   154
+    Number used as Latches:                        3
+  Number of 4 input LUTs:             417 out of   3,840   10%
+Logic Distribution:
+  Number of occupied Slices:                          278 out of   1,920   14%
+    Number of Slices containing only related logic:     278 out of     278  100%
+    Number of Slices containing unrelated logic:          0 out of     278    0%
+      *See NOTES below for an explanation of the effects of unrelated logic
+Total Number 4 input LUTs:            418 out of   3,840   10%
+  Number used as logic:                417
+  Number used as a route-thru:           1
+  Number of bonded IOBs:               49 out of     173   28%
+    IOB Flip Flops:                     6
+  Number of Block RAMs:                4 out of      12   33%
+  Number of GCLKs:                     1 out of       8   12%
+
+Total equivalent gate count for design:  265,992
+Additional JTAG gate count for IOBs:  2,352
+Peak Memory Usage:  133 MB
+
+NOTES:
+
+   Related logic is defined as being logic that shares connectivity - e.g. two
+   LUTs are "related" if they share common inputs.  When assembling slices,
+   Map gives priority to combine logic that is related.  Doing so results in
+   the best timing performance.
+
+   Unrelated logic shares no connectivity.  Map will only begin packing
+   unrelated logic into a slice once 99% of the slices are occupied through
+   related logic packing.
+
+   Note that once logic distribution reaches the 99% level through related
+   logic packing, this does not mean the device is completely utilized.
+   Unrelated logic packing will then begin, continuing until all usable LUTs
+   and FFs are occupied.  Depending on your timing budget, increased levels of
+   unrelated logic packing may adversely affect the overall timing performance
+   of your design.
+
+Table of Contents
+-----------------
+Section 1 - Errors
+Section 2 - Warnings
+Section 3 - Informational
+Section 4 - Removed Logic Summary
+Section 5 - Removed Logic
+Section 6 - IOB Properties
+Section 7 - RPMs
+Section 8 - Guide Report
+Section 9 - Area Group Summary
+Section 10 - Modular Design Summary
+Section 11 - Timing Report
+Section 12 - Configuration String Information
+Section 13 - Additional Device Resource Counts
+
+Section 1 - Errors
+------------------
+
+Section 2 - Warnings
+--------------------
+WARNING:LIT:243 - Logical network port_in<5> has no load.
+WARNING:LIT:395 - The above warning message base_net_load_rule is repeated 22
+   more times for the following (max. 5 shown):
+   port_in<4>,
+   net85,
+   port_in<1>,
+   port_in<3>,
+   net134
+   To see the details of these warning messages, please use the -detail switch.
+WARNING:PhysDesignRules:372 - Gated clock. Clock net Inputs/net190 is sourced by
+   a combinatorial pin. This is not good design practice. Use the CE pin to
+   control the loading of data into the flip-flop.
+WARNING:PhysDesignRules:367 - The signal <net134> is incomplete. The signal does
+   not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <Processor/Datapath/I0/net013> is
+   incomplete. The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <Inputs/net153> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <net85> is incomplete. The signal does
+   not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <Inputs/I8/net49> is incomplete. The
+   signal does not drive any load pins in the design.
+
+Section 3 - Informational
+-------------------------
+INFO:MapLib:562 - No environment variables are currently set.
+INFO:MapLib:535 - The following Virtex BUFG(s) is/are being retargetted to
+   Virtex2 BUFGMUX(s) with input tied to I0 and Select pin tied to constant 0:
+   BUFG symbol "I1/I1/I21" (output signal=net134)
+INFO:LIT:244 - All of the single ended outputs in this design are using slew
+   rate limited output drivers. The delay on speed critical single ended outputs
+   can be dramatically reduced by designating them as fast outputs in the
+   schematic.
+
+Section 4 - Removed Logic Summary
+---------------------------------
+  64 block(s) removed
+ 144 block(s) optimized away
+  67 signal(s) removed
+
+Section 5 - Removed Logic
+-------------------------
+
+The trimmed logic report below shows the logic removed from your design due to
+sourceless or loadless signals, and VCC or ground connections.  If the removal
+of a signal or symbol results in the subsequent removal of an additional signal
+or symbol, the message explaining that second removal will be indented.  This
+indentation will be repeated as a chain of related logic is removed.
+
+To quickly locate the original cause for the removal of a chain of logic, look
+above the place where that logic is listed in the trimming report, then locate
+the lines that are least indented (begin at the leftmost edge).
+
+The signal "net139" is loadless and has been removed.
+ Loadless block "I1/I1/I4" (FF) removed.
+  The signal "I1/I1/net6" is loadless and has been removed.
+   Loadless block "I1/I1/I5" (BUF) removed.
+The signal "net138" is loadless and has been removed.
+ Loadless block "I1/I1/I20" (FF) removed.
+  The signal "I1/I1/net0120" is loadless and has been removed.
+   Loadless block "I1/I1/I17/I12" (AND) removed.
+    The signal "I1/I1/net040<0>" is loadless and has been removed.
+     Loadless block "I1/I1/I17/I14" (FF) removed.
+      The signal "I1/I1/CE_10Hz" is loadless and has been removed.
+       Loadless block "I1/I1/I16/I12" (AND) removed.
+        The signal "I1/I1/net045<0>" is loadless and has been removed.
+         Loadless block "I1/I1/I16/I14" (FF) removed.
+          The signal "I1/I1/CE_100Hz" is loadless and has been removed.
+           Loadless block "I1/I1/I15/I12" (AND) removed.
+            The signal "I1/I1/net050<0>" is loadless and has been removed.
+             Loadless block "I1/I1/I15/I14" (FF) removed.
+              The signal "I1/I1/I15/net22" is loadless and has been removed.
+               Loadless block "I1/I1/I15/I9" (OR) removed.
+                The signal "I1/I1/I15/net0137" is loadless and has been removed.
+                 Loadless block "I1/I1/I15/I13" (AND) removed.
+                  The signal "I1/I1/net050<3>" is loadless and has been removed.
+                   Loadless block "I1/I1/I15/I17" (FF) removed.
+                    The signal "I1/I1/I15/net31" is loadless and has been removed.
+                     Loadless block "I1/I1/I15/I4" (BUF) removed.
+                    The signal "I1/I1/net051" is loadless and has been removed.
+                     Loadless block "I1/I1/I18" (ZERO) removed.
+                The signal "I1/I1/I15/net12" is loadless and has been removed.
+                 Loadless block "I1/I1/I15/I10" (AND) removed.
+                  The signal "I1/I1/net050<1>" is loadless and has been removed.
+                   Loadless block "I1/I1/I15/I15" (FF) removed.
+                    The signal "I1/I1/I15/net25" is loadless and has been removed.
+                     Loadless block "I1/I1/I15/I7" (XOR) removed.
+                      The signal "I1/I1/I15/net16" is loadless and has been removed.
+                       Loadless block "I1/I1/I15/I8" (AND) removed.
+                        The signal "I1/I1/net050<2>" is loadless and has been removed.
+                         Loadless block "I1/I1/I15/I16" (FF) removed.
+                          The signal "I1/I1/I15/net19" is loadless and has been removed.
+                           Loadless block "I1/I1/I15/I6" (AND) removed.
+                            The signal "I1/I1/I15/net30" is loadless and has been removed.
+                             Loadless block "I1/I1/I15/I5" (XOR) removed.
+          The signal "I1/I1/I16/net22" is loadless and has been removed.
+           Loadless block "I1/I1/I16/I9" (OR) removed.
+            The signal "I1/I1/I16/net0137" is loadless and has been removed.
+             Loadless block "I1/I1/I16/I13" (AND) removed.
+              The signal "I1/I1/net045<3>" is loadless and has been removed.
+               Loadless block "I1/I1/I16/I17" (FF) removed.
+                The signal "I1/I1/I16/net31" is loadless and has been removed.
+                 Loadless block "I1/I1/I16/I4" (BUF) removed.
+            The signal "I1/I1/I16/net12" is loadless and has been removed.
+             Loadless block "I1/I1/I16/I10" (AND) removed.
+              The signal "I1/I1/net045<1>" is loadless and has been removed.
+               Loadless block "I1/I1/I16/I15" (FF) removed.
+                The signal "I1/I1/I16/net25" is loadless and has been removed.
+                 Loadless block "I1/I1/I16/I7" (XOR) removed.
+                  The signal "I1/I1/I16/net16" is loadless and has been removed.
+                   Loadless block "I1/I1/I16/I8" (AND) removed.
+                    The signal "I1/I1/net045<2>" is loadless and has been removed.
+                     Loadless block "I1/I1/I16/I16" (FF) removed.
+                      The signal "I1/I1/I16/net19" is loadless and has been removed.
+                       Loadless block "I1/I1/I16/I6" (AND) removed.
+                        The signal "I1/I1/I16/net30" is loadless and has been removed.
+                         Loadless block "I1/I1/I16/I5" (XOR) removed.
+      The signal "I1/I1/I17/net22" is loadless and has been removed.
+       Loadless block "I1/I1/I17/I9" (OR) removed.
+        The signal "I1/I1/I17/net0137" is loadless and has been removed.
+         Loadless block "I1/I1/I17/I13" (AND) removed.
+          The signal "I1/I1/net040<3>" is loadless and has been removed.
+           Loadless block "I1/I1/I17/I17" (FF) removed.
+            The signal "I1/I1/I17/net31" is loadless and has been removed.
+             Loadless block "I1/I1/I17/I4" (BUF) removed.
+        The signal "I1/I1/I17/net12" is loadless and has been removed.
+         Loadless block "I1/I1/I17/I10" (AND) removed.
+          The signal "I1/I1/net040<1>" is loadless and has been removed.
+           Loadless block "I1/I1/I17/I15" (FF) removed.
+            The signal "I1/I1/I17/net25" is loadless and has been removed.
+             Loadless block "I1/I1/I17/I7" (XOR) removed.
+              The signal "I1/I1/I17/net16" is loadless and has been removed.
+               Loadless block "I1/I1/I17/I8" (AND) removed.
+                The signal "I1/I1/net040<2>" is loadless and has been removed.
+                 Loadless block "I1/I1/I17/I16" (FF) removed.
+                  The signal "I1/I1/I17/net19" is loadless and has been removed.
+                   Loadless block "I1/I1/I17/I6" (AND) removed.
+                    The signal "I1/I1/I17/net30" is loadless and has been removed.
+                     Loadless block "I1/I1/I17/I5" (XOR) removed.
+  The signal "I1/I1/net077" is loadless and has been removed.
+   Loadless block "I1/I1/I19" (BUF) removed.
+The signal "net031" is loadless and has been removed.
+ Loadless block "I1/I1/I24" (FF) removed.
+  The signal "I1/I1/net023" is loadless and has been removed.
+   Loadless block "I1/I1/I25" (BUF) removed.
+The signal "net030" is loadless and has been removed.
+ Loadless block "I1/I1/I23" (FF) removed.
+  The signal "I1/I1/net022" is loadless and has been removed.
+   Loadless block "I1/I1/I22" (BUF) removed.
+The signal "Inputs/net232" is sourceless and has been removed.
+The signal "I1/I1/net17" is sourceless and has been removed.
+The signal "I1/I1/net021" is sourceless and has been removed.
+
+The trimmed logic reported below is either:
+   1. part of a cycle
+   2. part of disabled logic
+   3. a side-effect of other trimmed logic
+
+The signal "net71<0>" is unused and has been removed.
+ Unused block "I11<15>" (ZERO) removed.
+The signal "net71<5>" is unused and has been removed.
+ Unused block "I11<10>" (ZERO) removed.
+The signal "net71<8>" is unused and has been removed.
+ Unused block "I11<7>" (ZERO) removed.
+The signal "net71<9>" is unused and has been removed.
+ Unused block "I11<6>" (ZERO) removed.
+The signal "net71<4>" is unused and has been removed.
+ Unused block "I11<11>" (ZERO) removed.
+The signal "net71<12>" is unused and has been removed.
+ Unused block "I11<3>" (ZERO) removed.
+The signal "net71<1>" is unused and has been removed.
+ Unused block "I11<14>" (ZERO) removed.
+The signal "net71<3>" is unused and has been removed.
+ Unused block "I11<12>" (ZERO) removed.
+The signal "net71<2>" is unused and has been removed.
+ Unused block "I11<13>" (ZERO) removed.
+The signal "net71<10>" is unused and has been removed.
+ Unused block "I11<5>" (ZERO) removed.
+The signal "net71<11>" is unused and has been removed.
+ Unused block "I11<4>" (ZERO) removed.
+The signal "net71<13>" is unused and has been removed.
+ Unused block "I11<2>" (ZERO) removed.
+The signal "net71<14>" is unused and has been removed.
+ Unused block "I11<1>" (ZERO) removed.
+The signal "net71<15>" is unused and has been removed.
+ Unused block "I11<0>" (ZERO) removed.
+The signal "net71<7>" is unused and has been removed.
+ Unused block "I11<8>" (ZERO) removed.
+The signal "net71<6>" is unused and has been removed.
+ Unused block "I11<9>" (ZERO) removed.
+
+Optimized Block(s):
+TYPE 		BLOCK
+GND 		I1/I1/I14
+VCC 		I1/I1/I6
+GND 		I1/I1/I7
+GND 		I12/XST_GND
+VCC 		I12/XST_VCC
+GND 		I19
+GND 		I20<0>
+GND 		I20<1>
+GND 		I20<2>
+GND 		I20<3>
+BUF 		I24<0>
+BUF 		I24<1>
+BUF 		I24<2>
+BUF 		I24<3>
+BUF 		I24<4>
+BUF 		I24<5>
+BUF 		I24<6>
+BUF 		I24<7>
+BUF 		I24<8>
+BUF 		I24<9>
+GND 		I28
+BUF 		I4<0>
+BUF 		I4<10>
+BUF 		I4<11>
+BUF 		I4<12>
+BUF 		I4<13>
+BUF 		I4<14>
+BUF 		I4<15>
+BUF 		I4<1>
+BUF 		I4<2>
+BUF 		I4<3>
+BUF 		I4<4>
+BUF 		I4<5>
+BUF 		I4<6>
+BUF 		I4<7>
+BUF 		I4<8>
+BUF 		I4<9>
+GND 		I5<0>
+GND 		I5<1>
+GND 		I5<2>
+GND 		I5<3>
+BUF 		I7<0>
+BUF 		I7<10>
+BUF 		I7<11>
+BUF 		I7<12>
+BUF 		I7<13>
+BUF 		I7<14>
+BUF 		I7<15>
+BUF 		I7<1>
+BUF 		I7<2>
+BUF 		I7<3>
+BUF 		I7<4>
+BUF 		I7<5>
+BUF 		I7<6>
+BUF 		I7<7>
+BUF 		I7<8>
+BUF 		I7<9>
+BUF 		I8<0>
+BUF 		I8<10>
+BUF 		I8<11>
+BUF 		I8<1>
+BUF 		I8<2>
+BUF 		I8<3>
+BUF 		I8<4>
+BUF 		I8<5>
+BUF 		I8<6>
+BUF 		I8<7>
+BUF 		I8<8>
+BUF 		I8<9>
+GND 		I9
+VCC 		Inputs/I17<0>
+VCC 		Inputs/I17<1>
+VCC 		Inputs/I17<2>
+VCC 		Inputs/I17<3>
+VCC 		Inputs/I17<4>
+GND 		Inputs/I25
+BUF 		Inputs/I26<0>
+BUF 		Inputs/I26<1>
+BUF 		Inputs/I26<2>
+BUF 		Inputs/I26<3>
+VCC 		Inputs/I27
+GND 		Inputs/I28
+GND 		Memory/XST_GND
+VCC 		Memory/XST_VCC
+GND 		Processor/Datapath/I11<0>
+GND 		Processor/Datapath/I11<1>
+GND 		Processor/Datapath/I11<2>
+GND 		Processor/Datapath/I11<3>
+AND4B1 		display_mux<0>/I2
+AND4B2 		display_mux<0>/I3
+AND4B1 		display_mux<0>/I4
+AND4B1 		display_mux<10>/I2
+AND4B2 		display_mux<10>/I3
+AND4B1 		display_mux<10>/I4
+AND4B1 		display_mux<11>/I2
+AND4B2 		display_mux<11>/I3
+AND4B1 		display_mux<11>/I4
+AND4 		display_mux<12>/I0
+AND4B1 		display_mux<12>/I2
+AND4B2 		display_mux<12>/I3
+AND4B1 		display_mux<12>/I4
+AND4B3 		display_mux<12>/I7
+AND4 		display_mux<13>/I0
+AND4B1 		display_mux<13>/I2
+AND4B2 		display_mux<13>/I3
+AND4B1 		display_mux<13>/I4
+AND4B3 		display_mux<13>/I7
+AND4 		display_mux<14>/I0
+AND4B1 		display_mux<14>/I2
+AND4B2 		display_mux<14>/I3
+AND4B1 		display_mux<14>/I4
+AND4B3 		display_mux<14>/I7
+AND4 		display_mux<15>/I0
+AND4B1 		display_mux<15>/I2
+AND4B2 		display_mux<15>/I3
+AND4B1 		display_mux<15>/I4
+AND4B3 		display_mux<15>/I7
+AND4B1 		display_mux<1>/I2
+AND4B2 		display_mux<1>/I3
+AND4B1 		display_mux<1>/I4
+AND4B1 		display_mux<2>/I2
+AND4B2 		display_mux<2>/I3
+AND4B1 		display_mux<2>/I4
+AND4B1 		display_mux<3>/I2
+AND4B2 		display_mux<3>/I3
+AND4B1 		display_mux<3>/I4
+AND4B1 		display_mux<4>/I2
+AND4B2 		display_mux<4>/I3
+AND4B1 		display_mux<4>/I4
+AND4B1 		display_mux<5>/I2
+AND4B2 		display_mux<5>/I3
+AND4B1 		display_mux<5>/I4
+AND4B1 		display_mux<6>/I2
+AND4B2 		display_mux<6>/I3
+AND4B1 		display_mux<6>/I4
+AND4B1 		display_mux<7>/I2
+AND4B2 		display_mux<7>/I3
+AND4B1 		display_mux<7>/I4
+AND4B1 		display_mux<8>/I2
+AND4B2 		display_mux<8>/I3
+AND4B1 		display_mux<8>/I4
+AND4B1 		display_mux<9>/I2
+AND4B2 		display_mux<9>/I3
+AND4B1 		display_mux<9>/I4
+
+To enable printing of redundant blocks removed and signals merged, set the
+detailed map report option and rerun map.
+
+Section 6 - IOB Properties
+--------------------------
+
++------------------------------------------------------------------------------------------------------------------------+
+| IOB Name                           | Type    | Direction | IO Standard | Drive    | Slew | Reg (s)  | Resistor | IOB   |
+|                                    |         |           |             | Strength | Rate |          |          | Delay |
++------------------------------------------------------------------------------------------------------------------------+
+| I1/I0/net10                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I0/net12                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I0/net14                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I0/net16                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I0/net18                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I0/net20                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I0/net22                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I0/net24                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I1/net24                        | IOB     | INPUT     | LVCMOS25    |          |      |          |          |       |
+| I1/I2/I0/net3                      | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I2/I0/net5                      | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I2/I0/net7                      | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I2/I0/net9                      | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I2/I0/net11                     | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I2/I0/net13                     | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I2/I0/net27                     | IOB     | INPUT     | LVCMOS25    |          |      | INFF1    |          | IFD   |
+| I1/I2/I0/net28                     | IOB     | INPUT     | LVCMOS25    |          |      | INFF1    |          | IFD   |
+| I1/I2/I0/net29                     | IOB     | INPUT     | LVCMOS25    |          |      | INFF1    |          | IFD   |
+| I1/I2/I0/net30                     | IOB     | INPUT     | LVCMOS25    |          |      | INFF1    |          | IFD   |
+| I1/I2/I0/net31                     | IOB     | INPUT     | LVCMOS25    |          |      | INFF1    |          | IFD   |
+| I1/I2/I0/net32                     | IOB     | INPUT     | LVCMOS25    |          |      | INFF1    |          | IFD   |
+| I1/I3/net4                         | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net047                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net049                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net051                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net053                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net055                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net057                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net059                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net061                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net063                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I3/net065                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net4                         | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net047                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net049                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net051                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net053                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net055                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net057                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net059                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net061                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net063                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I4/net065                       | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I5/net7                         | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I5/net9                         | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I5/net11                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I5/net13                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I5/net15                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
+| I1/I5/net17                        | IOB     | OUTPUT    | LVCMOS25    | 12       | SLOW |          |          |       |
++------------------------------------------------------------------------------------------------------------------------+
+
+Section 7 - RPMs
+----------------
+
+Section 8 - Guide Report
+------------------------
+Guide not run on this design.
+
+Section 9 - Area Group Summary
+------------------------------
+No area groups were found in this design.
+
+Section 10 - Modular Design Summary
+-----------------------------------
+Modular Design not used for this design.
+
+Section 11 - Timing Report
+--------------------------
+This design was not run using timing mode.
+
+Section 12 - Configuration String Details
+--------------------------
+Use the "-detail" map option to print out Configuration Strings
+
+Section 13 - Additional Device Resource Counts
+----------------------------------------------
+Number of JTAG Gates for IOBs = 49
+Number of Equivalent Gates for Design = 265,992
+Number of RPM Macros = 0
+Number of Hard Macros = 0
+DCIRESETs = 0
+CAPTUREs = 0
+BSCANs = 0
+STARTUPs = 0
+DCMs = 0
+GCLKs = 1
+ICAPs = 0
+18X18 Multipliers = 0
+Block RAMs = 4
+Total Registers (Flops & Latches in Slices & IOBs) not driven by LUTs = 78
+IOB Dual-Rate Flops not driven by LUTs = 0
+IOB Dual-Rate Flops = 0
+IOB Slave Pads = 0
+IOB Master Pads = 0
+IOB Latches not driven by LUTs = 0
+IOB Latches = 0
+IOB Flip Flops not driven by LUTs = 6
+IOB Flip Flops = 6
+Unbonded IOBs = 0
+Bonded IOBs = 49
+XORs = 0
+CARRY_INITs = 0
+CARRY_SKIPs = 0
+CARRY_MUXes = 0
+Shift Registers = 0
+Static Shift Registers = 0
+Dynamic Shift Registers = 0
+16x1 ROMs = 0
+16x1 RAMs = 0
+32x1 RAMs = 0
+Dual Port RAMs = 0
+MUXFs = 16
+MULT_ANDs = 0
+4 input LUTs used as Route-Thrus = 1
+4 input LUTs = 417
+Slice Latches not driven by LUTs = 3
+Slice Latches = 3
+Slice Flip Flops not driven by LUTs = 72
+Slice Flip Flops = 154
+SliceMs = 0
+SliceLs = 278
+Slices = 278
+F6 Muxes = 0
+F5 Muxes = 16
+F8 Muxes = 0
+F7 Muxes = 0
+Number of LUT signals with 4 loads = 11
+Number of LUT signals with 3 loads = 34
+Number of LUT signals with 2 loads = 40
+Number of LUT signals with 1 load = 268
+NGM Average fanout of LUT = 2.29
+NGM Maximum fanout of LUT = 48
+NGM Average fanin for LUT = 3.3957
+Number of LUT symbols = 417

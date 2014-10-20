@@ -1,0 +1,38 @@
+// Library - MU0_lib, Cell - MU0_datapath, View - schematic
+// LAST TIME SAVED: Dec  5 16:00:03 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module MU0_datapath ( Addr, Dout, F, N, Z, Acc_En, Clk, Din, IR_En, M,
+     PC_En, Reset, X_sel, Y_sel, addr_sel );
+
+output  N, Z;
+
+input  Acc_En, Clk, IR_En, PC_En, Reset, X_sel, Y_sel, addr_sel;
+
+output [15:0]  Dout;
+output [11:0]  Addr;
+output [3:0]  F;
+
+input [15:0]  Din;
+input [1:0]  M;
+
+// Buses in the design
+
+wire  [15:0]  Acc;
+
+wire  [15:0]  IR;
+
+wire  [15:0]  Y;
+
+wire  [15:0]  PC;
+
+wire  [15:0]  ALU;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "MU0_datapath";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

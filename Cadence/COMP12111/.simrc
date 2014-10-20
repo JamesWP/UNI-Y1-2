@@ -1,0 +1,12 @@
+simVerilogPwrNetList = '("vdd!")
+simVerilogGndNetList = '("gnd!")
+simNCVerilogOptFile = strcat(CAD_REF_DIR "/Cadence/reffiles/include")
+simNCVerilogLibDir = "/opt/cadtools5/xil_cds_design_kits/verilog/unisims"
+simVerilogSimPrecisionValue = 10
+simVerilogSimPrecisionUnit = "ps"
+simNCVerilogReadAccess = t
+simNCVerilogWriteAccess = t
+simNCVerilogConnectAccess = t 
+simNCVerilogSimBinary = strcat(CAD_REF_DIR "/Cadence/scripts/CS_ncxlmode")
+
+

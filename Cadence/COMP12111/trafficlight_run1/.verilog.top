@@ -1,0 +1,19 @@
+
+`timescale 1ns / 10ps
+
+module test;
+
+
+wire  enable_count, reset_count;
+
+reg  clock, reset;
+
+wire [5:0]  lightseq;
+
+reg [3:0]  count;
+
+
+
+trafficlight top(reset_count, enable_count, lightseq, clock, reset, 
+     count); 
+ 

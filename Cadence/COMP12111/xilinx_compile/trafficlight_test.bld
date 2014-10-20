@@ -1,0 +1,185 @@
+Release 8.1i ngdbuild I.24
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+
+Command Line: ngdbuild -sd /tmp -dd _ngo -aul -nt timestamp -p xc3s200-ft256-4
+trafficlight_test 
+
+Executing edif2ngd -aul "trafficlight_test.edn" "_ngo/trafficlight_test.ngo"
+Release 8.1i - edif2ngd I.24
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+INFO:NgdBuild - Release 8.1i edif2ngd I.24
+INFO:NgdBuild - Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+Adding pads to all top level port signals...
+Writing module to "_ngo/trafficlight_test.ngo"...
+Reading NGO file
+'/home/mbax3jp2/Cadence/COMP12111/xilinx_compile/_ngo/trafficlight_test.ngo' ...
+Loading design module
+"/home/mbax3jp2/Cadence/COMP12111/xilinx_compile/display_scan.ngc"...
+Loading design module
+"/home/mbax3jp2/Cadence/COMP12111/xilinx_compile/key_scan.ngc"...
+Loading design module
+"/home/mbax3jp2/Cadence/COMP12111/xilinx_compile/trafficlight.ngc"...
+Loading design module
+"/home/mbax3jp2/Cadence/COMP12111/xilinx_compile/counter09.ngc"...
+INFO:NgdBuild:889 - Pad net 'I0/I3/net061' is not connected to an external port
+   in this design.  A new port 'I0/I3/net061' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net049' is not connected to an external port
+   in this design.  A new port 'I0/I3/net049' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net063' is not connected to an external port
+   in this design.  A new port 'I0/I3/net063' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net051' is not connected to an external port
+   in this design.  A new port 'I0/I3/net051' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net057' is not connected to an external port
+   in this design.  A new port 'I0/I3/net057' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net047' is not connected to an external port
+   in this design.  A new port 'I0/I3/net047' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net065' is not connected to an external port
+   in this design.  A new port 'I0/I3/net065' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net4' is not connected to an external port in
+   this design.  A new port 'I0/I3/net4' has been added and is connected to this
+   signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net059' is not connected to an external port
+   in this design.  A new port 'I0/I3/net059' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net053' is not connected to an external port
+   in this design.  A new port 'I0/I3/net053' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I3/net055' is not connected to an external port
+   in this design.  A new port 'I0/I3/net055' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I5/net15' is not connected to an external port
+   in this design.  A new port 'I0/I5/net15' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I5/net9' is not connected to an external port in
+   this design.  A new port 'I0/I5/net9' has been added and is connected to this
+   signal.
+INFO:NgdBuild:889 - Pad net 'I0/I5/net17' is not connected to an external port
+   in this design.  A new port 'I0/I5/net17' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I5/net13' is not connected to an external port
+   in this design.  A new port 'I0/I5/net13' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I5/net11' is not connected to an external port
+   in this design.  A new port 'I0/I5/net11' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I5/net7' is not connected to an external port in
+   this design.  A new port 'I0/I5/net7' has been added and is connected to this
+   signal.
+INFO:NgdBuild:889 - Pad net 'I0/I0/net16' is not connected to an external port
+   in this design.  A new port 'I0/I0/net16' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I0/net22' is not connected to an external port
+   in this design.  A new port 'I0/I0/net22' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I0/net14' is not connected to an external port
+   in this design.  A new port 'I0/I0/net14' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I0/net18' is not connected to an external port
+   in this design.  A new port 'I0/I0/net18' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I0/net10' is not connected to an external port
+   in this design.  A new port 'I0/I0/net10' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I0/net20' is not connected to an external port
+   in this design.  A new port 'I0/I0/net20' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I0/net12' is not connected to an external port
+   in this design.  A new port 'I0/I0/net12' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I0/net24' is not connected to an external port
+   in this design.  A new port 'I0/I0/net24' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I1/net24' is not connected to an external port
+   in this design.  A new port 'I0/I1/net24' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net11' is not connected to an external
+   port in this design.  A new port 'I0/I2/I0/net11' has been added and is
+   connected to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net30' is not connected to an external
+   port in this design.  A new port 'I0/I2/I0/net30' has been added and is
+   connected to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net31' is not connected to an external
+   port in this design.  A new port 'I0/I2/I0/net31' has been added and is
+   connected to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net13' is not connected to an external
+   port in this design.  A new port 'I0/I2/I0/net13' has been added and is
+   connected to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net9' is not connected to an external port
+   in this design.  A new port 'I0/I2/I0/net9' has been added and is connected
+   to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net27' is not connected to an external
+   port in this design.  A new port 'I0/I2/I0/net27' has been added and is
+   connected to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net29' is not connected to an external
+   port in this design.  A new port 'I0/I2/I0/net29' has been added and is
+   connected to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net7' is not connected to an external port
+   in this design.  A new port 'I0/I2/I0/net7' has been added and is connected
+   to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net5' is not connected to an external port
+   in this design.  A new port 'I0/I2/I0/net5' has been added and is connected
+   to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net32' is not connected to an external
+   port in this design.  A new port 'I0/I2/I0/net32' has been added and is
+   connected to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net28' is not connected to an external
+   port in this design.  A new port 'I0/I2/I0/net28' has been added and is
+   connected to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I2/I0/net3' is not connected to an external port
+   in this design.  A new port 'I0/I2/I0/net3' has been added and is connected
+   to this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net049' is not connected to an external port
+   in this design.  A new port 'I0/I4/net049' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net063' is not connected to an external port
+   in this design.  A new port 'I0/I4/net063' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net051' is not connected to an external port
+   in this design.  A new port 'I0/I4/net051' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net053' is not connected to an external port
+   in this design.  A new port 'I0/I4/net053' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net057' is not connected to an external port
+   in this design.  A new port 'I0/I4/net057' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net047' is not connected to an external port
+   in this design.  A new port 'I0/I4/net047' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net065' is not connected to an external port
+   in this design.  A new port 'I0/I4/net065' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net061' is not connected to an external port
+   in this design.  A new port 'I0/I4/net061' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net4' is not connected to an external port in
+   this design.  A new port 'I0/I4/net4' has been added and is connected to this
+   signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net059' is not connected to an external port
+   in this design.  A new port 'I0/I4/net059' has been added and is connected to
+   this signal.
+INFO:NgdBuild:889 - Pad net 'I0/I4/net055' is not connected to an external port
+   in this design.  A new port 'I0/I4/net055' has been added and is connected to
+   this signal.
+
+Checking timing specifications ...
+Checking expanded design ...
+WARNING:NgdBuild:478 - clock net net4 with clock driver I0/I1/I21 drives no
+   clock pins
+
+NGDBUILD Design Results Summary:
+  Number of errors:     0
+  Number of warnings:   1
+
+Total memory usage is 57304 kilobytes
+
+Writing NGD file "trafficlight_test.ngd" ...
+
+Writing NGDBUILD log file "trafficlight_test.bld"...

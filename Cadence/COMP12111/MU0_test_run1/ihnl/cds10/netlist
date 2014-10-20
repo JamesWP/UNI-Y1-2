@@ -1,0 +1,31 @@
+// Library - MU0_lib, Cell - MU0_test, View - schematic
+// LAST TIME SAVED: Dec  5 10:07:16 2013
+// NETLIST TIME: Dec 12 15:47:27 2013
+`timescale 1ns / 10ps 
+
+module MU0_test ( Halted, Clk, Reset );
+
+output  Halted;
+
+input  Clk, Reset;
+
+// Buses in the design
+
+wire  [0:11]  net14;
+
+wire  [0:15]  net13;
+
+wire  [0:15]  net12;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "MU0_test";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+MU0 I2 ( net14[0:11], net13[0:15], Halted, net15, net8, Clk,
+     net12[0:15], Reset);
+memory_1 I3 ( Clk, net14[0:11], net13[0:15], net12[0:15], net8);
+
+endmodule

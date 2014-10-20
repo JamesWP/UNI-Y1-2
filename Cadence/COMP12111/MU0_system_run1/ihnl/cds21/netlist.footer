@@ -1,0 +1,12 @@
+BUF  I5 ( .I(Acc[15]), .O(N));
+NOR4  I4 ( .I0(net26), .I1(net21), .I2(net16), .I3(net11), .O(Z));
+OR4  I0 ( .I0(Acc[15]), .I1(Acc[14]), .I2(Acc[13]), .I3(Acc[12]),
+     .O(net26));
+OR4  I1 ( .I0(Acc[11]), .I1(Acc[10]), .I2(Acc[9]), .I3(Acc[8]),
+     .O(net21));
+OR4  I2 ( .I0(Acc[7]), .I1(Acc[6]), .I2(Acc[5]), .I3(Acc[4]),
+     .O(net16));
+OR4  I3 ( .I0(Acc[3]), .I1(Acc[2]), .I2(Acc[1]), .I3(Acc[0]),
+     .O(net11));
+
+endmodule

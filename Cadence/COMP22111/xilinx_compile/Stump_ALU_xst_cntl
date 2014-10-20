@@ -1,0 +1,11 @@
+run
+-ifn Stump_ALU_xst_incfile
+-ifmt mixed -top Stump_ALU
+-ofn Stump_ALU.ngc
+-ofmt NGC
+-p xc3s200-ft256-4
+-opt_mode Speed
+-opt_level 1
+-optimize_primitives YES
+-iobuf no
+-signal_encoding user

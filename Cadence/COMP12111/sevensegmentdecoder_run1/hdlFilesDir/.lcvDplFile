@@ -1,0 +1,5 @@
+tmLCVDPLList = '((nil viewType "netlist" viewName "functional"
+    cellName "sevensegmentdecoder" libName "COMP12111"
+    )
+)
+xxxInternalGlobAliasList = '(nil)

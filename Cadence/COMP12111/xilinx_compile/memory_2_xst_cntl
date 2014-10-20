@@ -1,0 +1,12 @@
+run 
+-ifn memory_2_xst_incfiles 
+-ifmt mixed -top memory_2 
+-ofn memory_2.ngc 
+-ofmt NGC 
+-p xc3s200-ft256-4 
+-opt_mode Speed 
+-opt_level 1
+-iobuf no
+-signal_encoding user
+-fsm_encoding user
+

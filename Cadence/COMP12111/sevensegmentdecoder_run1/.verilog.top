@@ -1,0 +1,16 @@
+
+`timescale 1ns / 10ps
+
+module test;
+
+
+
+
+wire [7:0]  segments;
+
+reg [3:0]  bcd;
+
+
+
+sevensegmentdecoder top(bcd, segments); 
+ 

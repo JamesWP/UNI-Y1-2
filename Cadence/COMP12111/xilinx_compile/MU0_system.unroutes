@@ -1,0 +1,15 @@
+Release 8.1i - par I.24
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+
+Thu Dec 12 15:36:25 2013
+
+There are 0 unrouted networks: 
+
+
+There are 5 sourceless or loadless networks: 
+
+   Inputs/I8/net49
+   Inputs/net153
+   Processor/Datapath/I0/net013
+   net134
+   net85

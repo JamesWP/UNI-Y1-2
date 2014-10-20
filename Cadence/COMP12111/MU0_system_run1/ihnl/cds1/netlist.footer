@@ -1,0 +1,32 @@
+INV  I2 ( .I(Seg_A), .O(net1));
+INV  I3 ( .I(Seg_B), .O(net032));
+INV  I6 ( .I(Seg_D), .O(net030));
+INV  I7 ( .I(Seg_C), .O(net028));
+INV  I12 ( .I(Seg_G), .O(net026));
+INV  I13 ( .I(DP), .O(net024));
+INV  I14 ( .I(Seg_F), .O(net022));
+INV  I15 ( .I(Seg_E), .O(net020));
+OPAD  I27 ( .OPAD(net049));
+OPAD  I28 ( .OPAD(net051));
+OPAD  I29 ( .OPAD(net047));
+OPAD  I40 ( .OPAD(net053));
+OPAD  I39 ( .OPAD(net055));
+OPAD  I38 ( .OPAD(net057));
+OPAD  I37 ( .OPAD(net059));
+OPAD  I36 ( .OPAD(net061));
+OPAD  I35 ( .OPAD(net063));
+OPAD  I34 ( .OPAD(net065));
+OPAD  I33 ( .OPAD(net4));
+OBUF  I0 ( .I(net1), .O(net4));
+OBUF  I5 ( .I(net032), .O(net065));
+OBUF  I10 ( .I(net030), .O(net063));
+OBUF  I11 ( .I(net028), .O(net061));
+OBUF  I20 ( .I(net026), .O(net059));
+OBUF  I21 ( .I(net024), .O(net057));
+OBUF  I22 ( .I(net022), .O(net055));
+OBUF  I23 ( .I(net020), .O(net053));
+OBUF  I30 ( .I(En[2]), .O(net051));
+OBUF  I31 ( .I(En[0]), .O(net049));
+OBUF  I32 ( .I(En[1]), .O(net047));
+
+endmodule

@@ -1,0 +1,134 @@
+*** Loading .simrc from -> /home/mbax3jp2/Cadence/COMP12111/.simrc.
+
+Running netlist
+Begin Incremental Netlisting Nov 28 15:57:43 2013
+si: simSetDef().... hnlCapability is initialized to "nil".
+si: simSetDef().... hnlBusCapability is initialized to "nil".
+INFO (VLOGNET-188): While generating implicit netlist, it is recommended to set
+the Terminal SyncUp option on the Netlist Setup form as 'Honor Switch
+Master'.
+Alternatively, you can set the hnlVerilogTermSyncUp variable as
+'honorSM'.
+This option automatically resolves any mismatch between the terminals
+of an instance and its switch master while generating an implicit netlist.
+
+INFO (VLOGNET-60): The stimulus name mapped table will not be printed in the
+
+"/home/mbax3jp2/Cadence/COMP12111/counter09_test_run1/testfixture.verilog"
+file. To print the stimulus name mapped table, set
+
+simVerilogPrintStimulusNameMappingTable = t either in CIW or the .simrc file
+
+before invoking Verilog netlister.
+ 
+INFO (VLOGNET-62): Database internal net names will be printed for floating
+instance ports. To prevent 
+them from being printed, set
+simVerilogProcessNullPorts = t either in CIW or 
+the .simrc file.
+ 
+INFO (VLOGNET-64): All cellviews in the design will be printed in the Netlist
+Configuration list. 
+If you want to print only those cellviews that need to be
+re-netlisted in the 
+list, set simVerilogIncrementalNetlistConfigList = t either
+in CIW or the 
+.simrc file.
+ 
+INFO (VLOGNET-66): Module ports will be printed without the port ranges. If you
+have split busses 
+across module ports you may get an incorrect netlist. To
+print module ports 
+with the port ranges, set simVerilogDropPortRange = nil
+either in CIW or the 
+.simrc file.
+ 
+INFO (VLOGNET-68): The initial state of stimulus of all inout pins is set to
+"z". To get inout 
+pins with initial state of "0", set
+hnlVerilogIOInitStimulusStr = "0" 
+either in CIW or the .simrc file.
+ 
+INFO (VLOGNET-120): Using connection by order (implicit connections) for all the
+stopping cells.
+
+WARNING (VLOGNET-110): The cell 'COMP12111/counter09_test/schematic' has no
+ports. Make sure that this was the intended 
+design.
+ 
+WARNING (VLOGNET-110): The cell 'COMP12111/counter09_test/schematic' has no
+ports. Make sure that this was the intended 
+design.
+ 
+WARNING (VLOGNET-110): The cell 'COMP12111/counter09_test/schematic' has no
+ports. Make sure that this was the intended 
+design.
+ 
+INFO (VLOGNET-169): Module port ordering for lib 'COMP12111', cell
+'sevensegmentdecoder', view 'functional' will be
+ done using the user specified
+port order as follows:
+
+ => ("bcd<3:0>" "segments<7:0>")
+
+INFO (VLOGNET-169): Module port ordering for lib 'COMP12111', cell 'counter09',
+view 'functional' will be
+ done using the user specified port order as
+follows:
+
+ => ("digits<3:0>" "carry" "clock" "reset" "enable")
+
+INFO (VLOGNET-169): Module port ordering for lib 'ENGLAB_12111', cell
+'key_scan', view 'functional' will be
+ done using the user specified port order
+as follows:
+
+ => ("clk" "KeyCol<0:5>" "KeyRow<5:0>" "key_row1<7:0>" "key_row2<7:0>"
+"key_row3<7:0>" "key_row4<7:0>")
+
+INFO (VLOGNET-169): Module port ordering for lib 'ENGLAB_12111', cell
+'display_scan', view 'functional' will be
+ done using the user specified port
+order as follows:
+
+ => ("clk" "disp_enable<5:0>" "digit5<7:0>" "digit4<7:0>" "digit3<7:0>" "digit2<7:0>"
+"digit1<7:0>" 
+     "digit0<7:0>" "Bus_En_L<2:0>" "Bus_En_R<2:0>" "Bus_Segments_L<7:0>"
+"Bus_Segments_R<7:0>" 
+
+INFO (VLOGNET-126): ---------- Beginning netlist configuration information
+----------
+
+
+                (incremental data only)
+
+CELL NAME                   VIEW NAME            NOTE             
+---------                   ---------            ----             
+
+INV                         symbol               *Stopping View*  
+OPAD                        symbol               *Stopping View*  
+OBUF                        symbol               *Stopping View*  
+display_scan                functional           *Stopping View*  
+key_scan                    functional           *Stopping View*  
+IBUF                        symbol               *Stopping View*  
+IPAD                        symbol               *Stopping View*  
+FDCE                        symbol               *Stopping View*  
+OR2                         symbol               *Stopping View*  
+AND3                        symbol               *Stopping View*  
+AND2                        symbol               *Stopping View*  
+AND2B1                      symbol               *Stopping View*  
+XOR2                        symbol               *Stopping View*  
+NOR2                        symbol               *Stopping View*  
+BUFG                        symbol               *Stopping View*  
+GND                         symbol               *Stopping View*  
+VCC                         symbol               *Stopping View*  
+FDE                         symbol               *Stopping View*  
+counter09                   functional           *Stopping View*  
+sevensegmentdecoder         functional           *Stopping View*  
+counter09_test              schematic                             
+
+---------- End of netlist configuration information   ----------
+INFO (VLOGNET-80): The library 'COMP12111', cell 'counter09_test', and view
+'schematic' has been netlisted successfully.
+
+End netlisting Nov 28 15:57:43 2013

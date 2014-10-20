@@ -1,0 +1,11 @@
+CADENCE IHNL01070
+$model
+INV INV
+OR2 OR2
+AND2 AND2
+COMP12111/halfadder/schematic halfadder
+$endmodel
+$net
+$endnet
+$param
+$endparam

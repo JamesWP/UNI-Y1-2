@@ -1,0 +1,81 @@
+SingleSidedPrinting|Hewlett-Packard LaserJet 4MV, PS: \
+        :manufacturer=Hewlett-Packard: \
+        :type=postscript2: \
+        :spool="lpr -PC-WI-MonoSingleSided-65E": \
+        :query=lpq -PC-WI-MonoSingleSided-65E: \
+        :remove=lprm -PC-WI-MonoSingleSided-65E $1: \
+        :resolution#600: \
+        :maximumPages#30: \
+        :paperSize="A4" 4758 6846 90 90:
+
+DoubleSidedPrinting|Hewlett-Packard LaserJet 4MV, PS: \
+        :manufacturer=Hewlett-Packard: \
+        :type=postscript2: \
+        :spool="lpr -PC-WI-MonoDoubleSided-65D": \
+        :query=lpq -PC-WI-MonoDoubleSided-65D: \
+        :remove=lprm -PC-WI-MonoDoubleSided-65D $1: \
+        :resolution#600: \
+        :maximumPages#30: \
+        :paperSize="A4" 4758 6846 90 90:
+
+lfprt|Hewlett-Packard LaserJet 4MV, PS: \
+        :manufacturer=Hewlett-Packard: \
+        :type=postscript2: \
+        :spool="lpr -PC-WI-MonoSingleSided-65E": \
+        :query=lpq -PC-WI-MonoSingleSided-65E: \
+        :remove=lprm -PC-WI-MonoSingleSided-65E $1: \
+        :resolution#600: \
+        :maximumPages#30: \
+        :paperSize="A4" 4758 6846 90 90:
+
+ugpr0|Hewlett-Packard LaserJet 4MV, PS: \
+	:manufacturer=Hewlett-Packard: \
+	:type=postscript2: \
+	:spool="lpr -Pugpr0": \
+	:query=lpq -Pugpr0: \
+	:remove=lprm -Pugpr0 $1: \
+	:resolution#600: \
+	:maximumPages#30: \
+	:paperSize="A4" 4758 6846 90 90:
+
+ugpr1|Hewlett-Packard LaserJet 4MV, PS: \
+	:manufacturer=Hewlett-Packard: \
+	:type=postscript2: \
+	:spool="lpr -Pugpr1": \
+	:query=lpq -Pugpr1: \
+	:remove=lprm -Pugpr1 $1: \
+	:resolution#600: \
+	:maximumPages#30: \
+	:paperSize="A4" 4758 6846 90 90:
+
+ugpr5|Hewlett-Packard LaserJet 4MV, PS: \
+	:manufacturer=Hewlett-Packard: \
+	:type=postscript2: \
+	:spool="lpr -Pugpr5": \
+	:query=lpq -Pugpr5: \
+	:remove=lprm -Pugpr5 $1: \
+	:resolution#600: \
+	:maximumPages#30: \
+	:paperSize="A4" 4758 6846 90 90:
+
+ugpr6|Hewlett-Packard LaserJet 4MV, PS: \
+	:manufacturer=Hewlett-Packard: \
+	:type=postscript2: \
+	:spool="lpr -Pugpr6": \
+	:query=lpq -Pugpr6: \
+	:remove=lprm -Pugpr6 $1: \
+	:resolution#600: \
+	:maximumPages#30: \
+	:paperSize="A4" 4758 6846 90 90:
+
+
+
+Encapsulated PostScript|Encapsulated PostScript: \
+	:manufacturer=Adobe: \
+	:type=epsf: \
+	:resolution#300: \
+	:maximumPages#1: \
+	:paperSize="5x5 inches" 1500 1500: \
+	:paperSize="8x8 inches" 2400 2400: \
+	:paperSize="Unlimited" 72000 72000:
+

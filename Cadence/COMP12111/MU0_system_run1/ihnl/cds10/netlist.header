@@ -1,0 +1,20 @@
+// Library - MU0_lib, Cell - count_10, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:54 2013
+// NETLIST TIME: Dec 12 15:35:38 2013
+`timescale 1ns / 10ps 
+
+module count_10_schematic ( D, TC, CE, Clk, Clr );
+
+output  TC;
+
+input  CE, Clk, Clr;
+
+output [3:0]  D;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "count_10";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

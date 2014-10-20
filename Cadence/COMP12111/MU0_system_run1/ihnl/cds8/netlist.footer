@@ -1,0 +1,14 @@
+OBUF  I6 ( .I(L_red), .O(net17));
+OBUF  I7 ( .I(L_amber), .O(net15));
+OBUF  I8 ( .I(L_green), .O(net13));
+OBUF  I9 ( .I(R_red), .O(net11));
+OBUF  I10 ( .I(R_amber), .O(net9));
+OBUF  I11 ( .I(R_green), .O(net7));
+OPAD  I0 ( .OPAD(net7));
+OPAD  I1 ( .OPAD(net9));
+OPAD  I2 ( .OPAD(net11));
+OPAD  I3 ( .OPAD(net13));
+OPAD  I4 ( .OPAD(net15));
+OPAD  I5 ( .OPAD(net17));
+
+endmodule

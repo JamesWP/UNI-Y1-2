@@ -1,0 +1,2 @@
+cellViewCounterTable = makeTable('cellViewCounterTableType nil)
+cellViewCounterTable['("COMP12111" "counter09" "functional" )] =  293

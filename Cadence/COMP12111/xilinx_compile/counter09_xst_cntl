@@ -1,0 +1,12 @@
+run 
+-ifn counter09_xst_incfiles 
+-ifmt mixed -top counter09 
+-ofn counter09.ngc 
+-ofmt NGC 
+-p xc3s200-ft256-4 
+-opt_mode Speed 
+-opt_level 1
+-iobuf no
+-signal_encoding user
+-fsm_encoding user
+

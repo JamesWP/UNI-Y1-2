@@ -1,0 +1,34 @@
+CADENCE IHNL01070
+$model
+XOR2 XOR2
+FDE FDE
+ENGLAB_12111/Board/schematic Board
+OPAD OPAD
+ENGLAB_12111/Bargraph/schematic Bargraph
+ENGLAB_12111/Keyboard/schematic Keyboard
+ENGLAB_12111/count_5/schematic count_5
+INV INV
+IPAD IPAD
+BUFG BUFG
+ENGLAB_12111/Traffic_lights/schematic Traffic_lights
+AND3 AND3
+AND2B1 AND2B1
+VCC VCC
+ENGLAB_12111/Keys/schematic Keys
+OBUF OBUF
+ENGLAB_12111/Sevenseg_L/schematic Sevenseg_L
+ENGLAB_12111/count_10/schematic count_10
+NOR2 NOR2
+IBUF IBUF
+OR2 OR2
+AND2 AND2
+ENGLAB_12111/Clocks/schematic Clocks
+ENGLAB_12111/Sevenseg_R/schematic Sevenseg_R
+COMP12111/sevensegmentdecoder_test/schematic sevensegmentdecoder_test
+FDCE FDCE
+GND GND
+$endmodel
+$net
+$endnet
+$param
+$endparam

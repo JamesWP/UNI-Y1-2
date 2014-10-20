@@ -1,0 +1,251 @@
+Release 8.1i - xst I.24
+Copyright (c) 1995-2005 Xilinx, Inc.  All rights reserved.
+--> 
+
+TABLE OF CONTENTS
+  1) Synthesis Options Summary
+  2) HDL Compilation
+  3) HDL Analysis
+  4) HDL Synthesis
+     4.1) HDL Synthesis Report
+  5) Advanced HDL Synthesis
+     5.1) Advanced HDL Synthesis Report
+  6) Low Level Synthesis
+  7) Final Report
+     7.1) Device utilization summary
+     7.2) TIMING REPORT
+
+
+=========================================================================
+*                      Synthesis Options Summary                        *
+=========================================================================
+---- Source Parameters
+Input File Name                    : "key_scan_xst_incfiles"
+Input Format                       : mixed
+
+---- Target Parameters
+Output File Name                   : "key_scan.ngc"
+Output Format                      : NGC
+Target Device                      : xc3s200-ft256-4
+
+---- Source Options
+Top Module Name                    : key_scan
+Signal Encoding Algorithm          : user
+FSM Encoding Algorithm             : user
+
+---- Target Options
+Add IO Buffers                     : no
+
+---- General Options
+Optimization Goal                  : Speed
+Optimization Effort                : 1
+
+=========================================================================
+
+Setting FSM Encoding Algorithm to : user
+
+
+=========================================================================
+*                          HDL Compilation                              *
+=========================================================================
+Compiling verilog file "/cadtools5/xil_cds_design_kits/ENGLAB_12111/key_scan/functional/verilog.v" in library work
+Module <key_scan> compiled
+No errors in compilation
+Analysis of file <"key_scan_xst_incfiles"> succeeded.
+ 
+
+=========================================================================
+*                            HDL Analysis                               *
+=========================================================================
+Analyzing top module <key_scan>.
+Module <key_scan> is correct for synthesis.
+ 
+
+=========================================================================
+*                           HDL Synthesis                               *
+=========================================================================
+
+Synthesizing Unit <key_scan>.
+    Related source file is "/cadtools5/xil_cds_design_kits/ENGLAB_12111/key_scan/functional/verilog.v".
+WARNING:Xst:646 - Signal <KK<23>> is assigned but never used.
+WARNING:Xst:646 - Signal <KK<17>> is assigned but never used.
+WARNING:Xst:646 - Signal <KK<11>> is assigned but never used.
+WARNING:Xst:646 - Signal <KK<5>> is assigned but never used.
+    Found 6-bit register for signal <KeyRow>.
+    Found 12-bit register for signal <KK<35:24>>.
+    Found 5-bit register for signal <KK<22:18>>.
+    Found 5-bit register for signal <KK<16:12>>.
+    Found 5-bit register for signal <KK<10:6>>.
+    Found 5-bit register for signal <KK<4:0>>.
+    Summary:
+	inferred  38 D-type flip-flop(s).
+Unit <key_scan> synthesized.
+
+
+=========================================================================
+HDL Synthesis Report
+
+Macro Statistics
+# Registers                                            : 33
+ 1-bit register                                        : 32
+ 6-bit register                                        : 1
+
+=========================================================================
+
+=========================================================================
+*                       Advanced HDL Synthesis                          *
+=========================================================================
+
+
+=========================================================================
+Advanced HDL Synthesis Report
+
+Macro Statistics
+# Registers                                            : 38
+ Flip-Flops                                            : 38
+
+=========================================================================
+
+=========================================================================
+*                         Low Level Synthesis                           *
+=========================================================================
+Loading device for application Rf_Device from file '3s200.nph' in environment /opt/cadtools5/ise8.1i.
+
+Optimizing unit <key_scan> ...
+
+Mapping all equations...
+Building and optimizing final netlist ...
+
+=========================================================================
+*                            Final Report                               *
+=========================================================================
+Final Results
+Top Level Output File Name         : key_scan.ngc
+Output Format                      : NGC
+Optimization Goal                  : Speed
+Keep Hierarchy                     : no
+
+Design Statistics
+# IOs                              : 45
+
+Cell Usage :
+# BELS                             : 14
+#      LUT3                        : 1
+#      LUT3_D                      : 5
+#      LUT4                        : 6
+#      LUT4_L                      : 2
+# FlipFlops/Latches                : 38
+#      FD                          : 6
+#      FDE                         : 32
+=========================================================================
+
+Device utilization summary:
+---------------------------
+
+Selected Device : 3s200ft256-4 
+
+ Number of Slices:                      23  out of   1920     1%  
+ Number of Slice Flip Flops:            38  out of   3840     0%  
+ Number of 4 input LUTs:                14  out of   3840     0%  
+
+
+=========================================================================
+TIMING REPORT
+
+NOTE: THESE TIMING NUMBERS ARE ONLY A SYNTHESIS ESTIMATE.
+      FOR ACCURATE TIMING INFORMATION PLEASE REFER TO THE TRACE REPORT
+      GENERATED AFTER PLACE-and-ROUTE.
+
+Clock Information:
+------------------
+-----------------------------------+------------------------+-------+
+Clock Signal                       | Clock buffer(FF name)  | Load  |
+-----------------------------------+------------------------+-------+
+clk                                | NONE                   | 38    |
+-----------------------------------+------------------------+-------+
+INFO:Xst:2169 - HDL ADVISOR - Some clock signals were not automatically buffered by XST with BUFG/BUFR resources. Please use the buffer_type constraint in order to insert these buffers to the clock signals to help prevent skew problems.
+
+Timing Summary:
+---------------
+Speed Grade: -4
+
+   Minimum period: 5.714ns (Maximum Frequency: 175.009MHz)
+   Minimum input arrival time before clock: 0.203ns
+   Maximum output required time after clock: 0.720ns
+   Maximum combinational path delay: No path found
+
+Timing Detail:
+--------------
+All values displayed in nanoseconds (ns)
+
+=========================================================================
+Timing constraint: Default period analysis for Clock 'clk'
+  Clock period: 5.714ns (frequency: 175.009MHz)
+  Total number of paths / destination ports: 232 / 38
+-------------------------------------------------------------------------
+Delay:               5.714ns (Levels of Logic = 2)
+  Source:            KeyRow_4 (FF)
+  Destination:       KK_34 (FF)
+  Source Clock:      clk rising
+  Destination Clock: clk rising
+
+  Data Path: KeyRow_4 to KK_34
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FD:C->Q               6   0.720   1.342  KeyRow_4 (KeyRow<4>)
+     LUT4:I0->O            2   0.551   0.945  _n00011 (N2)
+     LUT3_D:I2->O          6   0.551   1.003  _n00012 (_n0001)
+     FDE:CE                    0.602          KK_31
+    ----------------------------------------
+    Total                      5.714ns (2.424ns logic, 3.290ns route)
+                                       (42.4% logic, 57.6% route)
+
+=========================================================================
+Timing constraint: Default OFFSET IN BEFORE for Clock 'clk'
+  Total number of paths / destination ports: 32 / 32
+-------------------------------------------------------------------------
+Offset:              0.203ns (Levels of Logic = 0)
+  Source:            KeyCol<1> (PAD)
+  Destination:       KK_34 (FF)
+  Destination Clock: clk rising
+
+  Data Path: KeyCol<1> to KK_34
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:D                     0.203          KK_10
+    ----------------------------------------
+    Total                      0.203ns (0.203ns logic, 0.000ns route)
+                                       (100.0% logic, 0.0% route)
+
+=========================================================================
+Timing constraint: Default OFFSET OUT AFTER for Clock 'clk'
+  Total number of paths / destination ports: 38 / 38
+-------------------------------------------------------------------------
+Offset:              0.720ns (Levels of Logic = 0)
+  Source:            KK_30 (FF)
+  Destination:       key_row1<7> (PAD)
+  Source Clock:      clk rising
+
+  Data Path: KK_30 to key_row1<7>
+                                Gate     Net
+    Cell:in->out      fanout   Delay   Delay  Logical Name (Net Name)
+    ----------------------------------------  ------------
+     FDE:C->Q              0   0.720   0.000  KK_30 (key_row1<7>)
+    ----------------------------------------
+    Total                      0.720ns (0.720ns logic, 0.000ns route)
+                                       (100.0% logic, 0.0% route)
+
+=========================================================================
+CPU : 1.03 / 1.04 s | Elapsed : 1.00 / 1.00 s
+ 
+--> 
+
+
+Total memory usage is 90596 kilobytes
+
+Number of errors   :    0 (   0 filtered)
+Number of warnings :    4 (   0 filtered)
+Number of infos    :    1 (   0 filtered)
+

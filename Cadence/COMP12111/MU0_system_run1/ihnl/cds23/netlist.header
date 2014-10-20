@@ -1,0 +1,22 @@
+// Library - MU0_lib, Cell - decoder_3_8, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:53 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module decoder_3_8 ( Q[0], Q[1], Q[2], Q[3], Q[4], Q[5], Q[6], Q[7],
+     En, F[2:0] );
+
+
+input  En;
+
+output [0:7]  Q;
+
+input [2:0]  F;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "decoder_3_8";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

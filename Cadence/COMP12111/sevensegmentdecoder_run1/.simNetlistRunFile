@@ -1,0 +1,11 @@
+simVerilogNetlistFileList = '(
+    (("COMP12111" "sevensegmentdecoder") 
+	("cds0/netlist" "cds0/map" "functional")
+    )
+)
+simVerilogNetlistFileLibList = '("COMP12111")
+simVerilogNetlistFileCellList = '(("COMP12111" 
+	("sevensegmentdecoder")
+    )
+)
+hnlIncrementalDirectory = '"ihnl"

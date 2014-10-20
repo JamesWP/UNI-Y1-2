@@ -1,0 +1,23 @@
+// Library - COMP12111, Cell - adder_4bit, View - schematic
+// LAST TIME SAVED: Oct 17 15:23:53 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module adder_4bit ( cout, s, a, b, cin );
+
+output  cout;
+
+input  cin;
+
+output [3:0]  s;
+
+input [3:0]  a;
+input [3:0]  b;
+
+
+specify 
+    specparam CDS_LIBNAME  = "COMP12111";
+    specparam CDS_CELLNAME = "adder_4bit";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

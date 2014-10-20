@@ -1,0 +1,32 @@
+
+`timescale 1ns / 10ps
+
+module test;
+
+
+// Buses in the design
+
+wire  [5:0]  traffic;
+
+wire  [4:0]  display_en;
+
+wire  [0:7]  net2;
+
+wire  [0:5]  net010;
+
+wire  [7:0]  keys;
+
+wire  [0:7]  net16;
+
+wire  [0:7]  net14;
+
+wire  [0:7]  net5;
+
+wire  [0:3]  net06;
+
+wire  [0:7]  net1;
+
+
+
+counter09_test top(); 
+ 

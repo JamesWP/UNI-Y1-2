@@ -1,0 +1,80 @@
+;******************************************************************************
+; This file contains the base menu definitions for the Composer-NCVerilog
+; Interface pulldown menus. Each pulldown list is of the following format:
+;
+;     pulldownList = '(symbol "name" (
+;         item
+;         item
+;         ...
+;     ))
+;
+; Where "pulldownList" is the information for a pulldown menu. This file
+; predefines a set of menus and menu items that can be used by the NCVerilog
+; Interface.
+;
+; A 'symbol is the symbol to use when creating the pulldown menu and "name"
+; is the title of the pulldown.  The order that the entries appear in the
+; pulldown is determined from the list of items.
+;
+; An "item" is defined to be one of the following:
+;
+;     (itemSymbol "itemText" "callback")
+;     pulldownList
+;     symbolForItem
+;
+; The 'itemSymbol is the symbol to use when creating the menu item,
+; "itemText" is the text to appear in the menu, and "callback" is the string
+; containing the callback function invoked when the menu item is picked.
+; If the "item" is another pulldownList, a slider menu will be created where
+; the "name" is the name of the slider and the items are all items on the
+; slider menu. An item can also be the symbol for either the menu item list
+; or another pulldownlist in which case a SKILL eval is used to extract the
+; information for creating the menu item.
+;
+; The precedence that Verilog menu files are read is as follows:
+;
+;     etc/tools/menus/verilog.menus        (this file)
+;     local/menus/verilog.menus            (site generic menu file)
+;*****************************************************************************
+
+
+;******************************************************************************
+; Define the NC Verilog Integration Commands pulldown menu.  ; vlogcCommandsMenu
+vlogcCommandsMenu = '(vlogCommandsMenu "Commands" (
+    (initDesignItem	"Initialize Design"	"vlogifNCInitDesign()")
+    (netlistItem	"Generate Netlist"	"vlogifNCNetlist()")
+    (launchSimItem	"Simulate"		"vtoolsIseRunNCSimulation()")
+    (editTBItem 	"Edit Test Fixture"	"editTF_callback()")
+    (checkTBItem        "Check Verilog TB"      "checkTBVerilog_callback()")
+    (createTBItem       "Create NEW Test Fixture"   "genTF_callback()")
+    (simCmpItem 	"Simulation Compare"	"vlogifNCLaunchCompareScan()")
+    (XilSyn		"Xilinx Synthesis"	"xilinx_syn_callback()")
+    (FPGALoad           "FPGA Load"             "FPGA_Load_callback()")
+    (CloseItem		"Close"			"hiCloseWindow(vtoolsIseGNCWin->window)")
+))
+
+;******************************************************************************
+; Define the NC Verilog Integration Setup pulldown menu.
+;
+vlogcSetupMenu = '(vlogSetupMenu "Setup" (
+    (SdfOptionsItem		"SDF Delay Annotation..."	"vlogifNCBuildSDFForm()")
+    (NetOptionsItem		"Netlist..."			"vlogifNCSetupNetlistCbk()")
+    (RecSigOptionsItem		"Record Signals..."		"vlogifNCBuildRecordSignalsForm()")
+    (SimOptionsItem		"Simulation..."			"hiDisplayForm(vicSetupNCSimulationForm 100:100)")
+    (SimCmpItem    		"Simulation Compare..."		"vlogifNCBuildVCompareForm()")
+    (CrossSelectOptionsItem	"Cross Selection..."		"hiDisplayForm(vicSetupNCSimCrossSelectForm)")
+))
+
+;******************************************************************************
+; Define the NC Verilog Integration Results pulldown menu.
+;
+vlogcResultsMenu = '(vlogResultsMenu "Results" (
+    (NetResultsItem     "Netlist..."            "hiDisplayForm(vlogifViewNetlistRunFile)")
+    (SimResultsItem     "Job Monitor..."        "simJobMonitor()")
+))
+
+vtoolsIseGNCMenus = '(
+    vlogcCommandsMenu
+    vlogcSetupMenu
+    vlogcResultsMenu
+)

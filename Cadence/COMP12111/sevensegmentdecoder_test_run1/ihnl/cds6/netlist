@@ -1,0 +1,58 @@
+// Library - ENGLAB_12111, Cell - Clocks, View - schematic
+// LAST TIME SAVED: Sep 20 12:20:22 2013
+// NETLIST TIME: Nov  7 16:03:30 2013
+`timescale 1ns / 10ps 
+
+module Clocks ( Clk_1Hz, Clk_1MHz, Clk_1kHz, Clk_10Hz, Clk_50MHz,
+     Clk_100Hz );
+
+output  Clk_1Hz, Clk_1MHz, Clk_1kHz, Clk_10Hz, Clk_50MHz, Clk_100Hz;
+
+// Buses in the design
+
+wire  [0:3]  net025;
+
+wire  [0:3]  net020;
+
+wire  [0:3]  net050;
+
+wire  [0:3]  net030;
+
+wire  [0:3]  net045;
+
+wire  [0:3]  net040;
+
+
+specify 
+    specparam CDS_LIBNAME  = "ENGLAB_12111";
+    specparam CDS_CELLNAME = "Clocks";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+count_10 I11 ( net025[0:3], net024, net029, net25, net021);
+count_10 I10 ( net030[0:3], net029, net019, net25, net021);
+count_10 I9 ( net020[0:3], net019, net13, net25, net021);
+count_10 I17 ( net040[0:3], net0120, CE_10Hz, net25, net051);
+count_10 I16 ( net045[0:3], CE_10Hz, CE_100Hz, net25, net051);
+count_10 I15 ( net050[0:3], CE_100Hz, net024, net25, net051);
+count_5 I2 ( net23, net22, net21, net20, net3, net25, net17);
+count_5 I3 ( net16, net15, net14, net13, net20, net25, net17);
+BUFG  I21 ( .I(net25), .O(Clk_50MHz));
+GND  I7 ( .G(net17));
+GND  I14 ( .G(net021));
+GND  I18 ( .G(net051));
+VCC  I6 ( .P(net3));
+INV  I25 ( .O(net023), .I(Clk_10Hz));
+INV  I22 ( .O(net022), .I(Clk_100Hz));
+INV  I5 ( .I(Clk_1MHz), .O(net6));
+INV  I12 ( .I(Clk_1kHz), .O(net039));
+INV  I19 ( .I(Clk_1Hz), .O(net077));
+FDE  I24 ( .D(net023), .Q(Clk_10Hz), .CE(CE_10Hz), .C(net25));
+FDE  I23 ( .D(net022), .Q(Clk_100Hz), .CE(CE_100Hz), .C(net25));
+FDE  I4 ( .C(net25), .CE(net13), .Q(Clk_1MHz), .D(net6));
+FDE  I13 ( .C(net25), .CE(net024), .Q(Clk_1kHz), .D(net039));
+FDE  I20 ( .C(net25), .CE(net0120), .Q(Clk_1Hz), .D(net077));
+IPAD  I1 ( .IPAD(net24));
+IBUF  I0 ( .I(net24), .O(net25));
+
+endmodule

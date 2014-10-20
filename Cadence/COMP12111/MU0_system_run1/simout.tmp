@@ -1,0 +1,67 @@
+TOOL:	ncxlmode	12.10-s005: Started on Dec 05, 2013 at 16:39:14 GMT
+ncxlmode
+	+delay_mode_path
+	+typdelays
+	-y
+	/opt/cadtools5/xil_cds_design_kits/verilog/unisims
+	+libext+.v
+	-l
+	simout.tmp
+	/home/mbax3jp2/Cadence/COMP12111/MU0_system_run1/testfixture.template
+	-f /home/mbax3jp2/Cadence/COMP12111/MU0_system_run1/verilog.inpfiles
+		/home/mbax3jp2/Cadence/COMP12111/MU0_lib/mux_2to1_12bit/functional/verilog.v
+		/home/mbax3jp2/Cadence/COMP12111/MU0_lib/mux_2to1_16bit/functional/verilog.v
+		/home/mbax3jp2/Cadence/COMP12111/MU0_lib/memory_2/functional/verilog.v
+		/home/mbax3jp2/Cadence/COMP12111/MU0_lib/enc_8_3/functional/verilog.v
+		/home/mbax3jp2/Cadence/COMP12111/MU0_lib/display_ID/functional/verilog.v
+		/cadtools5/xil_cds_design_kits/ENGLAB_12111/key_scan/functional/verilog.v
+		/cadtools5/xil_cds_design_kits/ENGLAB_12111/display_scan/functional/verilog.v
+		ihnl/cds0/netlist
+		ihnl/cds1/netlist
+		ihnl/cds2/netlist
+		ihnl/cds3/netlist
+		ihnl/cds4/netlist
+		ihnl/cds5/netlist
+		ihnl/cds6/netlist
+		ihnl/cds7/netlist
+		ihnl/cds8/netlist
+		ihnl/cds9/netlist
+		ihnl/cds10/netlist
+		ihnl/cds11/netlist
+		ihnl/cds12/netlist
+		ihnl/cds13/netlist
+		ihnl/cds14/netlist
+		ihnl/cds15/netlist
+		ihnl/cds16/netlist
+		ihnl/cds17/netlist
+		ihnl/cds18/netlist
+		ihnl/cds19/netlist
+		ihnl/cds20/netlist
+		ihnl/cds21/netlist
+		ihnl/cds22/netlist
+		ihnl/cds23/netlist
+		ihnl/cds24/netlist
+		ihnl/cds25/netlist
+		ihnl/cds26/netlist
+	-f /opt/info/courses/COMP12111/Cadence/reffiles/include
+		/opt/cadtools5/ise8.1i/verilog/src/glbl.v
+		+incdir+..
+	+nostdout
+	+nocopyright
+	+ncvlogargs+" -neverwarn -nostdout -nocopyright "
+	+ncelabargs+" -neg_tchk  -nonotifier  -sdf_NOCheck_celltype  -access +r  -access +w  -access +c  -pulse_e 100  -pulse_r 100  -neverwarn  -timescale 1ns/10ps -nostdout -nocopyright"
+	+ncsimargs+" -neverwarn  -nocopyright -gui -input /home/mbax3jp2/Cadence/COMP12111/MU0_system_run1/.simTmpNCCmd "
+	+mpssession+virtuoso17869
+	+mpshost+E-C07KILF1642
+
+-------------------------------------
+Relinquished control to SimVision...
+ncsim> 
+ncsim> source /local/cds_root/INCISIV121/tools/inca/files/ncsimrc
+ncsim> database -open shmWave -shm -default -into shm.db
+Created default SHM database shmWave
+ncsim> probe -create -shm test  -all   -depth 1
+ncsim: *E,PRNONE: No new objects to probe in scope test.
+ncsim> ^C
+ncsim> exit
+TOOL:	ncxlmode	12.10-s005: Exiting on Dec 05, 2013 at 16:39:30 GMT  (total: 00:00:16)

@@ -1,0 +1,18 @@
+// Library - COMP12111, Cell - fulladder, View - schematic
+// LAST TIME SAVED: Oct 10 16:24:32 2013
+// NETLIST TIME: Oct 17 16:04:13 2013
+`timescale 1ns / 10ps 
+
+module fulladder ( cout, s, a, b, cin );
+
+output  cout, s;
+
+input  a, b, cin;
+
+
+specify 
+    specparam CDS_LIBNAME  = "COMP12111";
+    specparam CDS_CELLNAME = "fulladder";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

@@ -1,0 +1,18 @@
+// Library - COMP12111, Cell - halfadder, View - schematic
+// LAST TIME SAVED: Oct 10 15:59:24 2013
+// NETLIST TIME: Oct 17 15:32:40 2013
+`timescale 1ns / 10ps 
+
+module halfadder ( carry, sum, a, b );
+
+output  carry, sum;
+
+input  a, b;
+
+
+specify 
+    specparam CDS_LIBNAME  = "COMP12111";
+    specparam CDS_CELLNAME = "halfadder";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

@@ -1,0 +1,25 @@
+// Library - MU0_lib, Cell - key_encoder, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:53 2013
+// NETLIST TIME: Dec 12 15:35:38 2013
+`timescale 1ns / 10ps 
+
+module key_encoder ( digit, key_mi, key_digit, key_eq, key_func,
+     key_row1, key_row2, key_row3, key_row4 );
+
+output  key_mi, key_digit, key_eq, key_func;
+
+
+output [3:0]  digit;
+
+input [7:0]  key_row3;
+input [7:0]  key_row2;
+input [7:0]  key_row1;
+input [7:0]  key_row4;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "key_encoder";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

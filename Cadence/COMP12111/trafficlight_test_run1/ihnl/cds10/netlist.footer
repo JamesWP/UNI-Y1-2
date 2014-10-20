@@ -1,0 +1,10 @@
+Board I0 ( net8, net9, net10, net02, net4, net01, net3[0:7], net2[0:7],
+     net5[0:7], keys[7:0], net14[0:7], net14[0:7], net14[0:7],
+     net14[0:7], net14[0:7], net14[0:7], net14[0:7], net17[0:5],
+     net7[0:5]);
+trafficlight I1 ( net05, net04, net7[0:5], net10, keys[0], net09[0:3]);
+counter09 I2 ( net09[0:3], net022, net8, net05, net04);
+GND  I4[5:0] ( .G(net17[0:5]));
+GND  I3[7:0] ( .G(net14[0:7]));
+
+endmodule

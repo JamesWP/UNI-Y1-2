@@ -1,0 +1,18 @@
+// Library - ENGLAB_12111, Cell - count_5, View - schematic
+// LAST TIME SAVED: Aug 19 11:24:49 2013
+// NETLIST TIME: Nov 14 15:43:31 2013
+`timescale 1ns / 10ps 
+
+module count_5 ( D0, D1, D2, TC, CE, Clk, Clr );
+
+output  D0, D1, D2, TC;
+
+input  CE, Clk, Clr;
+
+
+specify 
+    specparam CDS_LIBNAME  = "ENGLAB_12111";
+    specparam CDS_CELLNAME = "count_5";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

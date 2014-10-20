@@ -1,0 +1,14 @@
+CADENCE IHNL01070
+$model
+COMP12111/fulladder/schematic fulladder
+INV INV
+OR2 OR2
+AND2 AND2
+COMP12111/adder_4bit/schematic adder_4bit
+COMP12111/halfadder/schematic halfadder
+COMP12111/adder_16bit/schematic adder_16bit
+$endmodel
+$net
+$endnet
+$param
+$endparam

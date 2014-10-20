@@ -1,0 +1,16 @@
+// Verilog HDL and netlist files of
+// "COMP12111 adder_16bit schematic"
+
+// Netlisted models
+
+// netlist file - COMP12111, halfadder, schematic.
+ihnl/cds0/netlist
+// netlist file - COMP12111, fulladder, schematic.
+ihnl/cds1/netlist
+// netlist file - COMP12111, adder_4bit, schematic.
+ihnl/cds2/netlist
+// netlist file - COMP12111, adder_16bit, schematic.
+ihnl/cds3/netlist
+
+
+// End HDL models

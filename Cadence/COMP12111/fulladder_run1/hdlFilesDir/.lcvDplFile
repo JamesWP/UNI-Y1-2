@@ -1,0 +1,11 @@
+tmLCVDPLList = '((nil viewType "schematicSymbol" viewName "symbol"
+    cellName "AND2" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "OR2" libName "spartan3"
+    ) 
+    (nil viewType "schematicSymbol" viewName "symbol"
+    cellName "INV" libName "spartan3"
+    )
+)
+xxxInternalGlobAliasList = '(nil)

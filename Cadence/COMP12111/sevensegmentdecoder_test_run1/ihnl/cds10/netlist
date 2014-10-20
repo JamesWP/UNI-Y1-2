@@ -1,0 +1,44 @@
+// Library - COMP12111, Cell - sevensegmentdecoder_test, View -
+//schematic
+// LAST TIME SAVED: Nov  7 16:02:40 2013
+// NETLIST TIME: Nov 28 15:38:07 2013
+`timescale 1ns / 10ps 
+
+module sevensegmentdecoder_test (  );
+
+// Buses in the design
+
+wire  [7:0]  key_row;
+
+wire  [0:5]  net7;
+
+wire  [7:0]  digit;
+
+wire  [0:7]  net3;
+
+wire  [0:7]  net5;
+
+wire  [0:7]  net14;
+
+wire  [0:7]  net2;
+
+wire  [5:0]  display_en;
+
+
+specify 
+    specparam CDS_LIBNAME  = "COMP12111";
+    specparam CDS_CELLNAME = "sevensegmentdecoder_test";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+Board I0 ( net8, net9, net10, net02, net4, net01, net3[0:7], net2[0:7],
+     net5[0:7], key_row[7:0], net14[0:7], net14[0:7], net14[0:7],
+     net14[0:7], net14[0:7], net14[0:7], digit[7:0], display_en[5:0],
+     net7[0:5]);
+sevensegmentdecoder I1 ( key_row[3:0], digit[7:0]);
+GND  I7[5:0] ( .G(net7[0:5]));
+GND  I6[4:0] ( .G(display_en[4:0]));
+GND  I2[7:0] ( .G(net14[0:7]));
+VCC  I3 ( .P(display_en[5]));
+
+endmodule

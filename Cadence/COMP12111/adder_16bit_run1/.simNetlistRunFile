@@ -1,0 +1,20 @@
+simVerilogNetlistFileList = '(
+    (("COMP12111" "adder_16bit") 
+	("cds3/netlist" "cds3/map" "schematic")
+    ) 
+    (("COMP12111" "adder_4bit") 
+	("cds2/netlist" "cds2/map" "schematic")
+    ) 
+    (("COMP12111" "fulladder") 
+	("cds1/netlist" "cds1/map" "schematic")
+    ) 
+    (("COMP12111" "halfadder") 
+	("cds0/netlist" "cds0/map" "schematic")
+    )
+)
+simVerilogNetlistFileLibList = '("COMP12111")
+simVerilogNetlistFileCellList = '(("COMP12111" 
+	("halfadder" "fulladder" "adder_4bit" "adder_16bit")
+    )
+)
+hnlIncrementalDirectory = '"ihnl"

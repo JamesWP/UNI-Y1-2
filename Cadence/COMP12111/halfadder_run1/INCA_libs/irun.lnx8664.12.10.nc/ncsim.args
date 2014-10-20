@@ -1,0 +1,43 @@
+//
+// File created by:  ncxlmode
+// Do not modify this file
+//
++delay_mode_path
++typdelays
++libext+.v
++incdir+..
++nostdout
++nocopyright
+"+ncvlogargs+ -neverwarn -nostdout -nocopyright "
+"+ncelabargs+ -neg_tchk  -nonotifier  -sdf_NOCheck_celltype  -access +r  -access +w  -access +c  -pulse_e 100  -pulse_r 100  -neverwarn  -timescale 1ns/10ps -nostdout -nocopyright"
+"+ncsimargs+ -neverwarn  -nocopyright -gui -input /home/mbax3jp2/Cadence/COMP12111/halfadder_run1/.simTmpNCCmd "
++mpssession+virtuoso17424
++mpshost+E-C07KILF1616
+-NOSTDOUT
+-NOCOPYRIGHT
+-neverwarn
+-nocopyright
+-gui
+-input
+/home/mbax3jp2/Cadence/COMP12111/halfadder_run1/.simTmpNCCmd
+-MPSSESSION
+virtuoso17424
+-MPSHOST
+E-C07KILF1616
+-MESSAGES
++EMGRLOG
+simout.tmp
+-XLSTIME
+1381418141
+-XLKEEP
+-XLMODE
+./INCA_libs/irun.lnx8664.12.10.nc
+-RUNMODE
+-CDSLIB
+./INCA_libs/irun.lnx8664.12.10.nc/cds.lib
+-HDLVAR
+./INCA_libs/irun.lnx8664.12.10.nc/hdl.var
+-XLNAME
+ncxlmode
+-XLVERSION
+"TOOL:	ncxlmode	12.10-s005"

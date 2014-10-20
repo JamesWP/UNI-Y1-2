@@ -1,0 +1,44 @@
+// Library - MU0_lib, Cell - MU0_control, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:54 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module MU0_control ( Acc_En, Halted, IR_En, M, PC_En, Rd, Wr, X_sel,
+     Y_sel, execute, Clk, F, N, Reset, Z );
+
+output  Acc_En, Halted, IR_En, PC_En, Rd, Wr, X_sel, Y_sel, execute;
+
+input  Clk, N, Reset, Z;
+
+output [1:0]  M;
+
+input [3:0]  F;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "MU0_control";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+decoder_3_8 I2 ( lda, sta, add, sub, jmp, jge, jne, stp, execute,
+     F[2:0]);
+OR4  I16 ( .I0(net123), .I1(net126), .I2(jmp), .I3(fetch), .O(PC_En));
+FDC  I0 ( .C(Clk), .CLR(Reset), .Q(execute), .D(net110));
+INV  I3 ( .I(execute), .O(X_sel));
+INV  I11 ( .I(execute), .O(IR_En));
+INV  I5 ( .I(execute), .O(fetch));
+AND2  I12 ( .I0(net120), .I1(execute), .O(M[0]));
+AND2  I9 ( .I0(net103), .I1(execute), .O(Acc_En));
+AND2  I4 ( .I0(sta), .I1(execute), .O(Wr));
+OR3  I7 ( .I0(add), .I1(sub), .I2(lda), .O(net103));
+OR2B1  I14 ( .I0(execute), .I1(sub), .O(M[1]));
+OR2B1  I1 ( .I0(execute), .I1(stp), .O(net110));
+OR2B1  I6 ( .I0(execute), .I1(net103), .O(Rd));
+BUF  I10 ( .I(F[2]), .O(Y_sel));
+BUF  I8 ( .I(stp), .O(Halted));
+OR2  I13 ( .I0(sub), .I1(add), .O(net120));
+AND2B1  I15 ( .I0(Z), .I1(jne), .O(net123));
+AND2B1  I17 ( .I0(N), .I1(jge), .O(net126));
+
+endmodule

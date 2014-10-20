@@ -1,0 +1,47 @@
+let( (bindKeyFileList file path saveSkillPath)
+    bindKeyFileList = '( 
+                 "schBindKeys.il"
+                    )
+    
+;  this is the path that is searched for the files
+    path = strcat(
+              ".   ~   "
+              prependInstallPath("local ")
+              prependInstallPath("samples/local")
+             )
+    saveSkillPath=getSkillPath()
+    setSkillPath(path)
+;
+;
+ 
+   foreach(file bindKeyFileList
+       if(isFile(file) then
+          loadi(file)
+         )
+    )
+ 
+    setSkillPath(saveSkillPath)
+)
+
+editor =  "nedit"
+
+CAD_REF_DIR = getShellEnvVar("CAD_REF_DIR")
+CAD_PRO_DIR = getShellEnvVar("CAD_PRO_DIR")
+XIL_WORK_LIB = getShellEnvVar("XIL_WORK_LIB")
+XIL_PART =  getShellEnvVar("XIL_PART")
+XST_CONST_FILE=strcat(CAD_REF_DIR "/Cadence/reffiles/xst_const_file")
+XPR_CONST_FILE=strcat(CAD_REF_DIR "/Cadence/reffiles/xpr_const_file.ucf")
+
+load(strcat(CAD_REF_DIR "/Cadence/skill/editTF_callback.il"))
+load(strcat(CAD_REF_DIR "/Cadence/skill/genTF_callback.il"))
+load(strcat(CAD_REF_DIR "/Cadence/skill/xilinx_syn_callback.il"))
+load(strcat(CAD_REF_DIR "/Cadence/skill/checkTBVerilog_callback.il"))
+load(strcat(CAD_REF_DIR "/Cadence/skill/sch_to_xilinx_callback.il"))
+load(strcat(CAD_REF_DIR "/Cadence/skill/edifConfig.il"))
+load(strcat(CAD_REF_DIR "/Cadence/skill/FPGA_Load_callback.il"))
+load(strcat(CAD_REF_DIR "/Cadence/skill/comp12111NCSimForm.il"))
+
+
+schHdlUseVamsForVerilog = t
+schHdlPrintCommand="enscript -M A4 -F Courier-Bold8 -f Courier8 -Plfprt --header='|%n|%D'"
+

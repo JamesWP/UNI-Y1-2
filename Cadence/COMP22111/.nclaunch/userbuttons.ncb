@@ -1,0 +1,7 @@
+# NCLaunch User Defined Buttons
+#
+# format: button label helptext selection command visible
+
+
+button XST  {Runs xilinx_compile script}  SNAPSHOT  {xilinx_compile %o}  1
+button SYN-CHECK  {Checks cells and snapshots for synthesis}  {SNAPSHOT CELL VIEW}  {xilinx_compile %o xst_check}  1

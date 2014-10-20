@@ -1,0 +1,5 @@
+MU0 I2 ( net14[0:11], net13[0:15], Halted, net15, net8, Clk,
+     net12[0:15], Reset);
+memory_1 I3 ( Clk, net14[0:11], net13[0:15], net12[0:15], net8);
+
+endmodule

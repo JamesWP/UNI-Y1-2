@@ -1,0 +1,14 @@
+WARNING:PhysDesignRules:372 - Gated clock. Clock net Inputs/net190 is sourced by
+   a combinatorial pin. This is not good design practice. Use the CE pin to
+   control the loading of data into the flip-flop.
+WARNING:PhysDesignRules:367 - The signal <net134> is incomplete. The signal does
+   not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <Processor/Datapath/I0/net013> is
+   incomplete. The signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <Inputs/net153> is incomplete. The
+   signal does not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <net85> is incomplete. The signal does
+   not drive any load pins in the design.
+WARNING:PhysDesignRules:367 - The signal <Inputs/I8/net49> is incomplete. The
+   signal does not drive any load pins in the design.
+DRC detected 0 errors and 6 warnings.

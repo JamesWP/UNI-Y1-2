@@ -1,0 +1,17 @@
+ncvlog(64): 12.10-s005: (c) Copyright 1995-2012 Cadence Design Systems, Inc.
+TOOL:	ncvlog(64)	12.10-s005: Started on Dec 05, 2013 at 10:07:41 GMT
+ncvlog
+    -messages
+    testfixture.template
+
+file: testfixture.template
+     "/home/mbax3jp2/Cadence/COMP12111/MU0_test_run1/testfixture.verilog"
+                                                                        |
+ncvlog: *W,INCBRK (testfixture.template,20|72): `include and following file name not on same line [16.5(IEEE)].
+end
+  |
+ncvlog: *E,NOTSTT (/home/mbax3jp2/Cadence/COMP12111/MU0_test_run1/testfixture.verilog,35|2): expecting a statement [9(IEEE)].
+(`include file: /home/mbax3jp2/Cadence/COMP12111/MU0_test_run1/testfixture.verilog line 35, file: testfixture.template line 20)
+	module check.test
+		errors: 1, warnings: 1
+TOOL:	ncvlog(64)	12.10-s005: Exiting on Dec 05, 2013 at 10:07:41 GMT  (total: 00:00:00)

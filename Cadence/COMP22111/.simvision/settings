@@ -1,0 +1,12 @@
+# DO NOT EDIT -- automatically generated options file -- DO NOT EDIT!!!
+return {
+  user-toolbar-list {}
+  toolbar-OperatingMode-WaveWindow {
+  usual
+  position -pos 4
+  name OperatingMode
+}
+  plugin-enable-svdatabrowser {0}
+  plugin-enable-groupscope {0}
+  plugin-enable-interleaveandcompare {0}
+}

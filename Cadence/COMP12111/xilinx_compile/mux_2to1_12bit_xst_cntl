@@ -1,0 +1,12 @@
+run 
+-ifn mux_2to1_12bit_xst_incfiles 
+-ifmt mixed -top mux_2to1_12bit 
+-ofn mux_2to1_12bit.ngc 
+-ofmt NGC 
+-p xc3s200-ft256-4 
+-opt_mode Speed 
+-opt_level 1
+-iobuf no
+-signal_encoding user
+-fsm_encoding user
+

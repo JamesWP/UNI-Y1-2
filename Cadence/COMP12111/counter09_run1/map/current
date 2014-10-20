@@ -1,0 +1,33 @@
+( ( nil
+  version "2.1"
+  mapType "incremental"
+  blockName "counter09"
+  repList "behavioral functional system verilog pld_verilog lai_verilog lmsi_verilog schematic symbol"
+  stopList "verilog pld_verilog lai_verilog lmsi_verilog symbol"
+  hierDelim "."
+  hierPrefix "test.top"
+  globalHierPrefix "cds_globals."
+  netlistDir "/home/mbax3jp2/Cadence/COMP12111/counter09_run1"
+  busRef   "ORDERED"
+  netType   "BUS"
+  leftStr  "["
+  rangeStr  ":"
+  rightStr  "]"
+ )
+( instViewTable
+ )
+( defbus
+ )
+( net
+ )
+( inst
+ )
+( model
+( "COMP12111/counter09/functional" "counter09" )
+ )
+( term
+ )
+( param
+ )
+( "counter09" "ihnl/cds0/map" )
+ )

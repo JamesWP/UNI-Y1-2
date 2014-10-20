@@ -1,0 +1,17 @@
+// Library - ENGLAB_12111, Cell - Traffic_lights, View - schematic
+// LAST TIME SAVED: Aug 19 11:24:48 2013
+// NETLIST TIME: Nov 22 13:14:33 2013
+`timescale 1ns / 10ps 
+
+module Traffic_lights ( L_amber, L_green, L_red, R_amber, R_green,
+     R_red );
+
+input  L_amber, L_green, L_red, R_amber, R_green, R_red;
+
+
+specify 
+    specparam CDS_LIBNAME  = "ENGLAB_12111";
+    specparam CDS_CELLNAME = "Traffic_lights";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

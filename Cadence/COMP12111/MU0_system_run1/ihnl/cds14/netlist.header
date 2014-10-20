@@ -1,0 +1,38 @@
+// Library - MU0_lib, Cell - Input_manager, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:54 2013
+// NETLIST TIME: Dec 12 15:35:39 2013
+`timescale 1ns / 10ps 
+
+module Input_manager ( Bus_select, Disp_en, Proc_clock, Proc_reset,
+     user_addr, Clk_1kHz, Key_row1, Key_row2, Key_row3, Key_row4 );
+
+output  Proc_clock, Proc_reset;
+
+input  Clk_1kHz;
+
+output [2:0]  Bus_select;
+output [5:0]  Disp_en;
+output [15:0]  user_addr;
+
+input [7:0]  Key_row3;
+input [7:0]  Key_row2;
+input [7:0]  Key_row4;
+input [7:0]  Key_row1;
+
+// Buses in the design
+
+wire  [0:3]  net0108;
+
+wire  [0:3]  net0113;
+
+wire  [0:3]  net152;
+
+wire  [0:3]  net231;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "Input_manager";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+

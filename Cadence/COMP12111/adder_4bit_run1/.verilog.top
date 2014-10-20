@@ -1,0 +1,19 @@
+
+`timescale 1ns / 10ps
+
+module test;
+
+
+wire  cout;
+
+reg  cin;
+
+wire [3:0]  s;
+
+reg [3:0]  a;
+reg [3:0]  b;
+
+
+
+adder_4bit top(cout, s, a, b, cin); 
+ 

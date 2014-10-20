@@ -1,0 +1,88 @@
+TOOL:	ncxlmode	12.10-s005: Started on Dec 13, 2013 at 13:24:54 GMT
+ncxlmode
+	+delay_mode_path
+	+typdelays
+	-y
+	/opt/cadtools5/xil_cds_design_kits/verilog/unisims
+	+libext+.v
+	-l
+	simout.tmp
+	/home/mbax3jp2/Cadence/COMP12111/MU0_test_run1/testfixture.template
+	-f /home/mbax3jp2/Cadence/COMP12111/MU0_test_run1/verilog.inpfiles
+		/home/mbax3jp2/Cadence/COMP12111/MU0_lib/memory_1/functional/verilog.v
+		/home/mbax3jp2/Cadence/COMP12111/MU0_lib/mux_2to1_12bit/functional/verilog.v
+		/home/mbax3jp2/Cadence/COMP12111/MU0_lib/mux_2to1_16bit/functional/verilog.v
+		ihnl/cds0/netlist
+		ihnl/cds1/netlist
+		ihnl/cds2/netlist
+		ihnl/cds3/netlist
+		ihnl/cds4/netlist
+		ihnl/cds5/netlist
+		ihnl/cds6/netlist
+		ihnl/cds7/netlist
+		ihnl/cds8/netlist
+		ihnl/cds9/netlist
+		ihnl/cds10/netlist
+	-f /opt/info/courses/COMP12111/Cadence/reffiles/include
+		/opt/cadtools5/ise8.1i/verilog/src/glbl.v
+		+incdir+..
+	+nostdout
+	+nocopyright
+	+ncvlogargs+" -neverwarn -nostdout -nocopyright "
+	+ncelabargs+" -neg_tchk  -nonotifier  -sdf_NOCheck_celltype  -access +r  -access +w  -access +c  -pulse_e 100  -pulse_r 100  -neverwarn  -timescale 1ns/1ns -nostdout -nocopyright"
+	+ncsimargs+" -neverwarn  -nocopyright -gui -input /home/mbax3jp2/Cadence/COMP12111/MU0_test_run1/.simTmpNCCmd "
+	+mpssession+virtuoso20341
+	+mpshost+kilburn
+Recompiling... reason: file './testfixture.verilog' is newer than expected.
+	expected: Fri Dec 13 13:24:53 2013
+	actual:   Fri Dec 13 13:24:54 2013
+		Caching library 'check' ....... Done
+		Caching library 'unisims' ....... Done
+	Elaborating the design hierarchy:
+	Building instance overlay tables: .................... Done
+	Loading native compiled code:     .................... Done
+	Building instance specific data structures.
+	Design hierarchy summary:
+		                 Instances  Unique
+		Modules:               360      32
+		Primitives:            278       5
+		Registers:              67      23
+		Scalar wires:          149       -
+		Expanded wires:         48       3
+		Vectored wires:          1       -
+		Always blocks:          95       8
+		Initial blocks:         57      14
+		Cont. assignments:      49       6
+		Pseudo assignments:      2       2
+		Simulation timescale:  1ps
+	Writing initial simulation snapshot: check.test:template
+
+-------------------------------------
+Relinquished control to SimVision...
+ncsim> 
+ncsim> source /opt/cadtools5/cds_root/INCISIV121/tools/inca/files/ncsimrc
+ncsim> database -open shmWave -shm -default -into shm.db
+Created default SHM database shmWave
+ncsim> probe -create -shm test  -all   -depth 1
+Created probe 1
+ncsim> probe -create -shm test.top.Clk test.top.Halted test.top.Reset test.top.net8 test.top.net12 test.top.net13 test.top.net14 test.top.net15 test.top.I2.Datapath.ALU test.top.I2.Datapath.Acc test.top.I2.Datapath.Acc_En test.top.I2.Datapath.Addr test.top.I2.Datapath.Clk test.top.I2.Datapath.Din test.top.I2.Datapath.Dout test.top.I2.Datapath.F test.top.I2.Datapath.IR test.top.I2.Datapath.IR_En test.top.I2.Datapath.M test.top.I2.Datapath.N test.top.I2.Datapath.PC test.top.I2.Datapath.PC_En test.top.I2.Datapath.Reset test.top.I2.Datapath.X_sel test.top.I2.Datapath.Y test.top.I2.Datapath.Y_sel test.top.I2.Datapath.Z test.top.I2.Datapath.addr_sel
+Created probe 2
+ncsim> run
+Simulation stopped via $stop(1) at time 20200 NS + 0
+ncsim> probe -create -shm test.top.I2.Control.Rd test.top.I2.Control.Wr
+Created probe 3
+ncsim> reset
+Loaded snapshot check.test:template
+ncsim> run
+Simulation stopped via $stop(1) at time 20200 NS + 0
+ncsim> probe -create -shm test.top.I2.Control.execute
+Created probe 4
+ncsim> reset
+Loaded snapshot check.test:template
+ncsim> reset
+Loaded snapshot check.test:template
+ncsim> run
+Simulation stopped via $stop(1) at time 20200 NS + 0
+ncsim> ^C
+ncsim> exit
+TOOL:	ncxlmode	12.10-s005: Exiting on Dec 13, 2013 at 14:01:11 GMT  (total: 00:36:17)

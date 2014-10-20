@@ -1,0 +1,113 @@
+( ( nil
+  version "2.1"
+  mapType "incremental"
+  blockName "MU0_system"
+  repList "behavioral functional system verilog pld_verilog lai_verilog lmsi_verilog schematic symbol"
+  stopList "verilog pld_verilog lai_verilog lmsi_verilog symbol"
+  hierDelim "."
+  hierPrefix "test.top"
+  globalHierPrefix "cds_globals."
+  netlistDir "/home/mbax3jp2/Cadence/COMP12111/MU0_system_run1"
+  busRef   "ORDERED"
+  netType   "BUS"
+  leftStr  "["
+  rangeStr  ":"
+  rightStr  "]"
+ )
+( instViewTable
+ )
+( defbus
+( "net71" 0 15  "net71" 0 15  )
+( "port_in" 15 0  "port_in" 15 0  )
+( "address" 15 0  "address" 15 0  )
+( "net37" 0 7  "net37" 0 7  )
+( "net117" 0 5  "net117" 0 5  )
+( "net38" 0 7  "net38" 0 7  )
+( "net136" 0 7  "net136" 0 7  )
+( "sel" 2 0  "sel" 2 0  )
+( "Memory_addr" 15 0  "Memory_addr" 15 0  )
+( "kr3" 7 0  "kr3" 7 0  )
+( "kr2" 7 0  "kr2" 7 0  )
+( "kr1" 7 0  "kr1" 7 0  )
+( "write_data" 15 0  "write_data" 15 0  )
+( "PC" 15 0  "PC" 15 0  )
+( "net79" 0 15  "net79" 0 15  )
+( "read_data" 15 0  "read_data" 15 0  )
+( "display" 15 0  "display" 15 0  )
+( "Display_en" 5 0  "Display_en" 5 0  )
+( "kr4" 7 0  "kr4" 7 0  )
+( "ff" 7 0  "ff" 7 0  )
+( "ee" 7 0  "ee" 7 0  )
+( "cc" 7 0  "cc" 7 0  )
+( "dd" 7 0  "dd" 7 0  )
+( "Acc" 15 0  "Acc" 15 0  )
+( "IR" 15 0  "IR" 15 0  )
+( "kr3<6:7>,kr2<6:7>,kr1<6:7>" 0 5  "{kr3[6], kr3[7], kr2[6], kr2[7], kr1[6], kr1[7]}" 0 5 t )
+ )
+( net
+ )
+( inst
+ )
+( model
+( "COMP12111/halfadder/schematic" "halfadder" )
+( "MU0_lib/MU0_datapath/schematic" "MU0_datapath" )
+( "COMP12111/adder_4bit/schematic" "adder_4bit" )
+( "ENGLAB_12111/Keys/schematic" "Keys" )
+( "MU0_lib/mux_2_1/schematic" "mux_2_1" )
+( "MU0_lib/decoder_7_seg/schematic" "decoder_7_seg" )
+( "ENGLAB_12111/Board/schematic" "Board" )
+( "ENGLAB_12111/Traffic_lights/schematic" "Traffic_lights" )
+( "ENGLAB_12111/Keyboard/schematic" "Keyboard" )
+( "ENGLAB_12111/count_5/schematic" "count_5" )
+( "ENGLAB_12111/Bargraph/schematic" "Bargraph" )
+( "COMP12111/adder_16bit/schematic" "adder_16bit" )
+( "COMP12111/fulladder/schematic" "fulladder" )
+( "MU0_lib/key_encoder/schematic" "key_encoder" )
+( "ENGLAB_12111/count_10/schematic" "count_10" )
+( "ENGLAB_12111/Sevenseg_R/schematic" "Sevenseg_R" )
+( "MU0_lib/Input_manager/schematic" "Input_manager" )
+( "MU0_lib/MU0_control/schematic" "MU0_control" )
+( "MU0_lib/MU0/schematic" "MU0" )
+( "MU0_lib/count_10/schematic" "count_10_schematic" )
+( "MU0_lib/key_timing/schematic" "key_timing" )
+( "MU0_lib/mux_8_1/schematic" "mux_8_1" )
+( "MU0_lib/decoder_3_8/schematic" "decoder_3_8" )
+( "MU0_lib/MU0_system/schematic" "MU0_system" )
+( "MU0_lib/MU0_ALU/schematic" "MU0_ALU" )
+( "ENGLAB_12111/Clocks/schematic" "Clocks" )
+( "ENGLAB_12111/Sevenseg_L/schematic" "Sevenseg_L" )
+( "MU0_lib/MU0_conditions/schematic" "MU0_conditions" )
+ )
+( term
+ )
+( param
+ )
+( "Bargraph" "ihnl/cds7/map" )
+( "adder_16bit" "ihnl/cds19/map" )
+( "count_10_schematic" "ihnl/cds10/map" )
+( "Keyboard" "ihnl/cds3/map" )
+( "Traffic_lights" "ihnl/cds8/map" )
+( "mux_8_1" "ihnl/cds15/map" )
+( "key_encoder" "ihnl/cds13/map" )
+( "adder_4bit" "ihnl/cds18/map" )
+( "count_10" "ihnl/cds4/map" )
+( "MU0_datapath" "ihnl/cds22/map" )
+( "count_5" "ihnl/cds5/map" )
+( "MU0_ALU" "ihnl/cds20/map" )
+( "decoder_7_seg" "ihnl/cds26/map" )
+( "key_timing" "ihnl/cds12/map" )
+( "Keys" "ihnl/cds2/map" )
+( "halfadder" "ihnl/cds16/map" )
+( "Sevenseg_R" "ihnl/cds0/map" )
+( "Board" "ihnl/cds9/map" )
+( "MU0_system" "ihnl/cds27/map" )
+( "Clocks" "ihnl/cds6/map" )
+( "MU0_conditions" "ihnl/cds21/map" )
+( "mux_2_1" "ihnl/cds11/map" )
+( "Sevenseg_L" "ihnl/cds1/map" )
+( "decoder_3_8" "ihnl/cds23/map" )
+( "fulladder" "ihnl/cds17/map" )
+( "Input_manager" "ihnl/cds14/map" )
+( "MU0_control" "ihnl/cds24/map" )
+( "MU0" "ihnl/cds25/map" )
+ )

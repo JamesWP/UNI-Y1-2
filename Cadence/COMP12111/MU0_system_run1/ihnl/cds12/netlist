@@ -1,0 +1,24 @@
+// Library - MU0_lib, Cell - key_timing, View - schematic
+// LAST TIME SAVED: Aug 19 11:56:54 2013
+// NETLIST TIME: Dec 12 15:35:38 2013
+`timescale 1ns / 10ps 
+
+module key_timing ( press, clk, key );
+
+output  press;
+
+input  clk, key;
+
+
+specify 
+    specparam CDS_LIBNAME  = "MU0_lib";
+    specparam CDS_CELLNAME = "key_timing";
+    specparam CDS_VIEWNAME = "schematic";
+endspecify
+
+FD  I0 ( .C(clk), .D(key), .Q(kd1));
+FD  I2 ( .C(clk), .D(kd2), .Q(kd3));
+FD  I1 ( .C(clk), .D(kd1), .Q(kd2));
+AND2B1  I28 ( .I0(kd3), .I1(kd2), .O(press));
+
+endmodule
