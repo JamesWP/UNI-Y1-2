@@ -2,7 +2,7 @@
 % training 
 % labels
 
-ks = 1:10;
+ks = 1:30;
 numExamples = size(training,1);
 
 X = [];

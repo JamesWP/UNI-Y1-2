@@ -1,5 +1,5 @@
 
-numbers = [3 8];
+numbers = [1 4];
 total = 500; % of each number
 testRatio = 0.1; % of test to training data
 

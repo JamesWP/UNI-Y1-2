@@ -1,8 +1,8 @@
 
-numbers = [3 6 8];
+numbers = [3 6 7 9];
 total = 500; % of each number
 testRatio = 0.1; % of test to training data
-k = 1;
+k = 5;
 
 [trainingo,traininglabels,testingo,testinglabels,numberOfTests]...
     = getPartitionedData(maindata,numbers,testRatio,total);
