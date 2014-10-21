@@ -5,8 +5,7 @@ Relinquished control to SimVision...
 ncsim> 
 ncsim> run
 ncsim: *W,RNQUIE: Simulation is complete.
-ncsim> ...Regained control from SimVision
--------------------------------------
-
-ncsim> ncsim: Memory Usage - 24.6M program + 161.7M data = 186.3M total
-ncsim: CPU Usage - 0.7s system + 0.4s user = 1.2s total (197.2s, 0.6% cpu)
+ncsim> ^C
+ncsim> exit
+ncsim: Memory Usage - 24.6M program + 161.7M data = 186.3M total
+ncsim: CPU Usage - 0.2s system + 0.1s user = 0.4s total (61.3s, 0.6% cpu)

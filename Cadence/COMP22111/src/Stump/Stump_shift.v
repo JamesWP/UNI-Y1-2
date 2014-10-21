@@ -14,21 +14,21 @@ module Stump_shift (input  wire [15:0] operand_A,
 //Add your code below this line		    
 
 
-//always@ (shift_op,operand_A,c_in)
-//begin
-//  case(shift_op)
-//    2'b00: /* - */ {c_out, shift_out} = {c_in, operand_A};
-//    2'b01: /*ASR*/ {c_out, shift_out} = {operand_A[15], operand_A[15], operand_A[15:1]};
-//    2'b10: /*ROR*/ {c_out, shift_out} = {operand_A[0 ], operand_A[15], operand_A[15:1]};
-//    2'b11: /*RRC*/ {c_out, shift_out} = {c_in         , operand_A[15], operand_A[15:1]};
-//    default: {c_out, shift_out} = 17'bXXXXXXXXXXXXXXXX;
-//  endcase
-//end
+always@ (shift_op,operand_A,c_in)
+begin
+  case(shift_op)
+    2'b00: /* - */ {c_out, shift_out} = {c_in, operand_A};
+    2'b01: /*ASR*/ {c_out, shift_out} = {operand_A[15], operand_A[15], operand_A[15:1]};
+    2'b10: /*ROR*/ {c_out, shift_out} = {operand_A[0 ], operand_A[0 ], operand_A[15:1]};
+    2'b11: /*RRC*/ {c_out, shift_out} = {operand_A[15], c_in         , operand_A[15:1]};
+    default: {c_out, shift_out} = 17'bXXXXXXXXXXXXXXXX;
+  endcase
+end
 
 
 //Add your code above this line
  
-///*
+/*
 
 wire [1:0] shift_op_inv;
 wire [15:0] shift_out_t0;
@@ -67,7 +67,7 @@ or  o3       (c_out_i, c_out_t0, c_out_t1, c_out_t2, c_out_t3);
 always @(shift_out_i) shift_out = shift_out_i;
 always @(c_out_i)     c_out = c_out_i;
 
-//*/
+*/
 
 
 endmodule
