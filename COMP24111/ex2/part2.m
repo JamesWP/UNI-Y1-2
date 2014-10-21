@@ -1,5 +1,5 @@
 
-numbers = [3 6 7 9];
+numbers = [6 8 5 4];
 total = 500; % of each number
 testRatio = 0.1; % of test to training data
 k = 5;
@@ -29,4 +29,4 @@ totalCorrect
 featCount
           
 %nice confusion mat
-dataset({conf 'n3','n6','n8'},'obsnames', {'n3','n6','n8'})
+%dataset({conf 'n3','n6','n8'},'obsnames', {'n3','n6','n8'})

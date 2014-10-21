@@ -1,8 +1,13 @@
 function x = extractmyfeatures( digdata )
 d = reshape(digdata,16,16);
 
-%% VERSION8
+%% VERSION9
 
+x = reshape(imresize(reshape(hog_feature_vector(d),6,6),0.5),1,9);
+%x = hog_feature_vector(d);
+
+
+%% VERSION8
 
 %x = mean(diff(sum(d,2)));
 
@@ -41,20 +46,20 @@ d = reshape(digdata,16,16);
 % mean score 22.7356 with 4 features
 
 %quadrants
-tl = d(1:8,1:8);
-tr = d(9:16,1:8);
-bl = d(1:8,9:16);
-br = d(9:16,9:16);
+%tl = d(1:8,1:8);
+%tr = d(9:16,1:8);
+%bl = d(1:8,9:16);
+%br = d(9:16,9:16);
 
 %means
-x = [ mean(mean(tl)) mean(mean(tr)) mean(mean(bl)) mean(mean(br))];
+%x = [ mean(mean(tl)) mean(mean(tr)) mean(mean(bl)) mean(mean(br))];
 
 %% VERSION4
 %this got average score of 14.4 with 6 features
 
-a = [mean(mean(d(1:5,:)))  mean(mean(d(6:10,:))) mean(mean(d(11:15,:)))];
-b = [mean(mean(d(:,1:5)))  mean(mean(d(:,6:10))) mean(mean(d(:,11:15)))];
-x = [x a  b ];
+%a = [mean(mean(d(1:5,:)))  mean(mean(d(6:10,:))) mean(mean(d(11:15,:)))];
+%b = [mean(mean(d(:,1:5)))  mean(mean(d(:,6:10))) mean(mean(d(:,11:15)))];
+%x = [x a  b ];
 
 %% VERSION3
 %this got average score of 14.4 with 6 features
