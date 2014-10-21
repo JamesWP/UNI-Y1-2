@@ -1,9 +1,13 @@
 function x = extractmyfeatures( digdata )
 d = reshape(digdata,16,16);
 
-%% VERSION9
+%% VERSION9 - 9 features
 
-x = reshape(imresize(reshape(hog_feature_vector(d),6,6),0.5),1,9);
+% licence to code is in the ex2 directory
+hog = hog_feature_vector(d);
+hogsq = reshape(hog,6,6);
+%shrink data down to reduce features
+x = reshape(imresize(hogsq,0.5),1,9);
 %x = hog_feature_vector(d);
 
 
