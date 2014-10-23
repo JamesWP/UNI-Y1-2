@@ -28,4 +28,4 @@ totalCorrect
 featCount
           
 %nice confusion mat
-dataset({conf 'n3','n6'},'obsnames', {'n3','n6'})
+confmatrix = [0 labels'; labels conf]

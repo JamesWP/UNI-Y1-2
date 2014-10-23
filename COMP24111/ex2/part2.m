@@ -27,6 +27,5 @@ showdata(testingo,testinglabels,classification);
 score
 totalCorrect
 featCount
+confmatrix = [0 labels'; labels conf]
           
-%nice confusion mat
-%dataset({conf 'n3','n6','n8'},'obsnames', {'n3','n6','n8'})
