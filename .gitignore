@@ -6,5 +6,7 @@
 !/Cadence*/**
 !~/Cadence/COMP22111/src/
 !~/Cadence/COMP22111/src/**
+!/GSkills/
+!/GSkills/**
 !.gitignore
 *.iml
