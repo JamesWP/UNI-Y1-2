@@ -1,6 +1,6 @@
 ncvlog(64): 12.10-s005: (c) Copyright 1995-2012 Cadence Design Systems, Inc.
-TOOL:	ncvlog(64)	12.10-s005: Started on Oct 21, 2014 at 13:48:28 BST
-/opt/cadtools5/cds_root/INCISIV121/tools/bin/64bit/ncvlog
+TOOL:	ncvlog(64)	12.10-s005: Started on Oct 23, 2014 at 12:47:29 BST
+/local/cds_root/INCISIV121/tools/bin/64bit/ncvlog
     -work stump
     -cdslib cds.lib
     -logfile ncvlog.log
@@ -10,9 +10,9 @@ TOOL:	ncvlog(64)	12.10-s005: Started on Oct 21, 2014 at 13:48:28 BST
     -pragma
     -messages
     -status
-    /home/mbax3jp2/Cadence/COMP22111/src/Stump/Stump_shift_test.v
+    /home/mbax3jp2/Cadence/COMP22111/src/Stump/Stump_ALU_test.v
 
-file: /home/mbax3jp2/Cadence/COMP22111/src/Stump/Stump_shift_test.v
-ncvlog: Memory Usage - 11.4M program + 22.0M data = 33.4M total
-ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 75.4% cpu)
-TOOL:	ncvlog(64)	12.10-s005: Exiting on Oct 21, 2014 at 13:48:28 BST  (total: 00:00:00)
+file: /home/mbax3jp2/Cadence/COMP22111/src/Stump/Stump_ALU_test.v
+ncvlog: Memory Usage - 11.4M program + 22.3M data = 33.8M total
+ncvlog: CPU Usage - 0.0s system + 0.0s user = 0.0s total (0.0s, 49.4% cpu)
+TOOL:	ncvlog(64)	12.10-s005: Exiting on Oct 23, 2014 at 12:47:29 BST  (total: 00:00:00)

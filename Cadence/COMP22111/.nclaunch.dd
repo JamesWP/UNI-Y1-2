@@ -14,7 +14,6 @@ ToolOption_irun { -gui +linedebug +access+rwc -q} \
 ToolOption_NCElab { -work stump -cdslib cds.lib -logfile ncelab.log -errormax 15 -access +wc -novitalaccl -status} \
 ToolOption_NCSim { -gui -cdslib cds.lib -logfile ncsim.log -errormax 15 -status} \
 ToolOption_NCSdfc {-logfile ncsdfc.log -compile -status} \
-ToolOption_HAL {-logfile hal.log} \
 ToolOption_SimVision {} \
 ToolOption_Update {-errormax 15 -force} \
 ToolOption_SimCompare {} \
@@ -33,7 +32,6 @@ ToolOption_irun { -gui +linedebug +access+rwc -q} \
 ToolOption_NCElab { -work stump -cdslib cds.lib -logfile ncelab.log -errormax 15 -access +wc -novitalaccl -status} \
 ToolOption_NCSim { -gui -cdslib cds.lib -logfile ncsim.log -errormax 15 -status} \
 ToolOption_NCSdfc {-logfile ncsdfc.log -compile -status} \
-ToolOption_HAL {-logfile hal.log} \
 ToolOption_SimVision {} \
 ToolOption_Update {-errormax 15 -force} \
 ToolOption_SimCompare {} \

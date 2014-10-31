@@ -1,0 +1,124 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Report template for COMP23111
+% (2014-2015)
+%
+%	Alvaro A. A. Fernandes
+%	Klitos Christodoulou
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{article}
+
+% environment
+\usepackage{fancyhdr} % this is needed to include headers
+\usepackage{lastpage} % this is needed to include numbered pages
+\pagestyle{fancy}
+\usepackage{verbatim} % this is needed to include the SQL output
+\usepackage{graphicx} % this is needed to include figures
+\usepackage{listings} % this is needed to include the SQL output
+\usepackage{epstopdf} % this is needed to include the EPS figure
+
+% add a header consisting of your student ID and lab exercise number
+\lhead{\textbf{ID:} 8974863}
+\rhead{\textbf{COMP23111} - Lab Exercise 2}
+\cfoot{\thepage\ of \pageref{LastPage}}
+
+% change the margins of the page
+\usepackage[margin=0.6in]{geometry}
+
+% set the parameters for the listings package
+\lstset{
+language=SQL,                           % Code langugage
+basicstyle=\ttfamily,                   % Code font, Examples: \footnotesize, \ttfamily
+}
+
+% now set up a simpler command to wrap the inclusion of SQL scripts
+\newcommand{\includesqloutput}[1]{\tiny \lstinputlisting{#1} \normalsize}
+
+%%%% Start a new document
+\begin{document}
+
+% make sure that you change the next line to the correct exercise number
+\title{\textbf{COMP23111} - Lab Exercise 2}
+
+% your full name goes here, and do not forget your student ID
+\author{James, Peach \\ \textbf{ID:} 8974863} 
+
+% remember to copy this template and change the name of the file
+% according to the rules in the Practical Sessions Manual
+
+% now LaTeX prints the title, author name, etc. here
+\maketitle
+\thispagestyle{empty} % remove page numbering on first page
+\newpage % start a new page
+
+%%%
+%  Create a new section and include the answer for each task as a subsection
+%%%
+\section{Part 1 - Questions}
+
+\subsection{Q: What kind of attribute is the telephone attribute of the 
+Manager entity type?!}
+
+A: multivalued
+
+
+\subsection{Q: What kind of entity type is ContractInfo? What condition causes an 
+ entity type to be categorised as being of this kind?}
+
+A: Weak entity, a weak entity dosent have a single unique identifying key.
+ It is only unique when in the context of an identifying relationship.
+
+
+\subsection{Q: What kind of relationship type is HasContract? What condition 
+causes a relationship type to be categorised as being of this kind?!}
+
+A: It is an identifiying relationship. An identitying relationship is one
+that allows a weak entity to be uniquely specified. I.e. it is a relationship
+that encompases and defines the weak entity.
+
+
+\subsection{Q: What kind of attribute is the period attribute of the ContractInfo entity 
+type? What does the dashed underline underneath it mean?}
+
+A: The atribute is a compound attribute with composite sub parts (date\_from,
+ date\_to). The underline symbolises this attribute as a weak key for the 
+entity. 
+
+
+\subsection{Q: What kind of attribute is the duration attribute of the ContractInfo 
+entity type? What does the dashed oval that encircles it mean?}
+
+A: A derived attributed the value of which is not saved but calculated from
+other attributes
+
+
+\subsection{Q:MasterTrack entity}
+
+\paragraph{
+A master track is an initial recording described with a working\_title,
+ working\_length and a unique identifying track\_id.
+Each track has one or more assiciated artists that produced it.
+The master track also has a sound engineer that helped produce the track.
+A master track also can have many finished tracks assiciated with it of
+ different versions specific for this MasterTrack
+}
+
+%%%
+%  Create a new section and include an ER diagram in .pdf format
+%%%
+\section{Part 2 - Example ER-diagram}
+
+A Dia diagram is included below:
+
+% Use the graphics environment to insert an EPS figure. Make sure that you scale it so that it fits.
+% Also, consider using \newpage before and after in order to isolate it in a page.
+\begin{figure}[!htbp]      
+   	\centering
+	\centerline{\includegraphics[width=0.75\textwidth]{diagrams/example.eps}}
+	\caption{Caption goes here.}
+	\label{fig:test-figure}
+\end{figure}
+
+\end{document}
+%%%% End document here

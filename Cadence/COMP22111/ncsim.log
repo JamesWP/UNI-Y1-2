@@ -3,9 +3,13 @@ ncsim(64): 12.10-s005: (c) Copyright 1995-2012 Cadence Design Systems, Inc.
 -------------------------------------
 Relinquished control to SimVision...
 ncsim> 
+ncsim> database -open waves -into waves.shm -default
+Created default SHM database waves
+ncsim> probe -create -shm Stump_ALU_test.A_in Stump_ALU_test.B_in Stump_ALU_test.c_in Stump_ALU_test.csh Stump_ALU_test.file_handle Stump_ALU_test.flags_out Stump_ALU_test.func Stump_ALU_test.k Stump_ALU_test.operand_A Stump_ALU_test.operand_B Stump_ALU_test.result Stump_ALU_test.tst
+Created probe 1
 ncsim> run
-ncsim: *W,RNQUIE: Simulation is complete.
+Simulation stopped via $stop(1) at time 10900 NS + 0
 ncsim> ^C
 ncsim> exit
-ncsim: Memory Usage - 24.6M program + 161.7M data = 186.3M total
-ncsim: CPU Usage - 0.2s system + 0.1s user = 0.4s total (61.3s, 0.6% cpu)
+ncsim: Memory Usage - 24.6M program + 166.3M data = 190.9M total
+ncsim: CPU Usage - 10.1s system + 4.1s user = 14.2s total (1027.2s, 1.4% cpu)

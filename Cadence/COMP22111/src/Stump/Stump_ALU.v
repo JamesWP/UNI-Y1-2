@@ -24,6 +24,7 @@ reg over; // overflow bit
 reg [15:0] operand_Bs;
 reg c_ins;
 
+// assign the value of result and c_out depending on the alu func
 always@ (func, operand_A, operand_B, c_in)
 begin
   operand_Bs = ~operand_B;
@@ -46,7 +47,9 @@ begin
   endcase
 end
 
-/* alu_add: performs addition */
+/* alu_add: performs addition of op1 and op2 with c_in
+outputs the sum and the value of c15,overflow to be used to calculate overflow
+*/
 task alu_add;
 input [15:0] op1;
 input [15:0] op2;
@@ -63,7 +66,7 @@ end
 endtask
 
 
-/* flags_out */ 
+/* flags_out: assigns the flags */ 
 
 //N
 assign flags_out[3] = result[15];
