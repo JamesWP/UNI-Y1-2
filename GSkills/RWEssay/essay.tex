@@ -34,138 +34,103 @@ different types of cryptography:
 \end{itemize}
 All of these have very different uses and all do different things.
 
+\subsection{Terminology}
+Message - This is typically a varying blob of data, this could be a string of characters or an  collection of bytes. This is the data you wish to encrypt. 
+
+Digest - This is the result of a hashing process. The size of the digest is usually a fixed length for any given algorithm, many algorithms have different variations on the length of the digest.
+
+Plain-text - This is similar to the Message above however plain-text is usually the input to an encryption algorithm
+
+Cipher-text - This is the output of an encryption algorithm, this is not human readable text and 
+can only be deciphered with the key used to encrypt it.
+
 \subsection{Hashing algorithms}
-This family of cryptographic algorithms are an effective method of turning
-a input message of bytes and producing an output of a static length
-so using MD5 as an example of a hashing algorithm on the binary conversion
-of the string "Hello world!" produces the output 
+This family of cryptographic functions are an effective means of taking
+an input message of bytes and producing an output digest. 
+For example using MD5 (a hashing algorithm) on the string "Hello world!" produces the following output:
 
 \begin{center}
 {\tt 86FB269D190D2C85F6E0468CECA42A20}
 \end{center}
 
-This is a 16 byte hex string. now the usefulness of a hashing algorithm
-is that if you change the input message the output or digest as it is known
-is vastly different if we use a message of "Hello world?" instead the digest
-is 
+This is a 16 byte hex string (128bit) digest. now the usefulness of a hashing algorithm
+comes with the fact that if you change the input message, even by a little, the output is vastly different from the original if we instead use a message of "Hello world?" the digest is: 
 
 \begin{center}
 {\tt 48604754B9FED84B3FEEB84C5DC138C0}
 \end{center}
 
-This property means that if I was sent a very large message and its digest,
- I could very easily see if we both had
-the same message by comparing the digest. Even one mistake in the message
-will produce a completely different digest.
-now of course the number of different messages is infinite however given
-the example of MD5 with its 128 bit digest you \textit{only} have  $\approx10^{30}$
-possible hashes. This means that there will be some messages that have the
-same digest. This is a problem, consider you downloading a program along
-with the hash from a software company, you only want to run the program if
-you can be sure that the program you have is exactly the one that was sent
-because if you instead run a program and it turns out to be a virus your boss
-will be very angry. If there was an easy way to create a program with the
-same digest then it could be possible to fool you into running the attackers program
-when two such messages both have the same digest this is called a hashing
-collision. The effectiveness of a hashing algorithm is the combination of
-a small possibility of collisions and a quick calculation speed.
+This is a useful property and is used across computing to compare files for equality. Even one single byte of difference in the message will produce a completely different digest as output.
+As the digest is of a fixed length these can be sent along with every file and each can be calculated at the destination and any incorrect bytes can be safely detected. This is the equivalent of a checksum found on many different bar-codes.
+Now of course the number of different messages possible is infinite, however given
+the example of MD5 with its 128bit digest you \textit{only} have  $\approx2^{128}\approx10^{38}$ possible hashes. This means that there will be some messages that have the
+same digest. This is a problem, consider you are downloading a new program along
+with the hash from a software company, you only want to install the program if
+you can be sure that the program is exactly the one that was published. If you run a program and it turns out not to be the promised software but instead to be a virus you will be very disappointed. If it was an easy to create two files with the same digest then it could be possible to create a virus program with the same hash as your intended program.
+When two such messages both have the same digest this is called a collision. In order to have a successful hashing algorithm you must decrease the probability of this happening. The effectiveness of a hashing algorithm is the combination of the possibility of collisions and a quick calculation speed.
 
 \subsection{Symmetric key cryptography}
-as the name suggests symmetric key cryptography is the process of encrypting a
-message with a key or locking it. This prevents anyone without a key to
-read the message. This allows the message to be passed through a third
-party (in most cases the internet) to an intended recipient who has a
-symmetric (identical) key to the one you used to encrypt it. This type
-of encryption allows large amounts of data to be sent securely however
-the problem with this is that both parties must have agreed on a key before
-needing to send a message. They must have a secure way to do this, they
-could have a list of keys that they both use that was passed between
-them without a third party having access to the key i.e. On a private
-network. It should not be possible to find the key for an encrypted
-message from simply examining it no matter how long the data.
+As the name suggests symmetric key cryptography is the process of encrypting a
+message with two symmetric (identical) keys. This encryption should also prevent anyone without a key to do the same. This encryption should then allow the message to be passed through a third party (in most cases the internet) to the intended recipient who has a
+copy of your key. This type of encryption allows large amounts of data to be securely sent. However one of the main problems with this is that both parties must have the key used to encrypt. This means that they must have a secure way to send the key. And given the fact that
+they wish to encrypt a file they probably don't have a secure connection between them. One possible solution is that they could both have a common list of keys each with a unique number. when one wishes to send an encrypted file they must only send the unique key number and the encrypted file. They would have to pre generate the keys and send them on a private (secure) network.
+There are a few different things that must be considered when creating these encryption techniques. The ability to, from an encrypted file, correctly identify the key used to encrypt it which is obviously not a good thing. The ability to brute force the encryption on a file by trying all possible keys. the algorithm can prevent this by ensuring that the process takes a sensible amount of time to run. I.e. too long and the encryption is useless because it has a delay in sending information and too short and its too easy to guess many different keys. The last problem of speed will become apparent later with the section on quantum cryptography.
 
 \subsection{Antisymmetric key cryptography}
-this is similar to the above symmetric key cryptography, however the
-interesting part about this is in the key pair. When a key is generated
-from a random seed the algorithm creates two. One is chosen as the public
-key and one as the private key. The public key is put on display by a
-trusted third party the private key is never publicly visible and no one
-but the creator has access. Both keys can encrypt a message however
-once a message has been encrypted only the other key can decrypt it.
-this has two main implications:
-  *  any file can be securely sent to the (private) key holder by
+This is similar to the above symmetric key cryptography, however the
+interesting part about this is in the key pair. When a public key pair is generated one is chosen as the public key and the other as the private key. The public key is put on display by a trusted third party and the private key is saved and kept secure where no one but the creator has access. Like traditional cryptography, both keys can encrypt the message however once a message has been encrypted only the other key can decrypt it. This has two main implications:
+\begin{itemize}
+	\item Any file can be securely sent to the (private) key holder by
      encrypting the file with the public key. This ensures that
-     only the key holder can access the file
-  *  the key holder can hash a file and then encrypt the hash with the
+     only the key holder can access the file.
+	\item The key holder can hash a file and then encrypt the hash with the
      private key. This has the effect that anyone can verify the file
-     to ensure that the creator has indeed had access to the original
-these techniques allows applications to ensure that they can trust that
-a user is indeed the creator of the message. For example the git server
-verifies that the commit has not been tampered with by anyone on the network
-and that the user was indeed the author of the commit as no one can create
-a signed file without the private key.
-the opposite is also useful. Your bank may publish their public key and
-a digital signature with every web page or document. Your computer can then
-verify these documents were indeed created by the bank and no one between
-has tampered with them.
+     to ensure that the creator has indeed had access to the original.
+\end{itemize}
+These properties can be used in order to create a trust relationship between two parties. For example the git server verifies that the commit has not been tampered with by anyone on the network by checking the commit was encrypted with the private key of a user autorised to contribute to the repository. This is all guaranteed because only the owner of the private key can create a signed file.
+The opposite is also useful. Your bank may publish their public key and with each web page they serve they could include an encrypted hash of the content. you can then verify that the hash is the same as that of the web page and trust that the bank was indeed the creator of the page.
 
 \section{Quantum computing}
 The advent of quantum computing means that the flaws discussed in the
 processes above could be easily found and the guarantees they give cannot
-be trusted. Third parties could listen in on private conversations. 
-Files and pages on the internet cant be trusted or verified. This is possible
-because with classical computation the effort required to break these guarantees
-is so impossibly large that the in the age of the universe not a single one
+be trusted. Third parties could then break into private conversations and listen in. 
+Files and pages on the internet would not be guaranteed and could not be trusted or verified. This is possible because with classical computation the time required to break these guarantees by brute force is so impossibly large that the in the age of the universe not a single one
 could have been broken. However quantum computers offer techniques that
-were before impossible classical computations can be made many orders 
-of magnitude faster and things that were before impossible, possible
+were before impossible, and can perform many classical computations many orders of magnitude faster 
+than was before possible.
 
 \subsection{Quantum cryptography}
 Quantum cryptography is an effort to offer the above principals but instead
 of offering security by mathematics, quantum cryptography bases the security
-on quantum peculiarities that once proved will not offer any possible way
+on quantum peculiarities that once proved will not offer any way
 around them given any amount of computation available.
 
-one such quantum peculiarity is the spin states of photons. The spin of
-a photon is in one of 4 directions up-down, left-right top-left-bottom-right, 
-top-right-bottom-left. The quantum nature of the photon means that you cannot measure a photon
-without disturbing it. And you can only measure one set of directions at a time
-if you measure with a non-diagonal set of detectors then you will only get 
-a correct answer if the spin is in one of the two states you chose to measure
-otherwise you get a random incorrect answer and you cannot measure a photon
-twice.
+One such quantum peculiarity is the spin states of photons. The spin of
+a photon is in one of 4 directions n-s\, w-e\, nw-se\, ne-sw.
+The quantum nature of the photon means that you cannot measure a photon
+without disturbing it. this means that if you want to know which direction a photon is spinning then you can\'t then measure it again or pass it along. And you can only measure one set of directions at a time. So you can either choose a n-s or e-w detector and if the photon was in one of the two states then the detector will report the correct direction either n-s or e-w. However if the photon was in one of the other two states nw-se or ne-sw then there is a 50/50 chance that it will report incorrectly either n-s or e-w. So there are two possibilities if you don\'t know which detector to use, you either use the correct detector and get the right result. Or you use the wrong detector and get an incorrect result. however at this point you don\'t know if you are right or wrong.
 
-lets consider two parties Alice and Bob, Alice wants to send a message to
-bob without anyone knowing what was sent.
-Alice will use standard symmetric key encryption however to send the key
-she will encode a string of photons with different spins and send them to
-bob. In order for bob to decode the photons he will set up his detector 
-in one of the two positions. He will incorrectly measure half of the photons
-however once he has made and recorded the results he sends a list of the
+Now lets use these properties to construct a secure mechanism of sending a string of bytes in such a way that both parties know the exact same string. this
+can then be used as a traditional key to encrypt the message.
+
+Lets consider those two parties Alice and Bob, Alice wants to communicate a random key to Bob. To do this Alice will encode a string of random data in the 
+spins of photons with different spins and send them to Bob over a glass fibre cable. In order for Bob to decode the photons he will set up a random detector 
+ one of the two types ns ew\, ne-sw nw-se. He will incorrectly measure half of the photons however once he has made and recorded the results he sends a list of the
 detectors that he used for each measurement to Alice. Alice simply replies
-with the measurements for which bob used the correct detector. Bob then 
+with the measurements for which Bob used the correct detector. Bob then 
 removes the incorrect measurements and this leaves a list of values that 
-can be used as a key for standard encryption. Because of the properties
+can be converted into a key for standard encryption. Because of the properties
 of the quantum behaviour of the particles any eavesdropping and measurement
-of the photons will lead to a message being unable to be decoded by bob.
-this will lead to Alice and bob knowing that their message was compromised.
-
-now both parties have access to a collection of random bits, the same bits
-in the same order. And we also have the physical knowledge that is is
-impossible for anyone in between to get the code. When both parties have
-these then this key can be used in a traditional method to encrypt any data.
-the secret to having this form of encryption work is having a large key.
-more traditional methods for key distribution rely on other forms of encryption
-for example first encrypting the key with a public key and then sending 
-the encrypted key publicly. The quantum method is more secure and doesn\'t
-rely on a less secure method to transport the key.
+of the photons will lead to a message being unable to be decoded by Bob.
+This will lead to Alice and Bob knowing that their message was compromised.
 
 \section{Conclusion}
 Cryptography has been around since before the internet and has been
 an ever evolving science with a basis on mathematical properties and 
 computational complexity. However the quantum revolution has changed this
-ever changing and breaking cycle of new algorithms into a more static and
-proved method. Of course at the moment only the key is transferred over the
-new principle however in the future the whole process can be secured in this
-way and then we should be total safe from the prying eyes of others.
+cycle of new algorithms into a more static and proved method. Of course at the moment only the key is transferred over the new principle however in the future the whole process can be secured in this way and then we should be total safe from the prying eyes of others.
+
+The quantum revolution offers many new and different solutions to problems quantum cryptography is one of many different areas of computer science that 
+has been radically changed.
+
 \end{document}
