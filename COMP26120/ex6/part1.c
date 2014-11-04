@@ -30,8 +30,9 @@ int main(int argv, char **argc){
     fprintf(stderr, "Could not make array\n");
     exit(3);
   }
-
-  for(int n=0;n<count;n++){
+	
+	int n=0;
+  for(n=0;n<count;n++){
     if(fscanf(numberFile,"%d",&numbers[n])<0){
       fprintf(stderr, "Could not read number\n");
       exit(4);
