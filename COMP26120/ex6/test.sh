@@ -13,4 +13,6 @@ echo 10000 >>results
 echo 100000 >>results
 (time part1 100000 data100k) 2>>results 
 echo 1000000 >>results
-(time part1 1000000 data1M) 2>>results 
+(time part1 1000000 data1M) 2>>results
+echo 1000000 >>results
+(time part1 10000000 data10M) 2>> results 
