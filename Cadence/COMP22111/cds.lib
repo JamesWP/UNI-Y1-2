@@ -1,5 +1,0 @@
-define mu0     bin/mu0
-define stump   bin/stump
-define FPGA    bin/FPGA
-define unisims bin/unisims
-
