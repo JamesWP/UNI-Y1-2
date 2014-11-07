@@ -1,6 +1,0 @@
-FD  I0 ( .C(clk), .D(key), .Q(kd1));
-FD  I2 ( .C(clk), .D(kd2), .Q(kd3));
-FD  I1 ( .C(clk), .D(kd1), .Q(kd2));
-AND2B1  I28 ( .I0(kd3), .I1(kd2), .O(press));
-
-endmodule

@@ -1,5 +1,0 @@
-halfadder I4 ( net13, s, net12, cin);
-halfadder I3 ( net14, net12, a, b);
-OR2  I5 ( .O(cout), .I1(net13), .I0(net14));
-
-endmodule

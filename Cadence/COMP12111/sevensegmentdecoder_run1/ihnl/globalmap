@@ -1,8 +1,0 @@
-CADENCE IHNL01070
-$model
-COMP12111/sevensegmentdecoder/functional sevensegmentdecoder
-$endmodel
-$net
-$endnet
-$param
-$endparam

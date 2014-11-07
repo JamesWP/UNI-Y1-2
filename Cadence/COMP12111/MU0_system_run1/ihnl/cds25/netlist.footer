@@ -1,7 +1,0 @@
-MU0_datapath Datapath ( Addr[11:0], Dout[15:0], net16[0:3], N, Z,
-     Acc_En, Clk, Din[15:0], IR_En, M[1:0], PC_En, Reset, X_sel, Y_sel,
-     addr_sel);
-MU0_control Control ( Acc_En, Halted, IR_En, M[1:0], PC_En, Rd, Wr,
-     X_sel, Y_sel, addr_sel, Clk, net16[0:3], N, Reset, Z);
-
-endmodule

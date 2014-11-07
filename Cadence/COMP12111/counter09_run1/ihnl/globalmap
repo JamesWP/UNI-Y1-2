@@ -1,8 +1,0 @@
-CADENCE IHNL01070
-$model
-COMP12111/counter09/functional counter09
-$endmodel
-$net
-$endnet
-$param
-$endparam

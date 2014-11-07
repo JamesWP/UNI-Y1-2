@@ -1,2 +1,0 @@
-cellViewCounterTable = makeTable('cellViewCounterTableType nil)
-cellViewCounterTable['("COMP12111" "sevensegmentdecoder" "functional" )] =  656

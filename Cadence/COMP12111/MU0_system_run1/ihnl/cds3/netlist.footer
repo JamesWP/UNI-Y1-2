@@ -1,5 +1,0 @@
-key_scan I1 ( Clk, net4[0:5], net021[0:5], Key_row1[7:0],
-     Key_row2[7:0], Key_row3[7:0], Key_row4[7:0]);
-Keys I0 ( net4[0:5], net021[0:5]);
-
-endmodule

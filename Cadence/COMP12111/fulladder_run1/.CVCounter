@@ -1,9 +1,0 @@
-cellViewCounterTable = makeTable('cellViewCounterTableType nil)
-cellViewCounterTable['("spartan3" "INV" "symbol" )] =  40
-cellViewCounterTable['("COMP12111" "halfadder" "schematic" )] =  571
-cellViewCounterTable['("COMP12111" "halfadder" "symbol" )] =  71
-cellViewCounterTable['("COMP12111" "fulladder" "schematic" )] =  868
-cellViewCounterTable['("spartan3" "AND2" "symbol" )] =  50
-cellViewCounterTable['("spartan3" "OR2" "symbol" )] =  51
-cellViewCounterTable['("basic" "ipin" "symbol" )] =  22
-cellViewCounterTable['("basic" "opin" "symbol" )] =  22

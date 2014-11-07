@@ -1,6 +1,0 @@
-AND2  I1 ( .O(sum), .I1(net11), .I0(net12));
-AND2  I0 ( .O(carry), .I1(b), .I0(a));
-OR2  I2 ( .O(net11), .I1(b), .I0(a));
-INV  I3 ( .O(net12), .I(carry));
-
-endmodule
