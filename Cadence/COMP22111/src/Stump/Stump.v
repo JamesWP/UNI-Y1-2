@@ -35,7 +35,7 @@ wire [15:0] src_2;
 wire [15:0] operand_A, operand_B;
 wire        csh;
 wire        cc_en;
-wire        shift_op;
+wire [1:0]  shift_op;
 wire [3:0]  alu_flags;
 wire [2:0]  alu_func;
 wire [15:0] alu_out;

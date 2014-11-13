@@ -9,29 +9,22 @@ public class Semaphore {
     queue = new ArrayList <SemProc> ();
   }
 
-  public synchronized void V() {
-    System.out.println(this + " V()");
-    value++;
-    while(value <= 0) {
-      System.out.println("Finished " + this + " value=" + value);
-      queue.remove(0);
-      notifyAll();
-    }
+  public void P(SemProc t) {
+	  value--;
+		synchronized(t){
+		  if(value<0){
+	      queue.add(t);	
+			  t.removeFromReadyQueue();
+      }
+  	}
   }
 
-  public void P(SemProc t) {
-    System.out.println(this + " P(" + t +")");
-    synchronized(this){
-      value--;
-      if(value < 0) {
-        System.out.println("Add to queue " + t);
-        queue.add(t); 
-        while(value < 0 || t != queue.get(0)) {
-          System.out.println("Waiting " + this + " value=" + value);
-          try{wait();}
-          catch(InterruptedException e){}
-        }
-      }
-    }
+  public synchronized void V() {
+		value++;
+		if(value<=0){
+			SemProc next = queue.get(0);
+			queue.remove(0);
+			next.addToReadyQueue(false);
+		}
   }
 }
