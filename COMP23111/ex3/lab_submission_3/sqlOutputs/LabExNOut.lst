@@ -1,0 +1,30 @@
+SQL>
+SQL> SELECT * FROM album;
+
+ALBUM TITLE                     CREATEDBY                                                                                                             
+----- ------------------------- -----------------------                                                                                               
+1c    20 People in a Field      Goldfrat                                                                                                              
+1v    20 People in a Field      Goldfrat                                                                                                              
+1t    20 People in a Field      Goldfrat                                                                                                              
+2c    My Feet                   Flut                                                                                                                  
+2v    My Feet                   Flut                                                                                                                  
+3c    Debut                     Jay Blancard                                                                                                          
+
+6 rows selected.
+
+SQL> 
+SQL> -- set width of a line (before wrapping to the next line)
+SQL> SET LIN 30
+SQL> 
+SQL> DESCRIBE album;
+
+Name              Null?    Type
+----------------- -------- ------------
+ALBUM_ID          NOT NULL VARCHAR2(5)
+TITLE                      VARCHAR2(80)
+CREATEDBY                  VARCHAR2(40)
+
+SQL> 
+SQL> -- other SQL statements here
+SQL> 
+SQL> SPOOL OFF
