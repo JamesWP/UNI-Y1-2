@@ -26,7 +26,7 @@ My algorithm has three parts:
 
 The loading of the data from file $O(n)$.
 
-Sorting the array with stdlib quicksort $O(log(n))$.
+Sorting the array with stdlib quicksort $O(n*log(n))$.
 
 Finding the 90\'th percentile value $O(1)$.
 
@@ -43,23 +43,11 @@ in powers of $10$.
 
  \begin{figure}
    \centering
- \resizebox{0.9\textwidth}{!}{\includegraphics{my-plot.ps}}  
+ \resizebox{0.9\textwidth}{!}{\includegraphics[trim=0cm 0cm 0cm 5cm]{graph-datapoints.pdf}}  
   
    \caption{Real time vs count of numbers}
    \label{fig:experiment1}
  \end{figure}
-
-% If you put your results in a table, the followin might be helpful. 
-% Replace the formula in the third column with the formula you are testing. 
-
-% \begin{center}
-% \begin{tabular}{l||l|l|}
-%   data size   & run time    & $t = 0.5 N^3$       \\  \hline
-%   10          &             &                      \\
-%   100         &             &                      \\
-
-% \end{tabular}
-% \end{center}
 
 \subsection{Prediction}
 \label{sec:prediction1}
@@ -67,11 +55,10 @@ in powers of $10$.
 My estimate of the equation for the run-time of the algorithm is:
 \begin{equation}
   \label{eq:estimated_runtime1}
-  t(N) = XXXX
+  t(N) = 2.4 \times 10^{-8}*log(n)
 \end{equation}
 Using this, the estimated time to find the ninetieth percentile of a
-file containing 60 million numbers is XXXX seconds.
-
+file containing 60 million numbers is $25.79$ seconds.
 
 %LAB 6 PART 2
 \section{Part~2 Algorithm}
@@ -93,22 +80,13 @@ The description of the experiments goes here: XXXX
 % \begin{figure}
 %   \centering
 % \resizebox{0.9\textwidth}{!}{\includegraphics{my-plot.ps}}  
-  
+%  
 %   \caption{Put your caption here XXXX}
 %   \label{fig:experiment1}
 % \end{figure}
 
 % If you put your results in a table, the followin might be helpful. 
 % Replace the formula in the third column with the formula you are testing. 
-
-% \begin{center}
-% \begin{tabular}{l||l|l|}
-%   data size   & run time    & $t = 0.5 N^3$       \\  \hline
-%   10          &             &                      \\
-%   100         &             &                      \\
-
-% \end{tabular}
-% \end{center}
 
 \subsection{Prediction}
 \label{sec:prediction2}
