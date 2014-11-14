@@ -41,14 +41,17 @@ int main(int argv, char **argc){
   // implementation of bucket sort
   int i, j;
   int *bucket = malloc(sizeof(int) * count);
+  // initialise data
   for(i=0; i < count; i++)
   {
     bucket[i] = 0;
   }
+  // count freq of numbers
   for(i=0; i < count; i++)
   {
     (bucket[numbers[i]])++;
   }
+  //insertion sort the numbers in the buckets
   for(i=0,j=0; i < count; i++)
   {
     for(; bucket[i]>0;(bucket[i])--)

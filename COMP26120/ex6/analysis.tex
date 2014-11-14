@@ -15,7 +15,7 @@
 
 \subsection{Asymptotic run-time analysis}
 
-My algorithm runs in asymptotic time $O(log(n)$. The argument for this follows:
+My algorithm runs in asymptotic time $O(n * log(n)$. The argument for this follows:
 
 My algorithm has three parts:
 \begin{enumerate}
@@ -66,24 +66,42 @@ file containing 60 million numbers is $25.79$ seconds.
 
 \subsection{Asymptotic run-time analysis}
 
-My algorithm runs in asymptotic time $O(XXXX)$. 
+My algorithm runs in asymptotic time $O(n)$. 
 
 The argument for this follows:
-XXXX
+
+My algorithm has three parts:
+\begin{enumerate}
+	\item load data into array
+	\item sort array
+	\item find 90\'th percentile value
+\end{enumerate}
+
+The loading of the data from file $O(n)$.
+
+Sorting the array with bucket sort $O(k + k)$.
+
+Finding the 90\'th percentile value $O(1)$.
+
+This suggests that the dominating factor is the sort.
+
 
 \subsection{Experiments}
 \label{sec:experiments2}
-The description of the experiments goes here: XXXX
+The description of the experiments goes here: same as above:
 
-% If you put your results in a graph, uncomment the following. 
+I tested the algorithm with increasing number of n from $1$ to $10,000,000$ 
+in powers of $10$.
 
-% \begin{figure}
-%   \centering
-% \resizebox{0.9\textwidth}{!}{\includegraphics{my-plot.ps}}  
-%  
-%   \caption{Put your caption here XXXX}
-%   \label{fig:experiment1}
-% \end{figure}
+ If you put your results in a graph, uncomment the following. 
+
+ \begin{figure}
+   \centering
+ \resizebox{0.9\textwidth}{!}{\includegraphics{my-plot.ps}}  
+  
+   \caption{Put your caption here XXXX}
+   \label{fig:experiment1}
+ \end{figure}
 
 % If you put your results in a table, the followin might be helpful. 
 % Replace the formula in the third column with the formula you are testing. 
