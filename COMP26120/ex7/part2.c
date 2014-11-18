@@ -176,8 +176,32 @@ void sortList(int func, int N){
 void user_interface(int N)
 {
     // For Part 1 this function calls the sort function to sort on Price only
-    mysort(0, N, list, comp_on_price);
+    //mysort(0, N, list, comp_on_price);
     
+    // For Part 2 this function
+    // (1) asks the user if they would like to sort their search results
+    
+    char sort[10];
+    printf("Do you wish to sort your results? (yes,no)");
+    
+    scanf("%3s", sort);
+    if(strcmp(sort,"yes")==0){
+      // (2) asks for the most important field (or key), the next most etc
+      int first, second, third;
+      printf("Fields: 1=Rating, 2=Relevance, 3=Price\n");
+      printf("Please enter your first field:");
+      scanf("%d", &first);
+      printf("\nPlease enter your second field:");
+      scanf("%d", &second);
+      printf("\nPlease enter your third field:");
+      scanf("%d", &third);
+      printf("Sorting on (%d,%d,%d)\n",first,second,third);
+      // (3) calls your sort function
+      sortList(third,N);
+      sortList(second,N);
+      sortList(first,N);
+    }
+   
 }
 
 
