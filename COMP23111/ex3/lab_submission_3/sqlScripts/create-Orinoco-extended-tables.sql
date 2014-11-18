@@ -62,17 +62,17 @@ CREATE TABLE FinishedTrack (
 	CONSTRAINT 	ft_originatesFrom_fk FOREIGN KEY(originatesFrom) REFERENCES MasterTrack(track_ID));
 
 CREATE TABLE AlbumTrack (
-  album_ID INTEGER,
+  album_ID VARCHAR2(5),
   track_ID INTEGER,
   version INTEGER,
   sequence INTEGER,
   CONSTRAINT at_pk PRIMARY KEY(album_ID,track_ID,version),
   CONSTRAINT at_album_fk FOREIGN KEY(album_ID) REFERENCES Album(album_ID),
-  CONSTRAINT at_track_fk FOREIGN KEY(track_ID,version) REFERENCES FinishedTrack(track_ID,version));
+  CONSTRAINT at_track_fk FOREIGN KEY(track_ID,version) REFERENCES FinishedTrack(originatesFrom,version));
 
 CREATE TABLE Catalogue (
   release_date DATE NOT NULL,
-  album_ID INTEGER,
+  album_ID VARCHAR2(5),
   price NUMBER(10,2),
   stock INTEGER,
   CONSTRAINT ca_pk PRIMARY KEY(release_date,album_ID),
@@ -88,64 +88,64 @@ CREATE TABLE Order (
   date_placed DATE NOT NULL,
   date_dispatched DATE NOT NULL,
   buyer_ID INTEGER,
-  CONSTRAINT PRIMARY KEY (order_no),
-  CONSTRAINT FOREIGN KEY (buyer_ID) REFERENCES Buyer(buyer_ID));
+  CONSTRAINT or_pk PRIMARY KEY (order_no),
+  CONSTRAINT or_buyer_fk FOREIGN KEY (buyer_ID) REFERENCES Buyer(buyer_ID));
 
 CREATE TABLE OrderItem (
   order_no INTEGER,
   release_date DATE NOT NULL,
-  album_ID INTEGER,
-  CONSTRAINT PRIMARY KEY(order_no,release_date,album_ID),
-  CONSTRAINT FOREIGN KEY(order_no) REFERENCES Order(order_ID),
-  CONSTRAINT FOREIGN KEY(release_date,album_ID) REFERENCES Catalogue(release_date,album_ID));
+  album_ID VARCHAR2(5),
+  CONSTRAINT oi_pk PRIMARY KEY(order_no,release_date,album_ID),
+  CONSTRAINT oi_order_fk FOREIGN KEY(order_no) REFERENCES Order(order_ID),
+  CONSTRAINT oi_catalogue_fk FOREIGN KEY(release_date,album_ID) REFERENCES Catalogue(release_date,album_ID));
 
 CREATE TABLE SoloArtist (
   artistic_name VARCHAR2(40),
   date_first_performed DATE NOT NULL,
   real_name VARCHAR2(40),
-  CONSTRAINT PRIMARY KEY (artistic_name),
-  CONSTRAINT FOREIGN KEY (artistic_name) REFERENCES Artist(artistic_name));
+  CONSTRAINT sa_pk PRIMARY KEY (artistic_name),
+  CONSTRAINT sa_artist_fk FOREIGN KEY (artistic_name) REFERENCES Artist(artistic_name));
 
 CREATE TABLE GroupArtist (
   artistic_name VARCHAR2(40),
   date_formed DATE NOT NULL,
-  CONSTRAINT PRIMARY KEY (artistic_name),
-  CONSTRAINT FOREIGN KEY (artistic_name) REFERENCES Artist(artistic_name));
+  CONSTRAINT ga_pk PRIMARY KEY (artistic_name),
+  CONSTRAINT ga_artist_fk FOREIGN KEY (artistic_name) REFERENCES Artist(artistic_name));
 
 CREATE TABLE MemberOf (
   solo_artistic_name VARCHAR2(40),
   group_artistic_name VARCHAR2(40),
   date_joined DATE NOT NULL,
-  CONSTRAINT PRIMARY KEY (solo_artistic_name,group_artistic_name),
-  CONSTRAINT FORIEGN KEY (solo_artistic_name) REFERENCES Artist(artistic_name)),
-  CONSTRAINT FOREIGN KEY (group_artistic_name) REFERENCES Artist(artistic_name));
+  CONSTRAINT mo_pk PRIMARY KEY (solo_artistic_name,group_artistic_name),
+  CONSTRAINT mo_solo_artist_fk FORIEGN KEY (solo_artistic_name) REFERENCES Artist(artistic_name)),
+  CONSTRAINT mo_group_artist_fk FOREIGN KEY (group_artistic_name) REFERENCES Artist(artistic_name));
 
 CREATE TABLE VinylAlbum (
-  album_ID INTEGER,
-  CONSTRAINT PRIMARY KEY (album_ID),
-  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
+  album_ID VARCHAR2(5),
+  CONSTRAINT va_pk PRIMARY KEY (album_ID),
+  CONSTRAINT va_album_fk FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
 
 CREATE TABLE VinylAlbumColor (
-  album_ID INTEGER,
+  album_ID VARCHAR2(5),
   color VARCHAR(10),
-  CONSTRAINT PRIMARY KEY (album_ID,color),
-  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES VinylAlbum(album_ID));
+  CONSTRAINT vac_pk PRIMARY KEY (album_ID,color),
+  CONSTRAINT vac_vinyl_album_fk FOREIGN KEY (album_ID) REFERENCES VinylAlbum(album_ID));
 
 CREATE TABLE CDAlbum (
-  album_ID INTEGER,
-  CONSTRAINT PRIMARY KEY (album_ID),
-  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
+  album_ID VARCHAR2(5),
+  CONSTRAINT cd_pk PRIMARY KEY (album_ID),
+  CONSTRAINT cd_album_fk FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
 
 CREATE TABLE CDAlbumExtra (
-  album_ID INTEGER,
+  album_ID VARCHAR2(5),
   extra VARCHAR(10),
-  CONSTRAINT PRIMARY KEY (album_ID,extra),
-  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES CDAlbum(album_ID));
+  CONSTRAINT cde_pk PRIMARY KEY (album_ID,extra),
+  CONSTRAINT cde_album_fk FOREIGN KEY (album_ID) REFERENCES CDAlbum(album_ID));
 
 CREATE TABLE TapeAlbum (
-  album_ID INTEGER,
-  CONSTRAINT PRIMARY KEY (album_ID),
-  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
+  album_ID VARCHAR2(5),
+  CONSTRAINT ta_pk PRIMARY KEY (album_ID),
+  CONSTRAINT ta_album_fk FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
 
 
 -- populate all the tables
