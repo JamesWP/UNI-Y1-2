@@ -93,13 +93,14 @@ The description of the experiments goes here: same as above:
 I tested the algorithm with increasing number of n from $1$ to $10,000,000$ 
 in powers of $10$.
 
- If you put your results in a graph, uncomment the following. 
+% If you put your results in a graph, uncomment the following. 
+
 
  \begin{figure}
    \centering
- \resizebox{0.9\textwidth}{!}{\includegraphics{my-plot.ps}}  
+ \resizebox{0.9\textwidth}{!}{\includegraphics[trim=0cm 0cm 0cm 5cm]{graph-improved.pdf}}  
   
-   \caption{Put your caption here XXXX}
+   \caption{Real time vs count of numbers}
    \label{fig:experiment1}
  \end{figure}
 
@@ -112,10 +113,10 @@ in powers of $10$.
 My estimate of the equation for the run-time of the algorithm is:
 \begin{equation}
   \label{eq:estimated_runtime2}
-  t(N) = XXXX
+  t(N) = 1.46*10^{-7} * n
 \end{equation}
 Using this, the estimated time to find the ninetieth percentile of a
-file containing 60 million numbers is XXXX seconds.
+file containing 60 million numbers is $12.8$ seconds.
 
 
 
