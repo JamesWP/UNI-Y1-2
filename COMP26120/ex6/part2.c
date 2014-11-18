@@ -40,7 +40,11 @@ int main(int argv, char **argc){
 
   // implementation of bucket sort
   int i, j;
-  int *bucket = malloc(sizeof(int) * count);
+  int *bucket = malloc(sizeof(int) * 9000000);
+  if(bucket==NULL){
+    fprintf(stderr, "Could not make array\n");
+    exit(4);
+  }
   // initialise data
   for(i=0; i < count; i++)
   {
@@ -75,5 +79,4 @@ int main(int argv, char **argc){
   printf("at index %d\n",ninetieth);
 
   fclose(numberFile);
-  free(numbers);
 }
