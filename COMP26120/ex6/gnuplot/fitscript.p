@@ -10,7 +10,7 @@ set xlabel "Size of database"
 set ylabel "Runtime (sec)"
 set key on
 set logscale
-f(x)=a*x*log(x) # change this to match your function
+f(x)=a*x# change this to match your function
 fit f(x) "data.dat" using 1:2 via a
 plot    "data.dat" using 1:2 title 'Experimental results' with linespoints, \
-   f(x) title "f(N) = a*x*log(x)"
+   f(x) title "f(N) = a*x"
