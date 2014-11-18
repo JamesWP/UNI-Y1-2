@@ -60,7 +60,94 @@ CREATE TABLE FinishedTrack (
 	final_length	VARCHAR2(40),
 	CONSTRAINT 	ft_id_pk PRIMARY KEY(originatesFrom, version),
 	CONSTRAINT 	ft_originatesFrom_fk FOREIGN KEY(originatesFrom) REFERENCES MasterTrack(track_ID));
-	
+
+CREATE TABLE AlbumTrack (
+  album_ID INTEGER,
+  track_ID INTEGER,
+  version INTEGER,
+  sequence INTEGER,
+  CONSTRAINT at_pk PRIMARY KEY(album_ID,track_ID,version),
+  CONSTRAINT at_album_fk FOREIGN KEY(album_ID) REFERENCES Album(album_ID),
+  CONSTRAINT at_track_fk FOREIGN KEY(track_ID,version) REFERENCES FinishedTrack(track_ID,version));
+
+CREATE TABLE Catalogue (
+  release_date DATE NOT NULL,
+  album_ID INTEGER,
+  price NUMBER(10,2),
+  stock INTEGER,
+  CONSTRAINT ca_pk PRIMARY KEY(release_date,album_ID),
+  CONSTRAINT ca_album_pk FOREIGN KEY(album_ID) REFERENCES Album(album_ID));
+
+CREATE TABLE Buyer (
+  buyer_ID INTEGER,
+  date_registered DATE NOT NULL,
+  CONSTRAINT bu_pk PRIMARY KEY(buyer_id));
+
+CREATE TABLE Order (
+  order_no INTEGER,
+  date_placed DATE NOT NULL,
+  date_dispatched DATE NOT NULL,
+  buyer_ID INTEGER,
+  CONSTRAINT PRIMARY KEY (order_no),
+  CONSTRAINT FOREIGN KEY (buyer_ID) REFERENCES Buyer(buyer_ID));
+
+CREATE TABLE OrderItem (
+  order_no INTEGER,
+  release_date DATE NOT NULL,
+  album_ID INTEGER,
+  CONSTRAINT PRIMARY KEY(order_no,release_date,album_ID),
+  CONSTRAINT FOREIGN KEY(order_no) REFERENCES Order(order_ID),
+  CONSTRAINT FOREIGN KEY(release_date,album_ID) REFERENCES Catalogue(release_date,album_ID));
+
+CREATE TABLE SoloArtist (
+  artistic_name VARCHAR2(40),
+  date_first_performed DATE NOT NULL,
+  real_name VARCHAR2(40),
+  CONSTRAINT PRIMARY KEY (artistic_name),
+  CONSTRAINT FOREIGN KEY (artistic_name) REFERENCES Artist(artistic_name));
+
+CREATE TABLE GroupArtist (
+  artistic_name VARCHAR2(40),
+  date_formed DATE NOT NULL,
+  CONSTRAINT PRIMARY KEY (artistic_name),
+  CONSTRAINT FOREIGN KEY (artistic_name) REFERENCES Artist(artistic_name));
+
+CREATE TABLE MemberOf (
+  solo_artistic_name VARCHAR2(40),
+  group_artistic_name VARCHAR2(40),
+  date_joined DATE NOT NULL,
+  CONSTRAINT PRIMARY KEY (solo_artistic_name,group_artistic_name),
+  CONSTRAINT FORIEGN KEY (solo_artistic_name) REFERENCES Artist(artistic_name)),
+  CONSTRAINT FOREIGN KEY (group_artistic_name) REFERENCES Artist(artistic_name));
+
+CREATE TABLE VinylAlbum (
+  album_ID INTEGER,
+  CONSTRAINT PRIMARY KEY (album_ID),
+  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
+
+CREATE TABLE VinylAlbumColor (
+  album_ID INTEGER,
+  color VARCHAR(10),
+  CONSTRAINT PRIMARY KEY (album_ID,color),
+  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES VinylAlbum(album_ID));
+
+CREATE TABLE CDAlbum (
+  album_ID INTEGER,
+  CONSTRAINT PRIMARY KEY (album_ID),
+  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
+
+CREATE TABLE CDAlbumExtra (
+  album_ID INTEGER,
+  extra VARCHAR(10),
+  CONSTRAINT PRIMARY KEY (album_ID,extra),
+  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES CDAlbum(album_ID));
+
+CREATE TABLE TapeAlbum (
+  album_ID INTEGER,
+  CONSTRAINT PRIMARY KEY (album_ID),
+  CONSTRAINT FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
+
+
 -- populate all the tables
 
 INSERT INTO Manager VALUES (1, 'Freddy Glitter');
