@@ -52,9 +52,9 @@ int comp_on_rating(const void *a, const void *b)
 int comp_on_relev(const void *a, const void *b)
 {
     if ((*(B *)a).relevance > (*(B *)b).relevance)
-        return -1;
-    else if ((*(B *)a).relevance < (*(B *)b).relevance)
         return 1;
+    else if ((*(B *)a).relevance < (*(B *)b).relevance)
+        return -1;
     else
         return 0;
 }
@@ -165,11 +165,11 @@ void print_results(int N)
 
 void sortList(int func, int N){
   if(func==1)
-    mysort(0,N,list,comp_on_rating);
+    qsort(list,N,sizeof(B),comp_on_rating);
   else if (func==2)
-    mysort(0,N,list,comp_on_relev);
+    qsort(list,N,sizeof(B),comp_on_relev);
   else if (func==3)
-    mysort(0,N,list,comp_on_price);
+    qsort(list,N,sizeof(B),comp_on_price);
 }
 
 

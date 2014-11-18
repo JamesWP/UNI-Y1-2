@@ -141,17 +141,19 @@ void mysort(uint64_t left, uint64_t right, B* list, int (*cmp)(const void *,cons
 }
 
 
+int minRate,minRelev,maxPrice;
+
 void print_results(int N)
 {
-    int i;
+    int i,skip;
     if((fp=fopen("top20.txt","w")))
     {
-        for(i=N-1;i>=N-20;i--)
+        for(i=N-1,skip=0;i>=N-20-skip&&i>0;i--)
         {
-            
-            printf("%g %g %g %d\n", list[i].rating, list[i].price, list[i].relevance, list[i].ID);
-            fprintf(fp, "%g %g %g %d\n", list[i].rating, list[i].price, list[i].relevance, list[i].ID);
-            
+						if(list[i].rating>=minRate&&list[i].price<=maxPrice&&list[i].relevance>=minRelev){            
+              printf("%g %g %g %d\n", list[i].rating, list[i].price, list[i].relevance, list[i].ID);
+              fprintf(fp, "%g %g %g %d\n", list[i].rating, list[i].price, list[i].relevance, list[i].ID);
+						}else skip++;
         }
         fclose(fp);
     }
@@ -200,6 +202,13 @@ void user_interface(int N)
       sortList(third,N);
       sortList(second,N);
       sortList(first,N);
+		
+			printf("\nPlease enter your minimum rating:");
+			scanf("%d",&minRate);
+			printf("\nPlease enter your minimum relevance:");
+			scanf("%d",&minRelev);
+			printf("\nPlease enter your max price:");
+			scanf("%d",&maxPrice);
     }
    
 }
