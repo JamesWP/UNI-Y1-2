@@ -15,6 +15,19 @@
 -- 	(artist, manager)
 -- 	(manphone, manager)
 
+
+DROP TABLE VinylAlbumColor;
+DROP TABLE VinylAlbum;
+DROP TABLE CDAlbumExtra;
+DROP TABLE CDAlbum;
+DROP TABLE TapeAlbum;
+DROP TABLE SoloArtist;
+DROP TABLE GroupArtist;
+DROP TABLE MemberOf;
+DROP TABLE CatOrderItem;
+DROP TABLE AlbumTrack;
+DROP TABLE Catalogue;
+
 DROP TABLE Finishedtrack;
 DROP TABLE Mastertrack;
 DROP TABLE Soundengineer;
@@ -24,19 +37,8 @@ DROP TABLE Artist;
 DROP TABLE Manphone;
 DROP TABLE Manager;
 
-DROP TABLE AlbumTrack;
-DROP TABLE Catalogue;
-DROP TABLE Buyer;
 DROP TABLE CatOrder;
-DROP TABLE CatOrderItem;
-DROP TABLE SoloArtist;
-DROP TABLE GroupArtist;
-DROP TABLE MemberOf;
-DROP TABLE VinylAlbum;
-DROP TABLE VinylAlbumColor;
-DROP TABLE CDAlbum;
-DROP TABLE CDAlbumExtra;
-DROP TABLE TapeAlbum;
+DROP TABLE Buyer;
 
 -- end of script
 

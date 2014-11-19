@@ -81,9 +81,10 @@ CREATE TABLE Catalogue (
 CREATE TABLE Buyer (
   buyer_ID INTEGER,
   date_registered DATE NOT NULL,
+  name VARCHAR2(40),
   CONSTRAINT bu_pk PRIMARY KEY(buyer_id));
 
-CREATE TABLE Order (
+CREATE TABLE CatOrder (
   order_no INTEGER,
   date_placed DATE NOT NULL,
   date_dispatched DATE NOT NULL,
@@ -91,12 +92,12 @@ CREATE TABLE Order (
   CONSTRAINT or_pk PRIMARY KEY (order_no),
   CONSTRAINT or_buyer_fk FOREIGN KEY (buyer_ID) REFERENCES Buyer(buyer_ID));
 
-CREATE TABLE OrderItem (
+CREATE TABLE CatOrderItem (
   order_no INTEGER,
   release_date DATE NOT NULL,
   album_ID VARCHAR2(5),
   CONSTRAINT oi_pk PRIMARY KEY(order_no,release_date,album_ID),
-  CONSTRAINT oi_order_fk FOREIGN KEY(order_no) REFERENCES Order(order_ID),
+  CONSTRAINT oi_order_fk FOREIGN KEY(order_no) REFERENCES CatOrder(order_no),
   CONSTRAINT oi_catalogue_fk FOREIGN KEY(release_date,album_ID) REFERENCES Catalogue(release_date,album_ID));
 
 CREATE TABLE SoloArtist (
@@ -117,7 +118,7 @@ CREATE TABLE MemberOf (
   group_artistic_name VARCHAR2(40),
   date_joined DATE NOT NULL,
   CONSTRAINT mo_pk PRIMARY KEY (solo_artistic_name,group_artistic_name),
-  CONSTRAINT mo_solo_artist_fk FORIEGN KEY (solo_artistic_name) REFERENCES Artist(artistic_name)),
+  CONSTRAINT mo_solo_artist_fk FOREIGN KEY (solo_artistic_name) REFERENCES Artist(artistic_name),
   CONSTRAINT mo_group_artist_fk FOREIGN KEY (group_artistic_name) REFERENCES Artist(artistic_name));
 
 CREATE TABLE VinylAlbum (
@@ -144,6 +145,7 @@ CREATE TABLE CDAlbumExtra (
 
 CREATE TABLE TapeAlbum (
   album_ID VARCHAR2(5),
+	label VARCHAR2(10),
   CONSTRAINT ta_pk PRIMARY KEY (album_ID),
   CONSTRAINT ta_album_fk FOREIGN KEY (album_ID) REFERENCES Album(album_ID));
 
@@ -262,6 +264,122 @@ INSERT INTO FinishedTrack VALUES (307, 2, 'Forest', '60 secs');
 INSERT INTO FinishedTrack VALUES (308, 2, 'Deep', '2 mins 40 secs');
 INSERT INTO FinishedTrack VALUES (309, 2, 'Danger', '110 secs');
 INSERT INTO FinishedTrack VALUES (309, 3, 'Danger Remix', '210 secs');
+
+INSERT INTO Buyer VALUES (1,'28-Oct-2009','Simon Plant');
+INSERT INTO Buyer VALUES (2,'04-Aug-2009','Julie Last');
+INSERT INTO Buyer VALUES (3,'10-Mar-2012','Rina Blue');
+INSERT INTO Buyer VALUES (4,'20-Dec-2009','Kay Srabonian');
+INSERT INTO Buyer VALUES (5,'10-Jan-2008','Yos Willis');
+
+INSERT INTO SoloArtist VALUES ('Simon Palm','09-Jan-2004','Fred Maynard');
+INSERT INTO SoloArtist VALUES ('John Cliff','12-Dec-2005','John Cliff');
+INSERT INTO SoloArtist VALUES ('Jay Blancard','09-Jun-2003','Mervin James');
+INSERT INTO SoloArtist VALUES ('Palmer John','12-Feb-2006','Samantha Jules');
+INSERT INTO SoloArtist VALUES ('JZ','09-Mar-2004','Julie Zeb');
+INSERT INTO SoloArtist VALUES ('JK Rowl','11-Jan-2013','Marisa Jaher');
+INSERT INTO SoloArtist VALUES ('PJ Blox','04-Apr-2007','Pandar Rahoux');
+
+INSERT INTO MemberOf VALUES ('Simon Palm','Goldfrat','23-Nov-2010');
+INSERT INTO MemberOf VALUES ('Simon Palm','Scandal','12-Nov-2012');
+INSERT INTO MemberOf VALUES ('John Cliff','Goldfrat','10-Oct-2012');
+INSERT INTO MemberOf VALUES ('Jay Blancard','Goldfrat','10-Oct-2012');
+INSERT INTO MemberOf VALUES ('Palmer John','Flut','08-Jun-2009');
+INSERT INTO MemberOf VALUES ('Palmer John','Scandal','20-Oct-2012');
+INSERT INTO MemberOf VALUES ('JZ','Flut','10-Dec-2009');
+INSERT INTO MemberOf VALUES ('JZ','Scandal','20-Oct-2012');
+INSERT INTO MemberOf VALUES ('JK Rowl','Flut','08-Jun-2009');
+INSERT INTO MemberOf VALUES ('JK Rowl','Zero7','15-Dec-2011');
+INSERT INTO MemberOf VALUES ('PJ Blox','Zero7','15-Dec-2011');
+
+INSERT INTO AlbumTrack VALUES ('1c',103,2,1);
+INSERT INTO AlbumTrack VALUES ('1c',103,3,2);
+INSERT INTO AlbumTrack VALUES ('1c',104,2,3);
+INSERT INTO AlbumTrack VALUES ('1c',105,2,4);
+INSERT INTO AlbumTrack VALUES ('1c',106,2,5);
+INSERT INTO AlbumTrack VALUES ('1c',107,2,6);
+INSERT INTO AlbumTrack VALUES ('1c',108,2,7);
+INSERT INTO AlbumTrack VALUES ('1c',109,2,8);
+INSERT INTO AlbumTrack VALUES ('1c',110,2,9);
+INSERT INTO AlbumTrack VALUES ('1c',111,2,10);
+
+INSERT INTO AlbumTrack VALUES ('1v',103,2,1);
+INSERT INTO AlbumTrack VALUES ('1v',103,3,2);
+INSERT INTO AlbumTrack VALUES ('1v',104,2,3);
+INSERT INTO AlbumTrack VALUES ('1v',105,2,4);
+INSERT INTO AlbumTrack VALUES ('1v',106,2,5);
+INSERT INTO AlbumTrack VALUES ('1v',107,2,6);
+INSERT INTO AlbumTrack VALUES ('1v',108,2,7);
+
+INSERT INTO AlbumTrack VALUES ('1t',103,2,1);
+INSERT INTO AlbumTrack VALUES ('1t',103,3,2);
+INSERT INTO AlbumTrack VALUES ('1t',104,2,3);
+INSERT INTO AlbumTrack VALUES ('1t',105,2,4);
+INSERT INTO AlbumTrack VALUES ('1t',106,2,5);
+INSERT INTO AlbumTrack VALUES ('1t',107,2,6);
+INSERT INTO AlbumTrack VALUES ('1t',108,2,7);
+
+INSERT INTO AlbumTrack VALUES ('2c',203,2,1);
+INSERT INTO AlbumTrack VALUES ('2c',204,2,2);
+INSERT INTO AlbumTrack VALUES ('2c',205,2,3);
+INSERT INTO AlbumTrack VALUES ('2c',206,2,4);
+INSERT INTO AlbumTrack VALUES ('2c',207,2,5);
+INSERT INTO AlbumTrack VALUES ('2c',208,2,6);
+INSERT INTO AlbumTrack VALUES ('2c',209,2,7);
+
+INSERT INTO AlbumTrack VALUES ('2v',203,2,1);
+INSERT INTO AlbumTrack VALUES ('2v',204,2,2);
+INSERT INTO AlbumTrack VALUES ('2v',205,2,3);
+INSERT INTO AlbumTrack VALUES ('2v',206,2,4);
+INSERT INTO AlbumTrack VALUES ('2v',207,2,5);
+INSERT INTO AlbumTrack VALUES ('2v',208,2,6);
+INSERT INTO AlbumTrack VALUES ('2v',209,2,7);
+
+INSERT INTO AlbumTrack VALUES ('3c',301,2,1);
+INSERT INTO AlbumTrack VALUES ('3c',302,2,2);
+INSERT INTO AlbumTrack VALUES ('3c',303,2,3);
+INSERT INTO AlbumTrack VALUES ('3c',304,2,4);
+INSERT INTO AlbumTrack VALUES ('3c',305,2,5);
+INSERT INTO AlbumTrack VALUES ('3c',306,2,6);
+INSERT INTO AlbumTrack VALUES ('3c',307,2,7);
+INSERT INTO AlbumTrack VALUES ('3c',308,2,8);
+INSERT INTO AlbumTrack VALUES ('3c',309,2,9);
+INSERT INTO AlbumTrack VALUES ('3c',309,3,10);
+
+INSERT INTO Catalogue VALUES ('24-Dec-2010','1t',10.99,9);
+INSERT INTO Catalogue VALUES ('15-Jan-2011','1c',14.99,2);
+INSERT INTO Catalogue VALUES ('10-Jan-2011','1v',12.99,5);
+INSERT INTO Catalogue VALUES ('15-Nov-2010','2c',14.99,1);
+INSERT INTO Catalogue VALUES ('20-Jan-2010','2v',12.99,0);
+INSERT INTO Catalogue VALUES ('10-Dec-2008','3c',14.99,1);
+
+INSERT INTO CatOrder VALUES (1,'17-Jan-2011','20-Jan-2011',1);
+INSERT INTO CatOrder VALUES (2,'12-Mar-2012','15-MAr-2012',3);
+INSERT INTO CatOrder VALUES (3,'06-Dec-2011','10-Dec-2011',1);
+
+INSERT INTO CatOrderItem VALUES(1,'15-Jan-2011','1c');
+INSERT INTO CatOrderItem VALUES(2,'10-Jan-2011','1v');
+INSERT INTO CatOrderItem VALUES(2,'20-Jan-2010','2v');
+INSERT INTO CatOrderItem VALUES(3,'10-Jan-2011','1v');
+INSERT INTO CatOrderItem VALUES(3,'15-Nov-2010','2c');
+INSERT INTO CatOrderItem VALUES(3,'10-Dec-2008','3c');
+
+INSERT INTO VinylAlbum VALUES ('1v');
+INSERT INTO VinylAlbum VALUES ('2v');
+INSERT INTO CDAlbum VALUES ('1c');
+INSERT INTO CDAlbum VALUES ('2c');
+INSERT INTO CDAlbum VALUES ('3c');
+INSERT INTO TapeAlbum VALUES ('1t','Fancy');
+
+INSERT INTO CDAlbumExtra VALUES ('1c','Web');
+INSERT INTO CDAlbumExtra VALUES ('1c','Video');
+INSERT INTO CDAlbumExtra VALUES ('2c','Game');
+INSERT INTO CDAlbumExtra VALUES ('3c','Video');
+INSERT INTO CDAlbumExtra VALUES ('3c','Game');
+
+INSERT INTO VinylAlbumColor VALUES ('1v','Red');
+INSERT INTO VinylAlbumColor VALUES ('1v','Black');
+INSERT INTO VinylAlbumColor VALUES ('1v','Green');
+INSERT INTO VinylAlbumColor VALUES ('2v','Red');
 
 -- create appropriate indices
 
