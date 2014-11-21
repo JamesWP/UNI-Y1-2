@@ -56,7 +56,7 @@ end
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // Control decoder
-
+/*
 // stcc from instruction
 wire stcc;
 assign = ir[12];
@@ -118,7 +118,7 @@ begin
     end
   endcase
 end
-
+*/
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* Condition evaluation - an example 'function'                               */
 
