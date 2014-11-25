@@ -64,6 +64,7 @@ void insert_end (Person** list, char *name, int age) {
 }
 
 int compare_people(Person *a, Person *b){
+  //return a->age - b->age;
   return strcmp(a->name,b->name);
 }
 
@@ -76,13 +77,13 @@ void insert_sorted(Person** list, char *name, int age){
   newPerson->name = name;
   newPerson->age = age;
  
-  if (*list==NULL)
+  if (*list==NULL || compare_people(newPerson,*list) < 0)
     insert_start(list,name,age);
   else{
     Person* traveler = *list;
     // travel down the list until we are at the insert place
-    while( traveler->next != NULL 
-      && compare_people(newPerson, traveler->next) < 0)
+    while(traveler->next != NULL
+    && compare_people(newPerson, traveler->next) > 0)
       traveler = traveler->next;
     newPerson->next = traveler->next;
     traveler->next = newPerson;
@@ -115,6 +116,26 @@ void freeList(Person* list){
 int main(int argc, char **argv) {
   Person *people = NULL;
   int count = 0;
+  for (int i = 0;i < HOW_MANY; i++) {
+    insert_start(&people, names[i], ages[i]);
+  }
+  
+  printList(people);
+  freeList(people);
+  printf("\n");
+
+  people = NULL;
+  count = 0;
+  for (int i = 0;i < HOW_MANY; i++) {
+    insert_end(&people, names[i], ages[i]);
+  }
+  
+  printList(people);
+  freeList(people);
+  printf("\n");
+
+  people = NULL;
+  count = 0;
   for (int i = 0;i < HOW_MANY; i++) {
     insert_sorted(&people, names[i], ages[i]);
   }
