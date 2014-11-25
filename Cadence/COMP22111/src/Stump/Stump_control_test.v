@@ -1,5 +1,7 @@
 module Stump_Control_test ();
 
+
+// signals for control sim
 reg rst;
 reg clk;
 reg [3:0]  cc;
@@ -19,6 +21,7 @@ wire cc_en;
 wire mem_ren;
 wire mem_wen;
 
+// instance of control
 Stump_control control (.rst(rst),
                        .clk(clk),
                        .cc(cc),
@@ -37,32 +40,30 @@ Stump_control control (.rst(rst),
                        .cc_en(cc_en),
                        .mem_ren(mem_ren),
                        .mem_wen(mem_wen));
+
+// init signals and reset system
 initial
 begin
 	clk = 0;
 	rst = 1;
-  #40 rst=0;
+  #100 rst=0;
+  #90000 $stop;
 end
 
-integer instruction = 0;
+// current 4msb of instruction
+reg [3:0] instruction = 0;
 
-always @ (*)
+// clock simulator
+always #50 clk = !clk;
+
+// change ir on fetch to new instruction for decode
+always @(fetch, rst)
 begin
-	#10 clk = !clk;
-  if (fetch)
+  if (fetch & !rst)
   begin
     instruction = instruction + 1;
-		if (instruction==1) ir = 16'b0000_0000_0000_0000;// calling a sample
-		if (instruction==2) ir = 16'b0010_0000_0000_0000;// of instructions
-		if (instruction==3) ir = 16'b0100_0000_0000_0000;// with stcc and without
-		if (instruction==4) ir = 16'b1100_0000_0000_0000;// load
-		if (instruction==5) ir = 16'b0001_0000_0000_0000;
-		if (instruction==6) ir = 16'b0011_0000_0000_0000;
-		if (instruction==7) ir = 16'b0101_0000_0000_0000;
-		if (instruction==8) ir = 16'b1101_0000_0000_0000;// store
-		if (instruction==7) ir = 16'b1110_0000_0000_0000; 
-		if (instruction==8) ir = 16'b1111_0000_0000_0000;
-		if (instruction==9)$stop;
+		ir = {instruction,12'b0000_0000_0000}; // compose new instruction from 
+																					//  instruction type and 0's
   end
 end
 

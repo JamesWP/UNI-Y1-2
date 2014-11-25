@@ -12,9 +12,9 @@ module Stump_control (input  wire rst,
                       input  wire [3:0]  cc,            // current status of cc
                       input  wire [15:0] ir,            // current instruction
                             
-                      output reg         fetch,
-                      output reg         execute,    // current state
-                      output reg         memory,
+                      output wire        fetch,
+                      output wire        execute,    // current state
+                      output wire        memory,
                       output reg         ext_op,              
                       output reg         reg_write,    // register write enable
                       output reg  [2:0]  dest,            // destination register for writeback              
@@ -33,11 +33,11 @@ module Stump_control (input  wire rst,
 
 reg [1:0] state;
 
-// is load or store
-wire instr;
+// instruction type
+wire [2:0] instr;
 assign instr = ir[15:13];
 
-// Stump FSM
+// Stump FSM decides next state from curent and instruction type
 always @ (posedge clk, posedge rst)
 begin
   if (!rst)
@@ -53,6 +53,10 @@ begin
   end
 end
 
+// assigns the state monitors // used in simulation
+assign fetch = state==`FETCH;
+assign execute = state==`EXECUTE;
+assign memory = state==`MEMORY;
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // Control decoder
@@ -65,9 +69,6 @@ assign = ir[12];
 wire cond;
 assign = ir[11:8];
 
-assign fetch = state==`FETCH;
-assign execute = state==`EXECUTE;
-assign memory = state==`MEMORY;
 
 always @ (*)
 begin
