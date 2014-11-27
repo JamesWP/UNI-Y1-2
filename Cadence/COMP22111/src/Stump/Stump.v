@@ -20,7 +20,7 @@ module Stump (input  wire        clk,    // System clock
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* Declarations of signals and buses                                          */
 
-wire        reg_write;
+wire reg_write;
 wire [2:0]  dest;
 wire [15:0] reg_data;
 wire [2:0]  srcA, srcB;
@@ -48,7 +48,7 @@ assign data_out = regA;
 // Instantiate the registers 
 Stump_registers registers (.clk(clk),
                            .rst(rst),
-                           .write_en(reg_write),
+                           .write_en(write_reg),
                            .write_addr(dest),
                            .write_data(reg_data),
                            .read_addr_A(srcA), 

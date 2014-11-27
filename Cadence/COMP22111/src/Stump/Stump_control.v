@@ -60,14 +60,18 @@ assign memory = state==`MEMORY;
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 // Control decoder
-/*
+
 // stcc from instruction
 wire stcc;
-assign = ir[12];
+assign stcc = ir[11];
+
+// instruction type
+wire intype;
+assign intype = ir[12];
 
 // condition code
 wire cond;
-assign = ir[11:8];
+assign cond = ir[11:8];
 
 
 always @ (*)
@@ -79,27 +83,39 @@ begin
       dest = 3'b111;
       srcA = 3'b111;
       srcB = 3'bXXX;
-      shift_op = 2'bXX;
-    end;
+      shift_op = 2'b00;
+			opB_mux_sel = 1'bX;
+			alu_func = `ADD;
+			cc_en = 1'b0;
+			mem_ren = 1'b1;
+			mem_wen = 1'b0;
+    end
     `EXECUTE: begin
       reg_write = (instr == `BCC) 
-                   ? Testbranch(cond,cc) 
-                   : (instr != `LDST);
-      ext_op = stcc & (instr==`BCC);
+                   ? Testbranch(cond,cc) // if branch use Testbranch 
+                   : (instr != `LDST); // otherwise store if alu func
+      ext_op = (intype)
+                ? (instr==`BCC)
+                : 1'bX;
       dest = ir[10:8];// from instruction
       srcA = (instr!=`BCC)
               ?ir[7:5]
               :3'bXXX;
-      srcB = ((instr!=`BCC) && !stcc)
+      srcB = ((instr!=`BCC) && !intype)
               ?ir[4:2]
               :3'bXXX;
-      shift_op = ((instr!='BCC) && !stcc)
+      shift_op = ((instr!=`BCC) & !intype)
                   ?ir[1:0]
                   :2'bXX; 
-    end;
+      opB_mux_sel = intype;
+			alu_func = ir[15:13];
+			cc_en = stcc;
+			mem_ren = 1'b0;
+			mem_wen = 1'b0;
+    end
     `MEMORY : begin
       reg_write = !stcc;
-      ext_op = '1bX;
+      ext_op = 1'bX;
       dest = (stcc)
               ? 3'bXXX
               :ir[10:8];
@@ -108,7 +124,12 @@ begin
               : 3'bXXX;
       srcB = 3'bXXX;
       shift_op = 2'bXX;
-    end;
+			opB_mux_sel = 1'bX;
+			alu_func = 3'bXXX;
+			cc_en = 1'b0;
+			mem_ren = !stcc;
+			mem_wen = stcc;
+    end
     default : begin
       reg_write = 1'bX;
       ext_op = 1'bX;
@@ -116,10 +137,15 @@ begin
       srcA = 3'bXXX;
       srcB = 3'bXXX;
       shift_op = 2'bXX;
+			opB_mux_sel = 1'bX;
+			alu_func = 3'bXXX;
+			cc_en = 1'bX;
+			mem_ren = 1'bX;
+			mem_wen = 1'bX;
     end
   endcase
 end
-*/
+
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -*/
 /* Condition evaluation - an example 'function'                               */
 

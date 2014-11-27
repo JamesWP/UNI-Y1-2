@@ -6,6 +6,7 @@ reg rst;
 reg clk;
 reg [3:0]  cc;
 reg [15:0] ir;
+reg stcc;
 wire memory;
 wire fetch;
 wire execute;
@@ -20,6 +21,8 @@ wire [2:0] alu_func;
 wire cc_en;
 wire mem_ren;
 wire mem_wen;
+
+
 
 // instance of control
 Stump_control control (.rst(rst),
@@ -46,6 +49,7 @@ initial
 begin
 	clk = 0;
 	rst = 1;
+  stcc =0;
   #100 rst=0;
   #90000 $stop;
 end
@@ -61,8 +65,9 @@ always @(fetch, rst)
 begin
   if (fetch & !rst)
   begin
+		if (instruction==0) stcc = !stcc;
     instruction = instruction + 1;
-		ir = {instruction,12'b0000_0000_0000}; // compose new instruction from 
+		ir = {instruction,stcc,11'b000_0000_0000}; // compose new instruction from 
 																					//  instruction type and 0's
   end
 end
