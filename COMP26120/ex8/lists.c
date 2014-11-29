@@ -129,18 +129,13 @@ void insert_sorted(Person** list, char *name, int age, Person_type type, char* d
     default: break;
   }
 
-  if (*list==NULL || compare_people(newPerson,*list) < 0){
-    free(newPerson);
-    insert_start(list,name,age,type,data);
-  }else{
-    Person* traveler = *list;
-    // travel down the list until we are at the insert place
-    while(traveler->next != NULL
-    && compare_people(newPerson, traveler->next) > 0)
-      traveler = traveler->next;
-    newPerson->next = traveler->next;
-    traveler->next = newPerson;
-  }
+  Person** traveler = list;
+  // travel down the list until we are at the insert place
+  while(*traveler != NULL
+        && compare_people(newPerson, *traveler) > 0)
+    traveler = &(*traveler)->next;
+  newPerson->next = (*traveler);
+  *traveler = newPerson;
 }
 
 /**
@@ -151,7 +146,17 @@ void printList(Person* list){
   while (list!=NULL){
     Person* tmp = list;
     list = list->next;
-    printf("Person(name:%s,age:%d)\n",tmp->name,tmp->age);
+    switch(tmp->type){
+      case TYPE_STUDENT:
+        printf("Student(name: %-10s,age: %3d,programme: %s)\n",tmp->name,tmp->age,tmp->programme_name);
+        break;
+      case TYPE_STAFF:
+        printf("Staff  (name: %-10s,age: %3d,room: %s)\n",tmp->name,tmp->age,tmp->room_number);
+        break;
+      case TYPE_NEITHER:
+      default: 
+        printf("Person (name: %-10s,age: %3d)\n",tmp->name,tmp->age);
+    }
   }
 }
 /**
@@ -173,7 +178,7 @@ int main(int argc, char **argv) {
     insert_start(&people, names[i], ages[i], types[i], data[i] );
   }
 
-  printf("Insert start:");
+  printf("Insert start:\n");
   printList(people);
   freeList(people);
   printf("\n");
@@ -184,7 +189,7 @@ int main(int argc, char **argv) {
     insert_end(&people, names[i], ages[i], types[i], data[i]);
   }
 
-  printf("Insert end:");
+  printf("Insert end:\n");
   printList(people);
   freeList(people);
   printf("\n");
@@ -195,7 +200,7 @@ int main(int argc, char **argv) {
     insert_sorted(&people, names[i], ages[i], types[i], data[i], compare_people_by_name);
   }
 
-  printf("Insert sorted name:");
+  printf("Insert sorted name:\n");
   printList(people);
   freeList(people);
   printf("\n");
@@ -206,7 +211,7 @@ int main(int argc, char **argv) {
     insert_sorted(&people, names[i], ages[i], types[i], data[i], compare_people_by_age);
   }
 
-  printf("Insert sorted age:");
+  printf("Insert sorted age:\n");
   printList(people);
   freeList(people);
 
