@@ -70,7 +70,7 @@ wire intype;
 assign intype = ir[12];
 
 // condition code
-wire cond;
+wire [3:0] cond;
 assign cond = ir[11:8];
 
 
@@ -97,19 +97,23 @@ begin
       ext_op = (intype)
                 ? (instr==`BCC)
                 : 1'bX;
-      dest = ir[10:8];// from instruction
+      dest = (instr!=`BCC)
+              ? ir[10:8]
+              : 3'b111;// from instruction
       srcA = (instr!=`BCC)
               ?ir[7:5]
-              :3'bXXX;
+              :3'b111;
       srcB = ((instr!=`BCC) && !intype)
               ?ir[4:2]
               :3'bXXX;
       shift_op = ((instr!=`BCC) & !intype)
                   ?ir[1:0]
-                  :2'bXX; 
+                  :2'b00; 
       opB_mux_sel = intype;
 			alu_func = ir[15:13];
-			cc_en = stcc;
+			cc_en = (instr!=`BCC && instr!=`LDST)
+               ? stcc
+               : 1'b0;
 			mem_ren = 1'b0;
 			mem_wen = 1'b0;
     end

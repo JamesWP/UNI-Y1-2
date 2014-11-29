@@ -30,16 +30,16 @@ Stump Processor (.clk(clk),
 reg [15:0] memory [0:1023];		// Small memory to hold test code
 
 initial begin
-      $readmemh("$COMP22111/Stump_src/first.hex", memory);
-      $display("Running first");
+//      $readmemh("$COMP22111/Stump_src/first.hex", memory);
+//      $display("Running first");
 //      $readmemh("$COMP22111/Stump_src/test1.hex", memory);
 //      $display("Running test 1");
 //      $readmemh("$COMP22111/Stump_src/test2.hex", memory);
 //      $display("Running test 2");
 //      $readmemh("$COMP22111/Stump_src/test3.hex", memory);
 //      $display("Running test 3");
-//      $readmemh("$COMP22111/Stump_src/test4.hex", memory);
-//      $display("Running test 4");
+      $readmemh("$COMP22111/Stump_src/test4.hex", memory);
+      $display("Running test 4");
 	end
 
 always @ (negedge clk)			// Commit writes in mid cycle

@@ -111,7 +111,7 @@ Stump_reg16bit reg_address (.CLK(clk),
                             .Q(addr_reg));
 
 
-Stump_mux16bit mem_addr_mux (.D0(data_out),
+Stump_mux16bit mem_addr_mux (.D0(regA),
                              .D1(addr_reg),
                              .S(memory),
                              .Q(address));
