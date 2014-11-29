@@ -173,8 +173,8 @@ void freeList(Person* list){
 
 int main(int argc, char **argv) {
   Person *people = NULL;
-  int count = 0;
-  for (int i = 0;i < HOW_MANY; i++) {
+  int count = 0,i;
+  for (i = 0;i < HOW_MANY; i++) {
     insert_start(&people, names[i], ages[i], types[i], data[i] );
   }
 
@@ -185,7 +185,7 @@ int main(int argc, char **argv) {
 
   people = NULL;
   count = 0;
-  for (int i = 0;i < HOW_MANY; i++) {
+  for (i = 0;i < HOW_MANY; i++) {
     insert_end(&people, names[i], ages[i], types[i], data[i]);
   }
 
@@ -196,7 +196,7 @@ int main(int argc, char **argv) {
 
   people = NULL;
   count = 0;
-  for (int i = 0;i < HOW_MANY; i++) {
+  for (i = 0;i < HOW_MANY; i++) {
     insert_sorted(&people, names[i], ages[i], types[i], data[i], compare_people_by_name);
   }
 
@@ -207,7 +207,7 @@ int main(int argc, char **argv) {
 
   people = NULL;
   count = 0;
-  for (int i = 0;i < HOW_MANY; i++) {
+  for (i = 0;i < HOW_MANY; i++) {
     insert_sorted(&people, names[i], ages[i], types[i], data[i], compare_people_by_age);
   }
 
