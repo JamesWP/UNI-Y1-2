@@ -8,7 +8,7 @@ char* object_start = "object:";
 
 enum node_type { TYPE_QUESTION, TYPE_OBJECT };
 
-struct node {
+typedef struct node {
   enum node_type type;
   union {
     char* object_name;
@@ -16,27 +16,34 @@ struct node {
   };
   struct node *yes_ptr; // only NULL for objects
   struct node *no_ptr; // only NULL for objects
-};
+} Node;
 
-void treePrint(struct node *ptr) {
+void treePrint(Node *ptr, FILE* output) {
   if (ptr == NULL)
     return;
   else {
     if (ptr->type==TYPE_QUESTION) {
-      printf("question: %s",ptr->question);
-      //now print the yes and no subtrees:
+			if(output==NULL)
+      	printf("question: %s", ptr->question);
+      else
+      	fprintf(output, "question: %s", ptr->question);
+
+			//now print the yes and no subtrees:
       treePrint(ptr->yes_ptr);
       treePrint(ptr->no_ptr);
     } else { // ptr is an object
-      printf("object: %s",ptr->object_name);
+      if(output==NULL)
+        printf("object: %s", ptr->object_name);
+      else
+        fprintf(output, "object: %s", ptr->object_name);
     }
   }
 }
 
 /**
- * nodeRead. populates a struct node with the contense
+ * nodeRead. populates a Node with the contense
  */
-void nodeRead(char* line,struct node* ptr){
+void nodeRead(char* line,Node* ptr){
   if(ptr==NULL || line==NULL) return;
   if(strncmp(question_start, line, strlen(question_start)) == 0){
     ptr->type = TYPE_QUESTION;
@@ -55,7 +62,7 @@ void nodeRead(char* line,struct node* ptr){
   }
 }
 
-struct node* treeRead(FILE* treeInput) {
+Node* treeRead(FILE* treeInput) {
   //read the next line of input
   char* line;
   line = fgets(line,99,treeInput);
@@ -63,7 +70,7 @@ struct node* treeRead(FILE* treeInput) {
   if (line ==NULL || strlen(line)==0) // i.e. no input
     return NULL;
   else {
-    struct node* ptr = malloc(sizeof(struct node));
+    Node* ptr = malloc(sizeof(Node));
     assert(ptr!=NULL);
     if (strncmp(question_start, line, strlen(question_start)) == 0) {
       //fill ptr with the question from the input line
@@ -84,19 +91,20 @@ void pangolins(){
 
   //initialise the tree // first version: just one object, a pangolin
   FILE* dataFile = fopen("pangolins.dat","r");
-  struct node* root;
+  Node* root;
   if(dataFile==NULL){// error opening file so start with just a pangolin  
-    root = malloc(sizeof(struct node));
+    root = malloc(sizeof(Node));
     root->type=TYPE_OBJECT;
     root->object_name = "pangolin";
     assert(root!=NULL);
   }else{
     root = treeRead(dataFile);
+		fclose(dataFile);
   }
   
   // first version: play just one round
-  struct node* current_node = root;
-  struct node** parent_child_pointer;
+  Node* current_node = root;
+  Node** parent_child_pointer;// pointer to the (parent->child pointer)
   int finished = 0;
   while (!finished) {
     if (current_node->type==TYPE_OBJECT) { // object node
@@ -107,8 +115,8 @@ void pangolins(){
         printf("Good. That was soooo easy.");
       } else {
         printf("Oh. Well you win then -- What were you thinking of?\n>");
-        struct node *new_question_node = malloc(sizeof(struct node));
-        struct node *new_object_node = malloc(sizeof(struct node));
+        Node *new_question_node = malloc(sizeof(Node));
+        Node *new_object_node = malloc(sizeof(Node));
         new_object_node->type=TYPE_OBJECT;
         new_question_node->type=TYPE_QUESTION;
         fgets(new_object_node->object_name,100,stdin);
@@ -131,14 +139,24 @@ void pangolins(){
       }
       // finished
       // write new pangolin.dat
-      // exit
-    } else { // question node
-            char *guess = malloc(sizeof(char)*100);
-                  scanf("%99s",guess);
+      
+      FILE* dataFile = fopen("pangolins.dat","w");
+      treePrint(root, dataFile);
 
-      ask the question
-      set current node according to Yes/No response
-    }
+      finished = 1;
+    } else { // question node
+			printf("%s?",current_node->question);
+      char *guess = malloc(sizeof(char)*100);
+      fgets(guess, 99, stdin);
+
+    	if(strcmp("yes",guess)==0){
+				current_node = current_node->yes_ptr;
+				parent_child_pointer = &(current_node->yes_ptr);
+			}else{
+				current_node = current_node->no_ptr;
+				parent_child_pointer = &(current_node->no_ptr);
+			}
+		}
   }
 }
 
