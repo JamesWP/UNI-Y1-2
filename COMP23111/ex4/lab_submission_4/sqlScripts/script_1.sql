@@ -61,11 +61,11 @@ SELECT a.artistic_name
 FROM Artist a
 JOIN MemberOf mo ON mo.solo_artistic_name = a.artistic_name
 WHERE mo.group_artistic_name = 'Goldfrat'
-INTERSECT
+MINUS
 SELECT a.artistic_name
 FROM Artist a
 JOIN MemberOf mo ON mo.solo_artistic_name = a.artistic_name
-WHERE mo.group_artistic_name != 'Scandal';
+WHERE mo.group_artistic_name = 'Scandal';
 
 --8 
 CREATE OR REPLACE VIEW Scandal_Group AS
