@@ -38,7 +38,7 @@ wire [2:0] instr;
 assign instr = ir[15:13];
 
 // Stump FSM decides next state from curent and instruction type
-always @ (posedge clk, posedge rst)
+always @ (posedge clk)
 begin
   if (!rst)
   begin
