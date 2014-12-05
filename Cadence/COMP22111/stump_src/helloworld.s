@@ -1,6 +1,6 @@
 	bal Main
 
-counter defw 0
+counter defw 0 ;global counter variable
 
 
 Main:     add r6, PC, #1; save LR
@@ -29,13 +29,24 @@ GetDigs:
 					add R3, R0, R0;R3 = 0
 					add R4, R0, R0;R4 = 0
           l100:
-          
+          subc R0, R1, #100 ;if number < 100 ... goto l10
+          ble l10           ; goto l10
+          add R2, R2, #1    ;incr R2
+          sub R1, R1, #100  ;decr R1 by 100
+          bal l100; repeat
 					l10:
-
+          subc R0, R1, #10  ;if number <10 ... goto l1
+          ble l1            ; goto l1
+          add R3, R3, #1    ;incr R3
+          sub R1, R1, #10   ;decr R1 by 10
+          bal l10
           l1:
+          subc R0, R1, #1   ;if number <1 ... done
+          addle PC, r6, r0  ; return
+          add R4, R4, #1    ;incr R4
+          sub R1, R1, #1    ;decr R1 by 1
+          bal l1
 
-					add PC, r6, r0   ;return
-  
 org 0x0821
   data 0x0048;H
   data 0x0065;e
