@@ -1,4 +1,4 @@
-This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2013.9.6)  1 DEC 2014 01:27
+This is pdfTeXk, Version 3.141592-1.40.3 (Web2C 7.5.6) (format=pdflatex 2013.9.6)  4 DEC 2014 13:59
 entering extended mode
 \write18 enabled.
  %&-line parsing enabled.
@@ -200,42 +200,25 @@ Package Fancyhdr Warning: \headheight is too small (12.0pt):
  We now make it that large for the rest of the document.
  This may cause the page layout to be inconsistent, however.
 
-
-LaTeX Warning: Reference `LastPage' on page 2 undefined on input line 66.
-
-[2]
-
-LaTeX Warning: Reference `LastPage' on page 3 undefined on input line 169.
-
-[3]) AED: lastpage setting LastPage
-
-LaTeX Warning: Reference `LastPage' on page 4 undefined on input line 94.
-
-[4] (./COMP23111_14_Lab_Exercise_4_James_Peach.aux)
-
-LaTeX Warning: There were undefined references.
-
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
- ) 
+[2] [3]) AED: lastpage setting LastPage [4]
+(./COMP23111_14_Lab_Exercise_4_James_Peach.aux) ) 
 Here is how much of TeX's memory you used:
- 2697 strings out of 256216
- 36486 string characters out of 1917073
+ 2698 strings out of 256216
+ 36496 string characters out of 1917073
  150035 words of memory out of 1500000
- 5989 multiletter control sequences out of 10000+200000
+ 5990 multiletter control sequences out of 10000+200000
  9454 words of font info for 34 fonts, out of 1200000 for 2000
  645 hyphenation exceptions out of 8191
  38i,11n,43p,280b,1746s stack positions out of 5000i,500n,6000p,200000b,15000s
-</usr/share/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share/texmf/fonts/t
-ype1/bluesky/cm/cmbx12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmitt10.pfb
-></usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/share/texmf/fonts/ty
-pe1/bluesky/cm/cmmi8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></u
-sr/share/texmf/fonts/type1/bluesky/cm/cmr12.pfb></usr/share/texmf/fonts/type1/b
-luesky/cm/cmr17.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/sha
-re/texmf/fonts/type1/bluesky/cm/cmsy6.pfb></usr/share/texmf/fonts/type1/bluesky
-/cm/cmtt8.pfb>
-Output written on COMP23111_14_Lab_Exercise_4_James_Peach.pdf (4 pages, 82759 b
+</usr/share/texmf/fonts/type1/
+bluesky/cm/cmbx10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmbx12.pfb></usr
+/share/texmf/fonts/type1/bluesky/cm/cmitt10.pfb></usr/share/texmf/fonts/type1/b
+luesky/cm/cmmi10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmmi8.pfb></usr/s
+hare/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/share/texmf/fonts/type1/blues
+ky/cm/cmr12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr17.pfb></usr/share/
+texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf/fonts/type1/bluesky/cm/
+cmsy6.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt8.pfb>
+Output written on COMP23111_14_Lab_Exercise_4_James_Peach.pdf (4 pages, 82344 b
 ytes).
 PDF statistics:
  59 PDF objects out of 1000 (max. 8388607)

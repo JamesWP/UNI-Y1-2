@@ -130,17 +130,16 @@ SQL> SELECT a.artistic_name
   2  FROM Artist a
   3  JOIN MemberOf mo ON mo.solo_artistic_name = a.artistic_name
   4  WHERE mo.group_artistic_name = 'Goldfrat'
-  5  INTERSECT
+  5  MINUS
   6  SELECT a.artistic_name
   7  FROM Artist a
   8  JOIN MemberOf mo ON mo.solo_artistic_name = a.artistic_name
-  9  WHERE mo.group_artistic_name != 'Scandal';
+  9  WHERE mo.group_artistic_name = 'Scandal';
 
 ARTISTIC_NAME                                                                                       
 ----------------                                                                                    
 Jay Blancard                                                                                        
 John Cliff                                                                                          
-Simon Palm                                                                                          
 
 SQL> 
 SQL> --8
