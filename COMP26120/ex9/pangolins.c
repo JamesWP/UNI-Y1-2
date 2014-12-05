@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <strings.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <assert.h>
@@ -17,7 +18,7 @@ typedef struct node {
   union {
     char* object_name;
     char* question;
-  };
+  }data;
   struct node *yes_ptr; // only NULL for objects
   struct node *no_ptr; // only NULL for objects
 } Node;
@@ -28,18 +29,18 @@ void treePrint(Node *ptr, FILE* output){
   else {
     if (ptr->type==TYPE_QUESTION) {
       if(output==NULL)
-        printf("question: %s", ptr->question);
+        printf("question: %s", ptr->data.question);
       else
-        fprintf(output, "question: %s\n", ptr->question);
+        fprintf(output, "question: %s\n", ptr->data.question);
 
       //now print the yes and no subtrees:
       treePrint(ptr->yes_ptr, output);
       treePrint(ptr->no_ptr, output);
     } else { // ptr is an object
       if(output==NULL)
-        printf("object: %s", ptr->object_name);
+        printf("object: %s", ptr->data.object_name);
       else
-        fprintf(output, "object: %s\n", ptr->object_name);
+        fprintf(output, "object: %s\n", ptr->data.object_name);
     }
   }
 }
@@ -48,12 +49,12 @@ void freeTree(Node *ptr){
   if (ptr==NULL) return;
 
   if (ptr->type==TYPE_OBJECT) {
-    if(ptr->object_name!=NULL)
-      free(ptr->object_name);
+    if(ptr->data.object_name!=NULL)
+      free(ptr->data.object_name);
   }else if (ptr->type==TYPE_QUESTION){
     free(ptr->yes_ptr);
     free(ptr->no_ptr);
-    free(ptr->question);
+    free(ptr->data.question);
   }
   free (ptr);
 }
@@ -69,14 +70,14 @@ void nodeRead(char* line,Node* ptr){
     char* question = malloc(sizeof(char) * strlen(line));
     assert(question!=NULL);
     strcpy(question,line+strlen(question_start));
-    ptr->question = question;
+    ptr->data.question = question;
   }else if (strncmp(object_start, line, strlen(object_start)) == 0){
     REM_NEWLN(line);
     ptr->type = TYPE_OBJECT;
     char* object = malloc(sizeof(char) * strlen(line));
     assert(object!=NULL);
     strcpy(object,line+strlen(object_start));
-    ptr->object_name = object;
+    ptr->data.object_name = object;
   }else{ // error :(
     ptr = NULL;
   }
@@ -111,9 +112,9 @@ Node* createNode(enum node_type newType){
   Node* new = malloc(sizeof(Node));
   new->type = newType;
   if(new->type==TYPE_OBJECT)
-    new->object_name =(char*) malloc(sizeof(char)*(NODE_NAME_LEN+1));
+    new->data.object_name =(char*) malloc(sizeof(char)*(NODE_NAME_LEN+1));
   else
-    new->question =(char*) malloc(sizeof(char)*(NODE_NAME_LEN+1));
+    new->data.question =(char*) malloc(sizeof(char)*(NODE_NAME_LEN+1));
   return new;
 }
 
@@ -150,7 +151,7 @@ void pangolins(){
   // if null then give default
   if(root==NULL){
     root = createNode(TYPE_OBJECT);
-    strcpy(root->object_name, "pangolin");
+    strcpy(root->data.object_name, "pangolin");
     assert(root!=NULL);
   }
 
@@ -160,7 +161,7 @@ void pangolins(){
   int finished = 0;
   while (!finished) {
     if (current_node->type==TYPE_OBJECT) { // object node
-      printf("Is it a %s?\n>",current_node->object_name);
+      printf("Is it a %s?\n>",current_node->data.object_name);
       if (readYesNo()){
         printf("Good. That was soooo easy!\n");
       } else {
@@ -169,16 +170,16 @@ void pangolins(){
 
         printf("Oh. Well you win then -- What were you thinking of?\n>");
 
-        fgets(new_object_node->object_name,NODE_NAME_LEN,stdin);
-        REM_NEWLN(new_object_node->object_name);
+        fgets(new_object_node->data.object_name,NODE_NAME_LEN,stdin);
+        REM_NEWLN(new_object_node->data.object_name);
 
         printf("Please give me a question about %s, so I can tell the difference between %s and a %s\n>",
-               new_object_node->object_name,new_object_node->object_name,current_node->object_name);
+               new_object_node->data.object_name,new_object_node->data.object_name,current_node->data.object_name);
 
-        fgets(new_question_node->question,NODE_NAME_LEN,stdin);
-        REM_NEWLN(new_question_node->question);
+        fgets(new_question_node->data.question,NODE_NAME_LEN,stdin);
+        REM_NEWLN(new_question_node->data.question);
 
-        printf("What is the answer for %s?\n>",new_object_node->object_name);
+        printf("What is the answer for %s?\n>",new_object_node->data.object_name);
         //insert the new object-name and question into the tree
         if(readYesNo()){
           new_question_node->yes_ptr = new_object_node;
@@ -197,7 +198,7 @@ void pangolins(){
 
       finished = 1;
     } else { // question node
-      printf("%s?\n>",current_node->question);
+      printf("%s?\n>",current_node->data.question);
       if(readYesNo()){
         parent_child_pointer = &(current_node->yes_ptr);
         current_node = current_node->yes_ptr;
