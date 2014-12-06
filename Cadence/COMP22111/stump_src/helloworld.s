@@ -5,7 +5,10 @@ onehund defw 100; constant literal
 
 Main:     add r6, PC, #1; save LR
 					bal IncrCount ; call IncrCount
-					
+    
+          add r6, PC, #1; save LR
+          bal GetDigs
+
 					bal Main ; call IncrCount
 
 					bal Stop;stop
