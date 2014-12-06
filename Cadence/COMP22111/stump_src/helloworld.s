@@ -1,7 +1,7 @@
 	bal Main
 
 counter defw 0 ;global counter variable
-
+onehund defw 100; constant literal
 
 Main:     add r6, PC, #1; save LR
 					bal IncrCount ; call IncrCount
@@ -28,24 +28,26 @@ GetDigs:
 					add R2, R0, R0;R2 = 0
 					add R3, R0, R0;R3 = 0
 					add R4, R0, R0;R4 = 0
-          l100:
-          subc R0, R1, #100 ;if number < 100 ... goto l10
+          ld R5, onehund; = 100
+					l100:
+          subs R0, R1, R5 ;if number < 100 ... goto l10
           ble l10           ; goto l10
           add R2, R2, #1    ;incr R2
-          sub R1, R1, #100  ;decr R1 by 100
+          sub R1, R1, R5  ;decr R1 by 100
           bal l100; repeat
 					l10:
-          subc R0, R1, #10  ;if number <10 ... goto l1
+          subs R0, R1, #10  ;if number <10 ... goto l1
           ble l1            ; goto l1
           add R3, R3, #1    ;incr R3
           sub R1, R1, #10   ;decr R1 by 10
           bal l10
           l1:
-          subc R0, R1, #1   ;if number <1 ... done
-          addle PC, r6, r0  ; return
+          subs R0, R1, #1   ;if number <1 ... done
+          ble GetDigsReturn  ; return
           add R4, R4, #1    ;incr R4
           sub R1, R1, #1    ;decr R1 by 1
           bal l1
+          GetDigsReturn: add PC, R6, R0; return
 
 org 0x0821
   data 0x0048;H
