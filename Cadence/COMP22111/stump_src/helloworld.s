@@ -8,10 +8,11 @@ hund    defw 0x082D
 Main:     add r6, PC, #1; save LR
 					bal IncrCount ; call IncrCount
     
+					ld r1, [r0,#counter]
           add r6, PC, #1; save LR
           bal GetDigs
 
-          ld r1, hund
+          ld r1, [r0,#hund]
           st r2, [r1, #0]
           st r3, [r1, #1]
           st r4, [r1, #2]
@@ -24,9 +25,9 @@ Stop:     st r0, [r0, #-1]; STOP PLZ
 					bal Stop        ; loop indef
 
 ;LR= R6
-IncrCount:ld r1, counter   ;load count
+IncrCount:ld r1, [r0,#counter]   ;load count
 					add r1, r1, #1   ;incr
-					st r1, counter   ;store count+1
+					st r1, [r0,#counter]   ;store count+1
 					add PC, r6, r0   ;return
 
 ;LR= IN  R6
@@ -38,7 +39,7 @@ GetDigs:
 					add R2, R0, R0;R2 = 0
 					add R3, R0, R0;R3 = 0
 					add R4, R0, R0;R4 = 0
-          ld R5, onehund; = 100
+          ld R5, [r0,#onehund]; = 100
 					l100:
           subs R0, R1, R5 ;if number < 100 ... goto l10
           ble l10           ; goto l10

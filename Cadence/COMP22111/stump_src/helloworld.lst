@@ -1,54 +1,65 @@
-00000000: F002  ;         bal Main
+00000000: F003  ;         bal Main
 00000001:       ; 
 00000001: 0000  ; counter defw 0 ;global counter variable
 00000002: 0064  ; onehund defw 100; constant literal
 00000003:       ; 
-00000003: 16E1  ; Main:     add r6, PC, #1; save LR
-00000004: F004  ;                                         bal IncrCount ; call IncrCount
-00000005:       ;                                         
-00000005: F0FD  ;                                         bal Main ; call IncrCount
-00000006:       ; 
-00000006: F000  ;                                         bal Stop;stop
-00000007:       ; 
-00000007: D81F  ; Stop:     st r0, [r0, #-1]; STOP PLZ
-00000008: F0FE  ;                                         bal Stop        ; loop indef
+00000003: 082D  ; hund    defw 0x082D
+00000004:       ; 
+00000004: 16E1  ; Main:     add r6, PC, #1; save LR
+00000005: F00B  ;                                         bal IncrCount ; call IncrCount
+00000006:       ;     
+00000006: D101  ;                                         ld r1, [r0,#counter]
+00000007: 16E1  ;           add r6, PC, #1; save LR
+00000008: F00C  ;           bal GetDigs
 00000009:       ; 
-00000009:       ; ;LR= R6
-00000009: D1F7  ; IncrCount:ld r1, counter   ;load count
-0000000A: 1121  ;                                         add r1, r1, #1   ;incr
-0000000B: D9F5  ;                                         st r1, counter   ;store count+1
-0000000C: 07C0  ;                                         add PC, r6, r0   ;return
+00000009: D103  ;           ld r1, [r0,#hund]
+0000000A: DA20  ;           st r2, [r1, #0]
+0000000B: DB21  ;           st r3, [r1, #1]
+0000000C: DC22  ;           st r4, [r1, #2]
 0000000D:       ; 
-0000000D:       ; ;LR= IN  R6
-0000000D:       ; ;R1= IN  number to count
-0000000D:       ; ;R2= OUT number of 100's
-0000000D:       ; ;R3= OUT number of 10's
-0000000D:       ; ;R4= OUT number of 1's
-0000000D:       ; GetDigs:
-0000000D: 0200  ;                                         add R2, R0, R0;R2 = 0
-0000000E: 0300  ;                                         add R3, R0, R0;R3 = 0
-0000000F: 0400  ;                                         add R4, R0, R0;R4 = 0
-00000010: D5F1  ;           ld R5, onehund; = 100
-00000011:       ;                                         l100:
-00000011: 4834  ;           subs R0, R1, R5 ;if number < 100 ... goto l10
-00000012: FF03  ;           ble l10           ; goto l10
-00000013: 1241  ;           add R2, R2, #1    ;incr R2
-00000014: 4134  ;           sub R1, R1, R5  ;decr R1 by 100
-00000015: F0FB  ;           bal l100; repeat
-00000016:       ;                                         l10:
-00000016: 582A  ;           subs R0, R1, #10  ;if number <10 ... goto l1
-00000017: FF03  ;           ble l1            ; goto l1
-00000018: 1361  ;           add R3, R3, #1    ;incr R3
-00000019: 512A  ;           sub R1, R1, #10   ;decr R1 by 10
-0000001A: F0FB  ;           bal l10
-0000001B:       ;           l1:
-0000001B: 5821  ;           subs R0, R1, #1   ;if number <1 ... done
-0000001C: FF03  ;           ble GetDigsReturn  ; return
-0000001D: 1481  ;           add R4, R4, #1    ;incr R4
-0000001E: 5121  ;           sub R1, R1, #1    ;decr R1 by 1
-0000001F: F0FB  ;           bal l1
-00000020: 07C0  ;           GetDigsReturn: add PC, R6, R0; return
-00000021:       ; 
+0000000D: F0F6  ;                                         bal Main ; call IncrCount
+0000000E:       ; 
+0000000E: F000  ;                                         bal Stop;stop
+0000000F:       ; 
+0000000F: D81F  ; Stop:     st r0, [r0, #-1]; STOP PLZ
+00000010: F0FE  ;                                         bal Stop        ; loop indef
+00000011:       ; 
+00000011:       ; ;LR= R6
+00000011: D101  ; IncrCount:ld r1, [r0,#counter]   ;load count
+00000012: 1121  ;                                         add r1, r1, #1   ;incr
+00000013: D901  ;                                         st r1, [r0,#counter]   ;store count+1
+00000014: 07C0  ;                                         add PC, r6, r0   ;return
+00000015:       ; 
+00000015:       ; ;LR= IN  R6
+00000015:       ; ;R1= IN  number to count
+00000015:       ; ;R2= OUT number of 100's
+00000015:       ; ;R3= OUT number of 10's
+00000015:       ; ;R4= OUT number of 1's
+00000015:       ; GetDigs:
+00000015: 0200  ;                                         add R2, R0, R0;R2 = 0
+00000016: 0300  ;                                         add R3, R0, R0;R3 = 0
+00000017: 0400  ;                                         add R4, R0, R0;R4 = 0
+00000018: D502  ;           ld R5, [r0,#onehund]; = 100
+00000019:       ;                                         l100:
+00000019: 4834  ;           subs R0, R1, R5 ;if number < 100 ... goto l10
+0000001A: FF03  ;           ble l10           ; goto l10
+0000001B: 1241  ;           add R2, R2, #1    ;incr R2
+0000001C: 4134  ;           sub R1, R1, R5  ;decr R1 by 100
+0000001D: F0FB  ;           bal l100; repeat
+0000001E:       ;                                         l10:
+0000001E: 582A  ;           subs R0, R1, #10  ;if number <10 ... goto l1
+0000001F: FF03  ;           ble l1            ; goto l1
+00000020: 1361  ;           add R3, R3, #1    ;incr R3
+00000021: 512A  ;           sub R1, R1, #10   ;decr R1 by 10
+00000022: F0FB  ;           bal l10
+00000023:       ;           l1:
+00000023: 5821  ;           subs R0, R1, #1   ;if number <1 ... done
+00000024: FF03  ;           ble GetDigsReturn  ; return
+00000025: 1481  ;           add R4, R4, #1    ;incr R4
+00000026: 5121  ;           sub R1, R1, #1    ;decr R1 by 1
+00000027: F0FB  ;           bal l1
+00000028: 07C0  ;           GetDigsReturn: add PC, R6, R0; return
+00000029:       ; 
 00000821:       ; org 0x0821
 00000821: 0048  ;   data 0x0048;H
 00000822: 0065  ;   data 0x0065;e
