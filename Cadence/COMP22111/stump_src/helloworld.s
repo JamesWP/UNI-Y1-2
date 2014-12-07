@@ -3,11 +3,18 @@
 counter defw 0 ;global counter variable
 onehund defw 100; constant literal
 
+hund    defw 0x082D
+
 Main:     add r6, PC, #1; save LR
 					bal IncrCount ; call IncrCount
     
           add r6, PC, #1; save LR
           bal GetDigs
+
+          ld r1, hund
+          st r2, [r1, #0]
+          st r3, [r1, #1]
+          st r4, [r1, #2]
 
 					bal Main ; call IncrCount
 
