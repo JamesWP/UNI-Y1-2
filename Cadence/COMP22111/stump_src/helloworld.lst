@@ -2,7 +2,7 @@
 00000001:       ; 
 00000001: 0000  ; counter defw 0 ;global counter variable
 00000002: 0064  ; onehund defw 100; constant literal
-00000003: 003C  ; sixty  defw 60 ; constant literal
+00000003: 0030  ; asciioffset  defw 48 ; constant literal
 00000004:       ; 
 00000004: 082D  ; hund    defw 0x082D
 00000005:       ; 
@@ -14,7 +14,7 @@
 00000009: F010  ;           bal GetDigs
 0000000A:       ; 
 0000000A: D104  ;           ld r1, [r0,#hund]
-0000000B: D503  ;                                         ld r5, [r0,#sixty]
+0000000B: D503  ;                                         ld r5, [r0,#asciioffset]
 0000000C: 0254  ;           add r2, r2, r5
 0000000D: DA20  ;                                         st r2, [r1, #0]
 0000000E: 0374  ;           add r3, r3, r5
