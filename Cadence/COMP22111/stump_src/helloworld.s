@@ -2,7 +2,7 @@
 
 counter defw 0 ;global counter variable
 onehund defw 100; constant literal
-sixty  defw 60 ; constant literal
+asciioffset  defw 48 ; constant literal
 
 hund    defw 0x082D
 
@@ -14,7 +14,7 @@ Main:     add r6, PC, #1; save LR
           bal GetDigs
 
           ld r1, [r0,#hund]
-					ld r5, [r0,#sixty]
+					ld r5, [r0,#asciioffset]
           add r2, r2, r5
 					st r2, [r1, #0]
           add r3, r3, r5
