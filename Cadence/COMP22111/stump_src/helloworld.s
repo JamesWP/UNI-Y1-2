@@ -5,8 +5,15 @@ onehund defw 100; constant literal
 asciioffset  defw 48 ; constant literal
 
 hund    defw 0x082D
+button  defw 0x0801
+backli  defw 0x0802
 
-Main:     add r6, PC, #1; save LR
+Main:     
+					add r2,r0,#1
+					ld r1, [r0,#backli] ; load button pointer
+					st r2, [r1]         ; load button state
+
+MainLoop: add r6, PC, #1; save LR
 					bal IncrCount ; call IncrCount
     
 					ld r1, [r0,#counter]
@@ -22,7 +29,13 @@ Main:     add r6, PC, #1; save LR
           add r4, r4, r5
           st r4, [r1, #2]
 
-					bal Main ; call IncrCount
+					ld r1, [r0,#button] ; load button pointer
+					ld r1, [r1]         ; load button state
+					subs r0,r1,r0
+          add r6, PC, #1; save LR
+					bne ZeroCount ; call zero if button
+
+					bal MainLoop ; call IncrCount
 
 					bal Stop;stop
 
@@ -33,6 +46,9 @@ Stop:     st r0, [r0, #-1]; STOP PLZ
 IncrCount:ld r1, [r0,#counter]   ;load count
 					add r1, r1, #1   ;incr
 					st r1, [r0,#counter]   ;store count+1
+					add PC, r6, r0   ;return
+
+ZeroCount:st r0, [r0,#counter]   ; load count
 					add PC, r6, r0   ;return
 
 ;LR= IN  R6
