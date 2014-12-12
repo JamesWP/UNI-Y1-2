@@ -1,0 +1,34 @@
+SQL> 
+SQL> CREATE OR REPLACE VIEW AlbumDistribution AS
+  2  SELECT al.album_id, al.title,'v' is_distributed_as
+  3  FROM Album al
+  4  JOIN VinylAlbum va ON va.album_id = al.album_id
+  5  UNION
+  6  SELECT al.album_id, al.title,'c' is_distributed_as
+  7  FROM Album al
+  8  JOIN CDAlbum ca ON ca.album_id = al.album_id
+  9  UNION
+ 10  SELECT al.album_id, al.title,'t' is_distributed_as
+ 11  FROM Album al
+ 12  JOIN TapeAlbum ta ON ta.album_id = al.album_id;
+
+View created.
+
+SQL> 
+SQL> --SHOW IT WORKS
+SQL> COLUMN is_distributed_as FORMAT a20
+SQL> SELECT * FROM AlbumDistribution;
+
+ALBUM TITLE                     IS_DISTRIBUTED_AS                                                                                                     
+----- ------------------------- --------------------                                                                                                  
+1c    20 People in a Field      c                                                                                                                     
+1t    20 People in a Field      t                                                                                                                     
+1v    20 People in a Field      v                                                                                                                     
+2c    My Feet                   c                                                                                                                     
+2v    My Feet                   v                                                                                                                     
+3c    Debut                     c                                                                                                                     
+
+6 rows selected.
+
+SQL> 
+SQL> SPOOL OFF
