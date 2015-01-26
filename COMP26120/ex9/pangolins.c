@@ -29,7 +29,7 @@ void treePrint(Node *ptr, FILE* output){
   else {
     if (ptr->type==TYPE_QUESTION) {
       if(output==NULL)
-        printf("question: %s", ptr->data.question);
+        printf("question: %s\n", ptr->data.question);
       else
         fprintf(output, "question: %s\n", ptr->data.question);
 
@@ -38,7 +38,7 @@ void treePrint(Node *ptr, FILE* output){
       treePrint(ptr->no_ptr, output);
     } else { // ptr is an object
       if(output==NULL)
-        printf("object: %s", ptr->data.object_name);
+        printf("object: %s\n", ptr->data.object_name);
       else
         fprintf(output, "object: %s\n", ptr->data.object_name);
     }
@@ -154,6 +154,8 @@ void pangolins(){
     strcpy(root->data.object_name, "pangolin");
     assert(root!=NULL);
   }
+
+
 
   // first version: play just one round
   Node* current_node = root;
