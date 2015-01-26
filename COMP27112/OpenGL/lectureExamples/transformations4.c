@@ -1,0 +1,370 @@
+// Author: Toby Howard
+// February 2014.
+// demo program for COMP27112.
+
+#include <stdlib.h>
+#include <stdio.h>
+#include <math.h>
+
+#ifdef MACOSX
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
+int NUM_MODELS= 4;
+float vupX= 0.0, dvup=0.1;
+float rotX, rotY, rotZ, panX, panY, panZ, scaleX, scaleY, scaleZ, P1, P2, P3;
+float eyeX, eyeY, eyeZ, cX, cY, cZ;
+float nearClip= 6.0;
+float farClip= 40.0; 
+float dClip= 0.01;
+float fov= 50.0;
+int singular= 0;
+float dRot= 10.0;
+float dPan= 0.1, dP=0.01;
+float dSc= 0.1, deye=0.05;
+float dfov=1.0;
+float lastModel[16];
+float lastView[16];
+float lastComp[16];
+float lastProj[16];
+int WX, WY;
+
+int modelType= 0;
+
+////////////////////////////////////////////
+
+void init(void) {
+    rotX= rotY= rotZ= 0.0; // no rotation
+    panX= panY= panZ= 0.0; // no translation
+    scaleX= scaleY= scaleZ= 1.0; // no scale
+    P1= P2= P3= 0.0; // no projection
+    eyeX= -2.0; eyeY=10.0; eyeZ= 10.0;
+    cX= cY= cZ= 0.0;
+    singular= 0;
+    fov= 50.0;
+    vupX= 0;
+    nearClip= 6.0;
+    farClip= 40.0; 
+}
+
+////////////////////////////////////////////
+
+void savelastM(float *m, float *lastM) {
+  // Copies m to lastM
+  int i;
+  for (i= 0; i<16; i++) {
+    lastM[i]= m[i];
+  }
+}
+
+////////////////////////////////////////////
+
+void drawQuad(float fr, float fg, float fb, float lr, float lg, float lb, float lw){
+  // Draws a square quad centred on (0,0), side of 2.0
+  // The quad is filled in colour (fr,fg,fb) and bounded by a line in 
+  // colour (lr,lg,lb) of thickness lw
+  glColor3f(fr, fg, fb);
+  glBegin(GL_QUADS);                     
+  glVertex3f(-1.0f, 1.0f, 0.0f);              // Top Left
+  glVertex3f( 1.0f, 1.0f, 0.0f);              // Top Right
+  glVertex3f( 1.0f,-1.0f, 0.0f);              // Bottom Right
+  glVertex3f(-1.0f,-1.0f, 0.0f);              // Bottom Left
+  glEnd();                            
+  glColor3f(lr, lg, lb);
+  glLineWidth(lw);
+  glBegin(GL_LINE_LOOP);                     
+  glVertex3f(-1.0f, 1.0f, 0.0f);              // Top Left
+  glVertex3f( 1.0f, 1.0f, 0.0f);              // Top Right
+  glVertex3f( 1.0f,-1.0f, 0.0f);              // Bottom Right
+  glVertex3f(-1.0f,-1.0f, 0.0f);              // Bottom Left
+  glEnd();                            
+}
+
+////////////////////////////////////////////
+
+void drawMatrix(float *m, float *lastM, char* name,
+                float x, float y, float r, float g, float b, void *font) {
+//  draws the matrix m at x,y, with [x,y] in [0,1]
+// in color (r,g,b) in font 'font'
+
+char *ch;
+ int matrixMode, i,j, k;
+ float v, leftx, diff;
+float dx= 0.1, dy= 0.05;
+char buff[10];
+float eps= 0.001;
+
+ glGetIntegerv(GL_MATRIX_MODE, &matrixMode);
+ glMatrixMode(GL_PROJECTION);
+ glPushMatrix();
+ glLoadIdentity();
+ gluOrtho2D(0.0, 1.0, 0.0, 1.0);
+ glMatrixMode(GL_MODELVIEW);
+ glPushMatrix();
+ glLoadIdentity();
+ glPushAttrib(GL_COLOR_BUFFER_BIT);       /* save current colour */
+
+ leftx= x;
+
+ // draw background for title
+ glPushMatrix();
+   glTranslatef(x+0.19,y+0.013,0.0);
+   glScalef(0.2,0.028,1.0);
+   glColor3f(0.95,0.95,0.95);
+   drawQuad(r,g,b, 0.0, 0.0, 1.0, 2.0);
+ glPopMatrix();
+
+  glColor3f(0.0,0.0,0.0);
+  glRasterPos3f(x, y, 0.0);
+  for(ch= name; *ch; ch++) glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, (int)*ch);
+
+  y= y-0.05; // draw the matrix a bit below the title
+
+ // draw background for matrix
+ glPushMatrix();
+   glTranslatef(x+0.19,y-0.065,0.0);
+   glScalef(0.2,0.1,1.0);
+   glColor3f(0.95,0.95,0.95);
+   drawQuad(r,g,b, 0.0, 0.0, 1.0, 2.0);
+ glPopMatrix();
+
+ // Agh, OpenGL matrices are the transpose of the way they're stored in C.
+ // So we have to loop awkwardly.
+
+ for(i= 0; i<4; i++) {
+     k= i;
+     for(j= 0; j<4; j++) {
+       v= m[k];
+
+       // has this element of the matrix changed since last time?
+       // If so, draw it in a highlight colour.
+       diff= fabs(v)-fabs(lastM[k]);
+       if ( fabs(diff) > eps) { glColor3f(1.0, 0.0, 0.0); } else { glColor3f(0.0, 0.0, 0.0); } 
+
+      // try and stop sprintf annoyingly displaying "-0.000" by forcing small values to be 0.0
+      if (fabs(v) < eps) v= 0.0;
+
+      sprintf(buff, "%5.2f", v);
+      glRasterPos3f(x, y, 0.0);
+      for(ch= buff; *ch; ch++) glutBitmapCharacter(font, (int)*ch);
+
+      k+= 4; x+= dx; // move to next column
+     } // j
+     y-= dy; x= leftx; // start a new row
+ } // i
+
+ glPopAttrib();
+ glPopMatrix();
+ glMatrixMode(GL_PROJECTION);
+ glPopMatrix();
+ glMatrixMode(matrixMode);
+
+ // Save the matrix we've just displayed, so we can spot
+ // which values have changed for the next time.
+ savelastM(m, lastM);
+}
+
+////////////////////////////////////////////
+
+void drawAxes (void) {
+// Draws X Y and Z axis lines, of length LEN
+float LEN= 10.0;
+   glLineWidth(5.0);
+   glBegin(GL_LINES);
+   glColor3f(1.0,0.0,0.0); // red
+       glVertex3f(0.0, 0.0, 0.0);
+       glVertex3f(LEN, 0.0, 0.0);
+   glColor3f(0.0,1.0,0.0); // green
+       glVertex3f(0.0, 0.0, 0.0);
+       glVertex3f(0.0, LEN, 0.0);
+   glColor3f(0.0,0.0,1.0); // blue
+       glVertex3f(0.0, 0.0, 0.0);
+       glVertex3f(0.0, 0.0, LEN);
+   glEnd();
+   glLineWidth(1.0);
+}
+
+////////////////////////////////////////////
+
+void Display (void) {
+// called every time GLUT wants to refresh the graphics
+  float mMat[16];
+  float vMat[16];
+  float VandMMat[16];
+  float compMat[16];
+  float pMat[16];
+
+    glClearColor(0.9, 0.9, 0.9, 1.0); // grey
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+  // we need to keep all the matrices separate.
+  // so do the whole matrix setup here from scratach.
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective (fov, (GLfloat) WX / (GLfloat) WY, nearClip, farClip);
+
+    // get the projection matrix
+    glGetFloatv(GL_PROJECTION_MATRIX, pMat);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+    gluLookAt(eyeX, eyeY, eyeZ,  // camera position 
+              cX, cY, cZ,    // point to look at
+              vupX, 1.0, 0.0 );  // "upright" vector
+
+    // Get the camera -- it's the only thing in MV matrix at this point
+    glGetFloatv(GL_MODELVIEW_MATRIX, vMat);
+
+    drawAxes();
+
+    // first get the current transformation into the MV matrix, with no camera
+        glPushMatrix();
+
+        glLoadIdentity();
+        glTranslatef(panX, panY, panZ);
+	glRotatef(rotZ, 0.0, 0.0, 1.0);
+        glRotatef(rotY, 0.0, 1.0, 0.0);
+        glRotatef(rotX, 1.0, 0.0, 0.0);		
+        glScalef(scaleX, scaleY, scaleZ);
+        if (singular) {
+            glScalef(1.0, 0.0, 1.0);
+         }
+       // get the matrix
+       glGetFloatv(GL_MODELVIEW_MATRIX, mMat);
+       // now put in the perspective terms
+       mMat[3]= P1; mMat[7]= P2; mMat[11]= P3;
+       //  and display it
+
+       glPopMatrix();
+
+       // now modelview is view only.
+       
+       glMultMatrixf(mMat); // Modelview is now View * Modelling
+       glGetFloatv(GL_MODELVIEW_MATRIX, VandMMat); // get it
+
+       glColor3f(0.0, 0.0, 1.0);
+       glLineWidth(1.0);
+       switch (modelType) {
+  	 case 0: glutWireTeapot(3.0); break;
+	 case 1: glutWireCube(3.0); break;
+         case 2: glutWireDodecahedron(); break;
+         case 3: glutWireTorus(2.0,2.0,20,20); break;
+        }
+
+       // Now we need to get the matrix P * View * Modelling
+       // Which is P * mMat
+       glMatrixMode(GL_PROJECTION);
+       glPushMatrix(); // save P
+         glMultMatrixf(VandMMat);
+         glGetFloatv(GL_PROJECTION_MATRIX, compMat);
+       glPopMatrix(); // restore P
+       glMatrixMode(GL_MODELVIEW);
+
+       drawMatrix(mMat, lastModel,"Modelling matrix : M", 0.02, 0.95, 235.0/255.0,188.0/255.0,206.0/255.0, GLUT_BITMAP_TIMES_ROMAN_24);
+       drawMatrix(vMat, lastView,"Camera matrix : V", 0.02, 0.25, 188.0/255.0,235.0/255.0,189.0/255.0, GLUT_BITMAP_TIMES_ROMAN_24);
+       drawMatrix(pMat, lastProj,"Projection matrix : P", 0.6, 0.95, 188.0/255.0,189.0/255.0,235.0/255.0, GLUT_BITMAP_TIMES_ROMAN_24);
+       drawMatrix(compMat, lastComp,"Composite matrix : P * V * M", 0.6, 0.25, 235.0/255.0,174.0/255.0,134.0/255.0, GLUT_BITMAP_TIMES_ROMAN_24);
+
+    glutSwapBuffers();
+}
+
+////////////////////////////////////////////
+
+void Reshape (int w, int h) {
+// called on window creation, and subsequent resizes by the user
+    WX= w; WY= h;
+    glViewport(0, 0, (GLint)w, (GLint)h);
+    glutPostRedisplay();
+}
+
+////////////////////////////////////////////
+void printHelp(void) {
+  printf("rotate: x y z X Y Z\n");
+  printf("translate: a b c A B C\n");
+  printf("scale: s t u S T U\n");
+  printf("reset: 0\n");
+  printf("make singular (y=0): .\n");
+  printf("move eye point: i j k I J K\n");
+  printf("move look point: l m n L M N\n");
+  printf("field of view: < >\n");
+  printf("perspective terms in model matrix: p q r P Q R\n");
+  printf("change model +\n");
+  printf("change view up vector v V\n");
+}
+
+////////////////////////////////////////////
+
+void Key (unsigned char key, int x, int y) {
+// called when a key-press event happens -- [XxYyZzr] keys
+ switch (key) {
+      case '1': nearClip-= dClip;  break;
+      case '2': nearClip+= dClip;  break;
+      case '3': farClip-= dClip;  break;
+      case '4': farClip+= dClip;  break;
+      case '<': fov-= dfov;  break;
+      case '>': fov+= dfov; break;
+      case 'X': rotX-= dRot; break;
+      case 'x':	rotX+= dRot; break;
+      case 'Y':	rotY-= dRot; break;
+      case 'y':	rotY+= dRot; break;	 
+      case 'Z':	rotZ-= dRot; break;
+      case 'z':	rotZ+= dRot; break;
+      case '0':	init(); break; 
+      case '.':	singular= !singular; break; 
+      case 'A': panX-= dPan; break;
+      case 'a':	panX+= dPan; break;
+      case 'B': panY-= dPan; break;
+      case 'b':	panY+= dPan; break;
+      case 'C': panZ-= dPan; break;
+      case 'c':	panZ+= dPan; break;
+      case 'S': scaleX-= dSc; break;
+      case 's':	scaleX+= dSc; break;
+      case 'T': scaleY-= dSc; break;
+      case 't':	scaleY+= dSc; break;
+      case 'U': scaleZ-= dSc; break;
+      case 'u':	scaleZ+= dSc; break;
+      case 'h':	printHelp(); break;
+      case 'P': P1-= dP; break;
+      case 'p':	P1+= dP; break;
+      case 'Q': P2-= dP; break;
+      case 'q':	P2+= dP; break;
+      case 'R': P3-= dP; break;
+      case 'r':	P3+= dP; break;
+      case 'I': eyeX-= deye; ; break;
+      case 'i':	eyeX+= deye;  break;
+      case 'J': eyeY-= deye;  break;
+      case 'j':	eyeY+= deye;  break;
+      case 'K': eyeZ-= deye;  break;
+      case 'k':	eyeZ+= deye;  break;
+      case 'L': cX-= deye;  break;
+      case 'l':	cX+= deye;  break;
+      case 'M': cY-= deye;  break;
+      case 'm':	cY+= deye;  break;
+      case 'N': cZ-= deye; break;
+      case 'n':	cZ+= deye;  break;
+      case 'v':	vupX+= dvup;  break;
+      case 'V':	vupX-= dvup;  break;
+      case '+': modelType= modelType == (NUM_MODELS-1) ? 0: modelType+1; break; 
+      case  27: exit(0); // '27' is ASCII code for the escape key
+    }
+    glutPostRedisplay(); // tell GLUT that a call to glutDisplayFunc() is needed
+}
+
+////////////////////////////////////////////
+
+int main(int argc, char **argv) {
+    init();
+    glutInit(&argc, argv);
+    glutInitDisplayMode (GLUT_RGB | GLUT_DEPTH | GLUT_DOUBLE);
+    glutInitWindowSize (800, 800);
+    glutCreateWindow("OpenGL transformations demo");
+    glutReshapeFunc(Reshape);
+    glutKeyboardFunc(Key);
+    glutDisplayFunc(Display);
+    glutMainLoop();
+    return(0);
+}
+
+////////////////////////////////////////////

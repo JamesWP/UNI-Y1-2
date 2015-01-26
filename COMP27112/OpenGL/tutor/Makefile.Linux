@@ -1,0 +1,35 @@
+# This was hacked from the original Makefile.sgi by Steve Pettifer
+# Then Toby Howard had a go to make it work on Linux.
+#    * added -lXt
+# Note this assumes Mesa is in /usr/local/lib
+# (needs rewriting and tidying)
+ 
+INCDIR = "-I/usr/X11R6/include"
+LIDIR = /usr/lib
+CC=gcc
+
+TARGETS = transformation projection lightposition texture lightmaterial fog
+LLDLIBS = -lglut -lGLU -lGL -lXmu -lXi -lXt -lXext -lX11 -lm
+LCFLAGS = -fullwarn
+
+all: ${TARGETS}
+
+transformation: glm.o sgi.o
+	${CC} ${INCDIR} transformation.c -o transformation glm.o sgi.o -L/usr/X11R6/lib -L/usr/local/lib ${LDFLAGS} ${LLDLIBS}
+
+projection: glm.o sgi.o
+	${CC} ${INCDIR} projection.c -o projection glm.o sgi.o -L/usr/X11R6/lib -L/usr/local/lib ${LDFLAGS} ${LLDLIBS}
+
+lightposition: glm.o sgi.o
+	${CC} ${INCDIR} lightposition.c -o lightposition glm.o sgi.o -L/usr/X11R6/lib -L/usr/local/lib ${LDFLAGS} ${LLDLIBS}
+
+texture: glm.o sgi.o
+	${CC} ${INCDIR} texture.c -o texture glm.o sgi.o -L/usr/X11R6/lib -L/usr/local/lib ${LDFLAGS} ${LLDLIBS}
+
+lightmaterial: glm.o sgi.o
+	${CC} ${INCDIR} lightmaterial.c -o lightmaterial glm.o sgi.o -L/usr/X11R6/lib -L/usr/local/lib ${LDFLAGS} ${LLDLIBS}
+
+fog: glm.o sgi.o
+	${CC} ${INCDIR} fog.c -o fog glm.o sgi.o -L/usr/X11R6/lib -L/usr/local/lib ${LDFLAGS} ${LLDLIBS}
+
+

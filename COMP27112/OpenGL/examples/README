@@ -1,0 +1,40 @@
+Last updated: 2 Jan 2013 by Toby Howard
+
+Files in  /opt/info/courses/OpenGL/examples/:
+
+Pre-compiled (for Linux) example programs:
+
+ cage
+ moebius
+ sproingies
+ superquadrics
+
+Compilable (with "cogl") programs referred to by the COMP27112 OpenGL manual:
+
+ ex1.c
+ ex2.c
+ ex3.c
+ ex4.c
+ ex5.c
+ ex6.c
+ ex7.c
+ ex8.c
+ ex9.c
+ ex10.c 
+ ex11.c
+ font.c
+ lorenz.c
+ menu.c
+ morph3d.c
+ pointblast.c
+ reflect.c
+ reflect.rgb
+ star.c
+ teapots.c
+ thegears.c
+ tori.c
+ unproject.c
+
+Please address queries to toby.howarD@manchester.ac.uk
+
+[ends]

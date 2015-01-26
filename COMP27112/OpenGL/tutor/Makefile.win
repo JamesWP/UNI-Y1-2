@@ -1,0 +1,24 @@
+##!nmake
+
+!include <win32.mak>
+
+LCFLAGS	= $(cflags) $(cdebug) -DWIN32
+LLDLIBS	= $(lflags) $(ldebug) glut.lib glu.lib opengl.lib $(guilibs)
+TARGETS	= transformation.exe projection.exe lightposition.exe lightmaterial.exe fog.exe texture.exe
+
+default	: $(TARGETS)
+
+clean	:
+	@del *.obj
+clobber	: 
+	@del *.exe
+
+$(TARGETS): $*.obj glm.obj sgi.obj
+        $(link) -out:$@ $*.obj glm.obj sgi.obj $(LLDLIBS)
+.c.obj	: 
+	$(CC) $(LCFLAGS) $<
+
+# dependencies (must come AFTER inference rules)
+$(TARGETS)	: glm.obj sgi.obj
+glm.obj		: glm.h
+sgi.obj		: sgi.h

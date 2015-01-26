@@ -1,0 +1,25 @@
+Last updated: 2 Jan 2013 by Toby Howard
+
+Files in  /opt/info/courses/OpenGL:
+
+Makefile	
+	sample Makefile for compiling Mesa programs 
+	on School Linux Teaching installation.
+	Compiles "thegears.c"
+
+thegears.c
+	sample for the aboveMakefile
+
+examples/
+	sources of example programs from the COMP27112 OpenGL manual, and also
+	some pre-compiled examples from the xscreensaver collection.
+
+tutor/
+	OpenGL tutorial programs by Nate Robins. Must be run from the
+	tutor/ directory in order to access model data.
+
+Please address queries to toby.howard@machester.ac.uk
+
+[ends]
+
+

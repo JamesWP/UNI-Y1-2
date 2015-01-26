@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <GL/glut.h>
+
+void drawString (void *font, float x, float y, char *str) {
+/* Draws string 'str' in font 'font', at world (x,y,0) */
+   char *ch;
+   glRasterPos3f(x, y, 0.0);
+   for (ch= str; *ch; ch++) {
+       glutBitmapCharacter(font, (int)*ch);
+   }
+}
+
+
+void doLine(float y, GLushort patt) {
+    char str[10];
+    sprintf(str, "%04X", patt); // convert patt to hex string
+    drawString(GLUT_BITMAP_HELVETICA_10, -0.7, y, str);
+    glLineStipple(1.0, patt);
+    glLineWidth(4.0);
+    glBegin (GL_LINES);
+      glVertex3f(-0.5, y, 0.0);
+      glVertex3f(0.5, y, 0.0);
+    glEnd();
+}
+
+ void display (void) { 
+    glClearColor(0.9,0.9,0.9,0.0); /* Set grey background */
+    glClear (GL_COLOR_BUFFER_BIT); /* Clear the window */
+    glLoadIdentity ();
+    gluLookAt (0.0, 0.0, 0.5, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
+    glColor3f(0.0,0.0,0.0); 
+    // Try some line stipples
+    doLine(0.6, 0x0001);
+    doLine(0.5, 0x0011);
+    doLine(0.4, 0x0111);
+    doLine(0.3, 0x1111);
+    doLine(0.2, 0x3333);
+    doLine(0.1, 0xFF00);
+    doLine(0.0, 0x8880);
+    doLine(-0.1, 0x44F0);
+    doLine(-0.2, 0xA00A);
+    doLine(-0.3, 0xAFAF);
+    doLine(-0.4, 0x4F04);
+    doLine(-0.5, 0x3E1F);
+    doLine(-0.6, 0xFFF1);
+   glFlush();              /* Force update of screen */
+}
+
+void keyboard (unsigned char key, int x, int y) {
+  if (key == 27) exit (0); /* 27 is the Escape key */
+} 
+
+void reshape (int width, int height) {
+   glViewport (0, 0, (GLsizei) width, (GLsizei) height); 
+   glMatrixMode (GL_PROJECTION); /* Select the projection matrix */
+   glLoadIdentity ();            /* Initialise it */
+   glOrtho(-1.0,1.0, -1.0,1.0, -1.0,1.0); /* The unit cube */
+   glMatrixMode (GL_MODELVIEW);  /* Select the modelview matrix */
+}
+
+int main(int argc, char **argv) {
+  glutInit (&argc, argv);      /* Initialise OpenGL */
+  glutInitWindowSize (500, 500);     /* Set the window size */
+  glutInitWindowPosition (100, 100); /* Set the window position */
+  glutCreateWindow ("linestyles");    /* Create the window */
+  glutDisplayFunc (display);   /* Register the "display" function */
+  glutReshapeFunc (reshape);   /* Register the "reshape" function */
+  glutKeyboardFunc (keyboard); /* Register the "keyboard" function */
+  glEnable(GL_LINE_STIPPLE);
+  glutMainLoop ();             /* Enter the OpenGL main loop */
+  return 0;
+}
