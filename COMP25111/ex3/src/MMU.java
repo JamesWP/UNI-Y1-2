@@ -82,6 +82,7 @@ public class MMU
         if(page_table[i].dirty) writebacks++;
         page_table[i].dirty = false;
         page_table[i].resident = false;
+        rejected_pages++;
       }
 
     page_table[addr].page_frame = page_frame_no;

@@ -22,7 +22,7 @@ public class MMUSim {
     try {
       in = new BufferedReader(new FileReader(args[0]));
       vmem_pages = 4096; vmem_bits = 12;  // these must be consistent
-      rmem_pages = 2;
+      rmem_pages = 64;
       mm_unit = new MMU(vmem_pages,rmem_pages);
       doSimul(true);
       in.close();

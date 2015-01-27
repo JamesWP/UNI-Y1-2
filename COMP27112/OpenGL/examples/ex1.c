@@ -1,5 +1,5 @@
-#include <GL/glut.h>
-  
+#include <GL/glew.h>
+
 void display (void) { 
 /* Called when OpenGL needs to update the display */ 
   glClearColor(0.9,0.9,0.9,0.0); /* Set grey background */
