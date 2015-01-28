@@ -12,16 +12,20 @@
 ; Known bugs: None
 ;
 ;------------------------------------------------------------------------
-        B		Main
+        B     Main
 
 ;---------------------------
 ; includes
 ;---------------------------
-GET     "io.s"
+GET     io.s
 
 ;---------------------------
 ; literals/globals
 ;---------------------------
+BUTTON_STATE_NONE   EQU 0
+BUTTON_STATE_TOP    EQU 1
+BUTTON_STATE_BOTTOM EQU 2
+G_BUTTON_FLAG DEFW 0        ; see button states above
 
 
 ;---------------------------
@@ -49,10 +53,33 @@ Main_loop
 ; sets the display to the correct message for this state
 ;---------------------------
 Display
-        PUSH{}
-        ; clear display
+        PUSH{r0,r1,LR}
         ; switch state and set output
-        POP{}
+
+        MOV   r1, #G_state0string     ; default string        
+
+        ;state 0 G_state0string
+        CMP   r0, #0
+        MOVEQ r1, #G_state0string 
+
+        ;state 1 G_state1string
+        CMP   r0, #1
+        MOVEQ r1, #G_state1string 
+
+        ;state 2 G_state2string
+        CMP   r0, #2
+        MOVEQ r1, #G_state2string 
+
+        ;state 3 G_state3string
+        CMP   r0, #3
+        MOVEQ r1, #G_state3string 
+
+        BL    ClearScreen             ; call clear screen
+
+        MOV   r0,r1                   ; call print string
+        BL    PrintString
+
+        POP{r0,r1,LR}
         MOV   PC,LR
 ;---------------------------
 
@@ -62,10 +89,9 @@ Display
 ; can be interrupted with a button press
 ;---------------------------
 Delay
-        PUSH{}
-        ; clear display
-        ; switch state and set output
-        POP{}
+        ;PUSH{}
+        ; delay for correct time
+        ;POP{}
         MOV   PC,LR
 ;---------------------------
 
@@ -73,10 +99,42 @@ Delay
 ;procedure GetNextState(R0=state OUTPUT)
 ; gets the next state and returns value in r0
 ;---------------------------
-Display
-        PUSH{}
-        ; clear display
-        ; switch state and set output
-        POP{}
+GetNextState
+        PUSH{r1,r2}
+
+        LDR   r1, G_BUTTON_FLAG       ; if button is none then skip .. else
+        CMP   r1, #BUTTON_STATE_NONE
+        BEQ   GetNextState_next
+        
+        MOV   r2, #BUTTON_STATE_NONE  ; reset flags
+        STR   r2, G_BUTTON_FLAG
+
+        CMP   r1, #BUTTON_STATE_TOP   ; if button is top...
+        MOVEQ r0, #2                  ; goto state  2
+        MOVNE r0, #3                  ; else goto state 3
+        B     GetNextState_end        ; return
+
+GetNextState_next
+        CMP   r0, #0                  ; state 0 -> 1
+        MOVEQ r0, #1                  ; state 1 -> 0 
+        MOVNE r0, #0                  ; state 2 -> 0
+                                      ; state 3 -> 0
+        
+GetNextState_end
+        POP{r1,r2}
         MOV   PC,LR
 ;---------------------------
+
+
+G_state0string
+        DEFW  "Hello World",0x0
+G_state1string
+        DEFW  "Hi COMP22712!",0x0
+G_state2string
+        DEFW  "Top Button",0x0
+G_state3string
+        DEFW  "Bottom Button",0x0
+
+Stack_end
+        DEFS 1024
+Stack_start
