@@ -3,14 +3,20 @@
 
 File:        ex1.c
 Description: COMP27112, Lab Exercise 1, skeleton
-Authors:     Toby Howard
+Authors:     Toby Howard, James Peach (30/01/2015)
 
 =====================================================================
 */
 
+#if __APPLE__
+#include <GLUT/glut.h>
+#else
 #include <GL/glut.h>
+#endif
+
 #include <math.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 /* Set to 0 or 1 for normal or reversed mouse Y direction */
 #define INVERT_MOUSE 0
@@ -18,6 +24,12 @@ Authors:     Toby Howard
 #define RUN_SPEED  0.15
 #define TURN_ANGLE 4.0
 #define DEG_TO_RAD 0.017453293
+#define PI 3.14159
+#define CROUCH_HEIGHT_DELTA 0.3
+#define JUMP_HEIGHT 4.0
+// the jump's duration in frames
+#define JUMP_DURATION 100
+
 
 GLdouble lat,     lon;              /* View angles (degrees)    */
 GLdouble mlat,    mlon;             /* Mouse look offset angles */   
@@ -35,6 +47,12 @@ GLfloat matShininess[] =    { 50.0 };
 GLfloat matSurface[] =      { 0.8, 0.5, 0.2, 0.1 };
 GLfloat matEmissive[] =     { 0.0, 1.0, 0.0, 0.1 };
 
+GLint crouching; // 0: not crouching, else 1: is crouching
+GLint isjumping; // 0: not jumping, else 1: is jumping (up or down or feet
+                 //not on floor)
+GLint jumpframe; // the number of frames through the curent jump
+GLfloat jumpstart,jumpmax; // the height of the player when they left the ground
+                           //and the height of the player at the peak of their jump
 //////////////////////////////////////////////
 
 float dist (float x, float y, float z) {
@@ -82,7 +100,6 @@ glEnable(GL_LIGHTING);
 void cylinder(int steps, float height){
 // Draws a cylinder with "steps" steps around the axis, and height "height".
 // The cylinder is centred on (0,0,0)
-float PI= 3.141592654;
 float a= 0.0;
 float da= 2 * PI / steps;
 int i;
@@ -200,12 +217,35 @@ void draw_scene(void) {
 
 //////////////////////////////////////////////
 
-void calculate_lookpoint(void) { /* Given an eyepoint and latitude and longitude angles, will
+// MAPRANGE takes a value from an input range min and max
+//          and maps the value to the given output range
+#define MAPRANGE(inputstart,inputend,outputstart,outputend,input) (outputstart + ((outputend - outputstart) / (inputend - inputstart)) * (input - inputstart))
+#define MIN(a,b) (a<b?a:b)
+#define MAX(a,b) (a>b?a:b)
+#define CLAMP(min,max,val) (MIN(MAX(val,min),max))
+
+void calculate_lookpoint(void) {
+  /* Given an eyepoint and latitude and longitude angles, will
      compute a look point one unit away */
 
-  /* To be completed */
+  float lonRad = (lon+mlon) * DEG_TO_RAD;
+  float latRad = (lat+mlat) * DEG_TO_RAD;
 
-} // calculate_lookpoint()
+  //latitude -> centery
+  centery = sinf(latRad) + eyey;
+
+  //longitude -> centerx, centerz
+  centerz = cosf(lonRad)*cosf(latRad) + eyez;
+  centerx = sinf(lonRad)*cosf(latRad) + eyex;
+
+} // calculatelookpoint()
+
+void calculate_movement(float relativeAngle) {
+  /* Given a relative angle to the curent facing angle, move the players eyez and eyex */
+  float lonRad = (lon+relativeAngle) * DEG_TO_RAD;
+  eyez += cosf(lonRad)*RUN_SPEED;
+  eyex += sinf(lonRad)*RUN_SPEED;
+}
 
 //////////////////////////////////////////////
 
@@ -229,6 +269,12 @@ void spin(void) {
   ang= ang + 1.0; if (ang > 360.0) ang= ang - 360.0;
 
   /* To be completed */
+
+  if(jumpframe++ >= JUMP_DURATION){// jump completed
+    isjumping = 0;
+  }else if(isjumping == 1){
+    eyey = jumpstart + (JUMP_HEIGHT * sinf((PI*((float)jumpframe/JUMP_DURATION))));
+  }
  
   glutPostRedisplay();
 } //spin()
@@ -250,6 +296,10 @@ void reshape(int w, int h) {
 void mouse_motion(int x, int y) {
 
   /* To be completed */
+  float xperc = ((float)x/width)*2.0 -1.0;
+  float yperc = ((float)y/height)*2.0 -1.0;
+  mlon = xperc * 50.0;
+  mlat = yperc * 50.0;
 
 } // mouse_motion()
 
@@ -262,7 +312,38 @@ void keyboard(unsigned char key, int x, int y) {
       break;
  
       /* To be completed */
-
+    case 119: //w
+      lat += TURN_ANGLE;
+      if(lat>90.0) lat = 90.0;
+      break;
+    case 115: //a
+      lat -= TURN_ANGLE;
+      if(lat<-90.0) lat = -90.0;
+      break;
+    case 44: //,
+      calculate_movement(90);
+      break;
+    case 46: //.
+      calculate_movement(-90);
+      break;
+    case 99: //c
+      if (isjumping) break; // no change to this while jumping
+      if(crouching == 0){
+        eyey -= CROUCH_HEIGHT_DELTA;
+      }else{
+        eyey += CROUCH_HEIGHT_DELTA;
+      }
+      crouching = 1-crouching;
+      break;
+    case 32: //SPACE
+      if(isjumping == 0){// if is not already jumping
+        isjumping = 1;
+        jumpstart = eyey;
+        jumpframe = 0;
+      }
+      break;
+    default:
+      printf("Invalid key in keyboard %d", key);
    }
 } // keyboard()
 
@@ -270,9 +351,50 @@ void keyboard(unsigned char key, int x, int y) {
 
 void cursor_keys(int key, int x, int y) {
   switch (key) {
-
       /* To be completed */
+    case GLUT_KEY_LEFT:
+      // Rotate your view to the left (increase longitude angle)
+      // by TURN_ANGLE degrees.
+      lon += TURN_ANGLE;
+      break;
+    case GLUT_KEY_RIGHT:
+      // Rotate your view to the right (decrease longitude
+      // angle) by TURN_ANGLE degrees.
+      lon -= TURN_ANGLE;
+      break;
+//    case GLUT_KEY_UP:
+    case GLUT_KEY_PAGE_UP:
+      // Tilt your view up (increase latitude angle) by
+      // TURN_ANGLE degrees.
+      lat += TURN_ANGLE;
+      if(lat>90.0) lat = 90.0;
+      break;
+//    case GLUT_KEY_DOWN:
+    case GLUT_KEY_PAGE_DOWN:
+      // Tilt your view down (decrease latitude angle)
+      // by TURN_ANGLE degrees.
+      lat -= TURN_ANGLE;
+      if(lat<-90.0) lat = -90.0;
+      break;
+    case GLUT_KEY_HOME:
+      // Re-centre (set back to zero) your latitude angle.
+      lat = 0;
+      break;
+    case GLUT_KEY_UP:
+      // Step forwards in the XZ plane a distance RUN_SPEED. The
+      // direction of movement (the heading angle) is towards the look point, and
+      // therefore corresponds to the longitude angle.
+      calculate_movement(0);
+      break;
+    case GLUT_KEY_DOWN:
+      // GLUT_KEY_DOWN. Step backwards in the XZ plane a distance RUN_SPEED.
+      // The heading is in the opposite direction to the longitude angle.
+      calculate_movement(180);
+      break;
+    default:
+      printf("Invalid key in cursor_keys %d", key);
   }
+
 } // cursor_keys()
   
 //////////////////////////////////////////////
@@ -294,6 +416,9 @@ void init(void) {
 
   mlat= 0.0;  /* Zero mouse look angles */
   mlon= 0.0;
+
+  crouching = 0; // not crouching
+  isjumping = 0;
 
   /* set up lighting */
   glLightfv(GL_LIGHT0, GL_DIFFUSE, white_light);
