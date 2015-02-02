@@ -4,14 +4,23 @@ import java.rmi.server.UnicastRemoteObject ;
 
 public class RMServer implements RemoteServer {
 
+      public final String serverName;
+      public RMServer(String serverName){
+        this.serverName = serverName;
+      }
+
       public String getId(String s) throws RemoteException {
-        System.out.println("A client said: " + s) ;
-        return "Server replying" ;
+        if(s.equals("whoRU")){
+          return "Scince you asked so nicley, its " + serverName;
+        }else{
+          return "If you ask me nicely, I will tell you who I am";
+        }
       }
 
       public static void main(String[] args) {
          try {
-           RMServer ms = new RMServer() ;
+           if(args.length<1) {System.out.println("You must specify a name for the server"); return;}
+           RMServer ms = new RMServer(args[0]) ;
            RemoteServer stub = (RemoteServer) UnicastRemoteObject.exportObject(ms, 0) ;
 
            Registry registry = LocateRegistry.getRegistry() ;
