@@ -14,14 +14,14 @@
 ;------------------------------------------------------------------------
 
 
-LCD_Data
-        DEFW  0x10000004
-LCD_Control
-        DEFW  0x10000000
+LCD_Data    EQU  0x10000004
+LCD_Control EQU 0x10000000
 
 ENABLE  EQU   0x01
 REGSEL  EQU   0x02
-READNW  EQU   0x03
+READNW  EQU   0x04
+              
+BACKLIGHT  EQU   0x10
 
 CLEAR   EQU   0x01
 
@@ -30,16 +30,34 @@ CLEAR   EQU   0x01
 ; prints a single char on the LCD
 ;---------------------------
 PrintChar
-        PUSH{LR}
-        ;load data and control pointers        
-        ADR   r8, LCD_Data
-        ADR   r9, LCD_Control
+        PUSH{LR,r1,r8,r9}
+        ;load Bdata and control pointers        
+        MOV   r8, #LCD_Data
+        MOV   r9, #LCD_Control
         ; wait for device
         BL    IOWait
-        ;check char in range
+        ;TODO: check char in range
+      
+        ; load control reg
+        LDR   r1, [r9]
+        ; setup = set write set REGSEL unset READNW
+        BIC   r1, r1, #(READNW)
+        ORR   r1, r1, #(REGSEL)        
+        STR   r1, [r9]
+
+        ; set data
+        STR   r0, [r8]
+
+        ; strobe enable
+        ORR   r1, r1, #(ENABLE)
+        STR   r1, [r9]
+
+        ; strobe off        
+        BIC   r1, r1, #(ENABLE)
+        STR   r1, [r9]
+
         ;print char
-        ;wait for device ready
-        POP{LR}
+        POP{LR,r1,r8,r9}
         MOV   PC,LR
 ;---------------------------
 
@@ -49,15 +67,37 @@ PrintChar
 ; prints a \0 terminated string pointed to by string-pointer
 ;---------------------------
 PrintString
-        PUSH{LR}
-        ;load char + post increment
+        PUSH{LR,r1}
+        MOV   r1, r0
+PrintString_repeat
+        LDRB  r0, [r1], #1     ;load char + post increment
         ;check for termination char -> jump to end
-        ;print char
-        ;loop back
+        CMP   r0,#0
+        BEQ PrintString_end
+        BL PrintChar           ; PrintChar(R0=curent-char)
+        B  PrintString_repeat
 PrintString_end
-        POP{LR}
+        POP{LR,r1}
         MOV   PC,LR
 ;---------------------------
+
+EnableBacklight
+        PUSH{LR,r0,r8}
+        
+        ;load Bdata and control pointers        
+        MOV   r8, #LCD_Data
+        MOV   r9, #LCD_Control       
+ 
+        ; wait for io to be ready 
+        BL    IOWait
+        
+        LDR   r0, [r9]
+        ORR   r0, r0, #(BACKLIGHT)
+        STR   r0, [r9]
+
+        POP{LR,r0,r8}
+        MOV   PC,LR
+      
 
 ;---------------------------
 ;procedure ClearScreen
@@ -66,8 +106,8 @@ PrintString_end
 ClearScreen
         PUSH{LR,r0,r9,r8}
         ;load data and control pointers        
-        ADR   r8, LCD_Data
-        ADR   r9, LCD_Control
+        MOV   r8, #LCD_Data
+        MOV   r9, #LCD_Control
         ;wait for device
         BL    IOWait
         ;clear screen
@@ -77,12 +117,12 @@ ClearScreen
         BIC   r0, r0, #(READNW | REGSEL)
         STR   r0, [r9]
         ; set data
-        MOV   r0, r0, #CLEAR
+        MOV   r0, #CLEAR
         STR   r0, [r8]
         
         ; strobe enable on
         LDR   r0, [r9]
-        OR    r0, r0, #(ENABLE)
+        ORR   r0, r0, #(ENABLE)
         STR   r0, [r9]
 
         ; strobe enable off
@@ -106,12 +146,12 @@ IOWait_repeat
         LDR   r0, [r9]
 
         ; set read&control, unset enable
-        OR    r0, r0, #(READNW)
+        ORR   r0, r0, #(READNW)
         BIC   r0, r0, #(ENABLE | REGSEL)
         STR   r0, [r9]
         
         ; enable bus too
-        OR    r0, r0, #(ENABLE)
+        ORR   r0, r0, #(ENABLE)
         STR   r0, [r9]
     
         ; read data

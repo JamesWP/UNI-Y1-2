@@ -13,7 +13,7 @@ KMD
 00000000:             ; ; Known bugs: None
 00000000:             ; ;
 00000000:             ; ;------------------------------------------------------------------------
-00000000: EA00001D    ;         B     Main
+00000000: EA00003F    ;         B     Main
 00000004:             ; 
 00000004:             ; ;---------------------------
 00000004:             ; ; includes
@@ -35,286 +35,326 @@ KMD
 00000004:             ; ;------------------------------------------------------------------------
 00000004:             ; 
 00000004:             ; 
-00000004:             ; LCD_Data
-00000004: 10000004    ;         DEFW  0x10000004
-00000008:             ; LCD_Control
-00000008: 10000000    ;         DEFW  0x10000000
-0000000C:             ; ;---------------------------
-0000000C:             ; ;procedure PrintChar(R0=char)
-0000000C:             ; ; prints a single char on the LCD
-0000000C:             ; ;---------------------------
-0000000C:             ; PrintChar
-0000000C: E92D4000    ;         PUSH{LR}
-00000010:             ;         ;load data and control pointers        
-00000010: E24F8014    ;         ADR   r8, LCD_Data
-00000014: E24F9014    ;         ADR   r9, LCD_Control
-00000018:             ;         ; wait for device
-00000018: EB00000A    ;         BL    IOWait
-0000001C:             ;         ;check char in range
-0000001C:             ;         ;print char
-0000001C:             ;         ;wait for device ready
-0000001C: E8BD4000    ;         POP{LR}
-00000020: E1A0F00E    ;         MOV   PC,LR
-00000024:             ; ;---------------------------
+00000004:             ; LCD_Data    EQU  0x10000004
+00000004:             ; LCD_Control EQU 0x10000000
+00000004:             ; 
+00000004:             ; ENABLE  EQU   0x01
+00000004:             ; REGSEL  EQU   0x02
+00000004:             ; READNW  EQU   0x04
+00000004:             ;               
+00000004:             ; BACKLIGHT  EQU   0x10
+00000004:             ; 
+00000004:             ; CLEAR   EQU   0x01
+00000004:             ; 
+00000004:             ; ;---------------------------
+00000004:             ; ;procedure PrintChar(R0=char)
+00000004:             ; ; prints a single char on the LCD
+00000004:             ; ;---------------------------
+00000004:             ; PrintChar
+00000004: E92D4302    ;         PUSH{LR,r1,r8,r9}
+00000008:             ;         ;load Bdata and control pointers        
+00000008: E3A08241    ;         MOV   r8, #LCD_Data
+0000000C: E3A09201    ;         MOV   r9, #LCD_Control
+00000010:             ;         ; wait for device
+00000010: EB00002C    ;         BL    IOWait
+00000014:             ;         ;TODO: check char in range
+00000014:             ;       
+00000014:             ;         ; load control reg
+00000014: E5191000    ;         LDR   r1, [r9]
+00000018:             ;         ; setup = set write set REGSEL unset READNW
+00000018: E3C11004    ;         BIC   r1, r1, #(READNW)
+0000001C: E3811002    ;         ORR   r1, r1, #(REGSEL)        
+00000020: E5091000    ;         STR   r1, [r9]
 00000024:             ; 
-00000024:             ; 
-00000024:             ; ;---------------------------
-00000024:             ; ;procedure PrintString(R0=string-pointer)
-00000024:             ; ; prints a \0 terminated string pointed to by string-pointer
-00000024:             ; ;---------------------------
-00000024:             ; PrintString
-00000024: E92D4000    ;         PUSH{LR}
-00000028:             ;         ;load char + post increment
-00000028:             ;         ;check for termination char -> jump to end
-00000028:             ;         ;print char
-00000028:             ;         ;loop back
-00000028:             ; PrintString_end
-00000028: E8BD4000    ;         POP{LR}
-0000002C: E1A0F00E    ;         MOV   PC,LR
-00000030:             ; ;---------------------------
+00000024:             ;         ; set data
+00000024: E5080000    ;         STR   r0, [r8]
+00000028:             ; 
+00000028:             ;         ; strobe enable
+00000028: E3811001    ;         ORR   r1, r1, #(ENABLE)
+0000002C: E5091000    ;         STR   r1, [r9]
 00000030:             ; 
-00000030:             ; ;---------------------------
-00000030:             ; ;procedure ClearScreen
-00000030:             ; ; clears the screen and places cursor in top left corner
-00000030:             ; ;---------------------------
-00000030:             ; ClearScreen
-00000030: E92D4000    ;         PUSH{LR}
-00000034:             ;         ;load data and control pointers        
-00000034: E24F8038    ;         ADR   r8, LCD_Data
-00000038: E24F9038    ;         ADR   r9, LCD_Control
-0000003C:             ;         ;wait for device
-0000003C: EB000001    ;         BL    IOWait
-00000040:             ;         ;clear screen
-00000040:             ;         
+00000030:             ;         ; strobe off        
+00000030: E3C11001    ;         BIC   r1, r1, #(ENABLE)
+00000034: E5091000    ;         STR   r1, [r9]
+00000038:             ; 
+00000038:             ;         ;print char
+00000038: E8BD4302    ;         POP{LR,r1,r8,r9}
+0000003C: E1A0F00E    ;         MOV   PC,LR
+00000040:             ; ;---------------------------
 00000040:             ; 
-00000040: E8BD4000    ;         POP{LR}
-00000044: E1A0F00E    ;         MOV   PC,LR
-00000048:             ; ;---------------------------
-00000048:             ; 
-00000048:             ; ;---------------------------
-00000048:             ; ;procedure IOWait
-00000048:             ; ; waits for the io to be ready
-00000048:             ; ;---------------------------
-00000048:             ; IOWait
-00000048: E92D0003    ;         PUSH{r0,r1}
-0000004C:             ; 
-0000004C:             ; IOWait_repeat
-0000004C:             ;         ; set to read from control
-0000004C: E3A00004    ;         MOV   r0, #4  ; read control
-00000050: E5090000    ;         STR   r0, [r9]
-00000054:             ;         
-00000054:             ;         ; enable bus too
-00000054: E3A00005    ;         MOV   r0, #5  ; read control enable
-00000058: E5090000    ;         STR   r0, [r9]
-0000005C:             ;     
-0000005C:             ;         ; read data
-0000005C: E5181000    ;         LDR   r1, [r8]      
-00000060:             ;             
-00000060:             ;         ; disable bus
-00000060: E3A00004    ;         MOV   r0, #4  ; read control
-00000064: E5090000    ;         STR   r0, [r9]
-00000068:             ; 
-00000068:             ;         ; test bit 7 is low else repeat
-00000068: E2111080    ;         ANDS  r1, r1, #0x80
-0000006C: 1AFFFFF6    ;         BNE   IOWait_repeat
-00000070:             ; 
-00000070: E8BD0003    ;         POP{r0,r1}
-00000074: E1A0F00E    ;         MOV   PC,LR
-00000078:             ; 
-00000078:             ; 
-00000078:             ; 
-00000078:             ; ;---------------------------
-00000078:             ; ; literals/globals
-00000078:             ; ;---------------------------
-00000078:             ; BUTTON_STATE_NONE   EQU 0
-00000078:             ; BUTTON_STATE_TOP    EQU 1
-00000078:             ; BUTTON_STATE_BOTTOM EQU 2
-00000078: 00000000    ; G_BUTTON_FLAG DEFW 0        ; see button states above
-0000007C:             ; 
-0000007C:             ; 
-0000007C:             ; ;---------------------------
-0000007C:             ; ; main entry of program
-0000007C:             ; ;
-0000007C:             ; ; r1 : curent state
-0000007C:             ; ;---------------------------
-0000007C:             ; Main
-0000007C:             ;         ;- set up stack pointer
-0000007C: E28FDF57    ;         ADRL  SP, Stack_start
-00000080: E28DDB01    ; 
-00000084:             ; 
-00000084: E3A01000    ;         MOV   r1, #0
-00000088:             ; Main_loop
-00000088:             ;         ; display curent message
-00000088: EB000002    ;         BL    Display
-0000008C:             ;         ; delay with button interupt
-0000008C: EB000010    ;         BL    Delay
-00000090:             ;         ; change state
-00000090: EB000010    ;         BL    GetNextState
-00000094: EAFFFFFB    ;         B     Main_loop
-00000098:             ; 
-00000098:             ; 
-00000098:             ; ;---------------------------
-00000098:             ; ;procedure Display(R0=state)
-00000098:             ; ; sets the display to the correct message for this state
-00000098:             ; ;---------------------------
-00000098:             ; Display
-00000098: E92D4003    ;         PUSH{r0,r1,LR}
-0000009C:             ;         ; switch state and set output
-0000009C:             ; 
-0000009C: E3A01F45    ;         MOV   r1, #G_state0string     ; default string        
-000000A0:             ; 
-000000A0:             ;         ;state 0 G_state0string
-000000A0: E3500000    ;         CMP   r0, #0
-000000A4: 03A01F45    ;         MOVEQ r1, #G_state0string 
-000000A8:             ; 
-000000A8:             ;         ;state 1 G_state1string
-000000A8: E3500001    ;         CMP   r0, #1
-000000AC: 03A01F51    ;         MOVEQ r1, #G_state1string 
-000000B0:             ; 
-000000B0:             ;         ;state 2 G_state2string
-000000B0: E3500002    ;         CMP   r0, #2
-000000B4: 03A01F5F    ;         MOVEQ r1, #G_state2string 
+00000040:             ; 
+00000040:             ; ;---------------------------
+00000040:             ; ;procedure PrintString(R0=string-pointer)
+00000040:             ; ; prints a \0 terminated string pointed to by string-pointer
+00000040:             ; ;---------------------------
+00000040:             ; PrintString
+00000040: E92D4002    ;         PUSH{LR,r1}
+00000044: E1A01000    ;         MOV   r1, r0
+00000048:             ; PrintString_repeat
+00000048: E4D10001    ;         LDRB  r0, [r1], #1     ;load char + post increment
+0000004C:             ;         ;check for termination char -> jump to end
+0000004C: E3500000    ;         CMP   r0,#0
+00000050: 0A000001    ;         BEQ PrintString_end
+00000054: EBFFFFEA    ;         BL PrintChar           ; PrintChar(R0=curent-char)
+00000058: EAFFFFFA    ;         B  PrintString_repeat
+0000005C:             ; PrintString_end
+0000005C: E8BD4002    ;         POP{LR,r1}
+00000060: E1A0F00E    ;         MOV   PC,LR
+00000064:             ; ;---------------------------
+00000064:             ; 
+00000064:             ; EnableBacklight
+00000064: E92D4101    ;         PUSH{LR,r0,r8}
+00000068:             ;         
+00000068:             ;         ;load Bdata and control pointers        
+00000068: E3A08241    ;         MOV   r8, #LCD_Data
+0000006C: E3A09201    ;         MOV   r9, #LCD_Control       
+00000070:             ;  
+00000070:             ;         ; wait for io to be ready 
+00000070: EB000014    ;         BL    IOWait
+00000074:             ;         
+00000074: E5190000    ;         LDR   r0, [r9]
+00000078: E3800010    ;         ORR   r0, r0, #(BACKLIGHT)
+0000007C: E5090000    ;         STR   r0, [r9]
+00000080:             ; 
+00000080: E8BD4101    ;         POP{LR,r0,r8}
+00000084: E1A0F00E    ;         MOV   PC,LR
+00000088:             ;       
+00000088:             ; 
+00000088:             ; ;---------------------------
+00000088:             ; ;procedure ClearScreen
+00000088:             ; ; clears the screen and places cursor in top left corner
+00000088:             ; ;---------------------------
+00000088:             ; ClearScreen
+00000088: E92D4301    ;         PUSH{LR,r0,r9,r8}
+0000008C:             ;         ;load data and control pointers        
+0000008C: E3A08241    ;         MOV   r8, #LCD_Data
+00000090: E3A09201    ;         MOV   r9, #LCD_Control
+00000094:             ;         ;wait for device
+00000094: EB00000B    ;         BL    IOWait
+00000098:             ;         ;clear screen
+00000098:             ;         
+00000098: E5190000    ;         LDR   r0, [r9]
+0000009C:             ;         ; set control
+0000009C: E3C00006    ;         BIC   r0, r0, #(READNW | REGSEL)
+000000A0: E5090000    ;         STR   r0, [r9]
+000000A4:             ;         ; set data
+000000A4: E3A00001    ;         MOV   r0, #CLEAR
+000000A8: E5080000    ;         STR   r0, [r8]
+000000AC:             ;         
+000000AC:             ;         ; strobe enable on
+000000AC: E5190000    ;         LDR   r0, [r9]
+000000B0: E3800001    ;         ORR   r0, r0, #(ENABLE)
+000000B4: E5090000    ;         STR   r0, [r9]
 000000B8:             ; 
-000000B8:             ;         ;state 3 G_state3string
-000000B8: E3500003    ;         CMP   r0, #3
-000000BC: 03A01F6A    ;         MOVEQ r1, #G_state3string 
+000000B8:             ;         ; strobe enable off
+000000B8: E3C00001    ;         BIC   r0, r0, #(ENABLE)
+000000BC: E5090000    ;         STR   r0, [r9]
 000000C0:             ; 
-000000C0: EBFFFFDA    ;         BL    ClearScreen             ; call clear screen
-000000C4:             ; 
-000000C4: E1A00001    ;         MOV   r0,r1                   ; call print string
-000000C8: EBFFFFD5    ;         BL    PrintString
+000000C0: E8BD4301    ;         POP{LR,r0,r9,r8}
+000000C4: E1A0F00E    ;         MOV   PC,LR
+000000C8:             ; ;---------------------------
+000000C8:             ; 
+000000C8:             ; ;---------------------------
+000000C8:             ; ;procedure IOWait
+000000C8:             ; ; waits for the io to be ready
+000000C8:             ; ;---------------------------
+000000C8:             ; IOWait
+000000C8: E92D0003    ;         PUSH{r0,r1}
 000000CC:             ; 
-000000CC: E8BD4003    ;         POP{r0,r1,LR}
-000000D0: E1A0F00E    ;         MOV   PC,LR
-000000D4:             ; ;---------------------------
-000000D4:             ; 
-000000D4:             ; ;---------------------------
-000000D4:             ; ;procedure Delay(R0=state)
-000000D4:             ; ; delays the correct amount for this state
-000000D4:             ; ; can be interrupted with a button press
-000000D4:             ; ;---------------------------
-000000D4:             ; Delay
-000000D4:             ;         ;PUSH{}
-000000D4:             ;         ; delay for correct time
-000000D4:             ;         ;POP{}
-000000D4: E1A0F00E    ;         MOV   PC,LR
-000000D8:             ; ;---------------------------
-000000D8:             ; 
-000000D8:             ; ;---------------------------
-000000D8:             ; ;procedure GetNextState(R0=state OUTPUT)
-000000D8:             ; ; gets the next state and returns value in r0
-000000D8:             ; ;---------------------------
-000000D8:             ; GetNextState
-000000D8: E92D0006    ;         PUSH{r1,r2}
-000000DC:             ; 
-000000DC: E51F106C    ;         LDR   r1, G_BUTTON_FLAG       ; if button is none then skip .. else
-000000E0: E3510000    ;         CMP   r1, #BUTTON_STATE_NONE
-000000E4: 0A000005    ;         BEQ   GetNextState_next
-000000E8:             ;         
-000000E8: E3A02000    ;         MOV   r2, #BUTTON_STATE_NONE  ; reset flags
-000000EC: E50F207C    ;         STR   r2, G_BUTTON_FLAG
+000000CC:             ; IOWait_repeat
+000000CC:             ; 
+000000CC:             ;         ; load curent control
+000000CC: E5190000    ;         LDR   r0, [r9]
+000000D0:             ; 
+000000D0:             ;         ; set read&control, unset enable
+000000D0: E3800004    ;         ORR   r0, r0, #(READNW)
+000000D4: E3C00003    ;         BIC   r0, r0, #(ENABLE | REGSEL)
+000000D8: E5090000    ;         STR   r0, [r9]
+000000DC:             ;         
+000000DC:             ;         ; enable bus too
+000000DC: E3800001    ;         ORR   r0, r0, #(ENABLE)
+000000E0: E5090000    ;         STR   r0, [r9]
+000000E4:             ;     
+000000E4:             ;         ; read data
+000000E4: E5181000    ;         LDR   r1, [r8]      
+000000E8:             ;             
+000000E8:             ;         ; disable bus
+000000E8: E3C00001    ;         BIC   r0, r0, #(ENABLE)
+000000EC: E5090000    ;         STR   r0, [r9]
 000000F0:             ; 
-000000F0: E3510001    ;         CMP   r1, #BUTTON_STATE_TOP   ; if button is top...
-000000F4: 03A00002    ;         MOVEQ r0, #2                  ; goto state  2
-000000F8: 13A00003    ;         MOVNE r0, #3                  ; else goto state 3
-000000FC: EA000002    ;         B     GetNextState_end        ; return
+000000F0:             ;         ; test bit 7 is low else repeat
+000000F0: E2111080    ;         ANDS  r1, r1, #0x80
+000000F4: 1AFFFFF4    ;         BNE   IOWait_repeat
+000000F8:             ; 
+000000F8: E8BD0003    ;         POP{r0,r1}
+000000FC: E1A0F00E    ;         MOV   PC,LR
 00000100:             ; 
-00000100:             ; GetNextState_next
-00000100: E3500000    ;         CMP   r0, #0                  ; state 0 -> 1
-00000104: 03A00001    ;         MOVEQ r0, #1                  ; state 1 -> 0 
-00000108: 13A00000    ;         MOVNE r0, #0                  ; state 2 -> 0
-0000010C:             ;                                       ; state 3 -> 0
-0000010C:             ;         
-0000010C:             ; GetNextState_end
-0000010C: E8BD0006    ;         POP{r1,r2}
-00000110: E1A0F00E    ;         MOV   PC,LR
-00000114:             ; ;---------------------------
-00000114:             ; 
-00000114:             ; 
-00000114:             ; G_state0string
-00000114: 00000048    ;         DEFW  "Hello World",0x0
-00000118: 00000065    ; 
-0000011C: 0000006C    ; 
-00000120: 0000006C    ; 
-00000124: 0000006F    ; 
-00000128: 00000020    ; 
-0000012C: 00000057    ; 
-00000130: 0000006F    ; 
-00000134: 00000072    ; 
-00000138: 0000006C    ; 
-0000013C: 00000064    ; 
-00000140: 00000000    ; 
-00000144:             ; G_state1string
-00000144: 00000048    ;         DEFW  "Hi COMP22712!",0x0
-00000148: 00000069    ; 
-0000014C: 00000020    ; 
-00000150: 00000043    ; 
-00000154: 0000004F    ; 
-00000158: 0000004D    ; 
-0000015C: 00000050    ; 
-00000160: 00000032    ; 
-00000164: 00000032    ; 
-00000168: 00000037    ; 
-0000016C: 00000031    ; 
-00000170: 00000032    ; 
-00000174: 00000021    ; 
-00000178: 00000000    ; 
-0000017C:             ; G_state2string
-0000017C: 00000054    ;         DEFW  "Top Button",0x0
-00000180: 0000006F    ; 
-00000184: 00000070    ; 
-00000188: 00000020    ; 
-0000018C: 00000042    ; 
-00000190: 00000075    ; 
-00000194: 00000074    ; 
-00000198: 00000074    ; 
-0000019C: 0000006F    ; 
-000001A0: 0000006E    ; 
-000001A4: 00000000    ; 
-000001A8:             ; G_state3string
-000001A8: 00000042    ;         DEFW  "Bottom Button",0x0
-000001AC: 0000006F    ; 
-000001B0: 00000074    ; 
-000001B4: 00000074    ; 
-000001B8: 0000006F    ; 
-000001BC: 0000006D    ; 
-000001C0: 00000020    ; 
-000001C4: 00000042    ; 
-000001C8: 00000075    ; 
-000001CC: 00000074    ; 
-000001D0: 00000074    ; 
-000001D4: 0000006F    ; 
-000001D8: 0000006E    ; 
-000001DC: 00000000    ; 
-000001E0:             ; 
-000001E0:             ; Stack_end
-000001E0:             ;         DEFS 1024
-000005E0:             ; Stack_start
-000005E0:             ; 
+00000100:             ; 
+00000100:             ; 
+00000100:             ; ;---------------------------
+00000100:             ; ; literals/globals
+00000100:             ; ;---------------------------
+00000100:             ; BUTTON_STATE_NONE   EQU 0
+00000100:             ; BUTTON_STATE_TOP    EQU 1
+00000100:             ; BUTTON_STATE_BOTTOM EQU 2
+00000100: 00000000    ; G_BUTTON_FLAG DEFW 0        ; see button states above
+00000104:             ; 
+00000104:             ; 
+00000104:             ; ;---------------------------
+00000104:             ; ; main entry of program
+00000104:             ; ;
+00000104:             ; ; r1 : curent state
+00000104:             ; ;---------------------------
+00000104:             ; Main
+00000104:             ;         ;- set up stack pointer
+00000104: E28FD0C7    ;         ADRL  SP, Stack_start
+00000108: E28DDB01    ; 
+0000010C:             ; 
+0000010C: E3A01000    ;         MOV   r1, #0
+00000110:             ;       
+00000110: EBFFFFD3    ;         BL    EnableBacklight
+00000114:             ; Main_loop
+00000114:             ;         ; display curent message
+00000114: EB000002    ;         BL    Display
+00000118:             ;         ; delay with button interupt
+00000118: EB000010    ;         BL    Delay
+0000011C:             ;         ; change state
+0000011C: EB000010    ;         BL    GetNextState
+00000120: EAFFFFFB    ;         B     Main_loop
+00000124:             ; 
+00000124:             ; 
+00000124:             ; ;---------------------------
+00000124:             ; ;procedure Display(R0=state)
+00000124:             ; ; sets the display to the correct message for this state
+00000124:             ; ;---------------------------
+00000124:             ; Display
+00000124: E92D4003    ;         PUSH{r0,r1,LR}
+00000128:             ;         ; switch state and set output
+00000128:             ; 
+00000128: E28F1070    ;         ADR   r1, G_state0string     ; default string        
+0000012C:             ; 
+0000012C:             ;         ;state 0 G_state0string
+0000012C: E3500000    ;         CMP   r0, #0
+00000130: 028F1068    ;         ADREQ r1, G_state0string 
+00000134:             ; 
+00000134:             ;         ;state 1 G_state1string
+00000134: E3500001    ;         CMP   r0, #1
+00000138: 028F106C    ;         ADREQ r1, G_state1string 
+0000013C:             ; 
+0000013C:             ;         ;state 2 G_state2string
+0000013C: E3500002    ;         CMP   r0, #2
+00000140: 028F1072    ;         ADREQ r1, G_state2string 
+00000144:             ; 
+00000144:             ;         ;state 3 G_state3string
+00000144: E3500003    ;         CMP   r0, #3
+00000148: 028F1075    ;         ADREQ r1, G_state3string 
+0000014C:             ; 
+0000014C: EBFFFFCD    ;         BL    ClearScreen             ; call clear screen
+00000150:             ; 
+00000150: E1A00001    ;         MOV   r0,r1                   ; call print string
+00000154: EBFFFFB9    ;         BL    PrintString
+00000158:             ; 
+00000158: E8BD4003    ;         POP{r0,r1,LR}
+0000015C: E1A0F00E    ;         MOV   PC,LR
+00000160:             ; ;---------------------------
+00000160:             ; 
+00000160:             ; ;---------------------------
+00000160:             ; ;procedure Delay(R0=state)
+00000160:             ; ; delays the correct amount for this state
+00000160:             ; ; can be interrupted with a button press
+00000160:             ; ;---------------------------
+00000160:             ; Delay
+00000160:             ;         ;PUSH{}
+00000160:             ;         ; delay for correct time
+00000160:             ;         ;POP{}
+00000160: E1A0F00E    ;         MOV   PC,LR
+00000164:             ; ;---------------------------
+00000164:             ; 
+00000164:             ; ;---------------------------
+00000164:             ; ;procedure GetNextState(R0=state OUTPUT)
+00000164:             ; ; gets the next state and returns value in r0
+00000164:             ; ;---------------------------
+00000164:             ; GetNextState
+00000164: E92D0006    ;         PUSH{r1,r2}
+00000168:             ; 
+00000168: E51F1070    ;         LDR   r1, G_BUTTON_FLAG       ; if button is none then skip .. else
+0000016C: E3510000    ;         CMP   r1, #BUTTON_STATE_NONE
+00000170: 0A000005    ;         BEQ   GetNextState_next
+00000174:             ;         
+00000174: E3A02000    ;         MOV   r2, #BUTTON_STATE_NONE  ; reset flags
+00000178: E50F2080    ;         STR   r2, G_BUTTON_FLAG
+0000017C:             ; 
+0000017C: E3510001    ;         CMP   r1, #BUTTON_STATE_TOP   ; if button is top...
+00000180: 03A00002    ;         MOVEQ r0, #2                  ; goto state  2
+00000184: 13A00003    ;         MOVNE r0, #3                  ; else goto state 3
+00000188: EA000002    ;         B     GetNextState_end        ; return
+0000018C:             ; 
+0000018C:             ; GetNextState_next
+0000018C: E3500000    ;         CMP   r0, #0                  ; state 0 -> 1
+00000190: 03A00001    ;         MOVEQ r0, #1                  ; state 1 -> 0 
+00000194: 13A00000    ;         MOVNE r0, #0                  ; state 2 -> 0
+00000198:             ;                                       ; state 3 -> 0
+00000198:             ;         
+00000198:             ; GetNextState_end
+00000198: E8BD0006    ;         POP{r1,r2}
+0000019C: E1A0F00E    ;         MOV   PC,LR
+000001A0:             ; ;---------------------------
+000001A0:             ; 
+000001A0:             ; 
+000001A0:             ; G_state0string
+000001A0: 48 65 6C 6C ;         DEFB  "Hello World",0x0
+000001A4: 6F 20 57 6F ; 
+000001A8: 72 6C 64 00 ; 
+000001AC:             ; G_state1string
+000001AC: 48 69 20 43 ;         DEFB  "Hi COMP22712!",0x0
+000001B0: 4F 4D 50 32 ; 
+000001B4: 32 37 31 32 ; 
+000001B8: 21 00       ; 
+000001BA:             ; G_state2string
+000001BA: 54 6F 70 20 ;         DEFB  "Top Button",0x0
+000001BE: 42 75 74 74 ; 
+000001C2: 6F 6E 00    ; 
+000001C5:             ; G_state3string
+000001C5: 42 6F 74 74 ;         DEFB  "Bottom Button",0x0
+000001C9: 6F 6D 20 42 ; 
+000001CD: 75 74 74 6F ; 
+000001D1: 6E 00       ; 
+000001D3:             ; 
+000001D3:             ; Stack_end
+000001D3:             ;         DEFS 1024
+000005D3:             ; Stack_start
+000005D3:             ; 
 
 Symbol Table: Labels
-: LCD_Data                          00000004  Local -- ARM
-: LCD_Control                       00000008  Local -- ARM
-: PrintChar                         0000000C  Local -- ARM
-: PrintString                       00000024  Local -- ARM
-: PrintString_end                   00000028  Local -- ARM
-: ClearScreen                       00000030  Local -- ARM
-: IOWait                            00000048  Local -- ARM
-: IOWait_repeat                     0000004C  Local -- ARM
+: LCD_Data                          10000004  Value
+: LCD_Control                       10000000  Value
+: ENABLE                            00000001  Value
+: REGSEL                            00000002  Value
+: READNW                            00000004  Value
+: BACKLIGHT                         00000010  Value
+: CLEAR                             00000001  Value
+: PrintChar                         00000004  Local -- ARM
+: PrintString                       00000040  Local -- ARM
+: PrintString_repeat                00000048  Local -- ARM
+: PrintString_end                   0000005C  Local -- ARM
+: EnableBacklight                   00000064  Local -- ARM
+: ClearScreen                       00000088  Local -- ARM
+: IOWait                            000000C8  Local -- ARM
+: IOWait_repeat                     000000CC  Local -- ARM
 : BUTTON_STATE_NONE                 00000000  Value
 : BUTTON_STATE_TOP                  00000001  Value
 : BUTTON_STATE_BOTTOM               00000002  Value
-: G_BUTTON_FLAG                     00000078  Local -- ARM
-: Main                              0000007C  Local -- ARM
-: Main_loop                         00000088  Local -- ARM
-: Display                           00000098  Local -- ARM
-: Delay                             000000D4  Local -- ARM
-: GetNextState                      000000D8  Local -- ARM
-: GetNextState_next                 00000100  Local -- ARM
-: GetNextState_end                  0000010C  Local -- ARM
-: G_state0string                    00000114  Local -- ARM
-: G_state1string                    00000144  Local -- ARM
-: G_state2string                    0000017C  Local -- ARM
-: G_state3string                    000001A8  Local -- ARM
-: Stack_end                         000001E0  Local -- ARM
-: Stack_start                       000005E0  Local -- ARM
+: G_BUTTON_FLAG                     00000100  Local -- ARM
+: Main                              00000104  Local -- ARM
+: Main_loop                         00000114  Local -- ARM
+: Display                           00000124  Local -- ARM
+: Delay                             00000160  Local -- ARM
+: GetNextState                      00000164  Local -- ARM
+: GetNextState_next                 0000018C  Local -- ARM
+: GetNextState_end                  00000198  Local -- ARM
+: G_state0string                    000001A0  Local -- ARM
+: G_state1string                    000001AC  Local -- ARM
+: G_state2string                    000001BA  Local -- ARM
+: G_state3string                    000001C5  Local -- ARM
+: Stack_end                         000001D3  Local -- ARM
+: Stack_start                       000005D3  Local -- ARM

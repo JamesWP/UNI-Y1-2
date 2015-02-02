@@ -38,6 +38,8 @@ Main
         ADRL  SP, Stack_start
 
         MOV   r1, #0
+      
+        BL    EnableBacklight
 Main_loop
         ; display curent message
         BL    Display
@@ -56,23 +58,23 @@ Display
         PUSH{r0,r1,LR}
         ; switch state and set output
 
-        MOV   r1, #G_state0string     ; default string        
+        ADR   r1, G_state0string     ; default string        
 
         ;state 0 G_state0string
         CMP   r0, #0
-        MOVEQ r1, #G_state0string 
+        ADREQ r1, G_state0string 
 
         ;state 1 G_state1string
         CMP   r0, #1
-        MOVEQ r1, #G_state1string 
+        ADREQ r1, G_state1string 
 
         ;state 2 G_state2string
         CMP   r0, #2
-        MOVEQ r1, #G_state2string 
+        ADREQ r1, G_state2string 
 
         ;state 3 G_state3string
         CMP   r0, #3
-        MOVEQ r1, #G_state3string 
+        ADREQ r1, G_state3string 
 
         BL    ClearScreen             ; call clear screen
 
@@ -127,13 +129,13 @@ GetNextState_end
 
 
 G_state0string
-        DEFW  "Hello World",0x0
+        DEFB  "Hello World",0x0
 G_state1string
-        DEFW  "Hi COMP22712!",0x0
+        DEFB  "Hi COMP22712!",0x0
 G_state2string
-        DEFW  "Top Button",0x0
+        DEFB  "Top Button",0x0
 G_state3string
-        DEFW  "Bottom Button",0x0
+        DEFB  "Bottom Button",0x0
 
 Stack_end
         DEFS 1024
