@@ -20,7 +20,8 @@ import java.util.*;
 public class BusStopInfo 
 {
   
-  // This class is not intended to be instantiated
+  // This class is not intended to be instantiated... so make it abstract?...
+  // or static
   private BusStopInfo()
   { 
   }

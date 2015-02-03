@@ -12,7 +12,7 @@ public class Main {
         database.openBusDatabase();
         int[] driverIDs = DriverInfo.getDrivers();
         for (int driverID : driverIDs)
-            System.out.println(DriverInfo.getName(driverID));
+            System.out.println(driverID + ":\t" + DriverInfo.getName(driverID));
         database.closeBusDatabase();
     }
 
