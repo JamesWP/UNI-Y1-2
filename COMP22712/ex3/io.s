@@ -4,9 +4,9 @@
 ;           VERSION 1.0
 ;
 ; contains io utilities
+;  incl write string, char, clear screen, convert control char to op
 ;
-;
-; Last modified 28/Jan
+; Last modified 28/Jan, 04/Feb
 ;
 ;
 ; Known bugs: None
@@ -14,15 +14,15 @@
 ;------------------------------------------------------------------------
 
 
-LCD_Data    EQU  0x10000004
-LCD_Control EQU 0x10000000
+LCD_Data    EQU 0x10000000
+LCD_Control EQU 0x10000004
 
 ENABLE  EQU   0x01
 REGSEL  EQU   0x02
 READNW  EQU   0x04
               
-BACKLIGHT  EQU   0x10
-
+BACKLIGHT  EQU   0x20
+CONTROL_CHAR EQU 0x20
 CLEAR   EQU   0x01
 
 ;---------------------------
@@ -36,13 +36,18 @@ PrintChar
         MOV   r9, #LCD_Control
         ; wait for device
         BL    IOWait
-        ;TODO: check char in range
-      
+
         ; load control reg
         LDR   r1, [r9]
         ; setup = set write set REGSEL unset READNW
         BIC   r1, r1, #(READNW)
-        ORR   r1, r1, #(REGSEL)        
+
+        CMP   r0, #CONTROL_CHAR
+
+        ORRGE r1, r1, #(REGSEL) ; for data reg
+        BICLT r1, r1, #(REGSEL) ; for control reg
+        BLLT  ConvertControlChar; convert control char to operation
+        
         STR   r1, [r9]
 
         ; set data
@@ -61,7 +66,6 @@ PrintChar
         MOV   PC,LR
 ;---------------------------
 
-
 ;---------------------------
 ;procedure PrintString(R0=string-pointer)
 ; prints a \0 terminated string pointed to by string-pointer
@@ -73,6 +77,7 @@ PrintString_repeat
         LDRB  r0, [r1], #1     ;load char + post increment
         ;check for termination char -> jump to end
         CMP   r0,#0
+
         BEQ PrintString_end
         BL PrintChar           ; PrintChar(R0=curent-char)
         B  PrintString_repeat
@@ -98,6 +103,58 @@ EnableBacklight
         POP{LR,r0,r8}
         MOV   PC,LR
       
+;---------------------------
+;procedure ConvertControlChar(r0=char OUTPUT)
+; converts the char in r0 to an operation
+;
+CURSOR_POS_MASK EQU 0x7F
+
+MOVE_CUR_OFFSET EQU 0x80
+LINE      EQU 0x40
+BEGIN_LINE_CLEAR EQU 0x0F
+
+LINE_FEED EQU 0x0A
+CARR_RET  EQU 0x0D
+;
+;---------------------------
+ConvertControlChar
+        PUSH{LR,r1,r2}
+      
+        BL    IOWait    ; wait for io to be ready to read
+        MOV   r2, r0
+
+        ; load curent control
+        LDR   r0, [r9]
+        ; set read&control, unset enable
+        ORR   r0, r0, #(READNW)
+        BIC   r0, r0, #(ENABLE | REGSEL)
+        STR   r0, [r9]        
+        ; enable bus too
+        ORR   r0, r0, #(ENABLE)
+        STR   r0, [r9]
+        ; read data
+        LDR   r1, [r8]      
+        ; disable bus
+        BIC   r0, r0, #(ENABLE)
+        STR   r0, [r9]
+
+        ; mask data to get curent cursor position
+        AND   r1, r1, #CURSOR_POS_MASK
+ 
+        ; if line feed char then add line length to pos
+        CMP   r2, #LINE_FEED
+        ADDEQ r0, r1, #(LINE)
+        
+        ; if carrege return clear line pos bits XXXX0000 
+        CMP   r2, #CARR_RET
+        BICEQ r0, r1, #(BEGIN_LINE_CLEAR)        
+
+        ; add command to position
+        ADD   r0, r0, #(MOVE_CUR_OFFSET)
+
+        POP{LR,r1,r2}
+        MOV PC,LR
+;---------------------------
 
 ;---------------------------
 ;procedure ClearScreen

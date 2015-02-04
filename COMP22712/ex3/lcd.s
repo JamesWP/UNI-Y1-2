@@ -4,9 +4,11 @@
 ;           VERSION 1.0
 ;
 ; prints strings on display and reacts to user input
+;  top button displays string Top Button, and bottom button displays
+;  string \r\nBottom Button 
 ;
 ;
-; Last modified 28/Jan
+; Last modified 28/Jan, 04/Feb
 ;
 ;
 ; Known bugs: None
@@ -25,8 +27,12 @@ GET     io.s
 BUTTON_STATE_NONE   EQU 0
 BUTTON_STATE_TOP    EQU 1
 BUTTON_STATE_BOTTOM EQU 2
-G_BUTTON_FLAG DEFW 0        ; see button states above
-
+G_BUTTON_FLAG       DEFW 0        ; see button states above
+DELAY_ITRS          DEFW 0x10000
+IOBASE              EQU 0x10000000
+IO_BUTTON_OFFSET    EQU 0x4
+BUTTON_TOP_MASK     EQU 0x40
+BUTTON_BOT_MASK     EQU 0x80
 
 ;---------------------------
 ; main entry of program
@@ -91,9 +97,34 @@ Display
 ; can be interrupted with a button press
 ;---------------------------
 Delay
-        ;PUSH{}
-        ; delay for correct time
-        ;POP{}
+        PUSH{r0,r2,r3}
+        LDR   r0, DELAY_ITRS
+Delay_repeat
+        LDR   r3, G_BUTTON_FLAG
+        CMP   r3, #BUTTON_STATE_NONE
+        BNE   Delay_skip
+
+        ; test state of button and update flags
+        MOV   r2, #IOBASE
+        MOV   r3, #BUTTON_STATE_NONE
+
+        ; load button value
+        LDRB  r2, [r2,#IO_BUTTON_OFFSET]
+
+        ;test for top button
+        ANDS r3, r2, #BUTTON_TOP_MASK
+        MOVNE r3, #BUTTON_STATE_TOP
+        BNE  Delay_store_btn
+
+        ANDS r3, r2, #BUTTON_BOT_MASK
+        MOVNE r3, #BUTTON_STATE_BOTTOM
+
+Delay_store_btn
+        STRNE r3, G_BUTTON_FLAG
+        SUBS  r0, r0, #1
+        BGT   Delay_repeat
+Delay_skip
+        POP{r0,r2,r3}
         MOV   PC,LR
 ;---------------------------
 
@@ -135,8 +166,9 @@ G_state1string
 G_state2string
         DEFB  "Top Button",0x0
 G_state3string
-        DEFB  "Bottom Button",0x0
+        DEFB  "\r\nBottom Button",0x0
+align
 
 Stack_end
-        DEFS 1024
+        DEFS 0x1000
 Stack_start
