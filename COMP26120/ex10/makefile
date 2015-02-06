@@ -14,7 +14,7 @@ tidy:
 
 ################################################################################
 # Comment out the next line once you have debugged your code
-RUN=valgrind
+#RUN=valgrind
 # Uncomment the next line to time your code (instead of using valgrind)
 #RUN=time
 # If you comment out both RUNs above you can run your program by itself

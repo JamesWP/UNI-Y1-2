@@ -13,6 +13,8 @@
 
 #define MAX(a,b) (a<b?a:b)
 
+typedef uint32_t uint;
+
 typedef struct node * tree_ptr;
 struct node {
   Key_Type element; // only data is the key itself
@@ -25,7 +27,8 @@ struct table {
 };
 
 tree_ptr new_node(Key_Type key){
-  tree_ptr node = (tree_ptr) malloc(sizeof(tree_ptr));
+  tree_ptr node = (tree_ptr) malloc(sizeof(struct node));
+  check(node);
   node->left = NULL;
   node->right = NULL;
   node->height = 1;
@@ -90,10 +93,9 @@ struct node *leftRotate(struct node *n)
   return nright;
 }
 
-Table initialize_table() {
+Table initialize_table(int unused) {
   Table table;
   table->head = NULL;
-  check(table->head);
   return table;
 }
 
