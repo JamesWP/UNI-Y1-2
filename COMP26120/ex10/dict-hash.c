@@ -1,3 +1,6 @@
+
+#ifdef DICT_HASH
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -34,3 +37,5 @@ void print_table (Table) {
 
 void print_stats (Table) {
 }
+
+#endif

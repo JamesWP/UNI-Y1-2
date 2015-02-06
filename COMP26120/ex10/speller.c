@@ -1,5 +1,5 @@
 /* original: Graham Nov 2001,
-    modified: Pete Dec 2010
+ modified: Pete Dec 2010
  */
 
 #include <stdio.h>
@@ -16,10 +16,22 @@
 #define DEFAULT_DICT_FILE ("sample-dictionary")
 #define DEFAULT_TABLE_SIZE 507
 
+#define DICT_TREE
+//#define DICT_HASH
+
+#ifdef DICT_TREE
+#include "dict-tree.c"
+#endif
+
+#ifdef DICT_HASH
+#include "dict-hash.c"
+#endif
+
+
 /* some useful code ***********************************************************/
 
 char * prog_name;
-void check (void * memory) { // check result from strdup, malloc etc.
+extern void check (void * memory) { // check result from strdup, malloc etc.
   if (memory == NULL) {
     fprintf (stderr, "%s: out of memory\n", prog_name);
     exit (3);
@@ -49,19 +61,19 @@ static char * get_next_lower_word (FILE *source) {
   while (!done && fscanf (source, "%c", &ch)==1) {
     if (isalpha (ch)) { // || ch=='-') ?
       if (first_word_on_line) {
-	line_count++; first_word_on_line= FALSE;
+        line_count++; first_word_on_line= FALSE;
       }
       word[word_len++]= tolower(ch);
     } else { // non-alphabetic
       if (word_len > 0) { // non-alphabetic terminates the word
-	word[word_len]= 0;
-	done= TRUE ;
+        word[word_len]= 0;
+        done= TRUE ;
       }
       if (ch == '\n') { // Can't just add one to line count,
-	                // since last word on line might be reported
-	if (first_word_on_line) // already seen one '\n'
-	  line_count++;
-	first_word_on_line= TRUE;
+        // since last word on line might be reported
+        if (first_word_on_line) // already seen one '\n'
+          line_count++;
+        first_word_on_line= TRUE;
       }
     }
   } //while
@@ -102,28 +114,28 @@ static int process_args (int argc, char *argv[]) {
     if (c == -1)
       break;
     switch (c) {
-    case 's': // set table size to arg
-      table_size= atoi (optarg);
-      break;
-    case 'd': // dictionary name given
-      check ((dict_file_name= strdup(optarg)));
-      break;
-    case 'm': // algorithm mode given
-      mode= atoi(optarg);
-      break;
-    case 'v':
-      verbose++; // multiple -v args will increase this
-      break;
-    case 'h': // Help!
-      usage ();
-      break;
-    default: // report error
-      printf ("didn't expect program parameter %c [0%o]\n", c, c);
-      usage ();
+      case 's': // set table size to arg
+        table_size= atoi (optarg);
+        break;
+      case 'd': // dictionary name given
+        check ((dict_file_name= strdup(optarg)));
+        break;
+      case 'm': // algorithm mode given
+        mode= atoi(optarg);
+        break;
+      case 'v':
+        verbose++; // multiple -v args will increase this
+        break;
+      case 'h': // Help!
+        usage ();
+        break;
+      default: // report error
+        printf ("didn't expect program parameter %c [0%o]\n", c, c);
+        usage ();
     }
   }
   /* All being well we've only the file name left.
-     We'll ignore any other args
+   We'll ignore any other args
    */
   if (optind < argc) {
     file_name= argv[optind];
@@ -191,9 +203,9 @@ int main (int argc, char *argv[]) {
     if (!find (word, table))
       printf ("%d: %s\n", line_count, word);
   }
-
+  
   printf ("Usage statistics:\n");
   print_stats (table);
-
+  
   return 0;
 }
