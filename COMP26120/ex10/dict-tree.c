@@ -1,6 +1,5 @@
 
 
-#ifdef DICT_TREE
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,7 +31,7 @@ tree_ptr new_node(Key_Type key){
   node->left = NULL;
   node->right = NULL;
   node->height = 1;
-  node->element = key;
+  node->element = strdup(key);
   return node;
 }
 
@@ -44,6 +43,15 @@ tree_ptr new_node(Key_Type key){
 uint height(tree_ptr tree){
   if(tree==NULL) return 0;
   else return tree->height;
+}
+
+/**
+ * gets the size of the tree pointed to by tree or 0 if the pointer does not
+ * contain a tree
+ */
+uint treesize(tree_ptr tree){
+  if(tree==NULL) return 0;
+  else return 1 + treesize(tree->left) + treesize(tree->right);
 }
 
 /**
@@ -94,16 +102,16 @@ struct node *leftRotate(struct node *n)
 }
 
 Table initialize_table(int unused) {
-  Table table;
-  table->head = NULL;
-  return table;
+  Table t = (Table) malloc(sizeof(struct table));
+  t->head = NULL;
+  return t;
 }
 
 tree_ptr insert_node();
 
 Table insert(Key_Type newKey, Table table){
   tree_ptr node = table->head;
-  insert_node(newKey,node);
+  table->head = insert_node(newKey,node);
   return table;
 }
 
@@ -117,10 +125,13 @@ tree_ptr insert_node(Key_Type newKey, tree_ptr node) {
   if (node == NULL){ return new_node(newKey); }
 
   //recursive case if not empty then work out which child to process next
-  if (newKey < node->element)
-    node->left  = insert_node(newKey,node);
+  int compare = cmp(newKey,node->element);
+  if (compare == 0)
+    return node; // we have already inserted this word // ie its a duplicate
+  else if(compare < 0)
+    node->left  = insert_node(newKey,node->left);
   else
-    node->right = insert_node(newKey,node);
+    node->right = insert_node(newKey,node->right);
 
   // first recalculate height for the new tree
   // recalculate height
@@ -171,6 +182,7 @@ Boolean find(Key_Type key, Table table) {
  */
 Boolean find_node(tree_ptr node,Key_Type key){
   if(node==NULL) return FALSE;
+  if(cmp(node->element,key)==0) return TRUE;
   if(find_node(node->left,key)) return TRUE;
   if(find_node(node->right,key)) return TRUE;
   return FALSE;
@@ -181,7 +193,7 @@ void print_table_node(tree_ptr node);
  * print table in left inorder
  */
 void print_table(Table table) {
-  print_table_node(table->head);
+  //print_table_node(table->head);
 }
 
 void print_table_node(tree_ptr node){
@@ -193,6 +205,8 @@ void print_table_node(tree_ptr node){
 
 //TODO: dunno
 void print_stats(Table table) {
+  printf("Tree size: %d\n",treesize(table->head));
+  printf("Tree height: %d\n",height(table->head));
+  printf("Tree balance: %d\n",balance(table->head));
 }
 
-#endif

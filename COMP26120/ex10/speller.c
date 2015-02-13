@@ -16,22 +16,12 @@
 #define DEFAULT_DICT_FILE ("sample-dictionary")
 #define DEFAULT_TABLE_SIZE 507
 
-#define DICT_TREE
-//#define DICT_HASH
-
-#ifdef DICT_TREE
-#include "dict-tree.c"
-#endif
-
-#ifdef DICT_HASH
-#include "dict-hash.c"
-#endif
 
 
 /* some useful code ***********************************************************/
 
 char * prog_name;
-extern void check (void * memory) { // check result from strdup, malloc etc.
+void check (void * memory) { // check result from strdup, malloc etc.
   if (memory == NULL) {
     fprintf (stderr, "%s: out of memory\n", prog_name);
     exit (3);
@@ -204,7 +194,7 @@ int main (int argc, char *argv[]) {
       printf ("%d: %s\n", line_count, word);
   }
   
-  printf ("Usage statistics:\n");
+  printf ("Usage statisticss:\n");
   print_stats (table);
   
   return 0;

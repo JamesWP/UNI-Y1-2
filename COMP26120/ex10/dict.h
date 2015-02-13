@@ -2,6 +2,9 @@
    modified: Pete Dec 2010
  */
 
+#ifndef DICT_INC
+#define DICT_INC
+
 typedef char* Key_Type;
 typedef struct table* Table;    // allows different definitions of struct table
 
@@ -10,3 +13,5 @@ Table insert (Key_Type, Table);
 Boolean find (Key_Type, Table);
 void print_table (Table);
 void print_stats (Table);
+
+#endif
