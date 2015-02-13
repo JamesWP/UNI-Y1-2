@@ -229,7 +229,7 @@ void calculate_lookpoint(void) {
      compute a look point one unit away */
 
   float lonRad = (lon+mlon) * DEG_TO_RAD;
-  float latRad = (lat+mlat) * DEG_TO_RAD;
+  float latRad = CLAMP(-89.9, 89.9, (lat+mlat)) * DEG_TO_RAD;
 
   //latitude -> centery
   centery = sinf(latRad) + eyey;

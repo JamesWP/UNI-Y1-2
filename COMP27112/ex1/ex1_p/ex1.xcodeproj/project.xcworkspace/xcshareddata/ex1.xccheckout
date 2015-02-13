@@ -14,7 +14,7 @@
 		<string>ssh://gitlab.cs.man.ac.uk:22222/james.peach/compexercises.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>COMP27112/ex1/ex1/ex1.xcodeproj</string>
+	<string>COMP27112/ex1/ex1_p/ex1.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>B4778ADE6E29EBA9F3D686FCDB0A9F23716EDC0F</key>
