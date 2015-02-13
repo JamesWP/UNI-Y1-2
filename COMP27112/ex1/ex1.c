@@ -242,7 +242,7 @@ void calculate_lookpoint(void) {
 
 void calculate_movement(float relativeAngle) {
   /* Given a relative angle to the curent facing angle, move the players eyez and eyex */
-  float lonRad = (lon+relativeAngle) * DEG_TO_RAD;
+  float lonRad = (lon+mlon+relativeAngle) * DEG_TO_RAD;
   eyez += cosf(lonRad)*RUN_SPEED;
   eyex += sinf(lonRad)*RUN_SPEED;
 }
