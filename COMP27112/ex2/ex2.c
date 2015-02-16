@@ -1,16 +1,20 @@
 /*
-==========================================================================
-File:        ex2.c (skeleton)
-Authors:     Toby Howard
-==========================================================================
-*/
+ ==========================================================================
+ File:        ex2.c (skeleton)
+ Authors:     Toby Howard
+ ==========================================================================
+ */
 
 /* The following ratios are not to scale: */
 /* Moon orbit : planet orbit */
 /* Orbit radius : body radius */
 /* Sun radius : planet radius */
 
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
 #include <GL/glut.h>
+#endif
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -25,7 +29,7 @@ Authors:     Toby Howard
 #define ORBIT_POLY_SIDES 40
 #define TIME_STEP 0.5   /* days per frame */
 
-typedef struct { 
+typedef struct {
   char    name[20];       /* name */
   GLfloat r, g, b;        /* colour */
   GLfloat orbital_radius; /* distance to parent body (km) */
@@ -37,7 +41,7 @@ typedef struct {
   GLint   orbits_body;    /* identifier of parent body */
   GLfloat spin;           /* current spin value (deg) */
   GLfloat orbit;          /* current orbit value (deg) */
- } body;
+} body;
 
 body  bodies[MAX_BODIES];
 int   numBodies, current_view, draw_labels, draw_orbits, draw_starfield;
@@ -69,29 +73,29 @@ void readSystem(void)
 
   f= fopen("sys", "r");
   if (f == NULL) {
-     printf("ex2.c: Couldn't open the datafile 'sys'\n");
-     printf("To get this file, use the following command:\n");
-     printf("  cp /opt/info/courses/COMP27112/ex2/sys .\n");
-     exit(0);
+    printf("ex2.c: Couldn't open the datafile 'sys'\n");
+    printf("To get this file, use the following command:\n");
+    printf("  cp /opt/info/courses/COMP27112/ex2/sys .\n");
+    exit(0);
   }
   fscanf(f, "%d", &numBodies);
   for (i= 0; i < numBodies; i++)
   {
-    fscanf(f, "%s %f %f %f %f %f %f %f %f %f %d", 
-      bodies[i].name,
-      &bodies[i].r, &bodies[i].g, &bodies[i].b,
-      &bodies[i].orbital_radius,
-      &bodies[i].orbital_tilt,
-      &bodies[i].orbital_period,
-      &bodies[i].radius,
-      &bodies[i].axis_tilt,
-      &bodies[i].rot_period,
-      &bodies[i].orbits_body);
+    fscanf(f, "%s %f %f %f %f %f %f %f %f %f %d",
+           bodies[i].name,
+           &bodies[i].r, &bodies[i].g, &bodies[i].b,
+           &bodies[i].orbital_radius,
+           &bodies[i].orbital_tilt,
+           &bodies[i].orbital_period,
+           &bodies[i].radius,
+           &bodies[i].axis_tilt,
+           &bodies[i].rot_period,
+           &bodies[i].orbits_body);
 
     /* Initialise the body's state */
     bodies[i].spin= 0.0;
     bodies[i].orbit= myRand() * 360.0; /* Start each body's orbit at a
-                                          random angle */
+                                        random angle */
     bodies[i].radius*= 1000.0; /* Magnify the radii to make them visible */
   }
   fclose(f);
@@ -112,18 +116,18 @@ void setView (void) {
   glMatrixMode(GL_MODELVIEW);
   glLoadIdentity();
   switch (current_view) {
-  case TOP_VIEW:
-    /* This is for you to complete. */
-    break;  
-  case ECLIPTIC_VIEW:
-    /* This is for you to complete. */
-    break;  
-  case SHIP_VIEW:
-    /* This is for you to complete. */    
-    break;  
-  case EARTH_VIEW: 
-    /* This is for you to complete. */
-    break;  
+    case TOP_VIEW:
+      /* This is for you to complete. */
+      break;
+    case ECLIPTIC_VIEW:
+      /* This is for you to complete. */
+      break;
+    case SHIP_VIEW:
+      /* This is for you to complete. */
+      break;
+    case EARTH_VIEW:
+      /* This is for you to complete. */
+      break;
   }
 }
 
@@ -131,21 +135,21 @@ void setView (void) {
 
 void menu (int menuentry) {
   switch (menuentry) {
-  case 1: current_view= TOP_VIEW;
-          break;
-  case 2: current_view= ECLIPTIC_VIEW;
-          break;
-  case 3: current_view= SHIP_VIEW;
-          break;
-  case 4: current_view= EARTH_VIEW;
-          break;
-  case 5: draw_labels= !draw_labels;
-          break;
-  case 6: draw_orbits= !draw_orbits;
-          break;
-  case 7: draw_starfield= !draw_starfield;
-          break;
-  case 8: exit(0);
+    case 1: current_view= TOP_VIEW;
+      break;
+    case 2: current_view= ECLIPTIC_VIEW;
+      break;
+    case 3: current_view= SHIP_VIEW;
+      break;
+    case 4: current_view= EARTH_VIEW;
+      break;
+    case 5: draw_labels= !draw_labels;
+      break;
+    case 6: draw_orbits= !draw_orbits;
+      break;
+    case 7: draw_starfield= !draw_starfield;
+      break;
+    case 8: exit(0);
   }
 }
 
@@ -181,20 +185,20 @@ void animate(void)
 {
   int i;
 
-    for (i= 0; i < numBodies; i++)  {
-      bodies[i].spin += 360.0 * TIME_STEP / bodies[i].rot_period;
-      bodies[i].orbit += 360.0 * TIME_STEP / bodies[i].orbital_period;
-      glutPostRedisplay();
-    }
+  for (i= 0; i < numBodies; i++)  {
+    bodies[i].spin += 360.0 * TIME_STEP / bodies[i].rot_period;
+    bodies[i].orbit += 360.0 * TIME_STEP / bodies[i].orbital_period;
+    glutPostRedisplay();
+  }
 }
 
 /*****************************/
 
 void drawOrbit (int n)
 { /* Draws a polygon to approximate the circular
-     orbit of body "n" */
+   orbit of body "n" */
 
-    /* This is for you to complete. */
+  /* This is for you to complete. */
 }
 
 /*****************************/
@@ -202,16 +206,16 @@ void drawOrbit (int n)
 void drawLabel(int n)
 { /* Draws the name of body "n" */
 
-    /* This is for you to complete. */
+  /* This is for you to complete. */
 }
 
 /*****************************/
 
 void drawBody(int n)
 {
- /* Draws body "n" */
+  /* Draws body "n" */
 
-    /* This is for you to complete. */
+  /* This is for you to complete. */
 }
 
 /*****************************/
@@ -231,7 +235,7 @@ void display(void)
   for (i= 0; i < numBodies; i++)
   {
     glPushMatrix();
-      drawBody (i);
+    drawBody (i);
     glPopMatrix();
   }
 
@@ -247,7 +251,7 @@ void reshape(int w, int h)
   glLoadIdentity();
   gluPerspective (48.0, (GLfloat) w/(GLfloat) h, 10000.0, 800000000.0);
 }
-  
+
 /*****************************/
 
 void keyboard(unsigned char key, int x, int y)
@@ -257,7 +261,7 @@ void keyboard(unsigned char key, int x, int y)
     case 27:  /* Escape key */
       exit(0);
   }
-} 
+}
 
 /*****************************/
 
@@ -268,7 +272,7 @@ int main(int argc, char** argv)
   glutCreateWindow ("COMP27112 Exercise 2");
   glutFullScreen();
   init ();
-  glutDisplayFunc (display); 
+  glutDisplayFunc (display);
   glutReshapeFunc (reshape);
   glutKeyboardFunc (keyboard);
   glutIdleFunc (animate);
