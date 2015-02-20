@@ -13,7 +13,7 @@
 #define HASH_MODE_POLY   1
 #define HASH_MODE_DOUBLE 2
 
-#define MAXSKIP 10
+#define MAXSKIP 100
 
 typedef uint32_t uint;
 
@@ -72,7 +72,7 @@ int cmp(Key_Type a, Key_Type b){
 }
 
 int polyHash(hashvalue,attempts){
-  return hashvalue + (attempts << attempts / 2);
+  return hashvalue + attempts*attempts;
 }
 
 int doubleHash(hashvalue,otherhash,attempts){
@@ -133,13 +133,23 @@ Table insert (Key_Type newKey, Table table) {
 
 Boolean find (Key_Type key, Table table) {
   uint hashvalue = hash(key);
+  uint otherhash;
+  if (mode==HASH_MODE_DOUBLE)
+    otherhash = hash2(key);
   uint position = hashvalue % table->table_size;
   cell* initialLocation = &table->cells[position];
   if(initialLocation->state == in_use && cmp(initialLocation->element,key)==0)
     return TRUE;
   else{
     for(uint attempt = 0;attempt<MAXSKIP;attempt++){
-      position = (position+1) % table->table_size;
+
+      if(mode==HASH_MODE_INCR)
+        position = (position+1) % table->table_size;
+      else if (mode==HASH_MODE_POLY)
+        position = polyHash(hashvalue,attempt) % table->table_size;
+      else if (mode==HASH_MODE_DOUBLE)
+        position = doubleHash(hashvalue,otherhash,attempt) % table->table_size;
+
       cell* curentLocation = &table->cells[position];
       if(curentLocation->state == empty){
         return FALSE; // cell is empty stop looking
@@ -162,6 +172,15 @@ void print_table (Table table) {
 }
 
 void print_stats (Table table) {
+  if (mode==HASH_MODE_DOUBLE)
+    printf("Hash mode double hashing\n");
+
+  if (mode==HASH_MODE_POLY)
+    printf("Hash mode poly\n");
+
+  if (mode==HASH_MODE_INCR)
+    printf("Hash mode incr\n");
+
   printf("Number of entries: %d\n",table->num_entries);
   printf("Total size of hashmap: %d\n",table->table_size);
   printf("Total insert collisions: %d\n",table->collisions);
