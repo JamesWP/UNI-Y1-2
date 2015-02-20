@@ -10,7 +10,9 @@
 #include "speller.h"
 #include "dict.h"
 
-#define MAX(a,b) (a<b?a:b)
+#define MMAX(a,b) (a<b?a:b)
+#define TREE_MODE_NORMAL   0
+#define TREE_MODE_BALANCED 1
 
 typedef uint32_t uint;
 
@@ -77,8 +79,8 @@ struct node *rightRotate(struct node *n)
   n->left = nleftr;
 
   // recalculate height
-      n->height = MAX(height(n->left),     height(n->right)    )+1;
-  nleft->height = MAX(height(nleft->left), height(nleft->right))+1;
+      n->height = MMAX(height(n->left),     height(n->right)    )+1;
+  nleft->height = MMAX(height(nleft->left), height(nleft->right))+1;
 
   return nleft;
 }
@@ -95,8 +97,8 @@ struct node *leftRotate(struct node *n)
   n->right = nrightleft;
 
   // recalculate height
-  n->height      = MAX(height(n->left),      height(n->right)     )+1;
-  nright->height = MAX(height(nright->left), height(nright->right))+1;
+  n->height      = MMAX(height(n->left),      height(n->right)     )+1;
+  nright->height = MMAX(height(nright->left), height(nright->right))+1;
 
   return nright;
 }
@@ -135,7 +137,9 @@ tree_ptr insert_node(Key_Type newKey, tree_ptr node) {
 
   // first recalculate height for the new tree
   // recalculate height
-  node->height = MAX(height(node->left), height(node->right)) + 1;
+  node->height = MMAX(height(node->left), height(node->right)) + 1;
+
+  if(mode==TREE_MODE_NORMAL) return node;
 
   // after insert has completed there are 4 cases if the resulting
   // tree is imbalanced:
@@ -146,23 +150,27 @@ tree_ptr insert_node(Key_Type newKey, tree_ptr node) {
 
   // decide if the tree is balanced and if so which case it is
 
+  int compl = (node->left==NULL)?0:cmp(newKey, node->left->element);
+
   // Left left case
-  if (newbalance > 1 && cmp(newKey, node->left->element) < 0)
+  if (newbalance > 1 && compl < 0)
     return rightRotate(node);
 
+  int compr = (node->right==NULL)?0:cmp(newKey, node->right->element);
+
   // Right right case
-  if (newbalance < -1 && cmp(newKey, node->right->element) > 0)
+  if (newbalance < -1 && compr > 0)
     return leftRotate(node);
 
   // Left right case
-  if (newbalance > 1 && cmp(newKey, node->left->element) > 0 )
+  if (newbalance > 1 && compl > 0 )
   {
     node->left = leftRotate(node->left);
     return rightRotate(node);
   }
 
   // Right left case
-  if (newbalance < -1 && cmp(newKey, node->right->element) < 0)
+  if (newbalance < -1 && compr < 0)
   {
     node->right = rightRotate(node->right);
     return leftRotate(node);

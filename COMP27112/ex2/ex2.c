@@ -19,15 +19,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "spaceship.h"
+#include <sys/time.h>
+
 #define MAX_BODIES 20
 #define TOP_VIEW 1
 #define ECLIPTIC_VIEW 2
 #define SHIP_VIEW 3
 #define EARTH_VIEW 4
 #define PI 3.14159
+#define TWOPI 6.28318
 #define DEG_TO_RAD 0.017453293
 #define ORBIT_POLY_SIDES 40
 #define TIME_STEP 0.5   /* days per frame */
+
+#define PARENT(n) (bodies[bodies[n].orbits_body])
 
 typedef struct {
   char    name[20];       /* name */
@@ -46,20 +52,44 @@ typedef struct {
 body  bodies[MAX_BODIES];
 int   numBodies, current_view, draw_labels, draw_orbits, draw_starfield;
 
+
 /*****************************/
 
-float myRand (void)
+unsigned long long lastUpdateMillis;
+unsigned long long getCurTime();
+
+typedef struct star_s{
+  GLfloat x,y,z;
+} Star;
+#define NUM_STARS 1000000
+
+Star stars[NUM_STARS];
+void initStars(void)
 {
-  /* return a random float in the range [0,1] */
-
-  return (float) rand() / RAND_MAX;
+  for(int i=0;i<NUM_STARS;i++){
+    double r = random()*100;
+    double lat = random()*TWOPI - PI;
+    double lon = random()*TWOPI;
+    stars[i].x = cosf(lat) * sinf(lon) * r;
+    stars[i].y = sinf(lat) * r;
+    stars[i].z = cosf(lat) * cosf(lon) * r;
+  }
 }
-
-/*****************************/
 
 void drawStarfield (void)
 {
-  /* This is for you to complete. */
+  glPointSize(1);
+  glBegin(GL_POINTS);
+  glColor3f(1.0, 1.0, 1.0);
+  for(int i=0;i<NUM_STARS;i++){
+    glVertex3f(stars[i].x, stars[i].y, stars[i].z);
+  }
+  glEnd();
+}
+
+float myRand (void)
+{
+  return (float) rand() / RAND_MAX;
 }
 
 /*****************************/
@@ -117,13 +147,13 @@ void setView (void) {
   glLoadIdentity();
   switch (current_view) {
     case TOP_VIEW:
-      /* This is for you to complete. */
+      gluLookAt(0, 600000000.0, 0, 0, 0, 0, 0, 0, -1.0);
       break;
     case ECLIPTIC_VIEW:
-      /* This is for you to complete. */
+      gluLookAt(600000000.0, 0, 0, 0, 0, 0, 0, 1.0, 0);
       break;
     case SHIP_VIEW:
-      /* This is for you to complete. */
+      setCameraSpaceship();
       break;
     case EARTH_VIEW:
       /* This is for you to complete. */
@@ -139,7 +169,9 @@ void menu (int menuentry) {
       break;
     case 2: current_view= ECLIPTIC_VIEW;
       break;
-    case 3: current_view= SHIP_VIEW;
+    case 3:
+      current_view= SHIP_VIEW;
+      initialiseSpaceship();
       break;
     case 4: current_view= EARTH_VIEW;
       break;
@@ -177,12 +209,34 @@ void init(void)
   draw_labels= 1;
   draw_orbits= 1;
   draw_starfield= 1;
+
+  initStars();
+  initialiseSpaceship();
+  lastUpdateMillis = getCurTime();
 }
 
 /*****************************/
 
+unsigned long long getCurTime(){
+  struct timeval tv;
+
+  gettimeofday(&tv, NULL);
+
+  unsigned long long millisecondsSinceEpoch =
+  (unsigned long long)(tv.tv_sec) * 1000 +
+  (unsigned long long)(tv.tv_usec) / 1000;
+  return millisecondsSinceEpoch;
+}
+
 void animate(void)
 {
+  unsigned long long newTime = getCurTime();
+  unsigned long long delta = newTime - lastUpdateMillis;
+
+  if(current_view==SHIP_VIEW){
+    tickSpaceship(delta);
+  }
+
   int i;
 
   for (i= 0; i < numBodies; i++)  {
@@ -190,6 +244,8 @@ void animate(void)
     bodies[i].orbit += 360.0 * TIME_STEP / bodies[i].orbital_period;
     glutPostRedisplay();
   }
+
+  lastUpdateMillis = newTime;
 }
 
 /*****************************/
@@ -211,33 +267,94 @@ void drawLabel(int n)
 
 /*****************************/
 
+void setBodyColor(int n){
+  glColor3f(bodies[n].r, bodies[n].g, bodies[n].b);
+}
+
+
 void drawBody(int n)
 {
-  /* Draws body "n" */
+  body b = bodies[n];
+  setBodyColor(n);
 
-  /* This is for you to complete. */
+  glPushMatrix();
+  {
+    if(n!=0){
+      // orbit tilt
+      glRotatef(b.orbital_tilt, 0, 0, 1.0);
+
+      // orbit position
+      glRotatef(b.orbit, 0, 1.0, 0);
+
+      // orbit radius
+      glTranslatef(b.orbital_radius, 0, 0);
+
+      // axit tilt
+      glRotatef(b.axis_tilt, 0, 0, -1.0);
+    }
+    
+    glPushMatrix();
+    {
+      // spin
+      glRotatef(b.spin, 0, 1.0, 0);
+      glRotatef(90.0, 1.0, 0, 0);
+
+      glLineWidth(1.0);
+      glutWireSphere(b.radius, 10, 10);
+//    glutSolidSphere(b.radius, 10, 10);
+    }
+    glPopMatrix();
+
+    // draw axis
+    glLineWidth(30.0);
+    glBegin(GL_LINES);
+    glVertex3f(0, 10.0, 0);
+    glVertex3f(0, -10.0, 0);
+    glEnd();
+
+    for(int i=1;i<numBodies;i++){
+      if(bodies[i].orbits_body==n){
+        drawBody(i);
+      }
+    }
+  }
+  glPopMatrix();
 }
 
 /*****************************/
 
+void drawAxis(void){
+  glBegin(GL_LINES);
+  {
+    glColor3f(1.0, 0, 0);
+    glVertex3f(0.0    , 0.0, 0.0);
+    glVertex3f(100000000.0, 0.0, 0.0);
+
+    glColor3f(0, 1.0, 0);
+    glVertex3f(0.0, 0.0    , 0.0);
+    glVertex3f(0.0, 100000000.0, 0.0);
+
+    glColor3f(0, 0, 1.0);
+    glVertex3f(0.0, 0.0, 0.0    );
+    glVertex3f(0.0, 0.0, 100000000.0);
+  }
+  glEnd();
+}
+
 void display(void)
 {
-  int i;
 
   glClear(GL_COLOR_BUFFER_BIT);
 
   /* set the camera */
   setView();
 
+  drawAxis();
+
   if (draw_starfield)
     drawStarfield();
 
-  for (i= 0; i < numBodies; i++)
-  {
-    glPushMatrix();
-    drawBody (i);
-    glPopMatrix();
-  }
+  drawBody(0);
 
   glutSwapBuffers();
 }
@@ -249,7 +366,7 @@ void reshape(int w, int h)
   glViewport(0, 0, (GLsizei) w, (GLsizei) h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
-  gluPerspective (48.0, (GLfloat) w/(GLfloat) h, 10000.0, 800000000.0);
+  gluPerspective (48.0, (GLfloat) w/(GLfloat) h, 100.0, 800000000.0);
 }
 
 /*****************************/
@@ -258,6 +375,15 @@ void keyboard(unsigned char key, int x, int y)
 {
   switch (key)
   {
+    case 'w':
+      updateViewSpaceship(FORWARD,1000);
+      break;
+    case 's':
+      updateViewSpaceship(BACKWARD,1000);
+      break;
+    case 'a':
+      draw_starfield = 1 - draw_starfield;
+      break;
     case 27:  /* Escape key */
       exit(0);
   }

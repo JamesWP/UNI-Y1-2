@@ -9,6 +9,12 @@
 #include "speller.h"
 #include "dict.h"
 
+#define HASH_MODE_INCR   0
+#define HASH_MODE_POLY   1
+#define HASH_MODE_DOUBLE 2
+
+#define MAXSKIP 10
+
 typedef uint32_t uint;
 
 typedef struct { // hash-table entry
@@ -33,6 +39,17 @@ uint hash (Key_Type word){
   return hash;
 }
 
+/**
+ * similar to the above with different initial conditions and shift factor
+ */
+uint hash2 (Key_Type word){
+  uint hash = 7877;
+  int c = word[0];
+  for(int i = 0;c!='\0';i++,c=word[i])
+    hash = ((hash << 8) + hash) ^ c;
+  return hash;
+}
+
 
 Table initialize_table(Table_size size) {
   Table table = (Table) malloc(sizeof(struct table));
@@ -49,15 +66,25 @@ Table initialize_table(Table_size size) {
   return table;
 }
 
-#define MAXSKIP 10
-
 
 int cmp(Key_Type a, Key_Type b){
   return strcmp(a,b);
 }
 
+int polyHash(hashvalue,attempts){
+  return hashvalue + (attempts << attempts / 2);
+}
+
+int doubleHash(hashvalue,otherhash,attempts){
+  return hashvalue + otherhash * attempts;
+}
+
 Table insert (Key_Type newKey, Table table) {
   uint hashvalue = hash(newKey);
+  uint otherhash;
+  if (mode==HASH_MODE_DOUBLE)
+    otherhash = hash2(newKey);
+
   uint position = hashvalue % table->table_size;
   cell* initialLocation = &table->cells[position];
   switch(initialLocation->state){
@@ -69,11 +96,18 @@ Table insert (Key_Type newKey, Table table) {
       // if the key is already in the table then we are done
       if(cmp(initialLocation->element,newKey)==0) return table;
       table->collisions++;
-      //printf("Hash collision of \"%s\" and \"%s\" both with hash value of %d and %d\n",initialLocation->element,newKey,hash(initialLocation->element),hashvalue);
+
     case deleted:
       for(int attempts = 0;attempts<MAXSKIP;attempts++){
         // try and find the element in the next MAXSKIP elements
-        position = (position+1) % table->table_size;
+
+        if(mode==HASH_MODE_INCR)
+          position = (position+1) % table->table_size;
+        else if (mode==HASH_MODE_POLY)
+          position = polyHash(hashvalue,attempts) % table->table_size;
+        else if (mode==HASH_MODE_DOUBLE)
+          position = doubleHash(hashvalue,otherhash,attempts) % table->table_size;
+
         cell* curentLocation = &table->cells[position];
         if(curentLocation->state == empty){
           curentLocation->state = in_use;
