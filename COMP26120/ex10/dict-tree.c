@@ -201,13 +201,13 @@ void print_table_node(tree_ptr node);
  * print table in left inorder
  */
 void print_table(Table table) {
-  //print_table_node(table->head);
+  print_table_node(table->head);
 }
 
 void print_table_node(tree_ptr node){
   if(node==NULL) return;
   print_table_node(node->left);
-  printf("node: %s", node->element);
+  printf("node: %s\n", node->element);
   print_table_node(node->right);
 }
 
