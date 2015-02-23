@@ -19,6 +19,10 @@ Main
         ; init timer
         MOV   r10, #0           ; r10 is miliseconds not counted ; prev remainder
         MOV   r9 , #0           ; last value of counter
+        MOV   r8 , #0           ; reset countdown
+
+        ADRL  r0 , MESSAGE
+        SVC   2
 1
         ; load curent counter
         SVC   3
@@ -41,12 +45,6 @@ Main
         ; first add previous remainder
         ADD r1, r1, r10
 
-        ;r1 time passed
-        MOV   r0, r1
-        MOV   r1, #100
-        BL    Divide            ; r0: numerator, r1: divisor
-                                ; r0: quotient, r2: remainder 
-
         ; save new remainder
         MOV   r10, r2
 
@@ -56,9 +54,41 @@ Main
         ADD   r3, r3, r0
         STR   r3, my_counter
 
-        ;  display new value
+        ; update display every 1000 itterations
+        ADD   r7, r7, #1
+        CMP   r7, #1000
+        MOVHI r7, #0
+        MOVHI r0, r3
+        BLHI  DisplayTimer
 
-        B    %b1
+        ; read button state
+2       SVC   5
+        CMP   r0, #1
+        BEQ   %b2
+
+        ; if(contdown!=0)
+        CMP   r8, #0
+        BEQ   %f3
+        
+        CMP   r8, r3
+        ; if limit reached save counter 0 and remove countdown
+        MOVLO r8, #0
+        MOVLO r0, #0
+        STRLO r0, my_counter
+        ; if button not pressed remove countdown
+        SVC   5
+        CMP   r0, #2
+        MOVNE r8, #0
+        B     %b1     ;; repeat timer loop
+3
+        ; else if (button pressed)
+        SVC   5
+        CMP   r0, #2
+        ; store limit 
+        ADDEQ r8, r3, #0xFF000
+        B     %b1     ;; repeat timer loop
+
+        
 ;------------------------
 
 ;------------------------
@@ -83,3 +113,78 @@ Divide
 
         MOV     pc, lr                  ; Return
 ;------------------------
+
+
+;------------------------
+;-procedure DisplayTimer(R0=decimal time)
+;- displays the passed value on the LCD in the curent position
+tenthou DEFW 10000
+hundthou DEFW 100000
+
+DisplayTimer
+        PUSH {r1,r2,r3,LR}
+
+        MOV     r1, #1000
+        BL      Divide
+
+        LDR     r1, hundthou
+        BL      Divide
+        MOV     r3, r2
+
+        ; move cursor to beginning of line
+        MOV     r0, #('\r')
+        SVC     1
+
+        MOV     r0, r3
+
+
+        ;---- tenthou   -----
+        ;Divide r0 / 10000
+        LDR     r1, tenthou
+        BL      Divide
+        ;Print quotient
+        ADD     r0, r0, #('0')
+        SVC     1
+
+        ;---- thousands -----
+        ;Divide r0 / 1000
+        MOV     r1, #1000
+        MOV     r0, r2
+        BL      Divide
+        ;Print quotient
+        ADD     r0, r0, #('0')
+        SVC     1
+
+        MOV     r0, #('.')
+        SVC     1
+
+
+        ;---- hundreds  -----
+        ;Divide r0 / 100
+        MOV     r1, #100
+        MOV     r0, r2
+        BL      Divide
+        ;Print quotient
+        ADD     r0, r0, #('0')
+        SVC     1
+        
+        ;---- tens      -----
+        ;Divide r0 / 10
+        MOV     r1, #10
+        MOV     r0, r2
+        BL      Divide
+        ;Print quotient
+        ADD     r0, r0, #('0')
+        SVC     1
+
+        ;---- units -----
+        ;print remainder
+        MOV     r0, r2
+        ADD     r0, r0, #('0')
+        SVC     1
+
+        POP {r1,r2,r3,LR}
+        MOV PC, LR
+;------------------------
+
+MESSAGE DEFB 'Stopwatch v1.0\r\n', 0x0

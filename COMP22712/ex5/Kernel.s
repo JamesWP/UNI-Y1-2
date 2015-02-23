@@ -34,7 +34,7 @@ vReset
       ;- initialise user mode stack
       ADRL  SP,  sUSR
       ;- initialise perhiperals
-      BL    PerhiperalInitialize
+      BL    PeripheralInitialise
       ;- switch to user mode
       MOV   LR, #(SPSR_USERNI)      ; user mode no interrupts
       MSR   CPSR_c, LR
@@ -94,9 +94,12 @@ GET   KernelTimer.s
 ;-- this include defines procedures to interface the KernelLCD
 GET   KernelLCD.s
 
+;-- this include defines procedures to interface the buttons
+GET   KernelButtons.s
+
 ;---------------
-;-- procedure PerhiperalInitialize initialies perhiperals
-PerhiperalInitialize
+;-- procedure PeripheralInitialise initialies perhiperals
+PeripheralInitialise
       PUSH  {LR}
       BL    LCDInit           ; init control signals
       BL    EnableBacklight   ; enable backlight

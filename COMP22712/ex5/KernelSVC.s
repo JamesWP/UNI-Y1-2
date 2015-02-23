@@ -17,10 +17,13 @@ SVCRoutines
       DEFW SVCRoutine1
       DEFW SVCRoutine2
       DEFW SVCRoutine3
+      DEFW SVCRoutine4
+      DEFW SVCRoutine5
 SVCRoutines_END
 SVCMax EQU (SVCRoutines_END - SVCRoutines)/4
 
 ;-- Routines
+
 
 SVCRoutine0 
       B    .                                         ; user program end     
@@ -36,6 +39,14 @@ SVCRoutine2                                          ; print string r0 is
 
 SVCRoutine3                                          ; get curent timer value
       BL    GetTimer                                 ; into r0
+      B     vSupervisor_return
+
+SVCRoutine4                                          ; get curent timer value
+      BL    ClearScreen                              ; into r0
+      B     vSupervisor_return
+
+SVCRoutine5                                          ; get curent timer value
+      BL    GetButton                                ; into r0
       B     vSupervisor_return
 
 SVCUnknown
