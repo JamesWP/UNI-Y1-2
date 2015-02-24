@@ -18,9 +18,11 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/time.h>
+
 
 #include "spaceship.h"
-#include <sys/time.h>
+#include "drawText.h"
 
 #define MAX_BODIES 20
 #define TOP_VIEW 1
@@ -67,7 +69,7 @@ Star stars[NUM_STARS];
 void initStars(void)
 {
   for(int i=0;i<NUM_STARS;i++){
-    double r = random()*100;
+    double r = random()*1000 + 1000000;
     double lat = random()*TWOPI - PI;
     double lon = random()*TWOPI;
     stars[i].x = cosf(lat) * sinf(lon) * r;
@@ -205,6 +207,8 @@ void init(void)
   glutAddMenuEntry ("Quit", 8);
   glutAttachMenu (GLUT_RIGHT_BUTTON);
 
+  glEnable(GL_DEPTH_TEST);
+
   current_view= TOP_VIEW;
   draw_labels= 1;
   draw_orbits= 1;
@@ -242,8 +246,8 @@ void animate(void)
   for (i= 0; i < numBodies; i++)  {
     bodies[i].spin += 360.0 * TIME_STEP / bodies[i].rot_period;
     bodies[i].orbit += 360.0 * TIME_STEP / bodies[i].orbital_period;
-    glutPostRedisplay();
   }
+  glutPostRedisplay();
 
   lastUpdateMillis = newTime;
 }
@@ -257,13 +261,6 @@ void drawOrbit (int n)
   /* This is for you to complete. */
 }
 
-/*****************************/
-
-void drawLabel(int n)
-{ /* Draws the name of body "n" */
-
-  /* This is for you to complete. */
-}
 
 /*****************************/
 
@@ -275,7 +272,6 @@ void setBodyColor(int n){
 void drawBody(int n)
 {
   body b = bodies[n];
-  setBodyColor(n);
 
   glPushMatrix();
   {
@@ -289,10 +285,26 @@ void drawBody(int n)
       // orbit radius
       glTranslatef(b.orbital_radius, 0, 0);
 
+      if(draw_labels)
+        drawText(b.radius,b.radius,&b.name[0]);
+
+
       // axit tilt
       glRotatef(b.axis_tilt, 0, 0, -1.0);
+
+      // draw axis
+      glLineWidth(3.0);
+      glColor3f(1.0, 1.0, 1.0);
+      glBegin(GL_LINES);
+      glVertex3f(0, b.radius*2, 0);
+      glVertex3f(0, -b.radius*2, 0);
+      glEnd();
     }
-    
+
+    setBodyColor(n);
+
+
+
     glPushMatrix();
     {
       // spin
@@ -300,17 +312,11 @@ void drawBody(int n)
       glRotatef(90.0, 1.0, 0, 0);
 
       glLineWidth(1.0);
-      glutWireSphere(b.radius, 10, 10);
-//    glutSolidSphere(b.radius, 10, 10);
+      glutWireSphere(b.radius, 15, 15);
+      //    glutSolidSphere(b.radius, 10, 10);
     }
     glPopMatrix();
 
-    // draw axis
-    glLineWidth(30.0);
-    glBegin(GL_LINES);
-    glVertex3f(0, 10.0, 0);
-    glVertex3f(0, -10.0, 0);
-    glEnd();
 
     for(int i=1;i<numBodies;i++){
       if(bodies[i].orbits_body==n){
@@ -376,10 +382,10 @@ void keyboard(unsigned char key, int x, int y)
   switch (key)
   {
     case 'w':
-      updateViewSpaceship(FORWARD,1000);
+      updateViewSpaceship(FORWARD,50);
       break;
     case 's':
-      updateViewSpaceship(BACKWARD,1000);
+      updateViewSpaceship(BACKWARD,50);
       break;
     case 'a':
       draw_starfield = 1 - draw_starfield;
@@ -388,7 +394,16 @@ void keyboard(unsigned char key, int x, int y)
       exit(0);
   }
 }
-
+void keyboardSpecial(int key,int x,int y){
+  switch (key){
+    case GLUT_KEY_UP:
+      updateViewSpaceship(UP,50);
+      break;
+    case GLUT_KEY_DOWN:
+      updateViewSpaceship(DOWN,50);
+      break;
+  }
+}
 /*****************************/
 
 int main(int argc, char** argv)
@@ -396,11 +411,12 @@ int main(int argc, char** argv)
   glutInit (&argc, argv);
   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
   glutCreateWindow ("COMP27112 Exercise 2");
-  glutFullScreen();
+  //glutFullScreen();
   init ();
   glutDisplayFunc (display);
   glutReshapeFunc (reshape);
   glutKeyboardFunc (keyboard);
+  glutSpecialFunc(keyboardSpecial);
   glutIdleFunc (animate);
   readSystem();
   glutMainLoop ();

@@ -13,7 +13,7 @@ public class Config
     try
     {
       bandAPI = new URI("http://jewel.cs.man.ac" +
-                            ".uk:3020/queue/enqueue");
+                            ".uk:3010/queue/enqueue");
     }catch(Exception e){e.printStackTrace();}
   }
 }

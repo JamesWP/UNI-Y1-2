@@ -23,8 +23,8 @@ static inline struct vector3 vecScale(struct vector3 vec,float factor){
 }
 
 void initialiseSpaceship(){
-  sp.forward  = (struct vector3) {0.0,0.0,-1.0};
-  sp.pos      = (struct vector3) {0.0,0.0, 0.0};
+  sp.forward  = (struct vector3) {0.0,0.0,-100.0};
+  sp.pos      = (struct vector3) {0.0,0.0, 90000000.0};
   sp.up       = (struct vector3) {0.0,1.0, 0.0};
 
   sp.velocity = (struct vector3) {0.0,0.0, 0.0};
@@ -47,8 +47,12 @@ void updateViewSpaceship(ViewDirection direction,long millisScinceUpdate){
     case RIGHT:
       break;
     case UP:
+      vecAdd(&sp.forward, vecScale(sp.up, 0.001 * millisScinceUpdate));
+//      vecAdd(&sp.up, vecScale(sp.forward, -0.001 * millisScinceUpdate));
       break;
     case DOWN:
+      vecAdd(&sp.forward, vecScale(sp.up, -0.001 * millisScinceUpdate));
+//      vecAdd(&sp.up, vecScale(sp.forward, 0.001 * millisScinceUpdate));
       break;
   }
 }
