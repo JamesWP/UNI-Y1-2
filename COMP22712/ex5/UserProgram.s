@@ -54,12 +54,17 @@ Main
         ADD   r3, r3, r0
         STR   r3, my_counter
 
-        ; update display every 1000 itterations
         ADD   r7, r7, #1
-        CMP   r7, #1000
-        MOVHI r7, #0
-        MOVHI r0, r3
-        BLHI  DisplayTimer
+        CMP   r7, #ff00
+
+        ; update display every 1000 itterations if not update itteraton 
+        ; carry on 
+        BLO   %b1
+
+        MOV   r7, #0
+        MOV   r0, r3
+        BL    DisplayTimer
+
 
         ; read button state
 2       SVC   5
