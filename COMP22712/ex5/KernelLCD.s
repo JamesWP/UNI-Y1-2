@@ -14,8 +14,8 @@
 ;------------------------------------------------------------------------
 
 
-LCD_Data    EQU 0x10000000
-LCD_Control EQU 0x10000004
+LCD_Data      EQU 0x10000000
+LCD_Control_O EQU 0x4
 
 ENABLE  EQU   0x01
 REGSEL  EQU   0x02
@@ -30,15 +30,14 @@ CLEAR   EQU   0x01
 ; prints a single char on the LCD
 ;---------------------------
 PrintChar
-        PUSH{LR,r1,r8,r9}
+        PUSH{LR,r1,r8}
         ;load Bdata and control pointers        
         MOV   r8, #LCD_Data
-        MOV   r9, #LCD_Control
         ; wait for device
         BL    IOWait
 
         ; load control reg
-        LDR   r1, [r9]
+        LDR   r1, [r8, #LCD_Control_O]
         ; setup = set write set REGSEL unset READNW
         BIC   r1, r1, #(READNW)
 
@@ -48,21 +47,21 @@ PrintChar
         BICLT r1, r1, #(REGSEL) ; for control reg
         BLLT  ConvertControlChar; convert control char to operation
         
-        STR   r1, [r9]
+        STR   r1, [r8, #LCD_Control_O]
 
         ; set data
         STR   r0, [r8]
 
         ; strobe enable
         ORR   r1, r1, #(ENABLE)
-        STR   r1, [r9]
+        STR   r1, [r8, #LCD_Control_O]
 
         ; strobe off        
         BIC   r1, r1, #(ENABLE)
-        STR   r1, [r9]
+        STR   r1, [r8, #LCD_Control_O]
 
         ;print char
-        POP{LR,r1,r8,r9}
+        POP{LR,r1,r8}
         MOV   PC,LR
 ;---------------------------
 
@@ -90,15 +89,14 @@ EnableBacklight
         PUSH{LR,r0,r8}
         
         ;load Bdata and control pointers        
-        MOV   r8, #LCD_Data
-        MOV   r9, #LCD_Control       
+        MOV   r8, #LCD_Data    
  
         ; wait for io to be ready 
         BL    IOWait
         
-        LDR   r0, [r9]
+        LDR   r0, [r8, #LCD_Control_O]
         ORR   r0, r0, #(BACKLIGHT)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
 
         POP{LR,r0,r8}
         MOV   PC,LR
@@ -115,7 +113,6 @@ BEGIN_LINE_CLEAR EQU 0x1F
 
 LINE_FEED EQU 0x0A
 CARR_RET  EQU 0x0D
-;
 ;---------------------------
 ConvertControlChar
         PUSH{LR,r1,r2}
@@ -124,19 +121,19 @@ ConvertControlChar
         MOV   r2, r0
 
         ; load curent control
-        LDR   r0, [r9]
+        LDR   r0, [r8, #LCD_Control_O]
         ; set read&control, unset enable
         ORR   r0, r0, #(READNW)
         BIC   r0, r0, #(ENABLE | REGSEL)
-        STR   r0, [r9]        
+        STR   r0, [r8, #LCD_Control_O]      
         ; enable bus too
         ORR   r0, r0, #(ENABLE)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
         ; read data
         LDR   r1, [r8]      
         ; disable bus
         BIC   r0, r0, #(ENABLE)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
 
         ; mask data to get curent cursor position
         AND   r1, r1, #CURSOR_POS_MASK
@@ -164,27 +161,26 @@ ClearScreen
         PUSH{LR,r0,r9,r8}
         ;load data and control pointers        
         MOV   r8, #LCD_Data
-        MOV   r9, #LCD_Control
         ;wait for device
         BL    IOWait
         ;clear screen
         
-        LDR   r0, [r9]
+        LDR   r0, [r8, #LCD_Control_O]
         ; set control
         BIC   r0, r0, #(READNW | REGSEL)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
         ; set data
         MOV   r0, #CLEAR
         STR   r0, [r8]
         
         ; strobe enable on
-        LDR   r0, [r9]
+        LDR   r0, [r8, #LCD_Control_O]
         ORR   r0, r0, #(ENABLE)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
 
         ; strobe enable off
         BIC   r0, r0, #(ENABLE)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
 
         POP{LR,r0,r9,r8}
         MOV   PC,LR
@@ -200,23 +196,23 @@ IOWait
 IOWait_repeat
 
         ; load curent control
-        LDR   r0, [r9]
+        LDR   r0, [r8, #LCD_Control_O]
 
         ; set read&control, unset enable
         ORR   r0, r0, #(READNW)
         BIC   r0, r0, #(ENABLE | REGSEL)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
         
         ; enable bus too
         ORR   r0, r0, #(ENABLE)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
     
         ; read data
         LDR   r1, [r8]      
             
         ; disable bus
         BIC   r0, r0, #(ENABLE)
-        STR   r0, [r9]
+        STR   r0, [r8, #LCD_Control_O]
 
         ; test bit 7 is low else repeat
         ANDS  r1, r1, #0x80
@@ -230,15 +226,14 @@ IOWait_repeat
 ; initialises control signals
 ;--------------------------
 LCDInit
-        PUSH{r0,r8,r9}
+        PUSH{r0,r8}
         MOV   r8, #LCD_Data
-        MOV   r9, #LCD_Control
 
         MOV   r0, #0
         STR   r0, [r8] ; init data
         MOV   r0, #0x00000010
-        STR   r0, [r9] ; init control
+        STR   r0, [r8, #LCD_Control_O] ; init control
 
-        POP{r0,r8,r9}
+        POP{r0,r8}
         MOV   PC, LR
 ;--------------------------
