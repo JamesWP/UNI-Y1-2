@@ -11,20 +11,16 @@
  * Include necessary headers.
  */
 
-#  include <GL/glut.h>
-#  ifdef WIN32
-#    include <windows.h>
-#    include <wingdi.h>
-#  endif /* WIN32 */
+#ifdef __APPLE__
+#include <GLUT/glut.h>
+#else
+#include <GL/glut.h>
+#endif
+
 
 /*
  * Make this header file work with C and C++ source code...
  */
-
-#  ifdef __cplusplus
-extern "C" {
-#  endif /* __cplusplus */
-
 
 /*
  * Bitmap file data structures (these are defined in <wingdi.h> under
@@ -35,7 +31,6 @@ extern "C" {
  * to avoid differences in alignment...
  */
 
-#  ifndef WIN32
 typedef struct                       /**** BMP file header structure ****/
     {
     unsigned short bfType;           /* Magic number for file */
@@ -84,7 +79,6 @@ typedef struct                       /**** Bitmap information structure ****/
     BITMAPINFOHEADER bmiHeader;      /* Image header */
     RGBQUAD          bmiColors[256]; /* Image colormap */
     } BITMAPINFO;
-#  endif /* !WIN32 */
 
 /*
  * Prototypes...
@@ -94,7 +88,4 @@ extern GLubyte *LoadDIBitmap(const char *filename, BITMAPINFO **info);
 extern int     SaveDIBitmap(const char *filename, BITMAPINFO *info,
                             GLubyte *bits);
 
-#  ifdef __cplusplus
-}
-#  endif /* __cplusplus */
 #endif /* !_BITMAP_H_ */

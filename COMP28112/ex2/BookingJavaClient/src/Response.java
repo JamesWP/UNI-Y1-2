@@ -1,6 +1,5 @@
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.conn.ConnectionPoolTimeoutException;
 import org.w3c.dom.Document;
 
 import java.net.SocketTimeoutException;
@@ -44,8 +43,9 @@ public class Response
       try
       {
         System.out.println("Trying to read response message: attempts " +
-                               "remaining " + remainingattempts);
+                             "remaining " + remainingattempts);
         res = HttpUtils.excuteGet(messageUri);
+        System.out.println("Code:" + res.messageCode);
         switch (res.messageCode)
         {
           case 200:

@@ -42,6 +42,8 @@ public class HttpUtils
                       .setSocketTimeout(5000)
                       .setConnectionRequestTimeout(5000)
                       .build());
+    get.addHeader("Accepts","application/xml");
+    get.addHeader("Content-Type","application/xml");
     try
     {
       HttpResponse resp = client.execute(get);
@@ -73,6 +75,10 @@ public class HttpUtils
     }catch (Exception e)
     {
       throw new RuntimeException("could not retreive message result",e);
+    }
+    finally
+    {
+      get.releaseConnection();
     }
   }
 
