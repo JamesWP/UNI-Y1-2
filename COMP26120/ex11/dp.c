@@ -27,20 +27,24 @@ int main(int argc, char *argv[1])
 {
   int *solution;    // binary vector indicating items to pack
   int total_value, total_weight;  // total value and total weight of items packed
-  
+
   read_knapsack_instance(argv[1]);
 
   if((solution = (int *)malloc((Nitems+1)*sizeof(int)))==NULL)
-    {      
-      fprintf(stderr,"Problem allocating table for DP\n");
-      exit(1);
-    }
+  {
+    fprintf(stderr,"Problem allocating table for DP\n");
+    exit(1);
+  }
 
   DP(item_values,item_weights,Nitems,Capacity,solution);
   check_evaluate_and_print_sol(solution,&total_weight,&total_value);
   return(0);
 }
-  
+
+#define V(a,b) INDEX(V,a,b)
+#define keep(a,b) INDEX(keep,a,b)
+#define INDEX(n,a,b) n[((a)*(W+1)+(b))]
+
 int DP(int *v,int *wv, int n, int W, int *solution)
 {
   // the dynamic programming function for the knapsack problem
@@ -52,27 +56,50 @@ int DP(int *v,int *wv, int n, int W, int *solution)
   // W is the constraint (the weight capacity of the knapsack)
   // solution: a 1 in position n means pack item number n+1. A zero means do not pack it.
 
-  int **V, **keep;  // 2d arrays for use in the dynamic programming solution
-  // keep[][] and V[][] are both of size (n+1)*(W+1)
+  int *V, *keep;  // 2d arrays for use in the dynamic programming solution
 
-  int i, w, K;
+  int K;
 
   // Dynamically allocate memory for variables V and keep
-  /* ADD CODE HERE */
- 
- //  set the values of the zeroth row of the partial solutions table to zero
-  /* ADD CODE HERE */
+  V = (int *) malloc(sizeof(int)*(n+1)*(W+1));
+  keep = (int *) malloc(sizeof(int)*(n+1)*(W+1));
+  // keep[][] and V[][] are both of size (n+1)*(W+1)
 
+  //  set the values of the zeroth row of the partial solutions table to zero
+  for(int w=0;w<W+1;w++)
+    V(0,w) = 0;
 
- // main dynamic programming loops , adding one item at a time and looping through weights from 0 to W
-  /* ADD CODE HERE */
+  // main dynamic programming loops , adding one item at a time and looping through weights from 0 to W
+  for(int item=1;item<=n;item++)
+  {
+    for(int weight=0;weight<=W;weight++)
+    {
+      bool shouldUseItem = (wv[item] <= weight) && ( (v[item] + V(item-1,weight - wv[item])) > (V(item - 1, weight)) );
 
+      if(shouldUseItem)
+      {
+        V(item,weight) = v[item] + V(item-1,weight - wv[item]);
+        keep(item,weight) = 1;
+      }else{
+        V(item,weight) = V(item-1,weight);
+        keep(item,weight) = 0;
+      }
+    }
+  }
 
   // now discover which items were in the optimal solution
-  /* ADD CODE HERE */
+  K = W;
 
+  for(int item=n;item>0;item--)
+  {
+    solution[item] = keep(item,K);
+    if(solution[item])
+    {
+      K -= wv[item];
+    }
+  }
 
-  return V[n][W];
+  return V(n,W);
 }
 
 

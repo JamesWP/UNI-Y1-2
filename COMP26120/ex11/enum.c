@@ -58,42 +58,53 @@ void enumerate()
 
 
 
- while(!(next_binary(&solution[1], Nitems)))
+  while(!(next_binary(&solution[1], Nitems)))
+  {
+
+    /* ADD CODE IN HERE TO KEEP TRACK OF FRACTION OF ENUMERATION DONE */
+
+    infeasible=check_evaluate_and_print_sol(solution, &total_value, &total_weight);  // calculates the value and weight and feasibility
+
+    if(infeasible!=-1)
     {
-
-      /* ADD CODE IN HERE TO KEEP TRACK OF FRACTION OF ENUMERATION DONE */
-
-      infeasible=check_evaluate_and_print_sol(solution, &total_value, &total_weight);  // calculates the value and weight and feasibility
-      /* ADD CODE IN HERE TO KEEP TRACK OF BEST SOLUTION FOUND*/
-
+      // feasable
+      if(total_value>best_value){
+        best_value = total_value;
+        for(i=1;i<=Nitems;i++)
+          best_solution[i]=solution[i];
+      }
     }
- /* ADD CODE TO PRINT OUT BEST SOLUTION */
 
+  }
+  QUIET=0;
+  printf("\nBEST SOLUTION\n");
+  check_evaluate_and_print_sol(best_solution, &total_value, &total_weight);
+  printf("BEST SOLUTION\n\n");
 }
 
 
 int next_binary(int *str, int Nitems)
 {
-  // Called with a binary string of length Nitems, this 
+  // Called with a binary string of length Nitems, this
   // function adds "1" to the string, e.g. 0001 would turn to 0010.
   // If the string overflows, then the function returns 1, else it returns 0.
   int i=Nitems-1;
   while(i>=0)
+  {
+    if(str[i]==1)
     {
-      if(str[i]==1)
-	{
-	  str[i]=0;
-	  i--;
-	}
-      else
-	{
-	  str[i]=1;
-	  break;
-	}
+      str[i]=0;
+      i--;
     }
+    else
+    {
+      str[i]=1;
+      break;
+    }
+  }
   if(i==-1)
     return(1);
   else
     return(0);
-
+  
 }

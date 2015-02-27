@@ -71,7 +71,7 @@ void print_instance()
   int i;
   printf("item\tW\tV\n");
   for(i=1;i<=Nitems;i++)
-    printf("%d\t%d\t%d\n", temp_indexes[i], item_weights[i], item_values[i]);
+    printf("%d\t\t%d\t%d\n", temp_indexes[i], item_weights[i], item_values[i]);
   printf("%d\n", Capacity);
 }
 
