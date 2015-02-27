@@ -94,7 +94,7 @@ Main
         SVC   SVC_BUTT
         CMP   r0, #2
         ; store limit 
-        ADDEQ r8, r3, #0xFF000
+        ADDEQ r8, r3, #0x500
         B     %b1     ;; repeat timer loop
 
         

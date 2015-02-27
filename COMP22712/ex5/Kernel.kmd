@@ -110,6 +110,7 @@ KMD
 00000094: 000000B8    ;       DEFW SVCRoutine4
 00000098: 000000C0    ;       DEFW SVCRoutine5
 0000009C:             ; SVCRoutines_END
+0000009C:             ; 
 0000009C:             ; SVCMax EQU (SVCRoutines_END - SVCRoutines)/4
 0000009C:             ; 
 0000009C:             ; ;-- Routines
@@ -118,7 +119,6 @@ KMD
 0000009C:             ; SVC_HALT  EQU  0
 0000009C:             ; SVCRoutine0 
 0000009C: EAFFFFFE    ;       B    .                                         ; user program end     
-000000A0:             ; 
 000000A0:             ; 
 000000A0:             ; SVC_CHAR  EQU  1
 000000A0:             ; SVCRoutine1                                          ; print char r0 is char
@@ -577,7 +577,7 @@ KMD
 00000320: EF000005    ;         SVC   SVC_BUTT
 00000324: E3500002    ;         CMP   r0, #2
 00000328:             ;         ; store limit 
-00000328: 02838AFF    ;         ADDEQ r8, r3, #0xFF000
+00000328: 02838C05    ;         ADDEQ r8, r3, #0x500
 0000032C: EAFFFFE0    ;         B     %b1     ;; repeat timer loop
 00000330:             ; 
 00000330:             ;         
