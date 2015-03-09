@@ -205,30 +205,74 @@ int main(int argc, char *argv[1])
   return(0);
 }
 
+bool feasable(struc_sol sol){
+  int weightCount = 0;
+  for(int i = 1;i<=sol.fixed;i++){
+    if(sol.solution_vec[i]==1) weightCount += item_weights[i];
+  }
+  return weightCount<=Capacity;
+}
+
 
 void branch_and_bound(int *final_sol)
 {
   // branch and bound
 
   // start with the empty solution vector
+  struc_sol currentSol;
+  currentSol.fixed = 0;
+
   // compute its value and its bound
+  frac_bound(&currentSol, currentSol.fixed);
+
   // put current_best = to its value
+  int current_best = currentSol.val;
+
   // store it in the priority queue
-  
-  // LOOP until queue is empty or upper bound is not greater than current_best:
-  //   remove the first item in the queue
-  //   construct two children, 1 with a 1 added, 1 with a O added
-  //   FOREACH CHILD:
-  //     if infeasible, discard child
-  //     else
-  //       compute the value and bound
-  //       if value > current_best, set current_best to it, and copy child to final_sol
-  //       add child to the queue
+  insert(currentSol);
+
+  // LOOP until queue is empty
+  while(QueueSize!=0){
+    //   remove the first item in the queue
+    struc_sol firstItem = removeMax();
+
+    //or upper bound is not greater than current_best:
+    if(firstItem.bound<current_best) break;
+
+    //   construct two children, 1 with a 1 added, 1 with a O added
+    struc_sol with,without;
+    copy_array(&firstItem.solution_vec[1], &with.solution_vec[1]);
+    copy_array(&firstItem.solution_vec[1], &without.solution_vec[1]);
+
+    if(firstItem.fixed+1>Nitems) continue;
+
+    with.fixed=firstItem.fixed+1;      without.fixed=firstItem.fixed+1;
+    with.solution_vec[with.fixed] = 1; without.solution_vec[without.fixed] = 0;
+
+    // with
+    //     if infeasible, discard child
+    if(feasable(with)){
+      frac_bound(&with, with.fixed);
+      //       if value > current_best, set current_best to it, and copy child to final_sol
+      if(with.val>current_best){
+        current_best = with.val;
+        copy_array(&with.solution_vec[1],&final_sol[1]);
+      }
+      //       add child to the queue
+      insert(with);
+    }
+    if(feasable(without)){
+      frac_bound(&without, without.fixed);
+      //       if value > current_best, set current_best to it, and copy child to final_sol
+      if(without.val>current_best){
+        current_best=without.val;
+        copy_array(&without.solution_vec[1],&final_sol[1]);
+      }
+      //       add child to the queue
+      insert(without);
+    }
+  }
   // RETURN
-  
-
-  /* YOUR CODE GOES HERE */
-
 }
   
 

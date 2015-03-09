@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		1A1C1CFF1A97FBA300FCED67 /* drawText.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A1C1CFE1A97FBA300FCED67 /* drawText.c */; };
 		1A58FE041A9232C300C68635 /* ex2.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A58FE021A9232C300C68635 /* ex2.c */; };
-		1AD629941A9691EB00898C5D /* spaceship.c in Sources */ = {isa = PBXBuildFile; fileRef = 1AD629921A9691EB00898C5D /* spaceship.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -30,8 +29,6 @@
 		1A58FDF81A92328800C68635 /* grpahics-ex2 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "grpahics-ex2"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A58FE021A9232C300C68635 /* ex2.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ex2.c; sourceTree = "<group>"; };
 		1A58FE031A9232C300C68635 /* sys */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sys; sourceTree = "<group>"; };
-		1AD629921A9691EB00898C5D /* spaceship.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = spaceship.c; sourceTree = "<group>"; };
-		1AD629931A9691EB00898C5D /* spaceship.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = spaceship.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -50,8 +47,6 @@
 			children = (
 				1A1C1D001A97FD7100FCED67 /* drawText.h */,
 				1A1C1CFE1A97FBA300FCED67 /* drawText.c */,
-				1AD629921A9691EB00898C5D /* spaceship.c */,
-				1AD629931A9691EB00898C5D /* spaceship.h */,
 				1A58FE021A9232C300C68635 /* ex2.c */,
 				1A58FE031A9232C300C68635 /* sys */,
 				1A58FDF91A92328800C68635 /* Products */,
@@ -123,7 +118,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				1A1C1CFF1A97FBA300FCED67 /* drawText.c in Sources */,
-				1AD629941A9691EB00898C5D /* spaceship.c in Sources */,
 				1A58FE041A9232C300C68635 /* ex2.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -9,10 +9,21 @@
 /* Begin PBXBuildFile section */
 		1A3BCB9A1AA0768A0079B81B /* knapsack-util.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB941AA0768A0079B81B /* knapsack-util.c */; };
 		1A3BCB9C1AA07EFD0079B81B /* dp.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB8D1AA0768A0079B81B /* dp.c */; };
+		1A5CCE4D1AA9AF6B00E40FC3 /* knapsack-util.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB941AA0768A0079B81B /* knapsack-util.c */; };
+		1A5CCE541AA9B01000E40FC3 /* bnb.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB8C1AA0768A0079B81B /* bnb.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		1A3BCB801AA076540079B81B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		1A5CCE4F1AA9AF6B00E40FC3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -35,10 +46,18 @@
 		1A3BCB931AA0768A0079B81B /* hard1.2000.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = hard1.2000.1.txt; path = ../hard1.2000.1.txt; sourceTree = "<group>"; };
 		1A3BCB941AA0768A0079B81B /* knapsack-util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "knapsack-util.c"; path = "../knapsack-util.c"; sourceTree = "<group>"; };
 		1A3BCB951AA0768A0079B81B /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = makefile; path = ../makefile; sourceTree = "<group>"; };
+		1A5CCE531AA9AF6B00E40FC3 /* ex11-knapsack-dynamic copy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ex11-knapsack-dynamic copy"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		1A3BCB7F1AA076540079B81B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A5CCE4E1AA9AF6B00E40FC3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -69,6 +88,7 @@
 			isa = PBXGroup;
 			children = (
 				1A3BCB821AA076540079B81B /* ex11-knapsack */,
+				1A5CCE531AA9AF6B00E40FC3 /* ex11-knapsack-dynamic copy */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -76,9 +96,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		1A3BCB811AA076540079B81B /* ex11-knapsack */ = {
+		1A3BCB811AA076540079B81B /* ex11-knapsack-dynamic */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 1A3BCB891AA076540079B81B /* Build configuration list for PBXNativeTarget "ex11-knapsack" */;
+			buildConfigurationList = 1A3BCB891AA076540079B81B /* Build configuration list for PBXNativeTarget "ex11-knapsack-dynamic" */;
 			buildPhases = (
 				1A3BCB7E1AA076540079B81B /* Sources */,
 				1A3BCB7F1AA076540079B81B /* Frameworks */,
@@ -88,9 +108,26 @@
 			);
 			dependencies = (
 			);
-			name = "ex11-knapsack";
+			name = "ex11-knapsack-dynamic";
 			productName = "ex11-knapsack";
 			productReference = 1A3BCB821AA076540079B81B /* ex11-knapsack */;
+			productType = "com.apple.product-type.tool";
+		};
+		1A5CCE4A1AA9AF6B00E40FC3 /* ex11-knapsack-bnb */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A5CCE501AA9AF6B00E40FC3 /* Build configuration list for PBXNativeTarget "ex11-knapsack-bnb" */;
+			buildPhases = (
+				1A5CCE4B1AA9AF6B00E40FC3 /* Sources */,
+				1A5CCE4E1AA9AF6B00E40FC3 /* Frameworks */,
+				1A5CCE4F1AA9AF6B00E40FC3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ex11-knapsack-bnb";
+			productName = "ex11-knapsack";
+			productReference = 1A5CCE531AA9AF6B00E40FC3 /* ex11-knapsack-dynamic copy */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -119,7 +156,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				1A3BCB811AA076540079B81B /* ex11-knapsack */,
+				1A3BCB811AA076540079B81B /* ex11-knapsack-dynamic */,
+				1A5CCE4A1AA9AF6B00E40FC3 /* ex11-knapsack-bnb */,
 			);
 		};
 /* End PBXProject section */
@@ -131,6 +169,15 @@
 			files = (
 				1A3BCB9C1AA07EFD0079B81B /* dp.c in Sources */,
 				1A3BCB9A1AA0768A0079B81B /* knapsack-util.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A5CCE4B1AA9AF6B00E40FC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A5CCE541AA9B01000E40FC3 /* bnb.c in Sources */,
+				1A5CCE4D1AA9AF6B00E40FC3 /* knapsack-util.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -227,6 +274,22 @@
 			};
 			name = Release;
 		};
+		1A5CCE511AA9AF6B00E40FC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "ex11-knapsack-dynamic copy";
+			};
+			name = Debug;
+		};
+		1A5CCE521AA9AF6B00E40FC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "ex11-knapsack-dynamic copy";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -239,13 +302,23 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		1A3BCB891AA076540079B81B /* Build configuration list for PBXNativeTarget "ex11-knapsack" */ = {
+		1A3BCB891AA076540079B81B /* Build configuration list for PBXNativeTarget "ex11-knapsack-dynamic" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				1A3BCB8A1AA076540079B81B /* Debug */,
 				1A3BCB8B1AA076540079B81B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A5CCE501AA9AF6B00E40FC3 /* Build configuration list for PBXNativeTarget "ex11-knapsack-bnb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A5CCE511AA9AF6B00E40FC3 /* Debug */,
+				1A5CCE521AA9AF6B00E40FC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

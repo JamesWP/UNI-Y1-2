@@ -20,8 +20,6 @@
 #include <stdlib.h>
 #include <sys/time.h>
 
-
-#include "spaceship.h"
 #include "drawText.h"
 
 #define MAX_BODIES 20
@@ -34,7 +32,7 @@
 #define DEG_TO_RAD 0.017453293
 #define ORBIT_POLY_SIDES 40
 #define TIME_STEP 0.5   /* days per frame */
-
+#define EARTH 3
 #define PARENT(n) (bodies[bodies[n].orbits_body])
 
 typedef struct {
@@ -63,13 +61,13 @@ unsigned long long getCurTime();
 typedef struct star_s{
   GLfloat x,y,z;
 } Star;
-#define NUM_STARS 1000000
+#define NUM_STARS 100000
 
 Star stars[NUM_STARS];
 void initStars(void)
 {
   for(int i=0;i<NUM_STARS;i++){
-    double r = random()*1000 + 1000000;
+    double r = random()*100+1000;
     double lat = random()*TWOPI - PI;
     double lon = random()*TWOPI;
     stars[i].x = cosf(lat) * sinf(lon) * r;
@@ -81,6 +79,7 @@ void initStars(void)
 void drawStarfield (void)
 {
   glPointSize(1);
+//  glBegin(GL_LINE_LOOP);
   glBegin(GL_POINTS);
   glColor3f(1.0, 1.0, 1.0);
   for(int i=0;i<NUM_STARS;i++){
@@ -133,14 +132,6 @@ void readSystem(void)
   fclose(f);
 }
 
-/*****************************/
-
-void drawString (void *font, float x, float y, char *str)
-{ /* Displays the string "str" at (x,y,0), using font "font" */
-
-  /* This is for you to complete. */
-
-}
 
 /*****************************/
 
@@ -155,10 +146,21 @@ void setView (void) {
       gluLookAt(600000000.0, 0, 0, 0, 0, 0, 0, 1.0, 0);
       break;
     case SHIP_VIEW:
-      setCameraSpaceship();
       break;
     case EARTH_VIEW:
-      /* This is for you to complete. */
+      gluLookAt(0, 50000000, 100000000, 0, 0, 0, 0, 1.0, 0);
+
+      // orbit radius
+      glTranslatef(-bodies[EARTH].orbital_radius, 0, 0);
+
+      // orbit position
+      glRotatef(bodies[EARTH].orbit, 0, -1.0, 0);
+
+      // orbit tilt
+      glRotatef(bodies[EARTH].orbital_tilt, 0, 0, -1.0);
+
+
+
       break;
   }
 }
@@ -171,9 +173,7 @@ void menu (int menuentry) {
       break;
     case 2: current_view= ECLIPTIC_VIEW;
       break;
-    case 3:
-      current_view= SHIP_VIEW;
-      initialiseSpaceship();
+    case 3: current_view= SHIP_VIEW;
       break;
     case 4: current_view= EARTH_VIEW;
       break;
@@ -215,8 +215,10 @@ void init(void)
   draw_starfield= 1;
 
   initStars();
-  initialiseSpaceship();
   lastUpdateMillis = getCurTime();
+
+  //glEnable(GL_BLEND);
+  //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 /*****************************/
@@ -235,11 +237,7 @@ unsigned long long getCurTime(){
 void animate(void)
 {
   unsigned long long newTime = getCurTime();
-  unsigned long long delta = newTime - lastUpdateMillis;
-
-  if(current_view==SHIP_VIEW){
-    tickSpaceship(delta);
-  }
+//  unsigned long long delta = newTime - lastUpdateMillis;
 
   int i;
 
@@ -254,18 +252,25 @@ void animate(void)
 
 /*****************************/
 
-void drawOrbit (int n)
-{ /* Draws a polygon to approximate the circular
-   orbit of body "n" */
-
-  /* This is for you to complete. */
-}
-
-
-/*****************************/
-
 void setBodyColor(int n){
   glColor3f(bodies[n].r, bodies[n].g, bodies[n].b);
+}
+
+#define TOTAL_POINTS 100
+void drawOrbit(float radius){
+  glBegin(GL_LINE_LOOP);
+  float x,z,delta,angle;
+  delta = TWOPI / (float)TOTAL_POINTS;
+  angle = 0.0;
+
+  for(int i=0;i<TOTAL_POINTS;i++){
+    x = sinf(angle) * radius;
+    z = cosf(angle) * radius;
+    glVertex3f(x, 0, z);
+    angle += delta;
+  }
+
+  glEnd();
 }
 
 
@@ -273,11 +278,15 @@ void drawBody(int n)
 {
   body b = bodies[n];
 
+  setBodyColor(n);
+
   glPushMatrix();
   {
     if(n!=0){
       // orbit tilt
       glRotatef(b.orbital_tilt, 0, 0, 1.0);
+
+      drawOrbit(b.orbital_radius);
 
       // orbit position
       glRotatef(b.orbit, 0, 1.0, 0);
@@ -287,7 +296,6 @@ void drawBody(int n)
 
       if(draw_labels)
         drawText(b.radius,b.radius,&b.name[0]);
-
 
       // axit tilt
       glRotatef(b.axis_tilt, 0, 0, -1.0);
@@ -302,8 +310,6 @@ void drawBody(int n)
     }
 
     setBodyColor(n);
-
-
 
     glPushMatrix();
     {
@@ -350,7 +356,7 @@ void drawAxis(void){
 void display(void)
 {
 
-  glClear(GL_COLOR_BUFFER_BIT);
+  glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
   /* set the camera */
   setView();
@@ -381,12 +387,6 @@ void keyboard(unsigned char key, int x, int y)
 {
   switch (key)
   {
-    case 'w':
-      updateViewSpaceship(FORWARD,50);
-      break;
-    case 's':
-      updateViewSpaceship(BACKWARD,50);
-      break;
     case 'a':
       draw_starfield = 1 - draw_starfield;
       break;
@@ -396,12 +396,7 @@ void keyboard(unsigned char key, int x, int y)
 }
 void keyboardSpecial(int key,int x,int y){
   switch (key){
-    case GLUT_KEY_UP:
-      updateViewSpaceship(UP,50);
-      break;
-    case GLUT_KEY_DOWN:
-      updateViewSpaceship(DOWN,50);
-      break;
+
   }
 }
 /*****************************/
@@ -411,7 +406,7 @@ int main(int argc, char** argv)
   glutInit (&argc, argv);
   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
   glutCreateWindow ("COMP27112 Exercise 2");
-  //glutFullScreen();
+  glutFullScreen();
   init ();
   glutDisplayFunc (display);
   glutReshapeFunc (reshape);

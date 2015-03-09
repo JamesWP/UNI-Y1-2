@@ -345,26 +345,13 @@
     </option>
   </component>
   <component name="libraryTable">
-    <library name="commons-logging-1.2">
+    <library name="lib">
       <CLASSES>
-        <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.4/lib/commons-logging-1.2.jar!/" />
+        <root url="file://$PROJECT_DIR$/lib" />
       </CLASSES>
       <JAVADOC />
       <SOURCES />
-    </library>
-    <library name="httpclient-4.4">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.4/lib/httpclient-4.4.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
-    </library>
-    <library name="httpcore-4.4">
-      <CLASSES>
-        <root url="jar://$USER_HOME$/Downloads/httpcomponents-client-4.4/lib/httpcore-4.4.jar!/" />
-      </CLASSES>
-      <JAVADOC />
-      <SOURCES />
+      <jarDirectory url="file://$PROJECT_DIR$/lib" recursive="false" />
     </library>
   </component>
   <component name="masterDetails">

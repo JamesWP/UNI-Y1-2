@@ -4,7 +4,12 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
-		<key>ex11-knapsack.xcscheme</key>
+		<key>ex11-knapsack-bnb.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>1</integer>
+		</dict>
+		<key>ex11-knapsack-dynamic.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>0</integer>
@@ -13,6 +18,11 @@
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
 		<key>1A3BCB811AA076540079B81B</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>1A5CCE4A1AA9AF6B00E40FC3</key>
 		<dict>
 			<key>primary</key>
 			<true/>
