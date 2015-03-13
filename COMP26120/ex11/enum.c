@@ -44,7 +44,6 @@ void enumerate()
   int solution[Nitems+1];   // (binary) solution vector representing items packed
   int best_solution[Nitems+1];  // (binary) solution vector for best solution found
   int best_value; // total value packed in the best solution
-  double j=0;
   int total_value, total_weight; // total value and total weight of current knapsack solution
   int infeasible;  // 0 means feasible; -1 means infeasible (violates the capacity constraint)
 

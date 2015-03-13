@@ -58,6 +58,9 @@ int   numBodies, current_view, draw_labels, draw_orbits, draw_starfield;
 unsigned long long lastUpdateMillis;
 unsigned long long getCurTime();
 
+GLfloat lat,lon;
+GLfloat posx,posy,posz;
+
 typedef struct star_s{
   GLfloat x,y,z;
 } Star;
@@ -132,8 +135,28 @@ void readSystem(void)
   fclose(f);
 }
 
+#define MAPRANGE(inputstart,inputend,outputstart,outputend,input) (outputstart + ((outputend - outputstart) / (inputend - inputstart)) * (input - inputstart))
+#define MIN(a,b) (a<b?a:b)
+#define MAX(a,b) (a>b?a:b)
+#define CLAMP(min,max,val) (MIN(MAX(val,min),max))
+
+
+void shipLookAt(){
+  float lonRad = (lon) * DEG_TO_RAD;
+  float latRad = (lat) * DEG_TO_RAD;
+
+  GLfloat centery,centerx,centerz;
+  //latitude -> centery
+
+  centery = sinf(latRad)*1000000 + posy;
+  centerz = cosf(lonRad)*cosf(latRad)*1000000 + posz;
+  centerx = sinf(lonRad)*cosf(latRad)*1000000 + posx;
+
+  gluLookAt(posx, posy, posz, centerx, centery, centerz, 0, 1.0, 0);
+}
 
 /*****************************/
+
 
 void setView (void) {
   glMatrixMode(GL_MODELVIEW);
@@ -146,15 +169,12 @@ void setView (void) {
       gluLookAt(600000000.0, 0, 0, 0, 0, 0, 0, 1.0, 0);
       break;
     case SHIP_VIEW:
+      shipLookAt();
       break;
     case EARTH_VIEW:
       gluLookAt(0, 50000000, 100000000, 0, 0, 0, 0, 1.0, 0);
 
-      // orbit radius
-      glTranslatef(-bodies[EARTH].orbital_radius, 0, 0);
-
-      // orbit position
-      glRotatef(bodies[EARTH].orbit, 0, -1.0, 0);
+      glTranslatef(bodies[EARTH].orbital_radius * sin((bodies[EARTH].orbit+180)*DEG_TO_RAD), 0.0, bodies[EARTH].orbital_radius * cos((bodies[EARTH].orbit+180)*DEG_TO_RAD));
 
       // orbit tilt
       glRotatef(bodies[EARTH].orbital_tilt, 0, 0, -1.0);
@@ -173,7 +193,12 @@ void menu (int menuentry) {
       break;
     case 2: current_view= ECLIPTIC_VIEW;
       break;
-    case 3: current_view= SHIP_VIEW;
+    case 3:
+      current_view= SHIP_VIEW;
+
+      lat = lon = 0;
+      posx = posy = posz = 0;
+
       break;
     case 4: current_view= EARTH_VIEW;
       break;
@@ -288,11 +313,7 @@ void drawBody(int n)
 
       drawOrbit(b.orbital_radius);
 
-      // orbit position
-      glRotatef(b.orbit, 0, 1.0, 0);
-
-      // orbit radius
-      glTranslatef(b.orbital_radius, 0, 0);
+      glTranslatef(b.orbital_radius * sin(b.orbit*DEG_TO_RAD), 0.0, b.orbital_radius * cos(b.orbit*DEG_TO_RAD));
 
       if(draw_labels)
         drawText(b.radius,b.radius,&b.name[0]);
@@ -304,8 +325,8 @@ void drawBody(int n)
       glLineWidth(3.0);
       glColor3f(1.0, 1.0, 1.0);
       glBegin(GL_LINES);
-      glVertex3f(0, b.radius*2, 0);
-      glVertex3f(0, -b.radius*2, 0);
+      glVertex3f(0, b.radius*4, 0);
+      glVertex3f(0, -b.radius*4, 0);
       glEnd();
     }
 
@@ -322,7 +343,6 @@ void drawBody(int n)
       //    glutSolidSphere(b.radius, 10, 10);
     }
     glPopMatrix();
-
 
     for(int i=1;i<numBodies;i++){
       if(bodies[i].orbits_body==n){
@@ -372,13 +392,23 @@ void display(void)
 }
 
 /*****************************/
-
+int width,height;
 void reshape(int w, int h)
 {
   glViewport(0, 0, (GLsizei) w, (GLsizei) h);
   glMatrixMode(GL_PROJECTION);
   glLoadIdentity();
   gluPerspective (48.0, (GLfloat) w/(GLfloat) h, 100.0, 800000000.0);
+  width = w;
+  height = h;
+}
+
+#define FLY_SPEED 500000
+void calculate_movement(float relativeAngle) {
+  /* Given a relative angle to the curent facing angle, move the players eyez and eyex */
+  float lonRad = (lon+relativeAngle) * DEG_TO_RAD;
+  posz += cosf(lonRad)*FLY_SPEED;
+  posx += sinf(lonRad)*FLY_SPEED;
 }
 
 /*****************************/
@@ -387,6 +417,12 @@ void keyboard(unsigned char key, int x, int y)
 {
   switch (key)
   {
+    case 'w':
+      calculate_movement(0);
+      break;
+    case 's':
+      calculate_movement(180);
+      break;
     case 'a':
       draw_starfield = 1 - draw_starfield;
       break;
@@ -401,16 +437,28 @@ void keyboardSpecial(int key,int x,int y){
 }
 /*****************************/
 
+void mouse_motion(int x, int y) {
+
+  /* To be completed */
+  float xperc = ((float)x/width)*2.0 -1.0;
+  float yperc = ((float)y/height)*2.0 -1.0;
+  lon = xperc * 50.0;
+  lat = yperc * 50.0;
+
+} // mouse_motion()
+
+
 int main(int argc, char** argv)
 {
   glutInit (&argc, argv);
   glutInitDisplayMode (GLUT_DOUBLE | GLUT_RGB);
   glutCreateWindow ("COMP27112 Exercise 2");
-  glutFullScreen();
+ // glutFullScreen();
   init ();
   glutDisplayFunc (display);
   glutReshapeFunc (reshape);
   glutKeyboardFunc (keyboard);
+  glutPassiveMotionFunc (mouse_motion);
   glutSpecialFunc(keyboardSpecial);
   glutIdleFunc (animate);
   readSystem();

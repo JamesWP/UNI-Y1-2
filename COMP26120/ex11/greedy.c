@@ -33,7 +33,6 @@ void greedy()
 {
   int total_weight=0; // current total weight of the items in the knapsack
   int total_value=0; //  current total profit of the items in the knapsack
-  int i=1;
   int solution[Nitems+1];
 
   sort_by_ratio(); // sort items in descending profit-to-weight ratio order
@@ -45,6 +44,15 @@ void greedy()
      if an item fits, add it to the knapsack, and 
      do not stop at the first item that doesn't fit 
      - but keep going until all items have been tried */
+
+  for(int i =0;i<Nitems;i++){
+    if(total_weight+item_weights[temp_indexes[i]]<=Capacity){
+      total_weight += item_weights[temp_indexes[i]];
+      solution[i] = 1;
+    }else{
+      solution[i] = 0;
+    }
+  }
 
   printf("The greedy solution - not necessarily optimal - is:\n");
   check_evaluate_and_print_sol(solution, &total_value, &total_weight);  

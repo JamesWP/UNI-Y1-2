@@ -164,8 +164,7 @@ void frac_bound(struc_sol *sol, int fix)
       i++;
     }while((i<=Nitems)&&(totalw<Capacity));
 
-  // if over-run the capacity, adjust profit total by subtracting that overrun \
-fraction of the last item                                                       
+  // if over-run the capacity, adjust profit total by subtracting that overrun fraction of the last item
   if(totalw>Capacity)
     {
       --i;
@@ -235,7 +234,7 @@ void branch_and_bound(int *final_sol)
   while(QueueSize!=0){
     //   remove the first item in the queue
     struc_sol firstItem = removeMax();
-
+    frac_bound(&firstItem, firstItem.fixed);
     //or upper bound is not greater than current_best:
     if(firstItem.bound<current_best) break;
 
@@ -251,8 +250,9 @@ void branch_and_bound(int *final_sol)
 
     // with
     //     if infeasible, discard child
+
+    frac_bound(&with, with.fixed);
     if(feasable(with)){
-      frac_bound(&with, with.fixed);
       //       if value > current_best, set current_best to it, and copy child to final_sol
       if(with.val>current_best){
         current_best = with.val;
@@ -261,8 +261,9 @@ void branch_and_bound(int *final_sol)
       //       add child to the queue
       insert(with);
     }
+
+    frac_bound(&without, without.fixed);
     if(feasable(without)){
-      frac_bound(&without, without.fixed);
       //       if value > current_best, set current_best to it, and copy child to final_sol
       if(without.val>current_best){
         current_best=without.val;
