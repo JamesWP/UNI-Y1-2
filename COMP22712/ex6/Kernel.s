@@ -18,8 +18,10 @@
 
 ;---------------
 ;- KERNEL MODE LITERALS
+SPSR_SYSMODENI  EQU  0xDF
 SPSR_SVCMODENI  EQU  0xD3
-SPSR_USER       EQU  0b0101000 ; interupt enabled fast interupts disabled ARM
+SPSR_IRQMODENI  EQU  0xD2
+SPSR_USER       EQU  0b0101_0000 ; interupt enabled fast interupts disabled ARM
 ;---------------
 
 ;---------------
@@ -27,21 +29,35 @@ SPSR_USER       EQU  0b0101000 ; interupt enabled fast interupts disabled ARM
 vReset
       ;- initialise supervisor mode stack
       ADRL  SP,  sSVC
+
       ;- switch to system mode
-      MOV   LR, #(SPSR_SVCMODENI)     ; supervisor mode no interrupts
+      MOV   LR, #(SPSR_SYSMODENI)     ; system mode no interrupts
       MSR   CPSR_c, LR
       ;- initialise user mode stack
       ADRL  SP,  sUSR
 
+      ;- switch to intterupt mode
+      MOV   LR, #(SPSR_IRQMODENI)     ; int mode no interrupts
+      MSR   CPSR_c, LR
+      ;- initialise int mode stack
+      ADRL  SP,  sIRQ
+
+      ;- switch back to supervisor mode to:
+      ;- - do perhip Initialise
+      ;- - do user context switch with SPSR
+
+      MOV   LR, #(SPSR_SVCMODENI)     ; supervisor mode no interrupts
+      MSR   CPSR_c, LR
+
       ;- initialise perhiperals
       BL    PeripheralInitialise
 
-      ;- switch to user mode
+      ;- switch to user mode using the SPSR
       MOV   LR, #(SPSR_USER)
       MSR   SPSR_c, LR
 
       ;- call user code
-      ADR   LR,  Main
+      ADRL  LR,  Main
       MOVS  PC,  LR
 ;---------------
       
@@ -104,6 +120,10 @@ GET   KernelButtons.s
 ;--                                  InterruptHandler     : handles interupt
 GET   KernelInt.s
 
+;-- this include defines procedures to handle keyboard scanning:
+;--                                  KeyboardScan         : called periodically
+;--                                                       : to handle key read
+GET   KernelKeyboard.s
 ;---------------
 ;-- procedure PeripheralInitialise initialies perhiperals
 PeripheralInitialise

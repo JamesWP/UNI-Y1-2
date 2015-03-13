@@ -13,4 +13,4 @@
 ;------------------------
 ;- UserProgram
 Main    
-        SVC     SVC_HALT
+        B     .
