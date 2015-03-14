@@ -123,6 +123,8 @@ GET   KernelInt.s
 ;-- this include defines procedures to handle keyboard scanning:
 ;--                                  KeyboardScan         : called periodically
 ;--                                                       : to handle key read
+;--                                  KeyboardInit         : called to init the
+;--                                                       : keyboard
 GET   KernelKeyboard.s
 ;---------------
 ;-- procedure PeripheralInitialise initialies perhiperals
@@ -132,6 +134,7 @@ PeripheralInitialise
       BL    EnableBacklight   ; enable backlight
       BL    InitialiseInterrupts; init interrupts
       BL    ClearScreen       ; clear screen
+      BL    KeyboardInit      ; init keyboard
       POP   {LR}
       MOV   PC, LR
 ;---------------

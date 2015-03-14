@@ -10,11 +10,11 @@ KMD
 00000000: EA000006    ;       B     vReset
 00000004: EA000016    ;       B     vUndef
 00000008: EA000016    ;       B     vSupervisor    
-0000000C: EA0000D0    ;       B     vPreAbort
-00000010: EA0000D0    ;       B     vDataAbort
+0000000C: EA000118    ;       B     vPreAbort
+00000010: EA000118    ;       B     vDataAbort
 00000014: EAFFFFFE    ;       B     .           ; unused vector
-00000018: EA0000CF    ;       B     vIRQ        ; interrupt request
-0000001C: EA0000CF    ;       B     vFIQ        ; fast interrupt request
+00000018: EA000117    ;       B     vIRQ        ; interrupt request
+0000001C: EA000117    ;       B     vFIQ        ; fast interrupt request
 00000020:             ; ;---------------
 00000020:             ; 
 00000020:             ; ;---------------
@@ -29,22 +29,22 @@ KMD
 00000020:             ; ;-    deals with resets and initialises kernel and then calls user code @main
 00000020:             ; vReset
 00000020:             ;       ;- initialise supervisor mode stack
-00000020: E28FDD8D    ;       ADRL  SP,  sSVC
-00000024: E28DD000    ; 
+00000020: E28FDE46    ;       ADRL  SP,  sSVC
+00000024: E28DDA02    ; 
 00000028:             ; 
 00000028:             ;       ;- switch to system mode
 00000028: E3A0E0DF    ;       MOV   LR, #(SPSR_SYSMODENI)     ; system mode no interrupts
 0000002C: E121F00E    ;       MSR   CPSR_c, LR
 00000030:             ;       ;- initialise user mode stack
-00000030: E28FDE33    ;       ADRL  SP,  sUSR
+00000030: E28FDE45    ;       ADRL  SP,  sUSR
 00000034: E28DDA01    ; 
 00000038:             ; 
 00000038:             ;       ;- switch to intterupt mode
 00000038: E3A0E0D2    ;       MOV   LR, #(SPSR_IRQMODENI)     ; int mode no interrupts
 0000003C: E121F00E    ;       MSR   CPSR_c, LR
 00000040:             ;       ;- initialise int mode stack
-00000040: E28FDE32    ;       ADRL  SP,  sIRQ
-00000044: E28DDA05    ; 
+00000040: E28FDD51    ;       ADRL  SP,  sIRQ
+00000044: E28DD901    ; 
 00000048:             ; 
 00000048:             ;       ;- switch back to supervisor mode to:
 00000048:             ;       ;- - do perhip Initialise
@@ -54,14 +54,14 @@ KMD
 0000004C: E121F00E    ;       MSR   CPSR_c, LR
 00000050:             ; 
 00000050:             ;       ;- initialise perhiperals
-00000050: EB0000B8    ;       BL    PeripheralInitialise
+00000050: EB0000FF    ;       BL    PeripheralInitialise
 00000054:             ; 
 00000054:             ;       ;- switch to user mode using the SPSR
 00000054: E3A0E050    ;       MOV   LR, #(SPSR_USER)
 00000058: E161F00E    ;       MSR   SPSR_c, LR
 0000005C:             ; 
 0000005C:             ;       ;- call user code
-0000005C: E28FEC03    ;       ADRL  LR,  Main
+0000005C: E28FEE42    ;       ADRL  LR,  Main
 00000060: E1B0F00E    ;       MOVS  PC,  LR
 00000064:             ; ;---------------
 00000064:             ;       
@@ -568,7 +568,7 @@ KMD
 00000320:             ;       ; wrap timer compare value
 00000320: E5010000    ;       STR   r0, [r1]
 00000324:             ; 
-00000324: EB000002    ;       BL    KeyboardScan
+00000324: EB000010    ;       BL    KeyboardScan
 00000328:             ; 
 00000328:             ;       ; return
 00000328: E8BD4002    ;       POP{LR,r1}
@@ -577,6 +577,8 @@ KMD
 00000330:             ; ;-- this include defines procedures to handle keyboard scanning:
 00000330:             ; ;--                                  KeyboardScan         : called periodically
 00000330:             ; ;--                                                       : to handle key read
+00000330:             ; ;--                                  KeyboardInit         : called to init the
+00000330:             ; ;--                                                       : keyboard
 00000330:             ; GET   KernelKeyboard.s
 00000330:             ; ;-----------------------------------------------------------------------------;
 00000330:             ; ;---                 LAB KERNEL V1.0                                       ---;
@@ -588,122 +590,252 @@ KMD
 00000330:             ; ;-- this include defines procedures to handle keyboard scanning:
 00000330:             ; ;--                                  KeyboardScan         : called periodically
 00000330:             ; ;--                                                       : to handle key read
+00000330:             ; ;--                                  KeyboardInit         : called to init the
+00000330:             ; ;--                                                       : keyboard
 00000330:             ; 
-00000330: 00000000    ; LAST_KEY_PRESSED    DEFW    0x0
-00000334:             ; 
-00000334:             ; ;-- LITERALS
-00000334:             ; 
-00000334:             ; ;--- KEYMAP
-00000334:             ; KEY_3   EQU   0
-00000334:             ; KEY_6   EQU   1
-00000334:             ; KEY_9   EQU   2
-00000334:             ; KEY_H   EQU   3
-00000334:             ; 
-00000334:             ; KEY_2   EQU   4
-00000334:             ; KEY_5   EQU   5
-00000334:             ; KEY_8   EQU   6
-00000334:             ; KEY_0   EQU   7
-00000334:             ; 
-00000334:             ; KEY_1   EQU   8
-00000334:             ; KEY_4   EQU   9
-00000334:             ; KEY_7   EQU   10
-00000334:             ; KEY_S   EQU   11
-00000334:             ; 
-00000334:             ; 
-00000334:             ; ;---------------------
-00000334:             ; ;--procedure KeyboardScan
-00000334:             ; ;-- scans the keys for presses and updates LAST_KEY_PRESSED
-00000334:             ; ;-
-00000334:             ; ;- puudeocode
-00000334:             ; ;-
-00000334:             ; ;-  SCAN
-00000334:             ; ;---  SCAN LINE 1
-00000334:             ; ;-----  
-00000334:             ; ;---  SCAN LINE 2
-00000334:             ; ;---  SCAN LINE 3
-00000334:             ; ;-
-00000334:             ; ;-  IF KEY IS PRESSED 
-00000334:             ; ;---  UPDATE #LAST_KEY_PRESSED
-00000334:             ; ;---------------------
-00000334:             ; KeyboardScan
-00000334: E1A0F00E    ;               MOV   PC, LR
-00000338:             ; ;---------------------
-00000338:             ; 
-00000338:             ; ;---------------
-00000338:             ; ;-- procedure PeripheralInitialise initialies perhiperals
-00000338:             ; PeripheralInitialise
-00000338: E92D4000    ;       PUSH  {LR}
-0000033C: EBFFFFC1    ;       BL    LCDInit           ; init control signals
-00000340: EBFFFF87    ;       BL    EnableBacklight   ; enable backlight
-00000344: EBFFFFD0    ;       BL    InitialiseInterrupts; init interrupts
-00000348: EBFFFFA1    ;       BL    ClearScreen       ; clear screen
-0000034C: E8BD4000    ;       POP   {LR}
-00000350: E1A0F00E    ;       MOV   PC, LR
-00000354:             ; ;---------------
-00000354:             ; 
-00000354:             ; ;---------------    
-00000354:             ; ;-    deals with prefetch aborts
-00000354:             ; vPreAbort
-00000354: EAFFFFFE    ;       B   .
-00000358:             ; ;---------------
-00000358:             ;       
-00000358:             ; ;---------------    
-00000358:             ; ;-    deals with data aborts
-00000358:             ; vDataAbort
-00000358: EAFFFFFE    ;       B   .
-0000035C:             ; ;---------------
-0000035C:             ;       
-0000035C:             ; ;---------------    
-0000035C:             ; ;-    deals with interrupt handling
-0000035C:             ; vIRQ  
-0000035C: EAFFFFD6    ;       B   InterruptHandler
-00000360:             ; ;---------------
-00000360:             ;       
-00000360:             ; ;---------------    
-00000360:             ; ;-    deals with fast interrupt handling
-00000360:             ; vFIQ
-00000360: EAFFFFFE    ;       B   .
-00000364:             ; ;---------------
-00000364:             ;      
+00000330: FFFFFFFF    ; LAST_KEY_PRESSED    DEFW    -1
+00000334: FFFFFFFF    ; CURENT_KEY          DEFW    -1
+00000338: 00000000    ; CURENT_KEY_TIME     DEFW    0
+0000033C:             ; ;-- LITERALS
+0000033C:             ; 
+0000033C:             ; 
+0000033C:             ; KEY_DAT     EQU 0x2000_0002
+0000033C:             ; KEY_CON_O   EQU 0x1
+0000033C:             ; KEY_CON_VAL EQU 0x1F
+0000033C:             ; KEYHLD_TIME EQU 10
+0000033C:             ; 
+0000033C:             ; ;--- KEYMAP   : a mapping from digits to keys and vice versa
+0000033C:             ; 
+0000033C:             ; ;-- line 0
+0000033C:             ; KEY_LINE_0    EQU 0b0010_0000
+0000033C:             ; KEY_3   EQU   0
+0000033C:             ; KEY_6   EQU   1
+0000033C:             ; KEY_9   EQU   2
+0000033C:             ; KEY_H   EQU   3
+0000033C:             ; 
+0000033C:             ; ;-- line 1
+0000033C:             ; KEY_LINE_1    EQU 0b0100_0000
+0000033C:             ; KEY_2   EQU   4
+0000033C:             ; KEY_5   EQU   5
+0000033C:             ; KEY_8   EQU   6
+0000033C:             ; KEY_0   EQU   7
+0000033C:             ; 
+0000033C:             ; ;-- line 2
+0000033C:             ; KEY_LINE_2    EQU 0b1000_0000
+0000033C:             ; KEY_1   EQU   8
+0000033C:             ; KEY_4   EQU   9
+0000033C:             ; KEY_7   EQU   10
+0000033C:             ; KEY_S   EQU   11
+0000033C:             ; 
+0000033C:             ; ;-- line keys
+0000033C:             ; LINE_KEY_0 EQU 0b0000_0001
+0000033C:             ; LINE_KEY_1 EQU 0b0000_0010
+0000033C:             ; LINE_KEY_2 EQU 0b0000_0100
+0000033C:             ; LINE_KEY_3 EQU 0b0000_1000
+0000033C:             ; 
+0000033C:             ; KeyboardInit
+0000033C: E92D0003    ;         PUSH{r0,r1}
+00000340: E3E00000    ;         MOV   r0, #-1
+00000344: E54F001C    ;         STRB  r0, LAST_KEY_PRESSED
+00000348: E54F001C    ;         STRB  r0, CURENT_KEY
+0000034C:             ; 
+0000034C: E28F00AE    ;         ADRL  r0, KEY_DAT
+00000350: E2800BFF    ; 
+00000354: E28007FF    ; 
+00000358: E2800307    ; 
+0000035C: E3A0101F    ;         MOV   r1, #KEY_CON_VAL
+00000360: E5C01001    ;         STRB  r1, [r0, #KEY_CON_O]
 00000364:             ; 
-00000364:             ; GET   UserProgram.s
-00000364:             ; ;-----------------------------------------------------------------------------;
-00000364:             ; ;-----                    UserProgram Test                                ----;
-00000364:             ; ;-----                    a program to test svc calls                     ----;
-00000364:             ; ;--- Author: James W Peach                                                 ---;
-00000364:             ; ;-----------------------------------------------------------------------------;
-00000364:             ; 
-00000364:             ; ;------------------------
-00000364:             ; ;-- literals
-00000364:             ; 
-00000364:             ; ;------------------------
-00000364:             ; ;-- variables memory
-00000364:             ; 
-00000364:             ; ;------------------------
-00000364:             ; ;- UserProgram
-00000364:             ; Main    
-00000364: EAFFFFFE    ;         B     .
-00000368:             ;  
-00000368:             ; ;---------------
-00000368:             ; ;-    stack areas
-00000368:             ;       ALIGN
-00000368:             ;       DEFS  4096
-00001368:             ; sUSR  ; user mode stack area
-00001368:             ;       DEFS  4096
-00002368:             ; sSVC  ; svc mode stack area
-00002368:             ;       DEFS  4096
-00003368:             ; sABO  ; abort mode stack area
-00003368:             ;       DEFS  4096
-00004368:             ; sUDE  ; undefined mode stack area
-00004368:             ;       DEFS  4096
-00005368:             ; sIRQ  ; interrupt mode stack area
-00005368:             ;       DEFS  4096
-00006368:             ; sFIQ  ; fast interrupt mode stack area
-00006368:             ; ;---------------
-00006368:             ; 
-00006368:             ; 
-00006368:             ; ; FIN
-00006368:             ; 
+00000364: E8BD0003    ;         POP{r0,r1}
+00000368: E1A0F00E    ;         MOV   PC, LR
+0000036C:             ; 
+0000036C:             ; 
+0000036C:             ; ;---------------------
+0000036C:             ; ;--procedure KeyboardScan
+0000036C:             ; ;-- scans the keys for presses and updates LAST_KEY_PRESSED
+0000036C:             ; ;-
+0000036C:             ; ;- puudeocode
+0000036C:             ; ;-
+0000036C:             ; ;-  SCAN
+0000036C:             ; ;---  SCAN LINE 1
+0000036C:             ; ;-----  if any key is pressed save key in reg key_down
+0000036C:             ; ;---  SCAN LINE 2
+0000036C:             ; ;-----  if any key is pressed save key in reg key_down
+0000036C:             ; ;---  SCAN LINE 3
+0000036C:             ; ;-----  if any key is pressed save key in reg key_down
+0000036C:             ; ;-
+0000036C:             ; ;-  ACCUMULATE
+0000036C:             ; ;---  IF key_down is CURENT_KEY
+0000036C:             ; ;-----  INCR  CURENT_KEY_TIME
+0000036C:             ; ;---  ELSE
+0000036C:             ; ;-----  ZERO CURENT_KEY_TIME
+0000036C:             ; ;-----  SET CURENT_KEY = key_down
+0000036C:             ; ;-
+0000036C:             ; ;-  IF CURENT_KEY_TIME > threshold
+0000036C:             ; ;---  UPDATE #LAST_KEY_PRESSED
+0000036C:             ; ;---  CLEAR CURENT_KEY and CURENT_KEY
+0000036C:             ; ;---------------------
+0000036C:             ; 
+0000036C:             ; 
+0000036C:             ; KeyboardScan
+0000036C: E92D4006    ;         PUSH{LR,r1,r2}
+00000370: EB00000D    ;         BL    GetKeyDown
+00000374: E51F2044    ;         LDR   r2, CURENT_KEY_TIME
+00000378: E51F104C    ;         LDR   r1, CURENT_KEY
+0000037C: E1500001    ;         CMP   r0, r1
+00000380: 02822001    ;         ADDEQ r2, r2, #1
+00000384: 13A02000    ;         MOVNE r2, #0
+00000388: 11A01000    ;         MOVNE r1, r0
+0000038C: E50F205C    ;         STR   r2, CURENT_KEY_TIME
+00000390: E50F1064    ;         STR   r1, CURENT_KEY
+00000394:             ; 
+00000394: E352000A    ;         CMP   r2, #KEYHLD_TIME
+00000398: 850F1070    ;         STRHI r1, LAST_KEY_PRESSED
+0000039C: 83E02000    ;         MOVHI r2, #-1
+000003A0: 850F2074    ;         STRHI r2, CURENT_KEY
+000003A4:             ; 
+000003A4: E8BD4006    ;         POP{LR,r1,r2}
+000003A8: E1A0F00E    ;         MOV   PC, LR
+000003AC:             ; ;---------------------
+000003AC:             ; 
+000003AC:             ; 
+000003AC:             ; ;---------------------
+000003AC:             ; ;--procedure GetKeyDown(R0=key out)
+000003AC:             ; ;-- returns the key that is currently down or -1 if no key is down
+000003AC:             ; ;-- 
+000003AC:             ; ;-- scans each row in turn and gets the last key pressed 
+000003AC:             ; GetKeyDown
+000003AC: E92D0006    ;         PUSH{r1,r2}
+000003B0: E3E02000    ;         MOV   r2, #-1
+000003B4: E28F0046    ;         ADRL  r0, KEY_DAT
+000003B8: E2800BFF    ; 
+000003BC: E28007FF    ; 
+000003C0: E2800307    ; 
+000003C4:             ; 
+000003C4:             ;         ; scan line 0
+000003C4: E3A01020    ;         MOV   r1, #KEY_LINE_0
+000003C8: E5401000    ;         STRB  r1, [r0]
+000003CC: E5501000    ;         LDRB  r1, [r0]
+000003D0:             ; 
+000003D0: E3110001    ;         TST   r1, #LINE_KEY_0
+000003D4: 13A02000    ;         MOVNE r2, #KEY_3
+000003D8: E3110002    ;         TST   r1, #LINE_KEY_1
+000003DC: 13A02001    ;         MOVNE r2, #KEY_6
+000003E0: E3110004    ;         TST   r1, #LINE_KEY_2
+000003E4: 13A02002    ;         MOVNE r2, #KEY_9
+000003E8: E3110008    ;         TST   r1, #LINE_KEY_3
+000003EC: 13A02003    ;         MOVNE r2, #KEY_H
+000003F0:             ; 
+000003F0:             ;         ; scan line 1
+000003F0: E3A01040    ;         MOV   r1, #KEY_LINE_1
+000003F4: E5401000    ;         STRB  r1, [r0]
+000003F8: E5501000    ;         LDRB  r1, [r0]
+000003FC:             ; 
+000003FC: E3110001    ;         TST   r1, #LINE_KEY_0
+00000400: 13A02004    ;         MOVNE r2, #KEY_2
+00000404: E3110002    ;         TST   r1, #LINE_KEY_1
+00000408: 13A02005    ;         MOVNE r2, #KEY_5
+0000040C: E3110004    ;         TST   r1, #LINE_KEY_2
+00000410: 13A02006    ;         MOVNE r2, #KEY_8
+00000414: E3110008    ;         TST   r1, #LINE_KEY_3
+00000418: 13A02007    ;         MOVNE r2, #KEY_0
+0000041C:             ; 
+0000041C:             ;         ; scan line 2
+0000041C: E3A01080    ;         MOV   r1, #KEY_LINE_2
+00000420: E5401000    ;         STRB  r1, [r0]
+00000424: E5501000    ;         LDRB  r1, [r0]
+00000428:             ; 
+00000428: E3110001    ;         TST   r1, #LINE_KEY_0
+0000042C: 13A02008    ;         MOVNE r2, #KEY_1
+00000430: E3110002    ;         TST   r1, #LINE_KEY_1
+00000434: 13A02009    ;         MOVNE r2, #KEY_4
+00000438: E3110004    ;         TST   r1, #LINE_KEY_2
+0000043C: 13A0200A    ;         MOVNE r2, #KEY_7
+00000440: E3110008    ;         TST   r1, #LINE_KEY_3
+00000444: 13A0200B    ;         MOVNE r2, #KEY_S
+00000448:             ; 
+00000448:             ;         ; move result into r0
+00000448: E1A00002    ;         MOV   r0, r2
+0000044C:             ; 
+0000044C: E8BD0006    ;         POP{r1,r2}
+00000450: E1A0F00E    ;         MOV   PC, LR
+00000454:             ; 
+00000454:             ; ;---------------
+00000454:             ; ;-- procedure PeripheralInitialise initialies perhiperals
+00000454:             ; PeripheralInitialise
+00000454: E92D4000    ;       PUSH  {LR}
+00000458: EBFFFF7A    ;       BL    LCDInit           ; init control signals
+0000045C: EBFFFF40    ;       BL    EnableBacklight   ; enable backlight
+00000460: EBFFFF89    ;       BL    InitialiseInterrupts; init interrupts
+00000464: EBFFFF5A    ;       BL    ClearScreen       ; clear screen
+00000468: EBFFFFB3    ;       BL    KeyboardInit      ; init keyboard
+0000046C: E8BD4000    ;       POP   {LR}
+00000470: E1A0F00E    ;       MOV   PC, LR
+00000474:             ; ;---------------
+00000474:             ; 
+00000474:             ; ;---------------    
+00000474:             ; ;-    deals with prefetch aborts
+00000474:             ; vPreAbort
+00000474: EAFFFFFE    ;       B   .
+00000478:             ; ;---------------
+00000478:             ;       
+00000478:             ; ;---------------    
+00000478:             ; ;-    deals with data aborts
+00000478:             ; vDataAbort
+00000478: EAFFFFFE    ;       B   .
+0000047C:             ; ;---------------
+0000047C:             ;       
+0000047C:             ; ;---------------    
+0000047C:             ; ;-    deals with interrupt handling
+0000047C:             ; vIRQ  
+0000047C: EAFFFF8E    ;       B   InterruptHandler
+00000480:             ; ;---------------
+00000480:             ;       
+00000480:             ; ;---------------    
+00000480:             ; ;-    deals with fast interrupt handling
+00000480:             ; vFIQ
+00000480: EAFFFFFE    ;       B   .
+00000484:             ; ;---------------
+00000484:             ;      
+00000484:             ; 
+00000484:             ; GET   UserProgram.s
+00000484:             ; ;-----------------------------------------------------------------------------;
+00000484:             ; ;-----                    UserProgram Test                                ----;
+00000484:             ; ;-----                    a program to test svc calls                     ----;
+00000484:             ; ;--- Author: James W Peach                                                 ---;
+00000484:             ; ;-----------------------------------------------------------------------------;
+00000484:             ; 
+00000484:             ; ;------------------------
+00000484:             ; ;-- literals
+00000484:             ; 
+00000484:             ; ;------------------------
+00000484:             ; ;-- variables memory
+00000484:             ; 
+00000484:             ; ;------------------------
+00000484:             ; ;- UserProgram
+00000484:             ; Main    
+00000484: EAFFFFFE    ;         B     .
+00000488:             ;  
+00000488:             ; ;---------------
+00000488:             ; ;-    stack areas
+00000488:             ;       ALIGN
+00000488:             ;       DEFS  4096
+00001488:             ; sUSR  ; user mode stack area
+00001488:             ;       DEFS  4096
+00002488:             ; sSVC  ; svc mode stack area
+00002488:             ;       DEFS  4096
+00003488:             ; sABO  ; abort mode stack area
+00003488:             ;       DEFS  4096
+00004488:             ; sUDE  ; undefined mode stack area
+00004488:             ;       DEFS  4096
+00005488:             ; sIRQ  ; interrupt mode stack area
+00005488:             ;       DEFS  4096
+00006488:             ; sFIQ  ; fast interrupt mode stack area
+00006488:             ; ;---------------
+00006488:             ; 
+00006488:             ; 
+00006488:             ; ; FIN
+00006488:             ; 
 
 Symbol Table: Labels
 : SPSR_SYSMODENI                    000000DF  Value
@@ -774,28 +906,43 @@ Symbol Table: Labels
 : InterruptComplete                 000002D8  Local -- ARM
 : InterruptTimer                    000002E0  Local -- ARM
 : LAST_KEY_PRESSED                  00000330  Local -- ARM
+: CURENT_KEY                        00000334  Local -- ARM
+: CURENT_KEY_TIME                   00000338  Local -- ARM
+: KEY_DAT                           20000002  Value
+: KEY_CON_O                         00000001  Value
+: KEY_CON_VAL                       0000001F  Value
+: KEYHLD_TIME                       0000000A  Value
+: KEY_LINE_0                        00000020  Value
 : KEY_3                             00000000  Value
 : KEY_6                             00000001  Value
 : KEY_9                             00000002  Value
 : KEY_H                             00000003  Value
+: KEY_LINE_1                        00000040  Value
 : KEY_2                             00000004  Value
 : KEY_5                             00000005  Value
 : KEY_8                             00000006  Value
 : KEY_0                             00000007  Value
+: KEY_LINE_2                        00000080  Value
 : KEY_1                             00000008  Value
 : KEY_4                             00000009  Value
 : KEY_7                             0000000A  Value
 : KEY_S                             0000000B  Value
-: KeyboardScan                      00000334  Local -- ARM
-: PeripheralInitialise              00000338  Local -- ARM
-: vPreAbort                         00000354  Local -- ARM
-: vDataAbort                        00000358  Local -- ARM
-: vIRQ                              0000035C  Local -- ARM
-: vFIQ                              00000360  Local -- ARM
-: Main                              00000364  Local -- ARM
-: sUSR                              00001368  Local -- ARM
-: sSVC                              00002368  Local -- ARM
-: sABO                              00003368  Local -- ARM
-: sUDE                              00004368  Local -- ARM
-: sIRQ                              00005368  Local -- ARM
-: sFIQ                              00006368  Local -- ARM
+: LINE_KEY_0                        00000001  Value
+: LINE_KEY_1                        00000002  Value
+: LINE_KEY_2                        00000004  Value
+: LINE_KEY_3                        00000008  Value
+: KeyboardInit                      0000033C  Local -- ARM
+: KeyboardScan                      0000036C  Local -- ARM
+: GetKeyDown                        000003AC  Local -- ARM
+: PeripheralInitialise              00000454  Local -- ARM
+: vPreAbort                         00000474  Local -- ARM
+: vDataAbort                        00000478  Local -- ARM
+: vIRQ                              0000047C  Local -- ARM
+: vFIQ                              00000480  Local -- ARM
+: Main                              00000484  Local -- ARM
+: sUSR                              00001488  Local -- ARM
+: sSVC                              00002488  Local -- ARM
+: sABO                              00003488  Local -- ARM
+: sUDE                              00004488  Local -- ARM
+: sIRQ                              00005488  Local -- ARM
+: sFIQ                              00006488  Local -- ARM
