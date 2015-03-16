@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "1AB6E9E71AB2F0D4000D8FF5"
-               BuildableName = "ex11-knapsack-bnb copy"
+               BuildableName = "ex11-knapsack-greedy"
                BlueprintName = "ex11-knapsack-greedy"
                ReferencedContainer = "container:ex11-knapsack.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1AB6E9E71AB2F0D4000D8FF5"
-            BuildableName = "ex11-knapsack-bnb copy"
+            BuildableName = "ex11-knapsack-greedy"
             BlueprintName = "ex11-knapsack-greedy"
             ReferencedContainer = "container:ex11-knapsack.xcodeproj">
          </BuildableReference>
@@ -54,7 +54,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1AB6E9E71AB2F0D4000D8FF5"
-            BuildableName = "ex11-knapsack-bnb copy"
+            BuildableName = "ex11-knapsack-greedy"
             BlueprintName = "ex11-knapsack-greedy"
             ReferencedContainer = "container:ex11-knapsack.xcodeproj">
          </BuildableReference>
@@ -79,7 +79,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "1AB6E9E71AB2F0D4000D8FF5"
-            BuildableName = "ex11-knapsack-bnb copy"
+            BuildableName = "ex11-knapsack-greedy"
             BlueprintName = "ex11-knapsack-greedy"
             ReferencedContainer = "container:ex11-knapsack.xcodeproj">
          </BuildableReference>

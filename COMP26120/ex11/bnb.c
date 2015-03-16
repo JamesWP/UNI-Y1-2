@@ -207,7 +207,7 @@ int main(int argc, char *argv[1])
 bool feasable(struc_sol sol){
   int weightCount = 0;
   for(int i = 1;i<=sol.fixed;i++){
-    if(sol.solution_vec[i]==1) weightCount += item_weights[i];
+    if(sol.solution_vec[i]==1) weightCount += item_weights[temp_indexes[i]];
   }
   return weightCount<=Capacity;
 }
@@ -251,8 +251,8 @@ void branch_and_bound(int *final_sol)
     // with
     //     if infeasible, discard child
 
-    frac_bound(&with, with.fixed);
     if(feasable(with)){
+      frac_bound(&with, with.fixed);
       //       if value > current_best, set current_best to it, and copy child to final_sol
       if(with.val>current_best){
         current_best = with.val;
@@ -262,11 +262,11 @@ void branch_and_bound(int *final_sol)
       insert(with);
     }
 
-    frac_bound(&without, without.fixed);
     if(feasable(without)){
+      frac_bound(&without, without.fixed);
       //       if value > current_best, set current_best to it, and copy child to final_sol
       if(without.val>current_best){
-        current_best=without.val;
+        current_best = without.val;
         copy_array(&without.solution_vec[1],&final_sol[1]);
       }
       //       add child to the queue
