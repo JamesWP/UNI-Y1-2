@@ -14,36 +14,35 @@
 LAST_KEY_PRESSED    DEFW    -1
 CURENT_KEY          DEFW    -1
 CURENT_KEY_TIME     DEFW    0
+
 ;-- LITERALS
-
-
 KEY_DAT     EQU 0x2000_0002
 KEY_CON_O   EQU 0x1
 KEY_CON_VAL EQU 0x1F
-KEYHLD_TIME EQU 10
+KEYHLD_TIME EQU 4
 
 ;--- KEYMAP   : a mapping from digits to keys and vice versa
 
 ;-- line 0
 KEY_LINE_0    EQU 0b0010_0000
-KEY_3   EQU   0
-KEY_6   EQU   1
-KEY_9   EQU   2
-KEY_H   EQU   3
+KEY_3   EQU   0x33
+KEY_6   EQU   0x36
+KEY_9   EQU   0x39
+KEY_H   EQU   0x23
 
 ;-- line 1
 KEY_LINE_1    EQU 0b0100_0000
-KEY_2   EQU   4
-KEY_5   EQU   5
-KEY_8   EQU   6
-KEY_0   EQU   7
+KEY_2   EQU   0x32
+KEY_5   EQU   0x35
+KEY_8   EQU   0x38
+KEY_0   EQU   0x30
 
 ;-- line 2
 KEY_LINE_2    EQU 0b1000_0000
-KEY_1   EQU   8
-KEY_4   EQU   9
-KEY_7   EQU   10
-KEY_S   EQU   11
+KEY_1   EQU   0x31
+KEY_4   EQU   0x34
+KEY_7   EQU   0x37
+KEY_S   EQU   0x2A
 
 ;-- line keys
 LINE_KEY_0 EQU 0b0000_0001
@@ -94,9 +93,9 @@ KeyboardInit
 
 KeyboardScan
         PUSH{LR,r1,r2}
-        BL    GetKeyDown
-        LDR   r2, CURENT_KEY_TIME
-        LDR   r1, CURENT_KEY
+        BL    GetKeyDown                ; get current key
+        LDR   r2, CURENT_KEY_TIME       ; store and update CURENT_KEY_TIME
+        LDR   r1, CURENT_KEY            ; and CURENT_KEY
         CMP   r0, r1
         ADDEQ r2, r2, #1
         MOVNE r2, #0
@@ -105,8 +104,8 @@ KeyboardScan
         STR   r1, CURENT_KEY
 
         CMP   r2, #KEYHLD_TIME
-        STRHI r1, LAST_KEY_PRESSED
-        MOVHI r2, #-1
+        STRHI r1, LAST_KEY_PRESSED      ; store new key if down for longer than
+        MOVHI r2, #-1                   ;... LAST_KEY_PRESSED
         STRHI r2, CURENT_KEY
 
         POP{LR,r1,r2}
@@ -171,3 +170,15 @@ GetKeyDown
 
         POP{r1,r2}
         MOV   PC, LR
+
+;----------------------------
+;--ReadKey(r0=key pressed)
+;-- reads a key from the buffer and marks it read
+;----------------------------
+ReadKey 
+        PUSH{r1}
+        LDR   r0, LAST_KEY_PRESSED
+        MOV   r1, #-1
+        STR   r1, LAST_KEY_PRESSED
+        POP{r1}
+        MOV PC, LR

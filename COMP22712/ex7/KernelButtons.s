@@ -7,9 +7,10 @@
 ;-- this include defines procedures to interface the buttons
 
 
-ButtonsMem EQU 0x10000004
-ButtonsMask EQU 0x3
-ButtonsShift EQU 0x6
+;-- LITERALS
+ButtonsMem    EQU 0x10000004
+ButtonsMask   EQU 0x3
+ButtonsShift  EQU 0x6
 
 GetButton
       ;load
@@ -17,5 +18,5 @@ GetButton
       LDRB  r0, [r0]
       MOV   r0, r0, LSR #ButtonsShift
       AND   r0, r0, #ButtonsMask
-      MOV PC,LR
+      MOV   PC,LR
       
