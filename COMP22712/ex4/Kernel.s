@@ -1,7 +1,6 @@
 ;-----------------------------------------------------------------------------;
 ;---                 LAB KERNEL V1.0                                       ---;
 ;---                 ---------------                                       ---;
-;--- Author: James W Peach                                                 ---;
 ;-----------------------------------------------------------------------------;
 
 ;---------------
@@ -19,45 +18,27 @@
 ;---------------
 ;- KERNEL MODE LITERALS
 SPSR_SYSMODENI  EQU  0xDF
-SPSR_SVCMODENI  EQU  0xD3
-SPSR_IRQMODENI  EQU  0xD2
-SPSR_USER       EQU  0b0101_0000 ; interupt enabled fast interupts disabled ARM
+SPSR_USERNI     EQU  0xD0
 ;---------------
+
 
 ;---------------
 ;-    deals with resets and initialises kernel and then calls user code @main
 vReset
       ;- initialise supervisor mode stack
       ADRL  SP,  sSVC
-
       ;- switch to system mode
       MOV   LR, #(SPSR_SYSMODENI)     ; system mode no interrupts
       MSR   CPSR_c, LR
       ;- initialise user mode stack
       ADRL  SP,  sUSR
-
-      ;- switch to intterupt mode
-      MOV   LR, #(SPSR_IRQMODENI)     ; int mode no interrupts
-      MSR   CPSR_c, LR
-      ;- initialise int mode stack
-      ADRL  SP,  sIRQ
-
-      ;- switch back to supervisor mode to:
-      ;- - do perhip Initialise
-      ;- - do user context switch with SPSR
-
-      MOV   LR, #(SPSR_SVCMODENI)     ; supervisor mode no interrupts
-      MSR   CPSR_c, LR
-
       ;- initialise perhiperals
-      BL    PeripheralInitialise
-
-      ;- switch to user mode using the SPSR
-      MOV   LR, #(SPSR_USER)
-      MSR   SPSR_c, LR
-
+      BL    PerhiperalInitialize
+      ;- switch to user mode
+      MOV   LR, #(SPSR_USERNI)      ; user mode no interrupts
+      MSR   CPSR_c, LR
       ;- call user code
-      ADRL  LR,  Main
+      ADR   LR,  Main
       MOVS  PC,  LR
 ;---------------
       
@@ -104,37 +85,16 @@ vSupervisor_return
 ;--                                    SVCUnknown    ; report the error proc
 GET   KernelSVC.s
 
-;-- this include should define symbols :
-;--                                      GetTimer    ; a procedure to return 
-;--                                                  ; curent timer value in r0 
-GET   KernelTimer.s
-
 ;-- this include defines procedures to interface the KernelLCD
 GET   KernelLCD.s
 
-;-- this include defines procedures to interface the buttons
-GET   KernelButtons.s
-
-;-- this include defines procedures to handle interrupts:
-;--                                  InitialiseInterrupts : inits interrupts
-;--                                  InterruptHandler     : handles interupt
-GET   KernelInt.s
-
-;-- this include defines procedures to handle keyboard scanning:
-;--                                  KeyboardScan         : called periodically
-;--                                                       : to handle key read
-;--                                  KeyboardInit         : called to init the
-;--                                                       : keyboard
-GET   KernelKeyboard.s
 ;---------------
-;-- procedure PeripheralInitialise initialies perhiperals
-PeripheralInitialise
+;-- procedure PerhiperalInitialize initialies perhiperals
+PerhiperalInitialize
       PUSH  {LR}
       BL    LCDInit           ; init control signals
       BL    EnableBacklight   ; enable backlight
-      BL    InitialiseInterrupts; init interrupts
       BL    ClearScreen       ; clear screen
-      BL    KeyboardInit      ; init keyboard
       POP   {LR}
       MOV   PC, LR
 ;---------------
@@ -154,7 +114,7 @@ vDataAbort
 ;---------------    
 ;-    deals with interrupt handling
 vIRQ  
-      B   InterruptHandler
+      B   .
 ;---------------
       
 ;---------------    
