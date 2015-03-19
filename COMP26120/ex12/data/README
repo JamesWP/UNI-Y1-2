@@ -1,0 +1,24 @@
+Here is a description of where the data came from (not needed to do
+the lab, but you might be interested). 
+
+small.gx - a small graph. Good for testing, perhaps. 
+
+email.gx - a graph of emails. A node represents a person, and a link
+means that the person sent an email to the target node. Since most
+email communication is two-way, if there is an edge from i to j, there
+is likely to be an edge from j to i. 
+
+The e-mail interchanges are between members of the Univeristy Rovira i
+Virgili (Tarragona) compiled by R. Guimera, L. Danon, A. Diaz-Guilera,
+F. Giralt and A. Arenas, Physical Review E , vol. 68, 065103(R),
+(2003). The data comes from Alex Arenas's website,
+http://deim.urv.cat/~aarenas/data/welcome.htm. 
+
+polblogs.gx - a graph of hyperlinks between blogs. Each node
+represents a blogger, and an edge between i and j means that blogger i
+had in some blog a hyperlink to one of the blogs of blogger j. 
+
+This was compiled by L. A. Adamic and N. Glance, "The political
+blogosphere and the 2004 US Election", in Proceedings of the WWW-2005
+Workshop on the Weblogging Ecosystem (2005). The data comes from Mark
+Newman's website, http://www-personal.umich.edu/~mejn/netdata/.
