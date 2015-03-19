@@ -1,21 +1,45 @@
 #include "graph.h"
 
+void addToList(Node *node, int val){
+  if(node->outlist==NULL){
+    node->outlist = (List*)malloc(sizeof(List));
+    node->outlist->index = val;
+    node->outlist->next = NULL;
+    return;
+  }
+  List* curent = node->outlist;
+  while(curent->next!=NULL){
+    curent = curent->next;
+  }
+  curent->next = (List*)malloc(sizeof(List));
+  curent->next->index = val;
+  curent->next->next = NULL;
+}
+
 int initialize_graph (Graph *mygraph, int MaxSize) {
   // your code goes here
+  mygraph->MaxSize = MaxSize;
+  mygraph->table = (Node**) malloc(sizeof(Node*)*MaxSize);
+  return MaxSize;
 }
+
 int insert_graph_node (Graph *mygraph, int n, char *name) {
-  // your code goes here
+  mygraph->table[n] = (Node*) malloc(sizeof(Node));
+  mygraph->table[n]->name = strdup(name);
+  mygraph->table[n]->outdegree = 0;
+  mygraph->table[n]->indegree = 0;
+  return n;
 }
+
 int insert_graph_link (Graph *mygraph, int source, int target) {
-  // your code goes here
+  Node* sourceNode = mygraph->table[source];
+  Node* targetNode = mygraph->table[target];
+  sourceNode->outdegree++;
+  targetNode->indegree++;
+  addToList(sourceNode,target);
+  return source;
 }
-// use to check result of strdup, malloc etc.
-void check (void *memory, char *message) {
-  if (memory == NULL) {
-    fprintf (stderr, "Can't allocate memory for %s\n", message);
-    exit (3);
-  }
-}
+
 int read_graph (Graph *mygraph, char *filename)
 /* 
  * Reads in graph from FILE *filename which is of .gx format.
@@ -65,9 +89,9 @@ void print_graph (Graph *mygraph)
   List *current;
   printf ("MAX %d\n", mygraph->MaxSize);
   for (i=0; i<mygraph->MaxSize; i++)
-    if (mygraph->table[i].name!=NULL) {
-      printf ("NODE %d %s\n", i, mygraph->table[i].name);
-      current= mygraph->table[i].outlist;
+    if (mygraph->table[i]->name!=NULL) {
+      printf ("NODE %d %s\n", i, mygraph->table[i]->name);
+      current= mygraph->table[i]->outlist;
       while (current!=NULL) {
         printf ("EDGE %d %d\n", i, current->index);
         current= current->next;

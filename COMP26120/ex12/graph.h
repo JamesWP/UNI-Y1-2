@@ -1,3 +1,4 @@
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -13,12 +14,14 @@ typedef struct { // a Node of a Graph
   char *name;
   List *outlist; // adjacency list
   int outdegree; // length of outlist
+  int indegree; // number of nodes pointing here
   //double pagerank_score; //not needed for this exercise
 } Node;
 
 typedef struct {
   // your code goes here
-
+  int MaxSize;
+  Node** table;
 } Graph;
 
 // use to check result of strdup, malloc etc.
@@ -29,3 +32,5 @@ extern int insert_graph_node (Graph *mygraph, int n, char *name);
 extern int insert_graph_link (Graph *mygraph, int source, int target);
 extern int read_graph (Graph *mygraph, char *filename);
 extern void print_graph (Graph *mygraph);
+
+extern void bfs(Graph* g,Node* start, void function(Node*));
