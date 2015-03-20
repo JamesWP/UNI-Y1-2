@@ -2,13 +2,6 @@
 #include <stdbool.h>
 /* Good luck */
 
-typedef struct queue{
-  int max;
-  int head;
-  int tail;
-  int items;
-  Node** list;
-}Queue;
 
 void init_queue(Queue* q,int max){
   q->max = max;

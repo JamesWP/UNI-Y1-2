@@ -66,10 +66,14 @@
          </CommandLineArgument>
          <CommandLineArgument
             argument = "simpletree.gx"
-            isEnabled = "YES">
+            isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
             argument = "polblogs.gx"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "email.gx"
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

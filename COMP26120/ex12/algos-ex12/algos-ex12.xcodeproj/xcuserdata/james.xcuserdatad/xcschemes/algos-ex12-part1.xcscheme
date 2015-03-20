@@ -62,6 +62,14 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "small.gx"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "email.gx"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "polblogs.gx"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
