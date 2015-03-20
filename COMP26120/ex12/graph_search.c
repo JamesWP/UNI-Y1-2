@@ -50,7 +50,7 @@ void bfs(Graph* g,Node* start, void function(Node*)){
     if(head->outlist!=NULL){
       Node* next = g->table[head->outlist->index];
       append_item(&q, next);
-      List* curentList = next->outlist;
+      List* curentList = head->outlist;
       while(curentList!=NULL){
         next = g->table[curentList->index];
         curentList=curentList->next;
@@ -59,4 +59,32 @@ void bfs(Graph* g,Node* start, void function(Node*)){
     }
   }
   return;
+}
+
+void dfs_i(Graph* g, Queue* q,Node* start, void function(Node*)){
+  // if item in queue then we are done
+  if(item_in_queue(q, start)) return;
+  // else call function
+  function(start);
+  // then add item to processed list
+  append_item(q, start);
+  // if has child items...
+  if(start->outlist!=NULL){
+    Node* next = g->table[start->outlist->index];
+    // call dfs recursive
+    dfs_i(g, q, next, function);
+    List* curentList = start->outlist;
+    // loop through the rest in the list
+    while(curentList!=NULL){
+      next = g->table[curentList->index];
+      curentList=curentList->next;
+      dfs_i(g, q, next, function);
+    }
+  }
+}
+
+void dfs(Graph* g, Node* start, void function(Node*)){
+  Queue q;
+  init_queue(&q, g->MaxSize);
+  dfs_i(g, &q, start, function);
 }

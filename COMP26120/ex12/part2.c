@@ -1,9 +1,11 @@
 #include "graph.h"
 
 void printNode(Node* node);
-void updateMaxOutDeg(Node *);
+void updateBfsMaxOutDeg(Node *);
+void updateDfsMaxOutDeg(Node *);
 
 Node* bfsmaxoutdeg;
+Node* dfsmaxoutdeg;
 
 int main(int argc,char *argv[])
 {
@@ -25,10 +27,17 @@ int main(int argc,char *argv[])
   printf("Min out degree is...");
   printNode(minoutdeg);
 
-  bfs(&mygraph, minoutdeg, updateMaxOutDeg);
+  minoutdeg = mygraph.table[1];
+  bfs(&mygraph, minoutdeg, updateBfsMaxOutDeg);
 
-  printf("Maximum out degree reached from min out degree is...");
+  printf("BFS - Maximum out degree reached from min out degree is...");
   printNode(bfsmaxoutdeg);
+
+  dfs(&mygraph, minoutdeg, updateDfsMaxOutDeg);
+
+  printf("DFS - Maximum out degree reached from min out degree is...");
+  printNode(dfsmaxoutdeg);
+
 
   return(0);
 }
@@ -36,7 +45,14 @@ int main(int argc,char *argv[])
 void printNode(Node* node){
   printf("Node(%s)\n\n",node->name);
 }
-void updateMaxOutDeg(Node* node){
+void updateBfsMaxOutDeg(Node* node){
+  printf("--BFS - visit %s \n",node->name);
   if(bfsmaxoutdeg==NULL) bfsmaxoutdeg = node;
   else if(bfsmaxoutdeg->outdegree>node->outdegree) bfsmaxoutdeg = node;
+}
+
+void updateDfsMaxOutDeg(Node* node){
+  printf("--DFS - visit %s \n",node->name);
+  if(dfsmaxoutdeg==NULL) dfsmaxoutdeg = node;
+  else if(dfsmaxoutdeg->outdegree>node->outdegree) dfsmaxoutdeg = node;
 }

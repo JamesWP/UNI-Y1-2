@@ -39,7 +39,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1A870FE61ABB46E100DD3BD7 /* algos-ex12 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "algos-ex12"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A7BEAFB1ABC293F00354B4D /* simpletree.gx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = simpletree.gx; sourceTree = "<group>"; };
+		1A870FE61ABB46E100DD3BD7 /* algos-ex12 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; name = "algos-ex12"; path = "algos-ex12-part1"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1A870FF11ABB472000DD3BD7 /* email.gx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = email.gx; sourceTree = "<group>"; };
 		1A870FF21ABB472000DD3BD7 /* polblogs.gx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = polblogs.gx; sourceTree = "<group>"; };
 		1A870FF31ABB472000DD3BD7 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
@@ -101,6 +102,7 @@
 				1A870FF21ABB472000DD3BD7 /* polblogs.gx */,
 				1A870FF31ABB472000DD3BD7 /* README */,
 				1A870FF41ABB472000DD3BD7 /* small.gx */,
+				1A7BEAFB1ABC293F00354B4D /* simpletree.gx */,
 			);
 			name = data;
 			path = ../data;
@@ -322,6 +324,7 @@
 				1A870FEF1ABB46E200DD3BD7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		1A87100B1ABB7AA100DD3BD7 /* Build configuration list for PBXNativeTarget "algos-ex12-part2" */ = {
 			isa = XCConfigurationList;

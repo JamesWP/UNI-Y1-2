@@ -34,3 +34,4 @@ extern int read_graph (Graph *mygraph, char *filename);
 extern void print_graph (Graph *mygraph);
 
 extern void bfs(Graph* g,Node* start, void function(Node*));
+extern void dfs(Graph* g,Node* start, void function(Node*));
