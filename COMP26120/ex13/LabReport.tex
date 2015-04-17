@@ -1,0 +1,65 @@
+\documentclass{article}
+
+\title{COMP26120 Lab 13: Background}
+\author{James Peach}
+
+\begin{document}
+\maketitle
+
+% PART 1 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{The small-world hypothesis}
+\label{sec:small world}
+% Here give your statement of the small-world hypothesis and how you
+% are going to test it.
+
+The hypothesis predicts that on average the distance between any two people in
+a social graph is 6 hops or 5 people between.
+
+One might attempt to verify this by taking a graph and calculating the distance
+between every node and then taking an average.
+
+
+\section{Complexity Arguments}
+\label{sec:complexity}
+% Write down the complexity of Dijkstra's algorithm and of Floyd's algorithm.
+% Explain why, for these graphs, Dijkstra's algorithm is more efficient.
+
+Dijkstra's algo:
+
+The complexity of the algorythm is dependant on two factors $V$ the number of 
+vertexes or nodes and $E$ the number of edges or connections.
+
+The complexity is as follows:
+
+$$O(|E| + |V|log|V|)$$
+
+Floyd–Warshall algo:
+
+The complexity of this algorythm is given by:
+
+$$O(|V^3|)$$
+
+For the graphs we have there are a small number of edges per vertex in the
+graph as the total connections possible for each vertex is $V-1$ however each
+person only has $60-80$ friends. in Dijkstras algo the complexity is based on 
+$|V|log|V|$ and this is much smaller than the $V^3$ in Floyd's
+
+\section{Part 1 results}
+\label{sec:part1}
+% Give the results of part one experiments.
+
+
+% PART 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Part 2 complexity analysis}
+\label{sec:complexity2}
+% Give the complexity of the heuristic route finder.
+
+
+\section{Part 2 results}
+\label{sec:part2}
+% Give the results of part two experiments.
+
+
+\end{document}
