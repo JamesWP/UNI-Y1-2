@@ -84,6 +84,11 @@ public class TestGraphSearch {
         node6.addAdjacentNode(node7,1);
         g.add(node1);
         g.add(node2);
+        g.add(node3);
+        g.add(node4);
+        g.add(node5);
+        g.add(node6);
+        g.add(node7);
         try {
             Path shortestPath = g.calculateShortestPath(node1, node7);
             assertTrue(shortestPath!=null);
