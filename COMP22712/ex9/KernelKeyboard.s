@@ -19,7 +19,7 @@ CURENT_KEY_TIME     DEFW    0
 KEY_DAT     EQU 0x2000_0002
 KEY_CON_O   EQU 0x1
 KEY_CON_VAL EQU 0x1F
-KEYHLD_TIME EQU 2
+KEYHLD_TIME EQU 8
 
 ;--- KEYMAP   : a mapping from digits to keys and vice versa
 
@@ -178,7 +178,7 @@ GetKeyDown
 ReadKey 
         PUSH{r1}
         LDR   r0, LAST_KEY_PRESSED
-        MOV   r1, #-1
-        STR   r1, LAST_KEY_PRESSED
+        ;MOV   r1, #-1
+        ;STR   r1, LAST_KEY_PRESSED
         POP{r1}
         MOV PC, LR

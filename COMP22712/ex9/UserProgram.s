@@ -27,13 +27,12 @@ Main
         STR   r0, MODE_SOUND
 
 MainL   ; main loop:
-
-        BL    DrawScreen
+        ;BL    DrawScreen
 
         SVC   SVC_RKEY          ; returns key or NOKEY
         CMP   r0, #NOKEY
         MOVEQ r0, #NOT_NONE     ; if none then dont sound note anymore
-        ;SVCEQ SVC_NOT
+        SVCEQ SVC_NOT
         BEQ   MainL
         
         ;if key is * then enter lower octave
@@ -62,6 +61,11 @@ MainL   ; main loop:
         ; send note to buzzer hardware
         SVC   SVC_NOT
 
+MainRepeat
+        ; wait for key release before main loop
+        SVC   SVC_RKEY
+        CMP   r0, #NOKEY
+        BNE   MainRepeat
 
         ; repeat
         B     MainL             ; repeat main loop
@@ -72,7 +76,7 @@ SharpToggle
         MOVEQ r0, #SOUND_SHARP
         MOVNE r0, #SOUND_NEUTERAL
         STR   r0, MODE_SOUND
-        B     MainL             ; repeat main loop
+        B     MainRepeat             ; repeat main loop
 
 UpperOctave
         MOV   r0,  #OCTAVE_HIGH
@@ -82,7 +86,7 @@ LowerOctave
 ChangeOctave
         ; change octave to the one in r0
         STR   r0, MODE_OCTAVE
-        B     MainL             ; repeat main loop
+        B     MainRepeat             ; repeat main loop
 
 DrawScreen
         PUSH{r0,r1,r2}
@@ -129,36 +133,36 @@ GetNoteVal
 ; auto generated code from: 
 ;https://docs.google.com/spreadsheets/d/1umkPg9fAEzA4-UB3L3uZDeU6IOwrI8WIphsAInxvuwo/edit?usp=sharing
 SHARP_OFFSET  EQU 7
-OCTHI_OFFSET  EQU 12
+OCTHI_OFFSET  EQU 14
 NotesTable
-        DEFB 0x1DDD
-        DEFB 0x1A9A
-        DEFB 0x17B3
-        DEFB 0x165F
-        DEFB 0x13EE
-        DEFB 0x11C1
-        DEFB 0x0FD2
-        DEFB 0x1C2F
-        DEFB 0x0000
-        DEFB 0x0000
-        DEFB 0x151D
-        DEFB 0x0000
-        DEFB 0x10C2
-        DEFB 0x0000
-        DEFB 0x0EEE
-        DEFB 0x0D4D
-        DEFB 0x0BDA
-        DEFB 0x0B2F
-        DEFB 0x09F7
-        DEFB 0x08E1
-        DEFB 0x07E9
-        DEFB 0x0E18
-        DEFB 0x0000
-        DEFB 0x0000
-        DEFB 0x0A8F
-        DEFB 0x0968
-        DEFB 0x0861
-        DEFB 0x0000
+        DEFB 0xEE, 0x0E
+        DEFB 0x4D, 0x0D
+        DEFB 0xDA, 0x0B
+        DEFB 0x2F, 0x0B
+        DEFB 0xF7, 0x09
+        DEFB 0xE1, 0x08
+        DEFB 0xE9, 0x07
+        DEFB 0x18, 0x0E
+        DEFB 0x00, 0x00
+        DEFB 0x00, 0x00
+        DEFB 0x8F, 0x0A
+        DEFB 0x00, 0x00
+        DEFB 0x61, 0x08
+        DEFB 0x00, 0x00
+        DEFB 0x77, 0x07
+        DEFB 0xA7, 0x06
+        DEFB 0xED, 0x05
+        DEFB 0x98, 0x05
+        DEFB 0xFC, 0x04
+        DEFB 0x70, 0x04
+        DEFB 0xF4, 0x03
+        DEFB 0x0C, 0x07
+        DEFB 0x00, 0x00
+        DEFB 0x00, 0x00
+        DEFB 0x47, 0x05
+        DEFB 0xB4, 0x04
+        DEFB 0x31, 0x04
+        DEFB 0x00, 0x00
 
 ALIGN
 SHARP_TAG

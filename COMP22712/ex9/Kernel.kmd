@@ -8,13 +8,13 @@ KMD
 00000000:             ; ;---------------
 00000000:             ; ;---  EXCEPTION VECTOR TABLE
 00000000: EA000006    ;       B     vReset
-00000004: EA000017    ;       B     vUndef
-00000008: EA000017    ;       B     vSupervisor    
-0000000C: EA00012D    ;       B     vPreAbort
-00000010: EA00012D    ;       B     vDataAbort
+00000004: EA000016    ;       B     vUndef
+00000008: EA000016    ;       B     vSupervisor    
+0000000C: EA00012B    ;       B     vPreAbort
+00000010: EA00012B    ;       B     vDataAbort
 00000014: EAFFFFFE    ;       B     .           ; unused vector
-00000018: EA00012C    ;       B     vIRQ        ; interrupt request
-0000001C: EA00012C    ;       B     vFIQ        ; fast interrupt request
+00000018: EA00012A    ;       B     vIRQ        ; interrupt request
+0000001C: EA00012A    ;       B     vFIQ        ; fast interrupt request
 00000020:             ; ;---------------
 00000020:             ; 
 00000020:             ; ;---------------
@@ -29,181 +29,181 @@ KMD
 00000020:             ; ;-    deals with resets and initialises kernel and then calls user code @main
 00000020:             ; vReset
 00000020:             ;       ;- initialise supervisor mode stack
-00000020: E28FDE5A    ;       ADRL  SP,  sSVC
-00000024: E28DDA02    ; 
-00000028:             ; 
-00000028:             ;       ;- switch to system mode
-00000028: E3A0E0DF    ;       MOV   LR, #(SPSR_SYSMODENI)     ; system mode no interrupts
-0000002C: E121F00E    ;       MSR   CPSR_c, LR
-00000030:             ;       ;- initialise user mode stack
-00000030: E28FDE59    ;       ADRL  SP,  sUSR
-00000034: E28DDA01    ; 
-00000038:             ; 
-00000038:             ;       ;- switch to intterupt mode
-00000038: E3A0E0D2    ;       MOV   LR, #(SPSR_IRQMODENI)     ; int mode no interrupts
-0000003C: E121F00E    ;       MSR   CPSR_c, LR
-00000040:             ;       ;- initialise int mode stack
-00000040: E28FDD56    ;       ADRL  SP,  sIRQ
-00000044: E28DD901    ; 
-00000048:             ; 
-00000048:             ;       ;- switch back to supervisor mode to:
-00000048:             ;       ;- - do perhip Initialise
-00000048:             ;       ;- - do user context switch with SPSR
-00000048:             ; 
-00000048: E3A0E0D3    ;       MOV   LR, #(SPSR_SVCMODENI)     ; supervisor mode no interrupts
-0000004C: E121F00E    ;       MSR   CPSR_c, LR
+00000020: E28FDD97    ;       ADRL  SP,  sSVC
+00000024:             ; 
+00000024:             ;       ;- switch to system mode
+00000024: E3A0E0DF    ;       MOV   LR, #(SPSR_SYSMODENI)     ; system mode no interrupts
+00000028: E121F00E    ;       MSR   CPSR_c, LR
+0000002C:             ;       ;- initialise user mode stack
+0000002C: E28FDF6D    ;       ADRL  SP,  sUSR
+00000030: E28DDB05    ; 
+00000034:             ; 
+00000034:             ;       ;- switch to intterupt mode
+00000034: E3A0E0D2    ;       MOV   LR, #(SPSR_IRQMODENI)     ; int mode no interrupts
+00000038: E121F00E    ;       MSR   CPSR_c, LR
+0000003C:             ;       ;- initialise int mode stack
+0000003C: E28FDF69    ;       ADRL  SP,  sIRQ
+00000040: E28DDB15    ; 
+00000044:             ; 
+00000044:             ;       ;- switch back to supervisor mode to:
+00000044:             ;       ;- - do perhip Initialise
+00000044:             ;       ;- - do user context switch with SPSR
+00000044:             ; 
+00000044: E3A0E0D3    ;       MOV   LR, #(SPSR_SVCMODENI)     ; supervisor mode no interrupts
+00000048: E121F00E    ;       MSR   CPSR_c, LR
+0000004C:             ; 
+0000004C:             ;       ;- initialise perhiperals
+0000004C: EB000113    ;       BL    PeripheralInitialise
 00000050:             ; 
-00000050:             ;       ;- initialise perhiperals
-00000050: EB000114    ;       BL    PeripheralInitialise
-00000054:             ; 
-00000054:             ;       ;- switch to user mode using the SPSR
-00000054: E3A0E050    ;       MOV   LR, #(SPSR_USER)
-00000058: E161F00E    ;       MSR   SPSR_c, LR
-0000005C:             ; 
-0000005C:             ;       ;- call user code
-0000005C: E28FE07C    ;       ADRL  LR,  Main
-00000060: E28EEB01    ; 
-00000064: E1B0F00E    ;       MOVS  PC,  LR
+00000050:             ;       ;- switch to user mode using the SPSR
+00000050: E3A0E050    ;       MOV   LR, #(SPSR_USER)
+00000054: E161F00E    ;       MSR   SPSR_c, LR
+00000058:             ; 
+00000058:             ;       ;- call user code
+00000058: E28FE078    ;       ADRL  LR,  Main
+0000005C: E28EEB01    ; 
+00000060: E1B0F00E    ;       MOVS  PC,  LR
+00000064:             ; ;---------------
+00000064:             ;       
+00000064:             ; ;---------------    
+00000064:             ; ;-    deals with undefined instructions
+00000064:             ; vUndef
+00000064: EAFFFFFE    ;       B   .
 00000068:             ; ;---------------
 00000068:             ;       
 00000068:             ; ;---------------    
-00000068:             ; ;-    deals with undefined instructions
-00000068:             ; vUndef
-00000068: EAFFFFFE    ;       B   .
-0000006C:             ; ;---------------
-0000006C:             ;       
-0000006C:             ; ;---------------    
-0000006C:             ; ;-    deals with supervisor calls
-0000006C:             ; SVC_OP_MASK EQU 0xFF000000
-0000006C:             ; vSupervisor
-0000006C: E92D5800    ;       PUSH  {LR,r12,r11}
-00000070:             ; 
-00000070:             ;       ; save spsr incase nested SVC calls
-00000070: E14FB000    ;       MRS   r11, SPSR ;save spsr in reg
-00000074: E92D0800    ;       PUSH  {r11}
-00000078:             ; 
-00000078: E51EC004    ;       LDR   r12, [LR, #-4]  ; load actual SVC instruction
-0000007C: E3CCC4FF    ;       BIC   r12,  r12,  #(SVC_OP_MASK) ; mask off opcode
-00000080:             ;       ; supervisor call 
-00000080: E35C0007    ;       CMP   r12, #SVCMax
-00000084: 8A000018    ;       BHI   SVCUnknown
-00000088:             ; 
-00000088: E28FB000    ;       ADR   r11, SVCRoutines
-0000008C: E79BF10C    ;       LDR   PC, [r11,r12 LSL #2]
-00000090:             ; 
-00000090:             ; ;-- this include should define symbols:
-00000090:             ; ;--                                    SVCRoutines   ; a table of routines
-00000090:             ; ;--                                                  ; each should return to: 
-00000090:             ; ;--                                                  ; vSupervisor_return
-00000090:             ; ;--                                    SVCMax        ; the max number of opcode
-00000090:             ; ;--                                    SVCUnknown    ; report the error proc
-00000090:             ; GET   KernelSVC.s
-00000090:             ; ;-----------------------------------------------------------------------------;
-00000090:             ; ;---                 LAB KERNEL V1.0                                       ---;
-00000090:             ; ;---                 ---------------                                       ---;
-00000090:             ; ;---                 SVC calls                                             ---;
-00000090:             ; ;--- Author: James W Peach                                                 ---;
-00000090:             ; ;-----------------------------------------------------------------------------;
-00000090:             ; 
-00000090:             ; ;-- this include should define symbols:
-00000090:             ; ;--                                    SVCRoutines   ; a table of routines
-00000090:             ; ;--                                                  ; each should return to: 
-00000090:             ; ;--                                                  ; vSupervisor_return
-00000090:             ; ;--                                    SVCMax        ; the max number of opcode
-00000090:             ; ;--                                    SVCUnknown    ; report the error proc
-00000090:             ; 
-00000090:             ; SVCRoutines
-00000090: 000000B0    ;       DEFW SVCRoutine0
-00000094: 000000B4    ;       DEFW SVCRoutine1
-00000098: 000000BC    ;       DEFW SVCRoutine2
-0000009C: 000000C4    ;       DEFW SVCRoutine3
-000000A0: 000000CC    ;       DEFW SVCRoutine4
-000000A4: 000000D4    ;       DEFW SVCRoutine5
-000000A8: 000000DC    ;       DEFW SVCRoutine6
-000000AC:             ; SVCRoutines_END
-000000AC: 000000E4    ;       DEFW SVCRoutine7
+00000068:             ; ;-    deals with supervisor calls
+00000068:             ; SVC_OP_MASK EQU 0xFF000000
+00000068:             ; vSupervisor
+00000068: E92D5800    ;       PUSH  {LR,r12,r11}
+0000006C:             ; 
+0000006C:             ;       ; save spsr incase nested SVC calls
+0000006C: E14FB000    ;       MRS   r11, SPSR ;save spsr in reg
+00000070: E92D0800    ;       PUSH  {r11}
+00000074:             ; 
+00000074: E51EC004    ;       LDR   r12, [LR, #-4]  ; load actual SVC instruction
+00000078: E3CCC4FF    ;       BIC   r12,  r12,  #(SVC_OP_MASK) ; mask off opcode
+0000007C:             ;       ; supervisor call 
+0000007C: E35C0007    ;       CMP   r12, #SVCMax
+00000080: 8A000018    ;       BHI   SVCUnknown
+00000084:             ; 
+00000084: E28FB000    ;       ADR   r11, SVCRoutines
+00000088: E79BF10C    ;       LDR   PC, [r11,r12 LSL #2]
+0000008C:             ; 
+0000008C:             ; ;-- this include should define symbols:
+0000008C:             ; ;--                                    SVCRoutines   ; a table of routines
+0000008C:             ; ;--                                                  ; each should return to: 
+0000008C:             ; ;--                                                  ; vSupervisor_return
+0000008C:             ; ;--                                    SVCMax        ; the max number of opcode
+0000008C:             ; ;--                                    SVCUnknown    ; report the error proc
+0000008C:             ; GET   KernelSVC.s
+0000008C:             ; ;-----------------------------------------------------------------------------;
+0000008C:             ; ;---                 LAB KERNEL V1.0                                       ---;
+0000008C:             ; ;---                 ---------------                                       ---;
+0000008C:             ; ;---                 SVC calls                                             ---;
+0000008C:             ; ;--- Author: James W Peach                                                 ---;
+0000008C:             ; ;-----------------------------------------------------------------------------;
+0000008C:             ; 
+0000008C:             ; ;-- this include should define symbols:
+0000008C:             ; ;--                                    SVCRoutines   ; a table of routines
+0000008C:             ; ;--                                                  ; each should return to: 
+0000008C:             ; ;--                                                  ; vSupervisor_return
+0000008C:             ; ;--                                    SVCMax        ; the max number of opcode
+0000008C:             ; ;--                                    SVCUnknown    ; report the error proc
+0000008C:             ; 
+0000008C:             ; SVCRoutines
+0000008C: 000000AC    ;       DEFW SVCRoutine0
+00000090: 000000B0    ;       DEFW SVCRoutine1
+00000094: 000000B8    ;       DEFW SVCRoutine2
+00000098: 000000C0    ;       DEFW SVCRoutine3
+0000009C: 000000C8    ;       DEFW SVCRoutine4
+000000A0: 000000D0    ;       DEFW SVCRoutine5
+000000A4: 000000D8    ;       DEFW SVCRoutine6
+000000A8:             ; SVCRoutines_END
+000000A8: 000000E0    ;       DEFW SVCRoutine7
+000000AC:             ; 
+000000AC:             ; SVCMax EQU ((SVCRoutines_END - SVCRoutines)/4)
+000000AC:             ; 
+000000AC:             ; ;-- Routines
+000000AC:             ; 
+000000AC:             ; 
+000000AC:             ; SVC_HALT  EQU  0
+000000AC:             ; SVCRoutine0 
+000000AC: EAFFFFFE    ;       B    .                                         ; user program end     
 000000B0:             ; 
-000000B0:             ; SVCMax EQU ((SVCRoutines_END - SVCRoutines)/4)
-000000B0:             ; 
-000000B0:             ; ;-- Routines
-000000B0:             ; 
-000000B0:             ; 
-000000B0:             ; SVC_HALT  EQU  0
-000000B0:             ; SVCRoutine0 
-000000B0: EAFFFFFE    ;       B    .                                         ; user program end     
-000000B4:             ; 
-000000B4:             ; SVC_CHAR  EQU  1
-000000B4:             ; SVCRoutine1                                          ; print char r0 is char
-000000B4:             ;       ;procedure PrintChar(R0=char)
-000000B4: EB000016    ;       BL    PrintChar
-000000B8: EA00000C    ;       B     vSupervisor_return                        
-000000BC:             ; 
-000000BC:             ; SVC_STR   EQU  2
-000000BC:             ; SVCRoutine2                                          ; print string r0 is
-000000BC: EB000025    ;       BL    PrintString                              ; string pointer
-000000C0: EA00000A    ;       B     vSupervisor_return                       
-000000C4:             ; 
-000000C4:             ; 
-000000C4:             ; SVC_TIME  EQU  3
-000000C4:             ; SVCRoutine3                                          ; get curent timer value
-000000C4: EB00000D    ;       BL    GetTimer                                 ; into r0
-000000C8: EA000008    ;       B     vSupervisor_return
-000000CC:             ; 
-000000CC:             ; SVC_CLER  EQU  4
-000000CC:             ; SVCRoutine4                                          ; clears the lcd
-000000CC: EB000046    ;       BL    ClearScreen                              ; into r0
-000000D0: EA000006    ;       B     vSupervisor_return
-000000D4:             ; 
-000000D4:             ; SVC_BUTT  EQU  5
-000000D4:             ; SVCRoutine5                                          ; get curent button pressed
-000000D4: EB000069    ;       BL    GetButton                                ; into r0
-000000D8: EA000004    ;       B     vSupervisor_return
-000000DC:             ; 
-000000DC:             ; 
-000000DC:             ; SVC_RKEY  EQU  6
-000000DC:             ; SVCRoutine6                                          ; get curent key from buffer
-000000DC: EB0000E1    ;       BL    ReadKey                                  ; into r0
-000000E0: EA000002    ;       B     vSupervisor_return
-000000E4:             ; 
-000000E4:             ; SVC_NOT   EQU  7
-000000E4:             ; SVCRoutine7                                          ; send r0 to buzzer
-000000E4: EB0000E5    ;       BL    SendNote                                 ; into r0
-000000E8: EA000000    ;       B     vSupervisor_return
+000000B0:             ; SVC_CHAR  EQU  1
+000000B0:             ; SVCRoutine1                                          ; print char r0 is char
+000000B0:             ;       ;procedure PrintChar(R0=char)
+000000B0: EB000017    ;       BL    PrintChar
+000000B4: EA00000C    ;       B     vSupervisor_return                        
+000000B8:             ; 
+000000B8:             ; SVC_STR   EQU  2
+000000B8:             ; SVCRoutine2                                          ; print string r0 is
+000000B8: EB000026    ;       BL    PrintString                              ; string pointer
+000000BC: EA00000A    ;       B     vSupervisor_return                       
+000000C0:             ; 
+000000C0:             ; 
+000000C0:             ; SVC_TIME  EQU  3
+000000C0:             ; SVCRoutine3                                          ; get curent timer value
+000000C0: EB00000D    ;       BL    GetTimer                                 ; into r0
+000000C4: EA000008    ;       B     vSupervisor_return
+000000C8:             ; 
+000000C8:             ; SVC_CLER  EQU  4
+000000C8:             ; SVCRoutine4                                          ; clears the lcd
+000000C8: EB000047    ;       BL    ClearScreen                              ; into r0
+000000CC: EA000006    ;       B     vSupervisor_return
+000000D0:             ; 
+000000D0:             ; SVC_BUTT  EQU  5
+000000D0:             ; SVCRoutine5                                          ; get curent button pressed
+000000D0: EB00006A    ;       BL    GetButton                                ; into r0
+000000D4: EA000004    ;       B     vSupervisor_return
+000000D8:             ; 
+000000D8:             ; 
+000000D8:             ; SVC_RKEY  EQU  6
+000000D8:             ; SVCRoutine6                                          ; get curent key from buffer
+000000D8: EB0000E2    ;       BL    ReadKey                                  ; into r0
+000000DC: EA000002    ;       B     vSupervisor_return
+000000E0:             ; 
+000000E0:             ; SVC_NOT   EQU  7
+000000E0:             ; SVCRoutine7                                          ; send r0 to buzzer
+000000E0: EB0000E4    ;       BL    SendNote                                 ; into r0
+000000E4: EA000000    ;       B     vSupervisor_return
+000000E8:             ; 
+000000E8:             ; 
+000000E8:             ; SVCUnknown
+000000E8: EAFFFFFE    ;       B     .                                        ; unknown SVC call, hang..
 000000EC:             ; 
+000000EC:             ; vSupervisor_return
+000000EC:             ;       ; return to user code
 000000EC:             ; 
-000000EC:             ; SVCUnknown
-000000EC: EAFFFFFE    ;       B     .                                        ; unknown SVC call, hang..
-000000F0:             ; 
-000000F0:             ; vSupervisor_return
-000000F0:             ;       ; return to user code
-000000F0:             ; 
-000000F0:             ;       ; return saved value of saved flags
-000000F0: E8BD0800    ;       POP   {r11}; containing saved spsr
-000000F4: E16FF00B    ;       MSR   SPSR, r11
-000000F8:             ; 
-000000F8: E8BD5800    ;       POP   {LR,r12,r11}
-000000FC: E1B0F00E    ;       MOVS  PC, LR ; return to user code here
-00000100:             ; 
-00000100:             ; ;-- this include should define symbols :
-00000100:             ; ;--                                      GetTimer    ; a procedure to return 
-00000100:             ; ;--                                                  ; curent timer value in r0 
-00000100:             ; GET   KernelTimer.s
-00000100:             ; ;-----------------------------------------------------------------------------;
-00000100:             ; ;---                 LAB KERNEL V1.0                                       ---;
-00000100:             ; ;---                 ---------------                                       ---;
-00000100:             ; ;---                 Timer                                                 ---;
-00000100:             ; ;--- Author: James W Peach                                                 ---;
-00000100:             ; ;-----------------------------------------------------------------------------;
-00000100:             ; 
-00000100:             ; ;-- this include should define symbols :
-00000100:             ; ;--                                      GetTimer    ; a procedure to return 
-00000100:             ; ;--                                                  ; curent timer value in r0 
-00000100:             ; 
-00000100:             ; TimerMemLoc   EQU   0x10000008
-00000100:             ; GetTimer
-00000100: E28F0CFF    ;         ADRL  r0, TimerMemLoc
-00000104: E28008FF    ; 
-00000108: E280040F    ; 
+000000EC:             ;       ; return saved value of saved flags
+000000EC: E8BD0800    ;       POP   {r11}; containing saved spsr
+000000F0: E16FF00B    ;       MSR   SPSR, r11
+000000F4:             ; 
+000000F4: E8BD5800    ;       POP   {LR,r12,r11}
+000000F8: E1B0F00E    ;       MOVS  PC, LR ; return to user code here
+000000FC:             ; 
+000000FC:             ; ;-- this include should define symbols :
+000000FC:             ; ;--                                      GetTimer    ; a procedure to return 
+000000FC:             ; ;--                                                  ; curent timer value in r0 
+000000FC:             ; GET   KernelTimer.s
+000000FC:             ; ;-----------------------------------------------------------------------------;
+000000FC:             ; ;---                 LAB KERNEL V1.0                                       ---;
+000000FC:             ; ;---                 ---------------                                       ---;
+000000FC:             ; ;---                 Timer                                                 ---;
+000000FC:             ; ;--- Author: James W Peach                                                 ---;
+000000FC:             ; ;-----------------------------------------------------------------------------;
+000000FC:             ; 
+000000FC:             ; ;-- this include should define symbols :
+000000FC:             ; ;--                                      GetTimer    ; a procedure to return 
+000000FC:             ; ;--                                                  ; curent timer value in r0 
+000000FC:             ; 
+000000FC:             ; TimerMemLoc   EQU   0x10000008
+000000FC:             ; GetTimer
+000000FC: E28F0FC1    ;         ADRL  r0, TimerMemLoc
+00000100: E2800BFF    ; 
+00000104: E28007FF    ; 
+00000108: E2800303    ; 
 0000010C: E5500000    ;         LDRB  r0, [r0]
 00000110: E1A0F00E    ;         MOV   PC, LR
 00000114:             ; 
@@ -492,7 +492,7 @@ KMD
 000002A0:             ; INTERUPT_ENABLE_O EQU   0x10               ; interrupt enable offset
 000002A0:             ; TIMER_ENABLE_BIT  EQU   0b0000_0001        ; CPSR timer enable bit
 000002A0:             ; 
-000002A0:             ; TIMER_DELAY       EQU   5
+000002A0:             ; TIMER_DELAY       EQU   1
 000002A0:             ; TIMER_MAX         EQU   0xFF
 000002A0:             ; 
 000002A0:             ; INTTERUPT_TIMER_MASK EQU 0b0000_0001
@@ -512,9 +512,9 @@ KMD
 000002AC: E2811BFF    ; 
 000002B0: E28117FF    ; 
 000002B4: E2811303    ; 
-000002B8: EBFFFF90    ;       BL    GetTimer
+000002B8: EBFFFF8F    ;       BL    GetTimer
 000002BC:             ;       ; set timer interrupt to be NOW+@100ms
-000002BC: E2800005    ;       ADD   r0, r0, #TIMER_DELAY
+000002BC: E2800001    ;       ADD   r0, r0, #TIMER_DELAY
 000002C0: E5010000    ;       STR   r0, [r1]
 000002C4:             ; 
 000002C4:             ;       ; disable all interrupts except timer
@@ -568,8 +568,8 @@ KMD
 00000320: E50F0088    ;       STR   r0, TIMER_CURENT_VALUE
 00000324:             ; 
 00000324:             ;       ; set next timer point
-00000324: EBFFFF75    ;       BL    GetTimer
-00000328: E2800005    ;       ADD   r0, r0, #TIMER_DELAY
+00000324: EBFFFF74    ;       BL    GetTimer
+00000328: E2800001    ;       ADD   r0, r0, #TIMER_DELAY
 0000032C:             ;       ; if timer is too large subtract MAX
 0000032C: E35000FF    ;       CMP   r0, #TIMER_MAX
 00000330: 824000FF    ;       SUBHI r0, r0, #TIMER_MAX
@@ -609,7 +609,7 @@ KMD
 00000350:             ; KEY_DAT     EQU 0x2000_0002
 00000350:             ; KEY_CON_O   EQU 0x1
 00000350:             ; KEY_CON_VAL EQU 0x1F
-00000350:             ; KEYHLD_TIME EQU 2
+00000350:             ; KEYHLD_TIME EQU 8
 00000350:             ; 
 00000350:             ; ;--- KEYMAP   : a mapping from digits to keys and vice versa
 00000350:             ; 
@@ -696,7 +696,7 @@ KMD
 000003A0: E50F205C    ;         STR   r2, CURENT_KEY_TIME
 000003A4: E50F1064    ;         STR   r1, CURENT_KEY
 000003A8:             ; 
-000003A8: E3520002    ;         CMP   r2, #KEYHLD_TIME
+000003A8: E3520008    ;         CMP   r2, #KEYHLD_TIME
 000003AC: 850F1070    ;         STRHI r1, LAST_KEY_PRESSED      ; store new key if down for longer than
 000003B0: 83E02000    ;         MOVHI r2, #-1                   ;... LAST_KEY_PRESSED
 000003B4: 850F2074    ;         STRHI r2, CURENT_KEY
@@ -774,281 +774,285 @@ KMD
 00000468:             ; ReadKey 
 00000468: E92D0002    ;         PUSH{r1}
 0000046C: E51F0130    ;         LDR   r0, LAST_KEY_PRESSED
-00000470: E3E01000    ;         MOV   r1, #-1
-00000474: E50F1138    ;         STR   r1, LAST_KEY_PRESSED
-00000478: E8BD0002    ;         POP{r1}
-0000047C: E1A0F00E    ;         MOV PC, LR
-00000480:             ; 
-00000480:             ; ;-- this include defines procedures to handle sending notes to the buzzer
-00000480:             ; ;--                                  SendNote             : called periodically
-00000480:             ; ;--                                                       : to handle key read
-00000480:             ; ;--                                  BuzzInit             : initialize buzzer
-00000480:             ; GET   KernelBuzzer.s
-00000480:             ; ;-----------------------------------------------------------------------------;
-00000480:             ; ;---                 LAB KERNEL V1.0                                       ---;
-00000480:             ; ;---                 ---------------                                       ---;
-00000480:             ; ;---                 Button io                                             ---;
-00000480:             ; ;--- Author: James W Peach                                                 ---;
-00000480:             ; ;-----------------------------------------------------------------------------;
-00000480:             ; 
-00000480:             ; ;-- this include defines procedures to handle sending notes to the buzzer
-00000480:             ; ;--                                  SendNote             : called periodically
-00000480:             ; ;--                                                       : to handle key read
-00000480:             ; ;--                                  BuzzInit             : initialize buzzer
-00000480:             ; 
-00000480:             ; ;L------O-----A-----------------C----------------------------------------------;
-00000480:             ; 
-00000480:             ; NOTEPORTHI    EQU   0x2000_0000
-00000480:             ; NOTEPORTLO_O  EQU   0x1
-00000480:             ; NOT_NONE      EQU   0x0
-00000480:             ; ;-------------------------------
-00000480:             ; ;procedure SendNote(R0)
-00000480:             ; SendNote
-00000480: E92D4000    ;         PUSH  {LR}
-00000484: E28FEFDD    ;         ADRL  r14, NOTEPORTHI
-00000488: E28EEBFE    ; 
-0000048C: E28EE7FF    ; 
-00000490: E28EE307    ; 
-00000494: E5CE0001    ;         STRB  r0, [r14, #NOTEPORTLO_O]  
-00000498:             ;         ; shift right by 8 bits (one byte)
-00000498: E1A00420    ;         LSR    R0, R0, #8
-0000049C: E54E0000    ;         STRB  r0, [r14]  
-000004A0: E8BD4000    ;         POP   {LR}
-000004A4: E1A0F00E    ;         MOV   PC, LR
-000004A8:             ; 
-000004A8:             ; ;---------------
-000004A8:             ; ;-- procedure PeripheralInitialise initialies perhiperals
-000004A8:             ; PeripheralInitialise
-000004A8: E92D4000    ;       PUSH  {LR}
-000004AC: EBFFFF6B    ;       BL    LCDInit           ; init control signals
-000004B0: EBFFFF31    ;       BL    EnableBacklight   ; enable backlight
-000004B4: EBFFFF7A    ;       BL    InitialiseInterrupts; init interrupts
-000004B8: EBFFFF4B    ;       BL    ClearScreen       ; clear screen
-000004BC: EBFFFFA3    ;       BL    KeyboardInit      ; init keyboard
-000004C0: E8BD4000    ;       POP   {LR}
-000004C4: E1A0F00E    ;       MOV   PC, LR
+00000470:             ;         ;MOV   r1, #-1
+00000470:             ;         ;STR   r1, LAST_KEY_PRESSED
+00000470: E8BD0002    ;         POP{r1}
+00000474: E1A0F00E    ;         MOV PC, LR
+00000478:             ; 
+00000478:             ; ;-- this include defines procedures to handle sending notes to the buzzer
+00000478:             ; ;--                                  SendNote             : called periodically
+00000478:             ; ;--                                                       : to handle key read
+00000478:             ; ;--                                  BuzzInit             : initialize buzzer
+00000478:             ; GET   KernelBuzzer.s
+00000478:             ; ;-----------------------------------------------------------------------------;
+00000478:             ; ;---                 LAB KERNEL V1.0                                       ---;
+00000478:             ; ;---                 ---------------                                       ---;
+00000478:             ; ;---                 Button io                                             ---;
+00000478:             ; ;--- Author: James W Peach                                                 ---;
+00000478:             ; ;-----------------------------------------------------------------------------;
+00000478:             ; 
+00000478:             ; ;-- this include defines procedures to handle sending notes to the buzzer
+00000478:             ; ;--                                  SendNote             : called periodically
+00000478:             ; ;--                                                       : to handle key read
+00000478:             ; ;--                                  BuzzInit             : initialize buzzer
+00000478:             ; 
+00000478:             ; ;L------O-----A-----------------C----------------------------------------------;
+00000478:             ; 
+00000478:             ; NOTEPORTHI    EQU   0x2000_0000
+00000478:             ; NOTEPORTLO_O  EQU   0x1
+00000478:             ; NOT_NONE      EQU   0x0
+00000478:             ; ;-------------------------------
+00000478:             ; ;procedure SendNote(R0)
+00000478:             ; SendNote
+00000478: E92D4000    ;         PUSH  {LR}
+0000047C: E28FEFDF    ;         ADRL  r14, NOTEPORTHI
+00000480: E28EEBFE    ; 
+00000484: E28EE7FF    ; 
+00000488: E28EE307    ; 
+0000048C: E5CE0001    ;         STRB  r0, [r14, #NOTEPORTLO_O]  
+00000490:             ;         ; shift right by 8 bits (one byte)
+00000490: E1A00420    ;         LSR    R0, R0, #8
+00000494: E54E0000    ;         STRB  r0, [r14]  
+00000498: E8BD4000    ;         POP   {LR}
+0000049C: E1A0F00E    ;         MOV   PC, LR
+000004A0:             ; 
+000004A0:             ; ;---------------
+000004A0:             ; ;-- procedure PeripheralInitialise initialies perhiperals
+000004A0:             ; PeripheralInitialise
+000004A0: E92D4000    ;       PUSH  {LR}
+000004A4: EBFFFF6D    ;       BL    LCDInit           ; init control signals
+000004A8: EBFFFF33    ;       BL    EnableBacklight   ; enable backlight
+000004AC: EBFFFF7C    ;       BL    InitialiseInterrupts; init interrupts
+000004B0: EBFFFF4D    ;       BL    ClearScreen       ; clear screen
+000004B4: EBFFFFA5    ;       BL    KeyboardInit      ; init keyboard
+000004B8: E8BD4000    ;       POP   {LR}
+000004BC: E1A0F00E    ;       MOV   PC, LR
+000004C0:             ; ;---------------
+000004C0:             ; 
+000004C0:             ; ;---------------    
+000004C0:             ; ;-    deals with prefetch aborts
+000004C0:             ; vPreAbort
+000004C0: EAFFFFFE    ;       B   .
+000004C4:             ; ;---------------
+000004C4:             ;       
+000004C4:             ; ;---------------    
+000004C4:             ; ;-    deals with data aborts
+000004C4:             ; vDataAbort
+000004C4: EAFFFFFE    ;       B   .
 000004C8:             ; ;---------------
-000004C8:             ; 
+000004C8:             ;       
 000004C8:             ; ;---------------    
-000004C8:             ; ;-    deals with prefetch aborts
-000004C8:             ; vPreAbort
-000004C8: EAFFFFFE    ;       B   .
+000004C8:             ; ;-    deals with interrupt handling
+000004C8:             ; vIRQ  
+000004C8: EAFFFF81    ;       B   InterruptHandler
 000004CC:             ; ;---------------
 000004CC:             ;       
 000004CC:             ; ;---------------    
-000004CC:             ; ;-    deals with data aborts
-000004CC:             ; vDataAbort
+000004CC:             ; ;-    deals with fast interrupt handling
+000004CC:             ; vFIQ
 000004CC: EAFFFFFE    ;       B   .
 000004D0:             ; ;---------------
-000004D0:             ;       
-000004D0:             ; ;---------------    
-000004D0:             ; ;-    deals with interrupt handling
-000004D0:             ; vIRQ  
-000004D0: EAFFFF7F    ;       B   InterruptHandler
-000004D4:             ; ;---------------
-000004D4:             ;       
-000004D4:             ; ;---------------    
-000004D4:             ; ;-    deals with fast interrupt handling
-000004D4:             ; vFIQ
-000004D4: EAFFFFFE    ;       B   .
-000004D8:             ; ;---------------
-000004D8:             ;      
-000004D8:             ; GET   UserProgram.s
-000004D8:             ; ;-----------------------------------------------------------------------------;
-000004D8:             ; ;-----                Final Project - Multi octave keyboard               ----;
-000004D8:             ; ;--- Author: James W Peach                                                 ---;
-000004D8:             ; ;-----------------------------------------------------------------------------;
-000004D8:             ; 
+000004D0:             ;      
+000004D0:             ; GET   UserProgram.s
+000004D0:             ; ;-----------------------------------------------------------------------------;
+000004D0:             ; ;-----                Final Project - Multi octave keyboard               ----;
+000004D0:             ; ;--- Author: James W Peach                                                 ---;
+000004D0:             ; ;-----------------------------------------------------------------------------;
+000004D0:             ; 
+000004D0:             ; ;------------------------
+000004D0:             ; ;-- literals
+000004D0:             ; OCTAVE_LOW      EQU  0
+000004D0:             ; OCTAVE_HIGH     EQU  1
+000004D0:             ; SOUND_NEUTERAL  EQU  0
+000004D0:             ; SOUND_SHARP     EQU  1
+000004D0:             ; NOKEY           EQU  -1
+000004D0:             ; ;------------------------
+000004D0:             ; ;-- variables memory
+000004D0: 00000000    ; MODE_OCTAVE DEFW 0x0
+000004D4: 00000000    ; MODE_SOUND  DEFW 0x0
 000004D8:             ; ;------------------------
-000004D8:             ; ;-- literals
-000004D8:             ; OCTAVE_LOW      EQU  0
-000004D8:             ; OCTAVE_HIGH     EQU  1
-000004D8:             ; SOUND_NEUTERAL  EQU  0
-000004D8:             ; SOUND_SHARP     EQU  1
-000004D8:             ; NOKEY           EQU  -1
-000004D8:             ; ;------------------------
-000004D8:             ; ;-- variables memory
-000004D8: 00000000    ; MODE_OCTAVE DEFW 0x0
-000004DC: 00000000    ; MODE_SOUND  DEFW 0x0
-000004E0:             ; ;------------------------
-000004E0:             ; ;- UserProgram
-000004E0:             ; ;- 
-000004E0:             ; ;L------O-----A-----------------C----------------------------------------------;
-000004E0:             ; Main
-000004E0:             ;         ; initialise variables: 
-000004E0: E3A00000    ;         MOV   r0, #OCTAVE_LOW
-000004E4: E50F0014    ;         STR   r0, MODE_OCTAVE
+000004D8:             ; ;- UserProgram
+000004D8:             ; ;- 
+000004D8:             ; ;L------O-----A-----------------C----------------------------------------------;
+000004D8:             ; Main
+000004D8:             ;         ; initialise variables: 
+000004D8: E3A00000    ;         MOV   r0, #OCTAVE_LOW
+000004DC: E50F0014    ;         STR   r0, MODE_OCTAVE
+000004E0:             ; 
+000004E0: E3A00000    ;         MOV   r0, #SOUND_NEUTERAL
+000004E4: E50F0018    ;         STR   r0, MODE_SOUND
 000004E8:             ; 
-000004E8: E3A00000    ;         MOV   r0, #SOUND_NEUTERAL
-000004EC: E50F0018    ;         STR   r0, MODE_SOUND
-000004F0:             ; 
-000004F0:             ; MainL   ; main loop:
-000004F0:             ; 
-000004F0: EB00001C    ;         BL    DrawScreen
-000004F4:             ; 
-000004F4: EF000006    ;         SVC   SVC_RKEY          ; returns key or NOKEY
-000004F8: E3700001    ;         CMP   r0, #NOKEY
-000004FC: 03A00000    ;         MOVEQ r0, #NOT_NONE     ; if none then dont sound note anymore
-00000500:             ;         ;SVCEQ SVC_NOT
-00000500: 0AFFFFFA    ;         BEQ   MainL
-00000504:             ;         
-00000504:             ;         ;if key is * then enter lower octave
-00000504: E3500023    ;         CMP   r0, #KEY_H
-00000508: 0A00000B    ;         BEQ   SharpToggle
-0000050C:             ;         ;if key is 0 then enter upper octave
-0000050C: E3500030    ;         CMP   r0, #KEY_0
-00000510: 0A00000F    ;         BEQ   UpperOctave
-00000514:             ;         ;if key is # then toggle sharp mode      
-00000514: E350002A    ;         CMP   r0, #KEY_S
-00000518: 0A00000F    ;         BEQ   LowerOctave
-0000051C:             ;         
-0000051C:             ;         ;if none of the above then change note to the key #('0') to #('8')
-0000051C:             ;         ; calculate freq val
-0000051C:             ;         ; sound correct key
-0000051C:             ; 
-0000051C: E2400031    ;         SUB   r0, r0, #('1')
-00000520: E3500038    ;         CMP   r0, #('8')
-00000524: 8AFFFFF1    ;         BHI   MainL
-00000528:             ; 
-00000528:             ;         ; load modes
-00000528: E51F1054    ;         LDR   r1, MODE_SOUND
-0000052C: E51F205C    ;         LDR   r2, MODE_OCTAVE
-00000530:             ;         ; calculate note value to send to buzzer
-00000530: EB00000F    ;         BL    GetNoteVal
-00000534:             ;         ; send note to buzzer hardware
-00000534: EF000007    ;         SVC   SVC_NOT
-00000538:             ; 
-00000538:             ; 
-00000538:             ;         ; repeat
-00000538: EAFFFFEC    ;         B     MainL             ; repeat main loop
+000004E8:             ; MainL   ; main loop:
+000004E8:             ;         ;BL    DrawScreen
+000004E8:             ; 
+000004E8: EF000006    ;         SVC   SVC_RKEY          ; returns key or NOKEY
+000004EC: E3700001    ;         CMP   r0, #NOKEY
+000004F0: 03A00000    ;         MOVEQ r0, #NOT_NONE     ; if none then dont sound note anymore
+000004F4: 0F000007    ;         SVCEQ SVC_NOT
+000004F8: 0AFFFFFA    ;         BEQ   MainL
+000004FC:             ;         
+000004FC:             ;         ;if key is * then enter lower octave
+000004FC: E3500023    ;         CMP   r0, #KEY_H
+00000500: 0A00000E    ;         BEQ   SharpToggle
+00000504:             ;         ;if key is 0 then enter upper octave
+00000504: E3500030    ;         CMP   r0, #KEY_0
+00000508: 0A000012    ;         BEQ   UpperOctave
+0000050C:             ;         ;if key is # then toggle sharp mode      
+0000050C: E350002A    ;         CMP   r0, #KEY_S
+00000510: 0A000012    ;         BEQ   LowerOctave
+00000514:             ;         
+00000514:             ;         ;if none of the above then change note to the key #('0') to #('8')
+00000514:             ;         ; calculate freq val
+00000514:             ;         ; sound correct key
+00000514:             ; 
+00000514: E2400031    ;         SUB   r0, r0, #('1')
+00000518: E3500038    ;         CMP   r0, #('8')
+0000051C: 8AFFFFF1    ;         BHI   MainL
+00000520:             ; 
+00000520:             ;         ; load modes
+00000520: E51F1054    ;         LDR   r1, MODE_SOUND
+00000524: E51F205C    ;         LDR   r2, MODE_OCTAVE
+00000528:             ;         ; calculate note value to send to buzzer
+00000528: EB000012    ;         BL    GetNoteVal
+0000052C:             ;         ; send note to buzzer hardware
+0000052C: EF000007    ;         SVC   SVC_NOT
+00000530:             ; 
+00000530:             ; MainRepeat
+00000530:             ;         ; wait for key release before main loop
+00000530: EF000006    ;         SVC   SVC_RKEY
+00000534: E3700001    ;         CMP   r0, #NOKEY
+00000538: 1AFFFFFC    ;         BNE   MainRepeat
 0000053C:             ; 
-0000053C:             ; SharpToggle
-0000053C: E51F0068    ;         LDR   r0, MODE_SOUND
-00000540: E3500000    ;         CMP   r0, #SOUND_NEUTERAL
-00000544: 03A00001    ;         MOVEQ r0, #SOUND_SHARP
-00000548: 13A00000    ;         MOVNE r0, #SOUND_NEUTERAL
-0000054C: E50F0078    ;         STR   r0, MODE_SOUND
-00000550: EAFFFFE6    ;         B     MainL             ; repeat main loop
-00000554:             ; 
-00000554:             ; UpperOctave
-00000554: E3A00001    ;         MOV   r0,  #OCTAVE_HIGH
-00000558: EA000000    ;         B     ChangeOctave
-0000055C:             ; LowerOctave 
-0000055C: E3A00000    ;         MOV   r0,  #OCTAVE_LOW
-00000560:             ; ChangeOctave
-00000560:             ;         ; change octave to the one in r0
-00000560: E50F0090    ;         STR   r0, MODE_OCTAVE
-00000564: EAFFFFE1    ;         B     MainL             ; repeat main loop
-00000568:             ; 
-00000568:             ; DrawScreen
-00000568: E92D0007    ;         PUSH{r0,r1,r2}
+0000053C:             ;         ; repeat
+0000053C: EAFFFFE9    ;         B     MainL             ; repeat main loop
+00000540:             ; 
+00000540:             ; SharpToggle
+00000540: E51F0074    ;         LDR   r0, MODE_SOUND
+00000544: E3500000    ;         CMP   r0, #SOUND_NEUTERAL
+00000548: 03A00001    ;         MOVEQ r0, #SOUND_SHARP
+0000054C: 13A00000    ;         MOVNE r0, #SOUND_NEUTERAL
+00000550: E50F0084    ;         STR   r0, MODE_SOUND
+00000554: EAFFFFF5    ;         B     MainRepeat             ; repeat main loop
+00000558:             ; 
+00000558:             ; UpperOctave
+00000558: E3A00001    ;         MOV   r0,  #OCTAVE_HIGH
+0000055C: EA000000    ;         B     ChangeOctave
+00000560:             ; LowerOctave 
+00000560: E3A00000    ;         MOV   r0,  #OCTAVE_LOW
+00000564:             ; ChangeOctave
+00000564:             ;         ; change octave to the one in r0
+00000564: E50F009C    ;         STR   r0, MODE_OCTAVE
+00000568: EAFFFFF0    ;         B     MainRepeat             ; repeat main loop
 0000056C:             ; 
-0000056C:             ;         ;SVC   SVC_CLER
-0000056C:             ; 
-0000056C:             ;         ; load modes
-0000056C:             ;         ;LDR   r1, MODE_SOUND
-0000056C:             ;         ;CMP   r1, #SOUND_SHARP
-0000056C:             ;         ;ADRLEQ r0, SHARP_TAG
-0000056C:             ;         ;ADRLNE r0, NORM_TAG
-0000056C:             ;         ;SVC   SVC_STR
-0000056C:             ; 
-0000056C:             ;         ;LDR   r2, MODE_OCTAVE
-0000056C:             ;         ;CMP   r2, #OCTAVE_HIGH
-0000056C:             ;         ;ADRLEQ r0, HIGH_TAG
-0000056C:             ;         ;ADRLNE r0, LOW_TAG
-0000056C:             ;         ;SVC   SVC_STR
-0000056C:             ; 
-0000056C: E8BD0007    ;         POP{r0,r1,r2}
-00000570: E1A0F00E    ;         MOV   PC,LR
-00000574:             ; 
-00000574:             ; 
-00000574:             ; ;-------------------------------
-00000574:             ; ;procedure GetNoteVal(R0=note / value OUT,R1=sharp,R2=octave)
-00000574:             ; ; returns the value to be sent to the buzzer hardware
-00000574:             ; ;-
-00000574:             ; ;- low+0    sharp+7
-00000574:             ; ;- high+12  not+0
-00000574:             ; ;-
-00000574:             ; ;-------------------------------
-00000574:             ; GetNoteVal
-00000574: E92D0002    ;         PUSH  {r1}
-00000578: E3510001    ;         CMP   r1, #SOUND_SHARP
-0000057C: 02800007    ;         ADDEQ r0, r0, #SHARP_OFFSET 
-00000580: E3520001    ;         CMP   r2, #OCTAVE_HIGH
-00000584: 0280000C    ;         ADDEQ r0, r0, #OCTHI_OFFSET
-00000588: E28F1008    ;         ADR   r1, NotesTable
-0000058C: E7910080    ;         LDR   r0, [r1, r0, LSL #0x1]
-00000590: E8BD0002    ;         POP   {r1}
-00000594: E1A0F00E    ;         MOV   PC, LR
-00000598:             ; ;-------------------------------
-00000598:             ; 
-00000598:             ; ; auto generated code from: 
-00000598:             ; ;https://docs.google.com/spreadsheets/d/1umkPg9fAEzA4-UB3L3uZDeU6IOwrI8WIphsAInxvuwo/edit?usp=s
+0000056C:             ; DrawScreen
+0000056C: E92D0007    ;         PUSH{r0,r1,r2}
+00000570:             ; 
+00000570:             ;         ;SVC   SVC_CLER
+00000570:             ; 
+00000570:             ;         ; load modes
+00000570:             ;         ;LDR   r1, MODE_SOUND
+00000570:             ;         ;CMP   r1, #SOUND_SHARP
+00000570:             ;         ;ADRLEQ r0, SHARP_TAG
+00000570:             ;         ;ADRLNE r0, NORM_TAG
+00000570:             ;         ;SVC   SVC_STR
+00000570:             ; 
+00000570:             ;         ;LDR   r2, MODE_OCTAVE
+00000570:             ;         ;CMP   r2, #OCTAVE_HIGH
+00000570:             ;         ;ADRLEQ r0, HIGH_TAG
+00000570:             ;         ;ADRLNE r0, LOW_TAG
+00000570:             ;         ;SVC   SVC_STR
+00000570:             ; 
+00000570: E8BD0007    ;         POP{r0,r1,r2}
+00000574: E1A0F00E    ;         MOV   PC,LR
+00000578:             ; 
+00000578:             ; 
+00000578:             ; ;-------------------------------
+00000578:             ; ;procedure GetNoteVal(R0=note / value OUT,R1=sharp,R2=octave)
+00000578:             ; ; returns the value to be sent to the buzzer hardware
+00000578:             ; ;-
+00000578:             ; ;- low+0    sharp+7
+00000578:             ; ;- high+12  not+0
+00000578:             ; ;-
+00000578:             ; ;-------------------------------
+00000578:             ; GetNoteVal
+00000578: E92D0002    ;         PUSH  {r1}
+0000057C: E3510001    ;         CMP   r1, #SOUND_SHARP
+00000580: 02800007    ;         ADDEQ r0, r0, #SHARP_OFFSET 
+00000584: E3520001    ;         CMP   r2, #OCTAVE_HIGH
+00000588: 0280000E    ;         ADDEQ r0, r0, #OCTHI_OFFSET
+0000058C: E28F1008    ;         ADR   r1, NotesTable
+00000590: E7910080    ;         LDR   r0, [r1, r0, LSL #0x1]
+00000594: E8BD0002    ;         POP   {r1}
+00000598: E1A0F00E    ;         MOV   PC, LR
+0000059C:             ; ;-------------------------------
+0000059C:             ; 
+0000059C:             ; ; auto generated code from: 
+0000059C:             ; ;https://docs.google.com/spreadsheets/d/1umkPg9fAEzA4-UB3L3uZDeU6IOwrI8WIphsAInxvuwo/edit?usp=s
                       ; haring
-00000598:             ; SHARP_OFFSET  EQU 7
-00000598:             ; OCTHI_OFFSET  EQU 12
-00000598:             ; NotesTable
-00000598: DD          ;         DEFB 0x1DDD
-00000599: 9A          ;         DEFB 0x1A9A
-0000059A: B3          ;         DEFB 0x17B3
-0000059B: 5F          ;         DEFB 0x165F
-0000059C: EE          ;         DEFB 0x13EE
-0000059D: C1          ;         DEFB 0x11C1
-0000059E: D2          ;         DEFB 0x0FD2
-0000059F: 2F          ;         DEFB 0x1C2F
-000005A0: 00          ;         DEFB 0x0000
-000005A1: 00          ;         DEFB 0x0000
-000005A2: 1D          ;         DEFB 0x151D
-000005A3: 00          ;         DEFB 0x0000
-000005A4: C2          ;         DEFB 0x10C2
-000005A5: 00          ;         DEFB 0x0000
-000005A6: EE          ;         DEFB 0x0EEE
-000005A7: 4D          ;         DEFB 0x0D4D
-000005A8: DA          ;         DEFB 0x0BDA
-000005A9: 2F          ;         DEFB 0x0B2F
-000005AA: F7          ;         DEFB 0x09F7
-000005AB: E1          ;         DEFB 0x08E1
-000005AC: E9          ;         DEFB 0x07E9
-000005AD: 18          ;         DEFB 0x0E18
-000005AE: 00          ;         DEFB 0x0000
-000005AF: 00          ;         DEFB 0x0000
-000005B0: 8F          ;         DEFB 0x0A8F
-000005B1: 68          ;         DEFB 0x0968
-000005B2: 61          ;         DEFB 0x0861
-000005B3: 00          ;         DEFB 0x0000
-000005B4:             ; 
-000005B4:             ; ALIGN
-000005B4:             ; SHARP_TAG
-000005B4: 53 68 61 72 ;         DEFB "Sharp "
-000005B8: 70 20       ; 
-000005BA:             ; NORM_TAG
-000005BA: 4E 6F 72 6D ;         DEFB "Norm "
-000005BE: 20          ; 
-000005BF:             ; LOW_TAG
-000005BF: 4C 6F 77 20 ;         DEFB "Low "
-000005C3:             ; HIGH_TAG
-000005C3: 48 69 67 68 ;         DEFB "High "
-000005C7: 20          ; 
-000005C8:             ;  
-000005C8:             ; ;---------------
-000005C8:             ; ;-    stack areas
-000005C8:             ;       ALIGN
-000005C8:             ;       DEFS  4096
-000015C8:             ; sUSR  ; user mode stack area
-000015C8:             ;       DEFS  4096
-000025C8:             ; sSVC  ; svc mode stack area
-000025C8:             ;       DEFS  4096
-000035C8:             ; sABO  ; abort mode stack area
-000035C8:             ;       DEFS  4096
-000045C8:             ; sUDE  ; undefined mode stack area
-000045C8:             ;       DEFS  4096
-000055C8:             ; sIRQ  ; interrupt mode stack area
-000055C8:             ;       DEFS  4096
-000065C8:             ; sFIQ  ; fast interrupt mode stack area
-000065C8:             ; ;---------------
-000065C8:             ; 
-000065C8:             ; 
-000065C8:             ; ; FIN
+0000059C:             ; SHARP_OFFSET  EQU 7
+0000059C:             ; OCTHI_OFFSET  EQU 14
+0000059C:             ; NotesTable
+0000059C: EE 0E       ;         DEFB 0xEE, 0x0E
+0000059E: 4D 0D       ;         DEFB 0x4D, 0x0D
+000005A0: DA 0B       ;         DEFB 0xDA, 0x0B
+000005A2: 2F 0B       ;         DEFB 0x2F, 0x0B
+000005A4: F7 09       ;         DEFB 0xF7, 0x09
+000005A6: E1 08       ;         DEFB 0xE1, 0x08
+000005A8: E9 07       ;         DEFB 0xE9, 0x07
+000005AA: 18 0E       ;         DEFB 0x18, 0x0E
+000005AC: 00 00       ;         DEFB 0x00, 0x00
+000005AE: 00 00       ;         DEFB 0x00, 0x00
+000005B0: 8F 0A       ;         DEFB 0x8F, 0x0A
+000005B2: 00 00       ;         DEFB 0x00, 0x00
+000005B4: 61 08       ;         DEFB 0x61, 0x08
+000005B6: 00 00       ;         DEFB 0x00, 0x00
+000005B8: 77 07       ;         DEFB 0x77, 0x07
+000005BA: A7 06       ;         DEFB 0xA7, 0x06
+000005BC: ED 05       ;         DEFB 0xED, 0x05
+000005BE: 98 05       ;         DEFB 0x98, 0x05
+000005C0: FC 04       ;         DEFB 0xFC, 0x04
+000005C2: 70 04       ;         DEFB 0x70, 0x04
+000005C4: F4 03       ;         DEFB 0xF4, 0x03
+000005C6: 0C 07       ;         DEFB 0x0C, 0x07
+000005C8: 00 00       ;         DEFB 0x00, 0x00
+000005CA: 00 00       ;         DEFB 0x00, 0x00
+000005CC: 47 05       ;         DEFB 0x47, 0x05
+000005CE: B4 04       ;         DEFB 0xB4, 0x04
+000005D0: 31 04       ;         DEFB 0x31, 0x04
+000005D2: 00 00       ;         DEFB 0x00, 0x00
+000005D4:             ; 
+000005D4:             ; ALIGN
+000005D4:             ; SHARP_TAG
+000005D4: 53 68 61 72 ;         DEFB "Sharp "
+000005D8: 70 20       ; 
+000005DA:             ; NORM_TAG
+000005DA: 4E 6F 72 6D ;         DEFB "Norm "
+000005DE: 20          ; 
+000005DF:             ; LOW_TAG
+000005DF: 4C 6F 77 20 ;         DEFB "Low "
+000005E3:             ; HIGH_TAG
+000005E3: 48 69 67 68 ;         DEFB "High "
+000005E7: 20          ; 
+000005E8:             ;  
+000005E8:             ; ;---------------
+000005E8:             ; ;-    stack areas
+000005E8:             ;       ALIGN
+000005E8:             ;       DEFS  4096
+000015E8:             ; sUSR  ; user mode stack area
+000015E8:             ;       DEFS  4096
+000025E8:             ; sSVC  ; svc mode stack area
+000025E8:             ;       DEFS  4096
+000035E8:             ; sABO  ; abort mode stack area
+000035E8:             ;       DEFS  4096
+000045E8:             ; sUDE  ; undefined mode stack area
+000045E8:             ;       DEFS  4096
+000055E8:             ; sIRQ  ; interrupt mode stack area
+000055E8:             ;       DEFS  4096
+000065E8:             ; sFIQ  ; fast interrupt mode stack area
+000065E8:             ; ;---------------
+000065E8:             ; 
+000065E8:             ; 
+000065E8:             ; ; FIN
 
 Symbol Table: Labels
 : SPSR_SYSMODENI                    000000DF  Value
@@ -1056,32 +1060,32 @@ Symbol Table: Labels
 : SPSR_IRQMODENI                    000000D2  Value
 : SPSR_USER                         00000050  Value
 : vReset                            00000020  Local -- ARM
-: vUndef                            00000068  Local -- ARM
+: vUndef                            00000064  Local -- ARM
 : SVC_OP_MASK                       FF000000  Value
-: vSupervisor                       0000006C  Local -- ARM
-: SVCRoutines                       00000090  Local -- ARM
-: SVCRoutines_END                   000000AC  Local -- ARM
+: vSupervisor                       00000068  Local -- ARM
+: SVCRoutines                       0000008C  Local -- ARM
+: SVCRoutines_END                   000000A8  Local -- ARM
 : SVCMax                            00000007  Value
 : SVC_HALT                          00000000  Value
-: SVCRoutine0                       000000B0  Local -- ARM
+: SVCRoutine0                       000000AC  Local -- ARM
 : SVC_CHAR                          00000001  Value
-: SVCRoutine1                       000000B4  Local -- ARM
+: SVCRoutine1                       000000B0  Local -- ARM
 : SVC_STR                           00000002  Value
-: SVCRoutine2                       000000BC  Local -- ARM
+: SVCRoutine2                       000000B8  Local -- ARM
 : SVC_TIME                          00000003  Value
-: SVCRoutine3                       000000C4  Local -- ARM
+: SVCRoutine3                       000000C0  Local -- ARM
 : SVC_CLER                          00000004  Value
-: SVCRoutine4                       000000CC  Local -- ARM
+: SVCRoutine4                       000000C8  Local -- ARM
 : SVC_BUTT                          00000005  Value
-: SVCRoutine5                       000000D4  Local -- ARM
+: SVCRoutine5                       000000D0  Local -- ARM
 : SVC_RKEY                          00000006  Value
-: SVCRoutine6                       000000DC  Local -- ARM
+: SVCRoutine6                       000000D8  Local -- ARM
 : SVC_NOT                           00000007  Value
-: SVCRoutine7                       000000E4  Local -- ARM
-: SVCUnknown                        000000EC  Local -- ARM
-: vSupervisor_return                000000F0  Local -- ARM
+: SVCRoutine7                       000000E0  Local -- ARM
+: SVCUnknown                        000000E8  Local -- ARM
+: vSupervisor_return                000000EC  Local -- ARM
 : TimerMemLoc                       10000008  Value
-: GetTimer                          00000100  Local -- ARM
+: GetTimer                          000000FC  Local -- ARM
 : LCD_Data                          10000000  Value
 : LCD_Control_O                     00000004  Value
 : ENABLE                            00000001  Value
@@ -1114,7 +1118,7 @@ Symbol Table: Labels
 : INTERUPT_BITS_O                   0000000C  Value
 : INTERUPT_ENABLE_O                 00000010  Value
 : TIMER_ENABLE_BIT                  00000001  Value
-: TIMER_DELAY                       00000005  Value
+: TIMER_DELAY                       00000001  Value
 : TIMER_MAX                         000000FF  Value
 : INTTERUPT_TIMER_MASK              00000001  Value
 : TIMER_CURENT_VALUE                000002A0  Local -- ARM
@@ -1128,7 +1132,7 @@ Symbol Table: Labels
 : KEY_DAT                           20000002  Value
 : KEY_CON_O                         00000001  Value
 : KEY_CON_VAL                       0000001F  Value
-: KEYHLD_TIME                       00000002  Value
+: KEYHLD_TIME                       00000008  Value
 : KEY_LINE_0                        00000020  Value
 : KEY_3                             00000033  Value
 : KEY_6                             00000036  Value
@@ -1155,37 +1159,38 @@ Symbol Table: Labels
 : NOTEPORTHI                        20000000  Value
 : NOTEPORTLO_O                      00000001  Value
 : NOT_NONE                          00000000  Value
-: SendNote                          00000480  Local -- ARM
-: PeripheralInitialise              000004A8  Local -- ARM
-: vPreAbort                         000004C8  Local -- ARM
-: vDataAbort                        000004CC  Local -- ARM
-: vIRQ                              000004D0  Local -- ARM
-: vFIQ                              000004D4  Local -- ARM
+: SendNote                          00000478  Local -- ARM
+: PeripheralInitialise              000004A0  Local -- ARM
+: vPreAbort                         000004C0  Local -- ARM
+: vDataAbort                        000004C4  Local -- ARM
+: vIRQ                              000004C8  Local -- ARM
+: vFIQ                              000004CC  Local -- ARM
 : OCTAVE_LOW                        00000000  Value
 : OCTAVE_HIGH                       00000001  Value
 : SOUND_NEUTERAL                    00000000  Value
 : SOUND_SHARP                       00000001  Value
 : NOKEY                             FFFFFFFF  Value
-: MODE_OCTAVE                       000004D8  Local -- ARM
-: MODE_SOUND                        000004DC  Local -- ARM
-: Main                              000004E0  Local -- ARM
-: MainL                             000004F0  Local -- ARM
-: SharpToggle                       0000053C  Local -- ARM
-: UpperOctave                       00000554  Local -- ARM
-: LowerOctave                       0000055C  Local -- ARM
-: ChangeOctave                      00000560  Local -- ARM
-: DrawScreen                        00000568  Local -- ARM
-: GetNoteVal                        00000574  Local -- ARM
+: MODE_OCTAVE                       000004D0  Local -- ARM
+: MODE_SOUND                        000004D4  Local -- ARM
+: Main                              000004D8  Local -- ARM
+: MainL                             000004E8  Local -- ARM
+: MainRepeat                        00000530  Local -- ARM
+: SharpToggle                       00000540  Local -- ARM
+: UpperOctave                       00000558  Local -- ARM
+: LowerOctave                       00000560  Local -- ARM
+: ChangeOctave                      00000564  Local -- ARM
+: DrawScreen                        0000056C  Local -- ARM
+: GetNoteVal                        00000578  Local -- ARM
 : SHARP_OFFSET                      00000007  Value
-: OCTHI_OFFSET                      0000000C  Value
-: NotesTable                        00000598  Local -- ARM
-: SHARP_TAG                         000005B4  Local -- ARM
-: NORM_TAG                          000005BA  Local -- ARM
-: LOW_TAG                           000005BF  Local -- ARM
-: HIGH_TAG                          000005C3  Local -- ARM
-: sUSR                              000015C8  Local -- ARM
-: sSVC                              000025C8  Local -- ARM
-: sABO                              000035C8  Local -- ARM
-: sUDE                              000045C8  Local -- ARM
-: sIRQ                              000055C8  Local -- ARM
-: sFIQ                              000065C8  Local -- ARM
+: OCTHI_OFFSET                      0000000E  Value
+: NotesTable                        0000059C  Local -- ARM
+: SHARP_TAG                         000005D4  Local -- ARM
+: NORM_TAG                          000005DA  Local -- ARM
+: LOW_TAG                           000005DF  Local -- ARM
+: HIGH_TAG                          000005E3  Local -- ARM
+: sUSR                              000015E8  Local -- ARM
+: sSVC                              000025E8  Local -- ARM
+: sABO                              000035E8  Local -- ARM
+: sUDE                              000045E8  Local -- ARM
+: sIRQ                              000055E8  Local -- ARM
+: sFIQ                              000065E8  Local -- ARM

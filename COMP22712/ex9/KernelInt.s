@@ -14,7 +14,7 @@ INTERUPT_BITS_O   EQU   0xC                ; interrupt flags offset
 INTERUPT_ENABLE_O EQU   0x10               ; interrupt enable offset
 TIMER_ENABLE_BIT  EQU   0b0000_0001        ; CPSR timer enable bit
 
-TIMER_DELAY       EQU   5
+TIMER_DELAY       EQU   1
 TIMER_MAX         EQU   0xFF
 
 INTTERUPT_TIMER_MASK EQU 0b0000_0001
