@@ -11,24 +11,26 @@ void queue_init(Queue *q, int maxSize) {
     q->maxSize = maxSize;
     q->nextIndex = 1;
     q->array = (Item*)malloc(sizeof(Item) * maxSize);
+    q->nextUid = 0;
 }
 
-int queue_add(Queue *q, void *data, int priority) {
+int queue_add(Queue *q, Data data, int priority) {
     int nextIndex = q->nextIndex;
     if(q->nextIndex>q->maxSize) {
         perror("Queue overflow");
         exit(1);
     }
-    q->array[nextIndex] = new_item(data,priority);
+    q->array[nextIndex] = new_item(q, data,priority);
     q->nextIndex = nextIndex+1;
     bubble_up(q,nextIndex);
-    return nextIndex;
+    return q->array[nextIndex].uid;
 }
 
-Item new_item(void *data, int priority) {
+Item new_item(Queue* q, Data data, int priority) {
     Item i;
     i.priority = priority;
     i.data = data;
+    i.uid = q->nextUid++;
     return i;
 }
 
@@ -68,7 +70,7 @@ void bubble_down(Queue *q, int bubbleThis) {
     }
 }
 
-void *queue_pop(Queue *q) {
+Data queue_pop(Queue *q) {
     Item top = q->array[1];
     q->nextIndex--;
     // if there are more item in the queue swap this with the last item and bubble it down
@@ -95,3 +97,19 @@ int queue_size(Queue *q) {
     return q->nextIndex-1;
 }
 
+void queue_alter(Queue *q, int uid, int newPri) {
+    int id = 1;
+    for(;id<q->nextIndex;id++) if(q->array[id].uid==uid) break;
+
+    Item* i = &(q->array[id]);
+    int curPri = q->array[id].priority;
+    i->priority = newPri;
+
+    if(newPri>curPri) {
+        // the new item position shoud be lower than it is now
+        bubble_down(q,id);
+    }else{
+        // the new item position should be higher than it is now
+        bubble_up(q,id);
+    }
+}

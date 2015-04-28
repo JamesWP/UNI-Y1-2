@@ -20,6 +20,7 @@ int initialize_graph (Graph *mygraph, int MaxSize) {
   // your code goes here
   mygraph->MaxSize = MaxSize;
   mygraph->table = (Node**) malloc(sizeof(Node*)*MaxSize);
+  mygraph->maxID = 0;
   return MaxSize;
 }
 
@@ -28,6 +29,7 @@ int insert_graph_node (Graph *mygraph, int n, char *name) {
   mygraph->table[n]->name = strdup(name);
   mygraph->table[n]->outdegree = 0;
   mygraph->table[n]->indegree = 0;
+  mygraph->maxID = (mygraph->maxID>n)?mygraph->maxID:n;
   return n;
 }
 

@@ -5,6 +5,8 @@
 #ifndef EX13_EX13_H
 #define EX13_EX13_H
 
-int main(int argc, char* argv);
+void test1();
+void test2();
+int main(int argv, char *argc[]);
 
 #endif //EX13_EX13_H

@@ -1,3 +1,8 @@
+
+#ifndef EX13_GRAPH
+#define EX13_GRAPH
+
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
@@ -21,6 +26,7 @@ typedef struct {
   // your code goes here
   int MaxSize;
   Node** table;
+  int maxID;
 } Graph;
 
 // use to check result of strdup, malloc etc.
@@ -32,3 +38,5 @@ extern int insert_graph_link (Graph *mygraph, int source, int target);
 extern int read_graph (Graph *mygraph, char *filename);
 extern void print_graph (Graph *mygraph);
 
+
+#endif
