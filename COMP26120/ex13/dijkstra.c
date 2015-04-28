@@ -5,10 +5,14 @@
 #include <limits.h>
 #include "dijkstra.h"
 #include "ordered_queue.h"
-#include "graph.h"
 
-int length(int u, int v);
 #define UNDEFINED 0
+
+int main(int argv, char *argc[]) {
+
+    return 0;
+}
+
 
 float dijkstra(Graph *g, int source) {
 /*
@@ -63,7 +67,7 @@ float dijkstra(Graph *g, int source) {
         List* neighbours = g->table[u]->outlist;
         while(neighbours!=NULL){
             int v = neighbours->index;
-            int alt = dist[u] + length(u, v);
+            int alt = dist[u] + 1/*length(u, v)*/; // length of edge between node and neighbour is 1
             if(alt<dist[v]){
                 dist[v]=alt;
                 prev[v]=u;
