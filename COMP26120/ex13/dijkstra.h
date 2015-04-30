@@ -9,6 +9,6 @@
 
 typedef unsigned int uint;
 /* returns the average distance to all other nodes form the specified node*/
-float dijkstra(Graph *g, int source);
+uint * dijkstra(Graph *g, int source);
 
 #endif //EX13_DIJKSTRA_H

@@ -8,13 +8,23 @@
 
 #define UNDEFINED 0
 
-int main(int argv, char *argc[]) {
+int main(int argc, char *argv[]) {
+    Graph g;
+    read_graph(&g,argv[1]);
+
+    uint* dist = dijkstra(&g,1);
+
+    printf("Printing out island nodes:\n");
+    for(int i=0;i<=g.maxID;i++){
+        if(dist[i]==UINT_MAX)
+            printf("Island node at index %d\n",i);
+    }
 
     return 0;
 }
 
 
-float dijkstra(Graph *g, int source) {
+uint* dijkstra(Graph *g, int source) {
 /*
     1    function Dijkstra(Graph, source):
     2      dist[source] ← 0                            // Initialization
@@ -46,21 +56,22 @@ float dijkstra(Graph *g, int source) {
     uint* prev = (uint*) malloc(sizeof(uint)* g->maxID);
     queue_init(q,g->maxID);
 
-
     //:2
     dist[source] = 0;
     //:3
-    for(int i=0;i<g->maxID;i++){
+    for(int i=1;i<=g->maxID;i++){
         if(g->table[i]!=NULL){
             int v = i;
     //:4
             if(v!=source){
-                dist[v]=UINT_MAX;
+                dist[v]=INT_MAX;
                 prev[v]=UNDEFINED;
+            }else {
+                qid[v] = queue_add(q,v,dist[v]);
             }
-            qid[v] = queue_add(q,v,dist[v]);
         }
     }
+
     //:11
     while (queue_size(q)>0){
         int u = queue_pop(q);
@@ -71,7 +82,7 @@ float dijkstra(Graph *g, int source) {
             if(alt<dist[v]){
                 dist[v]=alt;
                 prev[v]=u;
-                queue_alter(q,qid[v],alt);
+                qid[v] = queue_add(q,v,dist[v]);
             }
             neighbours = neighbours->next;
         }
@@ -79,7 +90,6 @@ float dijkstra(Graph *g, int source) {
 
     free(q);
     free(qid);
-    free(dist);
     free(prev);
-    return 0;
+    return dist;
 }

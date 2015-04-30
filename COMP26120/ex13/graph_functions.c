@@ -3,6 +3,7 @@
 void addToList(Node *node, int val){
   if(node->outlist==NULL){
     node->outlist = (List*)malloc(sizeof(List));
+    if(node->outlist==NULL)exit(12);
     node->outlist->index = val;
     node->outlist->next = NULL;
     return;
@@ -12,6 +13,7 @@ void addToList(Node *node, int val){
     curent = curent->next;
   }
   curent->next = (List*)malloc(sizeof(List));
+  if(curent->next==NULL)exit(12);
   curent->next->index = val;
   curent->next->next = NULL;
 }
@@ -30,6 +32,8 @@ int insert_graph_node (Graph *mygraph, int n, char *name) {
   mygraph->table[n]->outdegree = 0;
   mygraph->table[n]->indegree = 0;
   mygraph->maxID = (mygraph->maxID>n)?mygraph->maxID:n;
+
+  if(mygraph->table[n]==NULL) exit(12);
   return n;
 }
 
@@ -69,6 +73,7 @@ int read_graph (Graph *mygraph, char *filename)
   } else {
     fscanf (fp, "%d", &i);
     initialize_graph (mygraph, i+1); // +1 so nodes can be numbered 1..MAX
+
     while (fscanf (fp, "%s", command)!=EOF) {
       if (strcmp (command, "NODE")==0) {
         fscanf (fp, "%d %s", &i, name);

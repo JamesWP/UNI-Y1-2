@@ -3,4 +3,5 @@ project(ex13)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-add_executable(ex13 ${SOURCE_FILES} ex13.h graph.h graph_functions.c ex13.c ordered_queue.h ordered_queue.c dijkstra.h dijkstra.c)
+add_executable(ex13 ${SOURCE_FILES} ex13.h graph.h graph_functions.c ex13.c ordered_queue.h ordered_queue.c)
+add_executable(dijjstra ${SOURCE_FILES} graph.h graph_functions.c ordered_queue.h ordered_queue.c dijkstra.h dijkstra.c)

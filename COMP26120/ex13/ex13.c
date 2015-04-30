@@ -13,7 +13,7 @@
 
 void testQueueOrder(Queue *q);
 
-int main(int argv, char *argc[]) {
+int main(int argc, char *argv[]) {
     test1();
     test2();
     return 0;

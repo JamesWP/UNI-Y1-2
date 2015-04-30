@@ -7,6 +7,6 @@
 
 void test1();
 void test2();
-int main(int argv, char *argc[]);
+int main(int argc, char *argv[]);
 
 #endif //EX13_EX13_H
