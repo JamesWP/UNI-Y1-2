@@ -10,5 +10,8 @@
 typedef unsigned int uint;
 /* returns the average distance to all other nodes form the specified node*/
 uint * dijkstra(Graph *g, int source);
+/* returns the path from the source to the destination
+ * 0 terminated array */
+uint * astar(Graph *g, int source, int destination);
 
 #endif //EX13_DIJKSTRA_H
