@@ -12,6 +12,6 @@ typedef unsigned int uint;
 uint * dijkstra(Graph *g, int source);
 /* returns the path from the source to the destination
  * 0 terminated array */
-int *astar(Graph *g, int source, int destination);
+int astar(Graph *g, int source, int destination);
 
 #endif //EX13_DIJKSTRA_H
