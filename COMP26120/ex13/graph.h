@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <ctype.h>
+#define __USE_BSD
 #include <string.h>
 #include <stdbool.h>
 

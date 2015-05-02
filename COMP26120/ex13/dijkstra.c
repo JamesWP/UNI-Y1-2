@@ -11,9 +11,8 @@
 
 float calculateAverage(uint *numbers, int items);
 
-uint *astar(Graph *g, int source, int destination);
 
-uint *reconstructPath(uint *cameFrom, int source, int destination, int i);
+int *reconstructPath(int *cameFrom, int source, int destination, int i);
 
 uint heuristic(Graph *g, int i);
 
@@ -27,7 +26,6 @@ int main(int argc, char *argv[]) {
         for(int i=0;i<=g.maxID;i++){
             uint* dist = dijkstra(&g,i);
             float average = calculateAverage(dist,g.maxID);
-            printf("dist %f ",average);
             total += average;
             free(dist);
         }
@@ -35,7 +33,11 @@ int main(int argc, char *argv[]) {
     }else if(argc > 2 && strcmp(argv[2],"astar")==0){
         int source = atoi(argv[3]);
         int destination = atoi(argv[4]);
-        uint* path = astar(&g,source,destination);
+        int* path = astar(&g,source,destination);
+        if(path==NULL){
+            perror("No path found");
+            exit(12);
+        }
         int startIndex = path[0];
         for(;startIndex>0;startIndex--){
             printf("Path %d\n",path[startIndex]);
@@ -59,7 +61,9 @@ int main(int argc, char *argv[]) {
 float calculateAverage(uint *numbers, int items) {
     uint sum = 0;
     for(int i=0;i<=items;i++){
-        if(numbers[i]!=INT_MAX) sum += numbers[i];
+        if(numbers[i]<INT_MAX && numbers[i]>0){
+            sum += (uint)numbers[i];
+        }
     }
     return sum / (float) items;
 }
@@ -145,11 +149,11 @@ uint heuristic(Graph *g, int node) {
 }
 
 
-uint *astar(Graph *g, int source, int destination) {
+int *astar(Graph *g, int source, int destination) {
     Queue* q = (Queue*) malloc(sizeof(Queue));
     int* qid = (int*) malloc(sizeof(int)* g->maxID);
     uint* dist = (uint*) malloc(sizeof(uint)* g->maxID);
-    uint* prev = (uint*) malloc(sizeof(uint)* g->maxID);
+    int* prev = (int*) malloc(sizeof(int)* g->maxID);
     queue_init(q,g->maxID);
 
     //:2
@@ -197,14 +201,17 @@ uint *astar(Graph *g, int source, int destination) {
     return NULL;
 }
 
-uint *reconstructPath(uint *cameFrom, int source, int destination, int maxSteps) {
-    uint* path = (uint*)malloc(sizeof(uint)*maxSteps);
+int *reconstructPath(int *cameFrom, int source, int destination, int maxSteps) {
+    int* path = (int*)malloc(sizeof(int)*maxSteps);
     for(int i=0;i<maxSteps;i++)path[i]=0;
     int pathIndex=1;
     int current = destination;
+    printf("current %d\n",current);
     while(pathIndex<maxSteps&&current!=source){
         path[pathIndex++] = current;
         current = cameFrom[current];
+        printf("current %d\n",current);
+        getchar();
     }
     path[pathIndex] = current;
     path[0] = pathIndex; // first index contains where to start from (and work backwards to 0) for path
