@@ -21,7 +21,7 @@ int main(int argc, char *argv[]) {
     Graph g;
     read_graph(&g,argv[1]);
 
-    if(argc > 2 && strcmp(argv[2],"smallworld")){
+    if(argc > 2 && strcmp(argv[2],"smallworld")==0){
         printf("smallworld");
         float total = 0.0f;
         for(int i=0;i<=g.maxID;i++){
@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
             free(dist);
         }
         printf("\nsmallword number %f\n",total/g.maxID);
-    }else if(argc > 2 && strcmp(argv[2],"astar")){
+    }else if(argc > 2 && strcmp(argv[2],"astar")==0){
         int source = atoi(argv[3]);
         int destination = atoi(argv[4]);
         uint* path = astar(&g,source,destination);

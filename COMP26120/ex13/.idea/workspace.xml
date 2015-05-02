@@ -15,8 +15,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5397ecba-9b66-4135-a72c-40a7b99d1c5b" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/LabReport.tex" afterPath="$PROJECT_DIR$/LabReport.tex" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/dijkstra.c" afterPath="$PROJECT_DIR$/dijkstra.c" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="ex13.iws" />
@@ -41,8 +39,8 @@
       <file leaf-file-name="dijkstra.c" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/dijkstra.c">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.9685767">
-              <caret line="75" column="11" selection-start-line="75" selection-start-column="11" selection-end-line="75" selection-end-column="11" />
+            <state vertical-scroll-proportion="0.8595194">
+              <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
               <folding>
                 <element signature="e#46#65#0" expanded="true" />
               </folding>
@@ -261,7 +259,13 @@
       <option name="project" value="LOCAL" />
       <updated>1430472113797</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="changes from mac&#10;">
+      <created>1430472150130</created>
+      <option name="number" value="00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1430472150130</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TodoView">
@@ -365,6 +369,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#84#1004#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -444,6 +451,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#84#1004#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -490,6 +500,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.56956524">
           <caret line="69" column="0" selection-start-line="69" selection-start-column="0" selection-end-line="69" selection-end-column="0" />
+          <folding>
+            <element signature="e#84#1004#0" expanded="false" />
+          </folding>
         </state>
       </provider>
       <provider editor-type-id="LaTeXFileEditor">
@@ -522,8 +535,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/dijkstra.c">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.9685767">
-          <caret line="75" column="11" selection-start-line="75" selection-start-column="11" selection-end-line="75" selection-end-column="11" />
+        <state vertical-scroll-proportion="0.8595194">
+          <caret line="35" column="35" selection-start-line="35" selection-start-column="35" selection-end-line="35" selection-end-column="35" />
           <folding>
             <element signature="e#46#65#0" expanded="true" />
           </folding>
