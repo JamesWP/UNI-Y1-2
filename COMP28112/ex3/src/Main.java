@@ -161,6 +161,8 @@ public class Main {
             this.curentRequestStartItteration = requestStartItteration;
         }
     }
+
+
     private static void usage() {
         System.out.println("Usage:\n\tjava Main <queueMaxSize> <timeBetweenRequests> <numberOfServers> <requestProcessTime>");
     }
