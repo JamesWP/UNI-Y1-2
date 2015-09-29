@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java DivideCake3 10 5 15
+java DivideCake3 76 34 13
+java DivideCake3 4 6 12
+java DivideCake3 1 1 1 

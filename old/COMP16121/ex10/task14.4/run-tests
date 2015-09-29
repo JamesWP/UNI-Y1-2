@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "Compiling  ------"
+javac *.java 
+echo "Running ---------"
+
+(
+	echo "2"
+	echo "James"
+	echo 10
+	echo Toby
+	echo 20
+)  | java MarkAnalysis

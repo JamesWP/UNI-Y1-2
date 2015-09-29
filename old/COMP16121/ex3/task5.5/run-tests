@@ -1,0 +1,17 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java MinimumBitWidth 2
+java MinimumBitWidth 3
+java MinimumBitWidth 4
+java MinimumBitWidth 5
+java MinimumBitWidth 255
+java MinimumBitWidth 256
+java MinimumBitWidth 257
+java MinimumBitWidth 65535
+java MinimumBitWidth 65536
+java MinimumBitWidth 65537
+
+

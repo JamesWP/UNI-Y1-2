@@ -1,0 +1,6 @@
+# First (non-comment) line is name of file to be marked
+Game.java
+?compile run
+# Second (non-comment) line is title of exercise
+Snake Game
+# Then comes the marking scheme

@@ -1,0 +1,385 @@
+KMD
+00000000: E28FDFFA    ;         ADR     SP, _stack      ; set SP pointing to the end of our stack
+00000004: EA000186    ;         B       main
+00000008:             ;         DEFS    1000    ; this chunk of memory is for the stack
+000003F0:             ; _stack
+000003F0:             ;                         ;public class VM {
+000003F0:             ;                         ;static final int
+000003F0:             ; iadd    EQU     0       ;iadd=0, imul=1, ifgt=2, if_icmplt=3, bipush=4,
+000003F0:             ; imul    EQU     1
+000003F0:             ; ifgt    EQU     2
+000003F0:             ; if_icmplt EQU   3
+000003F0:             ; bipush  EQU     4
+000003F0:             ; go_to   EQU     5       ;go_to=5, iload=6, istore=7, iprint=8, stop=9;
+000003F0:             ; iload   EQU     6
+000003F0:             ; istore  EQU     7
+000003F0:             ; iprint  EQU     8
+000003F0:             ; stop    EQU     9
+000003F0:             ; 
+000003F0:             ; ;the following defines "code" and initialises it
+000003F0:             ; code                    ;static int [] code= new int[100];
+000003F0:             ;                         ;static void initcode () {
+000003F0:             ;                         ;//example1
+000003F0:             ;                         ;//int a = 1;
+000003F0: 00000004    ;   DEFW  bipush, 1       ;code[0]= bipush; code[1]= 1;
+000003F4: 00000001    ; 
+000003F8: 00000007    ;   DEFW  istore, 1       ;code[2]= istore; code[3]= 1;
+000003FC: 00000001    ; 
+00000400:             ;                         ;//jump to test for while
+00000400: 00000005    ;   DEFW  go_to, 12       ;code[4]= go_to; code[5]= 12; //12+4=16
+00000404: 0000000C    ; 
+00000408:             ;                         ;//print a
+00000408: 00000006    ;   DEFW  iload, 1        ;code[6]= iload; code[7]= 1;
+0000040C: 00000001    ; 
+00000410: 00000008    ;   DEFW  iprint          ;code[8]= iprint;
+00000414:             ;                         ;//a = a * 2;
+00000414: 00000006    ;   DEFW  iload, 1        ;code[9]= iload; code[10]= 1;
+00000418: 00000001    ; 
+0000041C: 00000004    ;   DEFW  bipush, 2       ;code[11]= bipush; code[12]= 2;
+00000420: 00000002    ; 
+00000424: 00000001    ;   DEFW  imul            ;code[13]= imul;
+00000428: 00000007    ;   DEFW  istore, 1       ;code[14]= istore; code[15]= 1;
+0000042C: 00000001    ; 
+00000430:             ;                         ;//while (a * 2 > 0)
+00000430: 00000006    ;   DEFW  iload, 1        ;code[16]= iload; code[17]= 1;
+00000434: 00000001    ; 
+00000438: 00000004    ;   DEFW  bipush, 2       ;code[18]= bipush; code[19]= 2;
+0000043C: 00000002    ; 
+00000440: 00000001    ;   DEFW  imul            ;code[20]= imul;
+00000444: 00000002    ;   DEFW  ifgt, -15       ;code[21]= ifgt; code[22]= -15; //21-15=6
+00000448: FFFFFFF1    ; 
+0000044C:             ;                         ;//end
+0000044C:             ;                         ;//print a
+0000044C: 00000006    ;   DEFW  iload, 1        ;code[23]= iload; code[24]= 1;
+00000450: 00000001    ; 
+00000454: 00000008    ;   DEFW  iprint          ;code[25]= iprint;
+00000458: 00000009    ;   DEFW  stop            ;code[26]= stop;
+0000045C: 00000000    ;   DEFW  0, 0, 0         ; [27] [28] [29]
+00000460: 00000000    ; 
+00000464: 00000000    ; 
+00000468:             ;                         ;//example2
+00000468:             ;                         ;//int vol = 200;
+00000468: 00000004    ;   DEFW  bipush, 200     ;code[30]= bipush; code[31]= 200;
+0000046C: 000000C8    ; 
+00000470: 00000007    ;   DEFW  istore, 1       ;code[32]= istore; code[33]= 1;
+00000474: 00000001    ; 
+00000478:             ;                         ;//int side= 1;
+00000478: 00000004    ;   DEFW  bipush, 1       ;code[34]= bipush; code[35]= 1;
+0000047C: 00000001    ; 
+00000480: 00000007    ;   DEFW  istore, 2       ;code[36]= istore; code[37]= 2;
+00000484: 00000002    ; 
+00000488:             ;                         ;//jump to test for while
+00000488: 00000005    ;   DEFW  go_to, 12       ;code[38]= go_to; code[39]= 12; //38+12 =50
+0000048C: 0000000C    ; 
+00000490:             ;                         ;//System.out.println(" "+side);
+00000490: 00000006    ;   DEFW  iload, 2        ;code[40]= iload; code[41]= 2;
+00000494: 00000002    ; 
+00000498: 00000008    ;   DEFW  iprint          ;code[42]= iprint;
+0000049C:             ;                         ;//side = side + 1;
+0000049C: 00000006    ;   DEFW  iload, 2        ;code[43]= iload; code[44]= 2;
+000004A0: 00000002    ; 
+000004A4: 00000004    ;   DEFW  bipush, 1       ;code[45]= bipush; code[46]= 1;
+000004A8: 00000001    ; 
+000004AC: 00000000    ;   DEFW  iadd            ;code[47]= iadd;
+000004B0: 00000007    ;   DEFW  istore, 2       ;code[48]= istore; code[49]= 2;
+000004B4: 00000002    ; 
+000004B8:             ;                         ;//while (side * side * side < vol)
+000004B8: 00000006    ;   DEFW  iload, 2        ;code[50]= iload; code[51]= 2;
+000004BC: 00000002    ; 
+000004C0: 00000006    ;   DEFW  iload, 2        ;code[52]= iload; code[53]= 2;
+000004C4: 00000002    ; 
+000004C8: 00000001    ;   DEFW  imul            ;code[54]= imul;
+000004CC: 00000006    ;   DEFW  iload, 2        ;code[55]= iload; code[56]= 2;
+000004D0: 00000002    ; 
+000004D4: 00000001    ;   DEFW  imul            ;code[57]= imul;
+000004D8: 00000006    ;   DEFW  iload, 1        ;code[58]= iload; code[59]= 1;
+000004DC: 00000001    ; 
+000004E0: 00000003    ;   DEFW  if_icmplt, -20  ;code[60]= if_icmplt; code[61]= -20; //60-20 = 40
+000004E4: FFFFFFEC    ; 
+000004E8:             ;                         ;//}
+000004E8: 00000009    ;   DEFW  stop            ;code[62]= stop;
+000004EC:             ;                         ;}
+000004EC:             ; 
+000004EC: 74 72 61 63 ; _trace1 DEFB    "trace: vmPC=",0
+000004F0: 65 3A 20 76 ; 
+000004F4: 6D 50 43 3D ; 
+000004F8: 00          ; 
+000004FC:             ;         ALIGN
+000004FC: 20 63 6F 64 ; _trace2 DEFB    " code=",0
+00000500: 65 3D 00    ; 
+00000504:             ;         ALIGN
+00000504: 20 76 6D 53 ; _trace3 DEFB    " vmSP=",0
+00000508: 50 3D 00    ; 
+0000050C:             ;         ALIGN
+0000050C: 6E 6F 74 20 ; _notimpl DEFB   "not implemented:",0
+00000510: 69 6D 70 6C ; 
+00000514: 65 6D 65 6E ; 
+00000518: 74 65 64 3A ; 
+0000051C: 00          ; 
+00000520:             ;         ALIGN
+00000520:             ; 
+00000520:             ; stack   DEFS 40         ;int [] stack= new int[10];
+00000548:             ; vars    DEFS 40         ;int [] vars= new int[10];
+00000570:             ; 
+00000570:             ; vmPC    RN      R2      ;use R2 for vmPC
+00000570:             ; vmSP    RN      R3      ;use R3 for vmSP
+00000570:             ; done    RN      R4      ;use R4 for done
+00000570:             ; 
+00000570:             ; getCode ; R0 = code[vmPC]
+00000570: E92D0300    ;         STMFD SP!, {R8,R9}
+00000574: E1A09002    ;         MOV   R9, vmPC
+00000578: E3A08004    ;         MOV   R8, #4
+0000057C: E0090899    ;         MUL   R9, R9, R8
+00000580: E24F8F66    ;         ADR   R8, code
+00000584: E0899008    ;         ADD   R9, R9, R8
+00000588: E5190000    ;         LDR   R0, [R9]
+0000058C: E8BD0300    ;         LDMFD SP!, {R8,R9}
+00000590: E1A0F00E    ;         MOV   PC, LR
+00000594:             ; 
+00000594:             ; popR0   ; R0 = stack[vmSP++]
+00000594: E92D0300    ;         STMFD SP!, {R8,R9}
+00000598: E1A09003    ;         MOV   R9, vmSP
+0000059C: E2833001    ;         ADD   vmSP, vmSP, #1
+000005A0: E3A08004    ;         MOV   R8, #4
+000005A4: E0090899    ;         MUL   R9, R9, R8
+000005A8: E24F8090    ;         ADR   R8, stack
+000005AC: E0899008    ;         ADD   R9, R9, R8
+000005B0: E5190000    ;         LDR   R0, [R9]
+000005B4: E8BD0300    ;         LDMFD SP!, {R8,R9}
+000005B8: E1A0F00E    ;         MOV   PC, LR
+000005BC:             ; 
+000005BC:             ; pushR0  ; stack[--vmSP] = R0
+000005BC: E92D0300    ;         STMFD SP!, {R8,R9}
+000005C0: E2433001    ;         SUB   vmSP, vmSP, #1
+000005C4: E1A09003    ;         MOV   R9, vmSP
+000005C8: E3A08004    ;         MOV   R8, #4
+000005CC: E0090899    ;         MUL   R9, R9, R8
+000005D0: E24F80B8    ;         ADR   R8, stack
+000005D4: E0899008    ;         ADD   R9, R9, R8
+000005D8: E5090000    ;         STR   R0, [R9]
+000005DC: E8BD0300    ;         LDMFD SP!, {R8,R9}
+000005E0: E1A0F00E    ;         MOV   PC, LR
+000005E4:             ; 
+000005E4:             ; getVars ;R0=vars[R0]
+000005E4: E92D0300    ;         STMFD SP!, {R8,R9}
+000005E8: E3A08004    ;         MOV  R8, #4
+000005EC: E0090890    ;         MUL  R9, R0, R8
+000005F0: E24F80B0    ;         ADR  R8, vars
+000005F4: E0899008    ;         ADD  R9, R9, R8
+000005F8: E5190000    ;         LDR  R0, [R9]
+000005FC: E8BD0300    ;         LDMFD SP!, {R8,R9}
+00000600: E1A0F00E    ;         MOV  PC, LR
+00000604:             ; 
+00000604:             ; putVars ;vars[R1]=R0
+00000604: E92D0300    ;         STMFD SP!, {R8,R9}
+00000608: E3A08004    ;         MOV  R8, #4
+0000060C: E0090891    ;         MUL  R9, R1, R8
+00000610: E24F80D0    ;         ADR  R8, vars
+00000614: E0899008    ;         ADD  R9, R9, R8
+00000618: E5090000    ;         STR  R0, [R9]
+0000061C: E8BD0300    ;         LDMFD SP!, {R8,R9}
+00000620: E1A0F00E    ;         MOV  PC, LR
+00000624:             ; 
+00000624:             ; main    ;public static void main (String argv[]) {
+00000624: E3A04000    ;         MOV done ,#0 ;boolean done= false;
+00000628: E3A0201E    ;         MOV vmPC ,#30  ;,#0 ;int vmPC= 0;       // or vmPC= 30; for part 2 !
+0000062C: E3A0300A    ;         MOV vmSP ,#10;int vmSP= 10;
+00000630:             ;         ;nothing needed for: initcode1();
+00000630:             ;         ;while (!done) {
+00000630:             ; 
+00000630:             ; while
+00000630: E3540001    ;         CMP done, #1
+00000634: 0A000060    ;   BEQ end
+00000638:             ;   ;this code does System.out.println("trace: vmPC=" + vmPC
+00000638:             ;         ;  + " code=" + code[vmPC] + " vmSP=" + vmSP);
+00000638: E24F0F55    ;         ADR R0, _trace1
+0000063C: EF000003    ;         SVC 3
+00000640: E1A00002    ;         MOV R0, vmPC
+00000644: EF000004    ;         SVC 4
+00000648: E24F0F55    ;         ADR R0, _trace2
+0000064C: EF000003    ;         SVC 3
+00000650: EBFFFFC6    ;         BL  getCode
+00000654: EF000004    ;         SVC 4
+00000658: E24F0F57    ;         ADR R0, _trace3
+0000065C: EF000003    ;         SVC 3
+00000660: E1A00003    ;         MOV R0, vmSP
+00000664: EF000004    ;         SVC 4
+00000668: E3A0000A    ;         MOV R0, #10
+0000066C: EF000000    ;         SVC 0
+00000670:             ; 
+00000670:             ;         ;switch (code[vmPC++]) {
+00000670: EBFFFFBE    ;   BL   getCode ; result in R0
+00000674: E2822001    ;   ADD  vmPC , vmPC , #1 ; increment pc ++
+00000678: E28F1000    ;   ADRL R1 ,switch
+0000067C: E791F100    ;   LDR  PC, [R1,R0,LSL #2] ; jump to code
+00000680: 000006C0    ; switch  DEFW case_iadd
+00000684: 00000764    ;         DEFW    case_imul
+00000688: 00000704    ;         DEFW    case_ifgt
+0000068C: 000006D8    ;         DEFW  case_if_icmplt
+00000690: 00000754    ;         DEFW    case_bipush
+00000694: 000006A8    ;         DEFW    case_go_to
+00000698: 00000728    ;         DEFW    case_iload
+0000069C: 0000073C    ;         DEFW    case_istore
+000006A0: 0000077C    ;         DEFW    case_iprint
+000006A4: 00000790    ;         DEFW    case_stop
+000006A8:             ; 
+000006A8:             ; case_go_to      ;case go_to: vmPC= code[vmPC++] + vmPC - 2;
+000006A8:             ;                 ;break;
+000006A8: EBFFFFB0    ;     BL getCode
+000006AC: E2822001    ;     ADD vmPC, vmPC, #1
+000006B0: E0800002    ;     ADD R0, R0, vmPC
+000006B4: E2400002    ;     SUB R0, R0, #2
+000006B8: E1A02000    ;     MOV vmPC, R0
+000006BC: EAFFFFDB    ;     B while
+000006C0:             ; 
+000006C0:             ; case_iadd
+000006C0: EBFFFFB3    ;     BL popR0
+000006C4: E1A01000    ;     MOV R1, R0
+000006C8: EBFFFFB1    ;     BL popR0
+000006CC: E0800001    ;     ADD R0, R0, R1
+000006D0: EBFFFFB9    ;     BL pushR0
+000006D4: EAFFFFD5    ;     B while
+000006D8:             ; 
+000006D8:             ; case_if_icmplt
+000006D8: EBFFFFAD    ;     BL popR0
+000006DC: E1A01000    ;     MOV R1,R0
+000006E0: EBFFFFAB    ;     BL popR0
+000006E4: E1500001    ;     CMP R0,R1
+000006E8: EBFFFFA0    ;     BL getCode
+000006EC: E2822001    ;     ADD vmPC, vmPC, #1
+000006F0: E0800002    ;     ADD R0, R0, vmPC
+000006F4: E2400002    ;     SUB R0, R0, #2
+000006F8: AAFFFFCC    ;     BGE while ; if >= dont do anything
+000006FC: E1A02000    ;     MOV vmPC, R0
+00000700: EAFFFFCA    ;     B while
+00000704:             ; 
+00000704:             ; case_ifgt       ;case ifgt:
+00000704:             ;                 ;{int target= code[vmPC++] + vmPC - 2;
+00000704:             ;                 ;if (stack[vmSP++]>0)
+00000704:             ;                 ;vmPC= target;
+00000704:             ;                 ;}
+00000704:             ;                 ;break;
+00000704: EBFFFF99    ;     BL getCode
+00000708: E2822001    ;     ADD vmPC, vmPC, #1
+0000070C: E0800002    ;     ADD R0, R0, vmPC
+00000710: E2400002    ;     SUB R0, R0, #2
+00000714: E1A01000    ;     MOV R1, R0
+00000718: EBFFFF9D    ;     BL popR0
+0000071C: E3500000    ;     CMP R0,#0
+00000720: C1A02001    ;     MOVGT vmPC, R1 
+00000724: EAFFFFC1    ;     B while
+00000728:             ; 
+00000728:             ; case_iload      ;case iload: stack[--vmSP]= vars[code[vmPC++]];
+00000728: EBFFFF90    ;                 BL getCode
+0000072C: E2822001    ;     ADD vmPC, vmPC, #1
+00000730: EBFFFFAB    ;     BL getVars
+00000734: EBFFFFA0    ;     BL pushR0
+00000738: EAFFFFBC    ;     B while
+0000073C:             ;     ;break;
+0000073C:             ; 
+0000073C:             ; case_istore     ;case istore: vars[code[vmPC++]]= stack[vmSP++];
+0000073C:             ;                 ;break;
+0000073C: EBFFFF8B    ;     BL getCode
+00000740: E2822001    ;     ADD vmPC, vmPC, #1
+00000744: E1A01000    ;     MOV R1, R0
+00000748: EBFFFF91    ;     BL popR0
+0000074C: EBFFFFAC    ;     BL putVars;vars[R1]=R0
+00000750: EAFFFFB6    ;     B while
+00000754:             ; 
+00000754:             ; 
+00000754:             ; case_bipush     ;case bipush: stack[--vmSP]= code[vmPC++];
+00000754: EBFFFF85    ;     BL getCode ; code[vmPC++]
+00000758: E2822001    ;     ADD  vmPC , vmPC , #1
+0000075C: EBFFFF96    ;     BL pushR0  ;
+00000760: EAFFFFB2    ;     B  while
+00000764:             ; 
+00000764:             ; case_imul       ;case imul:
+00000764:             ;                 ;{int a= stack[vmSP++];
+00000764:             ;                 ;int b= stack[vmSP++];
+00000764:             ;                 ;stack[--vmSP]= a*b;
+00000764:             ;                 ;}
+00000764:             ;                 ;break;
+00000764: EBFFFF8A    ;     BL popR0
+00000768: E1A01000    ;     MOV R1,R0
+0000076C: EBFFFF88    ;     BL popR0
+00000770: E0000190    ;     MUL R0,R0,R1
+00000774: EBFFFF90    ;     BL pushR0
+00000778: EAFFFFAC    ;     B while
+0000077C:             ; 
+0000077C:             ; case_iprint     ;case iprint:
+0000077C:             ;                 ;the following ARM code does:
+0000077C:             ;                 ;System.out.println(" " + stack[vmSP++]);
+0000077C: EBFFFF84    ;                 BL  popR0
+00000780: EF000004    ;                 SVC 4
+00000784: E3A0000A    ;                 MOV R0, #10
+00000788: EF000000    ;                 SVC 0
+0000078C: EAFFFFA7    ;     B while
+00000790:             ;                 ;break;
+00000790:             ; 
+00000790:             ; case_stop       ;case stop: done=true;
+00000790: E3A04001    ;     MOV done , #1
+00000794: EAFFFFA5    ;     B while
+00000798:             ;                 ;break;
+00000798:             ; 
+00000798:             ; default         ;default:
+00000798:             ;                 ;the following ARM code does:
+00000798:             ;                 ;System.out.println("not implemented:" + code[vmPC-1]);
+00000798: E24F0FA5    ;                 ADR R0, _notimpl
+0000079C: EF000003    ;                 SVC 3
+000007A0: E2422001    ;                 SUB vmPC, vmPC, #1
+000007A4: EBFFFF71    ;                 BL  getCode
+000007A8: EF000004    ;                 SVC 4
+000007AC: E3A0000A    ;                 MOV R0, #10
+000007B0: EF000000    ;                 SVC 0
+000007B4:             ; 
+000007B4: E3A04001    ;     MOV done, #1
+000007B8: EAFFFF9C    ;     B while
+000007BC:             ;                 ;done= true;
+000007BC:             ;                 ;break;
+000007BC:             ; 
+000007BC:             ;                 ;}//end of switch
+000007BC:             ;                 ;}//end of while
+000007BC:             ; end
+000007BC: EF000002    ;         SVC 2   ;}//end of main
+000007C0:             ;                 ;}//end of class
+000007C0:             ; 
+
+Symbol Table: Labels
+: _stack                            000003F0  Local -- ARM
+: iadd                              00000000  Value
+: imul                              00000001  Value
+: ifgt                              00000002  Value
+: if_icmplt                         00000003  Value
+: bipush                            00000004  Value
+: go_to                             00000005  Value
+: iload                             00000006  Value
+: istore                            00000007  Value
+: iprint                            00000008  Value
+: stop                              00000009  Value
+: code                              000003F0  Local -- ARM
+: _trace1                           000004EC  Local -- ARM
+: _trace2                           000004FC  Local -- ARM
+: _trace3                           00000504  Local -- ARM
+: _notimpl                          0000050C  Local -- ARM
+: stack                             00000520  Local -- ARM
+: vars                              00000548  Local -- ARM
+: getCode                           00000570  Local -- ARM
+: popR0                             00000594  Local -- ARM
+: pushR0                            000005BC  Local -- ARM
+: getVars                           000005E4  Local -- ARM
+: putVars                           00000604  Local -- ARM
+: main                              00000624  Local -- ARM
+: while                             00000630  Local -- ARM
+: switch                            00000680  Local -- ARM
+: case_go_to                        000006A8  Local -- ARM
+: case_iadd                         000006C0  Local -- ARM
+: case_if_icmplt                    000006D8  Local -- ARM
+: case_ifgt                         00000704  Local -- ARM
+: case_iload                        00000728  Local -- ARM
+: case_istore                       0000073C  Local -- ARM
+: case_bipush                       00000754  Local -- ARM
+: case_imul                         00000764  Local -- ARM
+: case_iprint                       0000077C  Local -- ARM
+: case_stop                         00000790  Local -- ARM
+: default                           00000798  Local -- ARM
+: end                               000007BC  Local -- ARM

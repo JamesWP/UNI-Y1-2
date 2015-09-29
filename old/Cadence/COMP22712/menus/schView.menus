@@ -1,0 +1,342 @@
+;******************************************************************************
+; schView.menus - Copyright (C) 1994-1999 Cadence Design Systems, Inc.
+;			All Rights Reserved.
+;
+; This file contains the default menu definitions for the schematic and
+; symbol editors for the view-only capability; the base menu items defined
+; here are also referenced in the edit capability menu set.
+;
+; $Revision: 1.15 $
+; $Date: 2003/06/03 23:39:18 $
+;******************************************************************************
+
+;******************************************************************************
+; Define often referenced menu item definitions. These are used in both
+; the pulldown menus and the popUps and some are also utilized in the
+; schematic menu definitions.
+;******************************************************************************
+schcSaveAsItem  = '(SaveAsItem	"Save As..."	"geSaveAs()")
+schcOpenItem    = '(OpenItem	"Open..."	"schHiOpenCellView()")
+schcZoomInItem	= '(ZoomInItem	"Zoom In" 	"hiZoomIn()")
+schcPanItem	= '(PanItem	"Pan"		"hiPan()")
+schcFitItem	= '(FitItem	"Fit"
+				"schZoomFit(1.0 0.9)")
+schcZoom2InItem	= '(Zoom2InItem	"Zoom In By 2"
+				"hiZoomRelativeScale(getCurrentWindow() 1.25)")
+schcZoomOutItem	= '(ZoomOutItem	"Zoom Out By 2"
+				"hiZoomRelativeScale(getCurrentWindow() 0.8)")
+
+;******************************************************************************
+; The ModeItem text and callback change depending on the mode of the data in
+; the window. This can only be done if the pulldown it is created in is
+; unique per window (so that changes won't affect other windows). Other items
+; may fall into this category: "Save (needed)" vs. "Save (not required)".
+;******************************************************************************
+schcModeItem    = '(ModeItem	"Make Editable"  "schHiChangeEditMode(\"a\")"
+		    editChange	"Make Read Only" "schHiChangeEditMode(\"r\")")
+
+;******************************************************************************
+; The SaveItem text will vary on whether a save is required or not.
+; This information is updated in the callback function for the Design/File
+; pulldown.
+;******************************************************************************
+schcSaveItem    = '(SaveItem	"Save (needed)"	"schHiSaveCellView()"
+		    needSave	"Save (not needed)")
+schcDiscardItem = '(RevertItem	"Discard Edits..." "geDiscardEdits()"
+		    needDiscard)
+
+;******************************************************************************
+; Define often referenced slider menu definitions. These sliders may also
+; be referenced in the schematic menu definitions.
+;
+; The hierarchy sliders will vary depending on whether the schematic is an
+; index schematic or not; there are no Descend commands for the index because
+; goto sheet is the preferred method.
+;******************************************************************************
+schcViewHierSlider = '(schViewHierSlider "Hierarchy" (
+    (DownEdit	"Descend Edit..."	"schHiDescendEdit()")
+    (DownRead	"Descend Read..."	"schHiDescendRead()")
+    (Scope	"Show Scope"		"schHiShowScope()")
+    (Up		"Return"		"schHiReturn()")
+    (UpToTop	"Return To Top"		"schHiReturnToTop()")
+))
+schcHierIndexSlider = '(schHierIndexSlider "Hierarchy" (
+    (Scope	"Show Scope"		"schHiShowScope()")
+    (Up		"Return"		"schHiReturn()")
+    (UpToTop	"Return To Top"		"schHiReturnToTop()")
+))
+
+;******************************************************************************
+; There are two probe sliders, one for schematics and one for symbols.
+;******************************************************************************
+schcProbeSlider1 = '(schProbeSlider1 "Probe" (
+    (AddNet	"Add Net"		"geAddNetProbe()")
+    (AddTerm	"Add Pin"		"geAddTermProbe()")
+    (AddInst	"Add Instance"		"geAddInstProbe()")
+    (Explain	"Explain"		"geExplainProbe()")
+    (RmNet	"Remove Net"		"geDeleteNetProbe()")
+    (RmTerm	"Remove Pin"		"geDeleteTermProbe()")
+    (RmInst	"Remove Instance"	"geDeleteInstProbe()")
+    (RmAll	"Remove All"	       "geDeleteAllProbe(getCurrentWindow() t)")
+    (Load	"Load..."		"geiLoadProbe()")
+    (Save	"Save..."		"geiSaveProbe()")
+))
+schcProbeSlider2 = '(schProbeSlider2 "Probe" (
+    (AddNet	"Add Net"		"geAddNetProbe()")
+    (AddTerm	"Add Pin"		"geAddTermProbe()")
+    (Explain	"Explain"		"geExplainProbe()")
+    (RmNet	"Remove Net"		"geDeleteNetProbe()")
+    (RmTerm	"Remove Pin"		"geDeleteTermProbe()")
+    (RmAll	"Remove All"	       "geDeleteAllProbe(getCurrentWindow() t)")
+    (Load	"Load..."		"geiLoadProbe()")
+    (Save	"Save..."		"geiSaveProbe()")
+))
+/*
+schcOptionsSlider = '(schOptionsSliders "Options" (
+    (Editor	"Editor..."		"schHiEditorOptions()")
+    (Display	"Display..."		"schHiDisplayOptions()")
+    (Save	"Save Defaults..."	"schHiEnvSaveLoad(\"save\")")
+    (Load	"Load Defaults..."	"schHiEnvSaveLoad(\"load\")")
+))
+*/
+schcPlotSlider = '(schPlotSlider "Plot" (
+    (Submit	"Submit..."		"schHiPlot()")
+    (Query	"Queue Status..."	"schHiPlotQueueStatus()")
+))
+
+;******************************************************************************
+; Define the Option pulldowns for schematic and symbol cellviews.
+;******************************************************************************
+
+schSOptionPulldown = '(schSOptionMenu "Options" (
+    (Editor             "Editor..."     "schHiEditorOptions()")
+    (Display            "Display..."    "schHiDisplayOptions()")
+    (Filter             "Select Filter..."    "schSetSelectOptions()")
+    (Options            "Check..."    "schHiCheck(\"editOptions\")")
+    (RulesItem          "Check Rules Setup..."      "schHiSRC(\"editOptions\")")
+    ;(LabDispItem        "Component Display..."   "asaEditCompDisplay()" checkCB)
+    (aFilter            "Tool Filter..."      "artToolFilterMenuCB()")
+    (SeparatorBar       separator)
+    (Save               "Save Defaults..."    "schHiEnvSaveLoad(\"save\")")
+    (Load               "Load Defaults..."    "schHiEnvSaveLoad(\"load\")")
+))
+
+schcOptionPulldown = '(schcOptionMenu "Options" (
+    (Editor             "Editor..."           "schHiEditorOptions()")
+    (Display            "Display..."          "schHiDisplayOptions()")
+    (Filter             "Select Filter..."    "schSetSelectOptions()")
+    (SeparatorBar       separator)
+    (Save               "Save Defaults..."    "schHiEnvSaveLoad(\"save\")")
+    (Load               "Load Defaults..."    "schHiEnvSaveLoad(\"load\")")
+))
+
+schViewOnlyOptionPulldown = '(schViewOnlyOptionMenu "Options" (
+    (Editor             "Editor..."           "schHiEditorOptions()")
+    (Display            "Display..."          "schHiDisplayOptions()")
+    (SeparatorBar       separator)
+    (Save               "Save Defaults..."    "schHiEnvSaveLoad(\"save\")")
+    (Load               "Load Defaults..."    "schHiEnvSaveLoad(\"load\")")
+))
+
+;******************************************************************************
+; Define the Window pulldown.
+;******************************************************************************
+schcWindowMenu = '(schWindowMenu "Window" (
+    (ZoomSlider		"Zoom" (
+	schcZoomInItem
+	schcZoom2InItem
+	schcZoomOutItem
+    ))
+    schcPanItem
+    schcFitItem
+    (RedrawItem		"Redraw"	"hiRedraw()")
+    (UtilSlider		"Utilities" (
+	(CopyWin	"Copy Window"		"geNewWindow()")
+	(SaveWin	"Save View..."		"geSaveWinView()")
+	(Restore	"Restore View..."	"geRestoreWinView()")
+    ))
+    (WorldViewItem	"World View"	"hiOpenWorldView(hiGetCurrentWindow())")
+    (CloseItem	 	"Close"		"hiCloseWindow(getCurrentWindow())")
+))
+
+;******************************************************************************
+; Define the view-only Design/File pulldowns for index and non-index cellViews.
+; A unique pulldown is created per window so that state of the items can change
+; per window (for the other pulldowns, the items are shared across windows).
+;******************************************************************************
+schcViewFileMenu = '(schViewFileEditMenu "Design" (
+    schcSaveItem
+    schcSaveAsItem
+    schcViewHierSlider
+    schcOpenItem
+    schcDiscardItem
+    schcModeItem
+    schcProbeSlider1
+    ;;schcOptionsSlider
+    schcPlotSlider
+) schFileMenuCB)
+
+schcViewIndexFileMenu = '(schViewIndexFileMenu "Design" (
+    schcSaveItem
+    schcSaveAsItem
+    schcHierIndexSlider
+    schcOpenItem
+    schcDiscardItem
+    schcModeItem
+    schcProbeSlider2
+    ;;schcOptionsSlider
+    schcPlotSlider
+) schFileMenuCB)
+
+;******************************************************************************
+; Define the view-only Edit pulldown which contains minimal editing functions.
+;******************************************************************************
+schcViewEditMenu = '(schViewEditMenu "Edit" (
+    (ViewPropSlider	"Properties" (
+	(Objects	"Objects..."		"schHiObjectProperty()")
+	(CellView	"Cellview..."		"schHiCellViewProperty()")
+    ))
+    (GotoItem		"Go To..."		"schHiGotoSheet()" sheetOnly)
+    (FindItem		"Search..."		"schHiFind()")
+    (MFindItem 		"Find Marker..."	"schHiFindMarker()")
+))
+
+;******************************************************************************
+; Define a Help menu.
+;******************************************************************************
+
+schcHelpMenu = '(schHelpMenu "Help" (
+    (schcntxt  "Current Context" "ddsOnLineHelp('window)")
+    (schcmnd   "Contents" "ddsOnLineHelp(\"Schematics\")")
+    ciwHelpSep
+    ciwHelpMain
+    ciwHelpSep
+    (schkpns   "Known Problems and Solutions"
+	       "ddsOnLineHelp(\"kpSchematic\")")
+    (schpnotes "Product Notes"
+	       "ddsOnLineHelp(\"pnSchematic\")")
+    ciwHelpSep
+    (schabout  "About Composer" "schHiAbout()")
+) ddsHelpMenuCB)
+
+;******************************************************************************
+; Combine the above to define the banner menus for schematic viewing. Note that
+; because the Design/File menu is to be unique per window, it is not specified
+; in the list below.
+;******************************************************************************
+schViewMenus = '(
+    schcWindowMenu
+    schcViewEditMenu
+    schViewOnlyOptionPulldown
+    schcHelpMenu
+)									     ;
+
+;******************************************************************************
+; Define the view-only popUp menus. These definitions provide the editor with
+; the template for the default popUps. Users can copy and modify these
+; definitions in their own menu files or use the existing method for
+; registering their own popUp menus to the schematic editor. Since these
+; are the default popUp definitions for the editor, the SKILL symbols for
+; the popUp menus should not be changed since there is code within the
+; editor that references them.
+;******************************************************************************
+schcPopUpPropItem = '(PUProperty "Properties..." "schHiObjectProperty()")
+
+;*** schUnknown,symUnknown,schPin,instPin,wire,label,symPin,shapes,border ***
+schcViewPopUp = '(schViewPopUp "Default" (
+    schcPopUpPropItem
+    schcZoomInItem
+    schcZoomOutItem
+    schcZoom2InItem
+    schcFitItem
+))
+;*** symNone ***
+schcViewSymbolPopUp = '(schViewSymbolPopUp "Symbol" (
+    schcZoomInItem
+    schcZoomOutItem
+    schcZoom2InItem
+    schcFitItem
+    (PUUp		"Return"		"schHiReturn()")
+))
+;*** indexDefault ***
+schcViewIndexPopUp = '(schViewIndexPopUp "Index" (
+    schcZoomInItem
+    schcZoomOutItem
+    schcFitItem
+    (PUUp		"Return"		"schHiReturn()")
+))
+;*** schNone ***
+schcViewNonePopUp = '(schViewNonePopUp "Schematic" (
+    schcPopUpPropItem
+    schcZoomInItem
+    schcZoomOutItem
+    schcZoom2InItem
+    schcFitItem
+    (PUUp		"Return"		"schHiReturn()")
+))
+;*** schMultiple,symMultiple ***
+schcViewMultiPopUp = '(schViewMultiPopUp "Multiple" (
+    (PUDeselectAllItem	"Deselect All"		"geDeselectAllFig()")
+    schcZoomInItem
+    schcZoomOutItem
+    schcZoom2InItem
+    schcFitItem
+))
+;*** marker ***
+schcViewMarkerPopUp = '(schViewMarkerPopUp "Marker" (
+    (PUFindMarkerItem	"Find..."		"schHiFindMarker()")
+    schcZoomInItem
+    schcZoomOutItem
+    schcZoom2InItem
+    schcFitItem
+))
+;*** instance **
+schcViewInstPopUp = '(schViewInstPopUp "Instance" (
+    schcPopUpPropItem
+    (PUDown		"Descend Read..."	"schHiDescendRead()")
+    schcZoomInItem
+    schcZoomOutItem
+    schcZoom2InItem
+    schcFitItem
+))
+;*** indexPin ***
+schcViewIndexPinPopUp = '(schViewIndexPinPopUp "Pin" (
+    schcPopUpPropItem
+    (PUGotoPin		"Go To Pin"	"schHiFollowPin()")
+))
+;*** indexInstPin ***
+schcViewIndexInstPinPopUp = '(schViewIndexInstPinPopUp "Instance Pin" (
+    schcPopUpPropItem
+    schcZoomOutItem
+    schcFitItem
+))
+;*** indexSheet **
+schcViewIndexSheetPopUp = '(schViewIndexSheetPopUp "Sheet" (
+    (PUGotoItem		"Go To"	"schHiGotoSheet(schGetEnv(\"gotoSheet\"))")
+    schcFitItem
+))
+;*** schStandard,symStandard **
+schcViewStandardPopUp = '(schViewStandardPopUp "View" (
+    schcZoomInItem
+    schcZoomOutItem
+    schcZoom2InItem
+    schcPanItem
+))
+
+;******************************************************************************
+; Define the list of view-only schematic popUps. This is required in order for
+; the default popUps to be defined.
+;******************************************************************************
+schViewPopUps = '(
+    schcViewPopUp
+    schcViewSymbolPopUp
+    schcViewIndexPopUp
+    schcViewNonePopUp
+    schcViewMultiPopUp
+    schcViewMarkerPopUp
+    schcViewInstPopUp
+    schcViewIndexPinPopUp
+    schcViewIndexInstPinPopUp
+    schcViewIndexSheetPopUp
+    schcViewStandardPopUp
+)

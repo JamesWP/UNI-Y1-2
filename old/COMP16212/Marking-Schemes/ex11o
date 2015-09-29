@@ -1,0 +1,29 @@
+# First (non-comment) line is name of file to be marked
+OBTComparable.java FindTest.java find-test-results
++DepthSizeTest.java
+?Sort.java
+?SpellCheck1.java
+?output-from-spell-check
+?output-from-SpellCheck1
+?SpellCheck2.java
+# Second (non-comment) line is title of exercise
+Ordered Binary Trees (etc.)
+# Then comes the marking scheme
+Part A Basic \texttt{OBTComparable} correctness and quality               4
+Part A \texttt{insert()} correctness and quality            4
+Part A \texttt{find()} correctness and quality          4
+Part A \texttt{FindTest} class        6
+Part A File \texttt{find-test-results} exists with output results in it  2
+Part B \texttt{getSize()} correctness and quality           4
+Part B \texttt{getDepth()} correctness and quality          4
+Part B \texttt{DepthSizeTest} class      6
+Part B 6 graph printouts correct                                         6
+Part C Has read \texttt{depth-size-test} script seriously                6
+Part C Level of understanding      4
+Part D \texttt{elementsAscending()} correctness and quality 4
+Part D \texttt{Sort} class                                                6
+Part E Spelling checker correctness       4
+Part E Spelling checker quality       1
+Part F Fancy spelling checker appropriateness and correctness     4
+Part F Fancy spelling checker quality      1
+Logbook Used appropriately and sensibly throughout the exercise	5

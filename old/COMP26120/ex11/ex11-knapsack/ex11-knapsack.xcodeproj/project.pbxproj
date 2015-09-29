@@ -1,0 +1,398 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1A3BCB9A1AA0768A0079B81B /* knapsack-util.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB941AA0768A0079B81B /* knapsack-util.c */; };
+		1A3BCB9C1AA07EFD0079B81B /* dp.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB8D1AA0768A0079B81B /* dp.c */; };
+		1A5CCE4D1AA9AF6B00E40FC3 /* knapsack-util.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB941AA0768A0079B81B /* knapsack-util.c */; };
+		1A5CCE541AA9B01000E40FC3 /* bnb.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB8C1AA0768A0079B81B /* bnb.c */; };
+		1AB6E9EA1AB2F0D4000D8FF5 /* knapsack-util.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB941AA0768A0079B81B /* knapsack-util.c */; };
+		1AB6E9F11AB2F0F7000D8FF5 /* greedy.c in Sources */ = {isa = PBXBuildFile; fileRef = 1A3BCB911AA0768A0079B81B /* greedy.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1A3BCB801AA076540079B81B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		1A5CCE4F1AA9AF6B00E40FC3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		1AB6E9EC1AB2F0D4000D8FF5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1A3BCB821AA076540079B81B /* ex11-knapsack-dynamic */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ex11-knapsack-dynamic"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1A3BCB8C1AA0768A0079B81B /* bnb.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = bnb.c; path = ../bnb.c; sourceTree = "<group>"; };
+		1A3BCB8D1AA0768A0079B81B /* dp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = dp.c; path = ../dp.c; sourceTree = "<group>"; };
+		1A3BCB8E1AA0768A0079B81B /* easy.20.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = easy.20.1.txt; path = ../easy.20.1.txt; sourceTree = "<group>"; };
+		1A3BCB8F1AA0768A0079B81B /* easy.200.4.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = easy.200.4.txt; path = ../easy.200.4.txt; sourceTree = "<group>"; };
+		1A3BCB901AA0768A0079B81B /* enum.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = enum.c; path = ../enum.c; sourceTree = "<group>"; };
+		1A3BCB911AA0768A0079B81B /* greedy.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = greedy.c; path = ../greedy.c; sourceTree = "<group>"; };
+		1A3BCB921AA0768A0079B81B /* hard1.200.11.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = hard1.200.11.txt; path = ../hard1.200.11.txt; sourceTree = "<group>"; };
+		1A3BCB931AA0768A0079B81B /* hard1.2000.1.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = hard1.2000.1.txt; path = ../hard1.2000.1.txt; sourceTree = "<group>"; };
+		1A3BCB941AA0768A0079B81B /* knapsack-util.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = "knapsack-util.c"; path = "../knapsack-util.c"; sourceTree = "<group>"; };
+		1A3BCB951AA0768A0079B81B /* makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; name = makefile; path = ../makefile; sourceTree = "<group>"; };
+		1A5CCE531AA9AF6B00E40FC3 /* ex11-knapsack-bnb */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ex11-knapsack-bnb"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1AB6E9F01AB2F0D4000D8FF5 /* ex11-knapsack-greedy */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "ex11-knapsack-greedy"; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1A3BCB7F1AA076540079B81B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A5CCE4E1AA9AF6B00E40FC3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AB6E9EB1AB2F0D4000D8FF5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1A3BCB791AA076540079B81B = {
+			isa = PBXGroup;
+			children = (
+				1A3BCB8C1AA0768A0079B81B /* bnb.c */,
+				1A3BCB8D1AA0768A0079B81B /* dp.c */,
+				1A3BCB8E1AA0768A0079B81B /* easy.20.1.txt */,
+				1A3BCB8F1AA0768A0079B81B /* easy.200.4.txt */,
+				1A3BCB901AA0768A0079B81B /* enum.c */,
+				1A3BCB911AA0768A0079B81B /* greedy.c */,
+				1A3BCB921AA0768A0079B81B /* hard1.200.11.txt */,
+				1A3BCB931AA0768A0079B81B /* hard1.2000.1.txt */,
+				1A3BCB941AA0768A0079B81B /* knapsack-util.c */,
+				1A3BCB951AA0768A0079B81B /* makefile */,
+				1A3BCB831AA076540079B81B /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1A3BCB831AA076540079B81B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1A3BCB821AA076540079B81B /* ex11-knapsack-dynamic */,
+				1A5CCE531AA9AF6B00E40FC3 /* ex11-knapsack-bnb */,
+				1AB6E9F01AB2F0D4000D8FF5 /* ex11-knapsack-greedy */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1A3BCB811AA076540079B81B /* ex11-knapsack-dynamic */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A3BCB891AA076540079B81B /* Build configuration list for PBXNativeTarget "ex11-knapsack-dynamic" */;
+			buildPhases = (
+				1A3BCB7E1AA076540079B81B /* Sources */,
+				1A3BCB7F1AA076540079B81B /* Frameworks */,
+				1A3BCB801AA076540079B81B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ex11-knapsack-dynamic";
+			productName = "ex11-knapsack";
+			productReference = 1A3BCB821AA076540079B81B /* ex11-knapsack-dynamic */;
+			productType = "com.apple.product-type.tool";
+		};
+		1A5CCE4A1AA9AF6B00E40FC3 /* ex11-knapsack-bnb */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1A5CCE501AA9AF6B00E40FC3 /* Build configuration list for PBXNativeTarget "ex11-knapsack-bnb" */;
+			buildPhases = (
+				1A5CCE4B1AA9AF6B00E40FC3 /* Sources */,
+				1A5CCE4E1AA9AF6B00E40FC3 /* Frameworks */,
+				1A5CCE4F1AA9AF6B00E40FC3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ex11-knapsack-bnb";
+			productName = "ex11-knapsack";
+			productReference = 1A5CCE531AA9AF6B00E40FC3 /* ex11-knapsack-bnb */;
+			productType = "com.apple.product-type.tool";
+		};
+		1AB6E9E71AB2F0D4000D8FF5 /* ex11-knapsack-greedy */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1AB6E9ED1AB2F0D4000D8FF5 /* Build configuration list for PBXNativeTarget "ex11-knapsack-greedy" */;
+			buildPhases = (
+				1AB6E9E81AB2F0D4000D8FF5 /* Sources */,
+				1AB6E9EB1AB2F0D4000D8FF5 /* Frameworks */,
+				1AB6E9EC1AB2F0D4000D8FF5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "ex11-knapsack-greedy";
+			productName = "ex11-knapsack";
+			productReference = 1AB6E9F01AB2F0D4000D8FF5 /* ex11-knapsack-greedy */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1A3BCB7A1AA076540079B81B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "James Peach";
+				TargetAttributes = {
+					1A3BCB811AA076540079B81B = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+				};
+			};
+			buildConfigurationList = 1A3BCB7D1AA076540079B81B /* Build configuration list for PBXProject "ex11-knapsack" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 1A3BCB791AA076540079B81B;
+			productRefGroup = 1A3BCB831AA076540079B81B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1A3BCB811AA076540079B81B /* ex11-knapsack-dynamic */,
+				1A5CCE4A1AA9AF6B00E40FC3 /* ex11-knapsack-bnb */,
+				1AB6E9E71AB2F0D4000D8FF5 /* ex11-knapsack-greedy */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1A3BCB7E1AA076540079B81B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A3BCB9C1AA07EFD0079B81B /* dp.c in Sources */,
+				1A3BCB9A1AA0768A0079B81B /* knapsack-util.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1A5CCE4B1AA9AF6B00E40FC3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1A5CCE541AA9B01000E40FC3 /* bnb.c in Sources */,
+				1A5CCE4D1AA9AF6B00E40FC3 /* knapsack-util.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1AB6E9E81AB2F0D4000D8FF5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1AB6E9F11AB2F0F7000D8FF5 /* greedy.c in Sources */,
+				1AB6E9EA1AB2F0D4000D8FF5 /* knapsack-util.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		1A3BCB871AA076540079B81B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		1A3BCB881AA076540079B81B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		1A3BCB8A1AA076540079B81B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		1A3BCB8B1AA076540079B81B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		1A5CCE511AA9AF6B00E40FC3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "ex11-knapsack-bnb";
+			};
+			name = Debug;
+		};
+		1A5CCE521AA9AF6B00E40FC3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "ex11-knapsack-bnb";
+			};
+			name = Release;
+		};
+		1AB6E9EE1AB2F0D4000D8FF5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "ex11-knapsack-greedy";
+			};
+			name = Debug;
+		};
+		1AB6E9EF1AB2F0D4000D8FF5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
+				PRODUCT_NAME = "ex11-knapsack-greedy";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1A3BCB7D1AA076540079B81B /* Build configuration list for PBXProject "ex11-knapsack" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A3BCB871AA076540079B81B /* Debug */,
+				1A3BCB881AA076540079B81B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A3BCB891AA076540079B81B /* Build configuration list for PBXNativeTarget "ex11-knapsack-dynamic" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A3BCB8A1AA076540079B81B /* Debug */,
+				1A3BCB8B1AA076540079B81B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1A5CCE501AA9AF6B00E40FC3 /* Build configuration list for PBXNativeTarget "ex11-knapsack-bnb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1A5CCE511AA9AF6B00E40FC3 /* Debug */,
+				1A5CCE521AA9AF6B00E40FC3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1AB6E9ED1AB2F0D4000D8FF5 /* Build configuration list for PBXNativeTarget "ex11-knapsack-greedy" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1AB6E9EE1AB2F0D4000D8FF5 /* Debug */,
+				1AB6E9EF1AB2F0D4000D8FF5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1A3BCB7A1AA076540079B81B /* Project object */;
+}

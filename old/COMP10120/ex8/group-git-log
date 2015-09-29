@@ -1,0 +1,198 @@
+commit 9182012919111913ec855c0bbd7213e1d4c831aa
+Author: Francesca Popescu <iolanda.popescu@student.manchester.ac.uk>
+Date:   Tue Dec 10 12:36:49 2013 +0000
+
+    addedwebsite
+
+commit 2dce0423c5e508be80e4d918270e55ff5880b062
+Merge: 4988a17 d556e3d
+Author: Radu Firan <radu.firan@student.manchester.ac.uk>
+Date:   Tue Nov 19 17:23:25 2013 +0000
+
+    Added my bit
+
+commit d556e3dd86862d3047771c81665876e58c325d07
+Author: James Peach <james.peach@student.manchester.ac.uk>
+Date:   Tue Dec 10 12:09:13 2013 +0000
+
+    removed old index.html
+
+commit 65009d108ec1ed8c8376a8050fc4c141cce5dbea
+Author: James Peach <james.peach@student.manchester.ac.uk>
+Date:   Mon Dec 9 16:48:01 2013 +0000
+
+    finished the login
+
+commit 061f08fad2b8dcce7adc8f8cb690a17a213ec0a8
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:45:09 2013 +0000
+
+    yuli submit
+
+commit 4c8cc097d44429c9a55244c3a86256de6660e208
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:40:04 2013 +0000
+
+    yuli submit
+
+commit 75e2bdf3625203491564e017c7f1020e2798a04c
+Merge: 11679d7 025e863
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:32:29 2013 +0000
+
+    Merge branch 'master' of ssh://gitlab.cs.man.ac.uk:22222/cs-w2/groupwebsite
+
+commit 11679d791c0ae764d8411396fbe1089569ab75be
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:32:04 2013 +0000
+
+    my work
+
+commit 025e8630b8a99ba023110240fcee8bb93bc1cd57
+Merge: a310e9e 19f20d3
+Author: Reem <reem.althani@student.man.ac.uk>
+Date:   Tue Nov 26 15:24:17 2013 +0000
+
+    Merge branch 'master' of ssh://gitlab.cs.man.ac.uk:22222/cs-w2/groupwebsite
+
+commit a310e9efd22646c9d71142db56e9326fb382ccde
+Author: Reem <reem.althani@student.man.ac.uk>
+Date:   Tue Nov 26 15:24:11 2013 +0000
+
+     I added the link to the main page
+
+commit 19f20d34f94a6d3a3d14ff115d92880ee2be6e62
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:22:55 2013 +0000
+
+    yuli submit
+
+commit 98899b62636f4e73cfa58ccf56d423c49a98dc4f
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:20:38 2013 +0000
+
+    my work
+
+commit a242efaa27b735666564aa87a03f6ad523292e4b
+Author: Francesca Popescu <iolanda.popescu@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:10:26 2013 +0000
+
+    deleted yuli's mistake
+
+commit aba6b49d83ccb042c2a7cf574f4f9c18d5e0ca06
+Merge: 88deeda a84771a
+Author: Francesca Popescu <iolanda.popescu@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:08:16 2013 +0000
+
+    Merge branch 'master' of ssh://gitlab.cs.man.ac.uk:22222/cs-w2/groupwebsite
+
+commit 88deeda18c02ae49683c662237acac1c827a6c2a
+Author: Francesca Popescu <iolanda.popescu@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:08:03 2013 +0000
+
+    edited main page
+
+commit a84771a3380302e54e74727edb5de6eb682a84ac
+Merge: d003eff e200d31
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:05:12 2013 +0000
+
+    Merge branch 'master' of ssh://gitlab.cs.man.ac.uk:22222/cs-w2/groupwebsite
+
+commit e200d31a6296668968d7f05e9cbce2f40e5f546a
+Merge: 4fc8f11 a3b0bd7
+Author: Radu Firan <radu.firan@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:04:49 2013 +0000
+
+    marged files
+
+commit 4fc8f11642c942ee19089add117b2ecaf261083a
+Author: Radu Firan <radu.firan@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:02:46 2013 +0000
+
+    radu
+
+commit d003efffebd3564992f7b3fb45d7d589810435fc
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 15:01:40 2013 +0000
+
+    my work
+
+commit a3b0bd7254391331bcc78c152eda27737451d614
+Author: Francesca Popescu <iolanda.popescu@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:57:43 2013 +0000
+
+    added myself on main page
+
+commit 4b0938b0e735aa4d1e2b535749b8b8ac3b67b4e2
+Author: Reem <reem.althani@student.man.ac.uk>
+Date:   Tue Nov 26 14:48:54 2013 +0000
+
+    I added a link to the main page in my page
+
+commit 403aefa51e91cedfad301c575dea6b65af2bffa2
+Merge: a2d4abf bb8fd05
+Author: Reem <reem.althani@student.man.ac.uk>
+Date:   Tue Nov 26 14:44:06 2013 +0000
+
+    Merge branch 'master' of ssh://gitlab.cs.man.ac.uk:22222/cs-w2/groupwebsite
+
+commit a2d4abf8a117ccd7391c44d9cb2c8042a89ec6b0
+Author: Reem <reem.althani@student.man.ac.uk>
+Date:   Tue Nov 26 14:43:52 2013 +0000
+
+    This is the work about me
+
+commit bb8fd057787c835c7a756614f8b571efe62feb1d
+Author: Francesca Popescu <iolanda.popescu@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:41:44 2013 +0000
+
+    added my stuff
+
+commit c8d30247f154a9109c7fb2b88c9c759dce206f23
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:29:56 2013 +0000
+
+    Initial Commit
+
+commit d2ba7ea17b16b8c3dd7fd015003c9096cb9c9871
+Author: James Peach <james.peach@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:29:04 2013 +0000
+
+    fixed the css again
+
+commit 255b0b2f9ef6f768c55fedfece95b6019beea59a
+Author: James Peach <james.peach@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:28:16 2013 +0000
+
+    fixed the css
+
+commit f893e6de2715605efc7d3cd7903fe14fbd770fb7
+Author: mbax2yc2 <yuli.chen@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:27:09 2013 +0000
+
+    Initial Commit
+
+commit a3351781b30f849bb00fee73634a8b04c54ab90c
+Author: James Peach <james.peach@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:25:44 2013 +0000
+
+    added my website
+
+commit f5e5258ae7c94c8e857bea5cd9783e171798e0c7
+Author: James Peach <james.peach@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:17:59 2013 +0000
+
+    added gitignore file
+
+commit df3acdd0fa53d9eb7a785a5e1261679a0b0ea892
+Author: James Peach <james.peach@student.manchester.ac.uk>
+Date:   Tue Nov 26 14:04:21 2013 +0000
+
+    Initial test commit
+
+commit 4988a17a6e711b9ea1d1249952132e1e25c4dd91
+Author: Radu Firan <radu.firan@student.manchester.ac.uk>
+Date:   Tue Nov 19 17:22:35 2013 +0000
+
+    Added my bit

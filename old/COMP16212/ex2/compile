@@ -1,0 +1,23 @@
+#!/bin/bash
+source=LotteryTest$1
+TTY=`tty`
+
+function transitiveCompile()
+{
+  grep "^$1$" /dev/shm/$$-processed >/dev/null 2>&1 && return
+  echo "$1" >> /dev/shm/$$-processed
+  for class in `ls *.java 2>/dev/null | cut -f1 -d "."`
+  do
+    grep "$class" "$1".java > /dev/null 2>&1 \
+      && { transitiveCompile "$class" || return; }
+  done
+  test "$1".class -nt "$1".java && return
+  echo Compiling "$1.java ..." > $TTY
+  #javac -classpath .:/opt/info/courses/COMP16212/ex2/Lottery.jar "$1".java
+  javac -classpath .:./Lottery.jar "$1".java
+} # transitiveCompile
+
+transitiveCompile "$source" > compile.out 2>&1
+rm /dev/shm/$$-processed
+test -s compile.out && { less -FX compile.out; exit 1; }
+exit 0

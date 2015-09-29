@@ -1,0 +1,780 @@
+KMD
+00000000:             ; ;-----------------------------------------------------------------------------;
+00000000:             ; ;---                 LAB KERNEL V1.0                                       ---;
+00000000:             ; ;---                 ---------------                                       ---;
+00000000:             ; ;--- Author: James W Peach                                                 ---;
+00000000:             ; ;-----------------------------------------------------------------------------;
+00000000:             ; 
+00000000:             ; ;---------------
+00000000:             ; ;---  EXCEPTION VECTOR TABLE
+00000000: EA000006    ;       B     vReset
+00000004: EA000010    ;       B     vUndef
+00000008: EA000010    ;       B     vSupervisor    
+0000000C: EA00009D    ;       B     vPreAbort
+00000010: EA00009D    ;       B     vDataAbort
+00000014: EAFFFFFE    ;       B     .           ; unused vector
+00000018: EA00009C    ;       B     vIRQ        ; interrupt request
+0000001C: EA00009C    ;       B     vFIQ        ; fast interrupt request
+00000020:             ; ;---------------
+00000020:             ; 
+00000020:             ; ;---------------
+00000020:             ; ;- KERNEL MODE LITERALS
+00000020:             ; SPSR_SYSMODENI  EQU  0xDF
+00000020:             ; SPSR_USERNI     EQU  0xD0
+00000020:             ; ;---------------
+00000020:             ; 
+00000020:             ; 
+00000020:             ; ;---------------
+00000020:             ; ;-    deals with resets and initialises kernel and then calls user code @main
+00000020:             ; vReset
+00000020:             ;       ;- initialise supervisor mode stack
+00000020: E28FDFF5    ;       ADRL  SP,  sSVC
+00000024: E28DDA02    ; 
+00000028:             ;       ;- switch to system mode
+00000028: E3A0E0DF    ;       MOV   LR, #(SPSR_SYSMODENI)     ; system mode no interrupts
+0000002C: E121F00E    ;       MSR   CPSR_c, LR
+00000030:             ;       ;- initialise user mode stack
+00000030: E28FDFF1    ;       ADRL  SP,  sUSR
+00000034: E28DDA01    ; 
+00000038:             ;       ;- initialise perhiperals
+00000038: EB00008C    ;       BL    PeripheralInitialise
+0000003C:             ;       ;- switch to user mode
+0000003C: E3A0E0D0    ;       MOV   LR, #(SPSR_USERNI)      ; user mode no interrupts
+00000040: E121F00E    ;       MSR   CPSR_c, LR
+00000044:             ;       ;- call user code
+00000044: E28FEE25    ;       ADR   LR,  Main
+00000048: E1B0F00E    ;       MOVS  PC,  LR
+0000004C:             ; ;---------------
+0000004C:             ;       
+0000004C:             ; ;---------------    
+0000004C:             ; ;-    deals with undefined instructions
+0000004C:             ; vUndef
+0000004C: EAFFFFFE    ;       B   .
+00000050:             ; ;---------------
+00000050:             ;       
+00000050:             ; ;---------------    
+00000050:             ; ;-    deals with supervisor calls
+00000050:             ; SVC_OP_MASK EQU 0xFF000000
+00000050:             ; vSupervisor
+00000050: E92D5800    ;       PUSH  {LR,r12,r11}
+00000054:             ; 
+00000054:             ;       ; save spsr incase nested SVC calls
+00000054: E14FB000    ;       MRS   r11, SPSR ;save spsr in reg
+00000058: E92D0800    ;       PUSH  {r11}
+0000005C:             ; 
+0000005C: E51EC004    ;       LDR   r12, [LR, #-4]  ; load actual SVC instruction
+00000060: E3CCC4FF    ;       BIC   r12,  r12,  #(SVC_OP_MASK) ; mask off opcode
+00000064:             ;       ; supervisor call 
+00000064: E35C0006    ;       CMP   r12, #SVCMax
+00000068: 8A000016    ;       BHI   SVCUnknown
+0000006C:             ; 
+0000006C: E28FB010    ;       ADR   r11, SVCRoutines
+00000070: E79BF10C    ;       LDR   PC, [r11,r12 LSL #2]
+00000074:             ; 
+00000074:             ; vSupervisor_return
+00000074:             ;       ; return to user code
+00000074:             ; 
+00000074:             ;       ; return saved value of saved flags
+00000074: E8BD0800    ;       POP   {r11}; containing saved spsr
+00000078: E16FF00B    ;       MSR   SPSR, r11
+0000007C:             ; 
+0000007C: E8BD5800    ;       POP   {LR,r12,r11}
+00000080: E1B0F00E    ;       MOVS  PC, LR ; return to user code here
+00000084:             ; 
+00000084:             ; ;-- this include should define symbols:
+00000084:             ; ;--                                    SVCRoutines   ; a table of routines
+00000084:             ; ;--                                                  ; each should return to: 
+00000084:             ; ;--                                                  ; vSupervisor_return
+00000084:             ; ;--                                    SVCMax        ; the max number of opcode
+00000084:             ; ;--                                    SVCUnknown    ; report the error proc
+00000084:             ; GET   KernelSVC.s
+00000084:             ; ;-----------------------------------------------------------------------------;
+00000084:             ; ;---                 LAB KERNEL V1.0                                       ---;
+00000084:             ; ;---                 ---------------                                       ---;
+00000084:             ; ;---                 SVC calls                                             ---;
+00000084:             ; ;--- Author: James W Peach                                                 ---;
+00000084:             ; ;-----------------------------------------------------------------------------;
+00000084:             ; 
+00000084:             ; ;-- this include should define symbols:
+00000084:             ; ;--                                    SVCRoutines   ; a table of routines
+00000084:             ; ;--                                                  ; each should return to: 
+00000084:             ; ;--                                                  ; vSupervisor_return
+00000084:             ; ;--                                    SVCMax        ; the max number of opcode
+00000084:             ; ;--                                    SVCUnknown    ; report the error proc
+00000084:             ; 
+00000084:             ; SVCRoutines
+00000084: 0000009C    ;       DEFW SVCRoutine0
+00000088: 000000A0    ;       DEFW SVCRoutine1
+0000008C: 000000A8    ;       DEFW SVCRoutine2
+00000090: 000000B0    ;       DEFW SVCRoutine3
+00000094: 000000B8    ;       DEFW SVCRoutine4
+00000098: 000000C0    ;       DEFW SVCRoutine5
+0000009C:             ; SVCRoutines_END
+0000009C:             ; 
+0000009C:             ; SVCMax EQU (SVCRoutines_END - SVCRoutines)/4
+0000009C:             ; 
+0000009C:             ; ;-- Routines
+0000009C:             ; 
+0000009C:             ; 
+0000009C:             ; SVC_HALT  EQU  0
+0000009C:             ; SVCRoutine0 
+0000009C: EAFFFFFE    ;       B    .                                         ; user program end     
+000000A0:             ; 
+000000A0:             ; SVC_CHAR  EQU  1
+000000A0:             ; SVCRoutine1                                          ; print char r0 is char
+000000A0:             ;       ;procedure PrintChar(R0=char)
+000000A0: EB00000F    ;       BL    PrintChar
+000000A4: EAFFFFF2    ;       B     vSupervisor_return                        
+000000A8:             ; 
+000000A8:             ; SVC_STR   EQU  2
+000000A8:             ; SVCRoutine2                                          ; print string r0 is
+000000A8: EB00001E    ;       BL    PrintString                              ; string pointer
+000000AC: EAFFFFF0    ;       B     vSupervisor_return                       
+000000B0:             ; 
+000000B0:             ; 
+000000B0:             ; SVC_TIME  EQU  3
+000000B0:             ; SVCRoutine3                                          ; get curent timer value
+000000B0: EB000005    ;       BL    GetTimer                                 ; into r0
+000000B4: EAFFFFEE    ;       B     vSupervisor_return
+000000B8:             ; 
+000000B8:             ; SVC_CLER  EQU  4
+000000B8:             ; SVCRoutine4                                          ; get curent timer value
+000000B8: EB00003F    ;       BL    ClearScreen                              ; into r0
+000000BC: EAFFFFEC    ;       B     vSupervisor_return
+000000C0:             ; 
+000000C0:             ; SVC_BUTT  EQU  5
+000000C0:             ; SVCRoutine5                                          ; get curent timer value
+000000C0: EB000062    ;       BL    GetButton                                ; into r0
+000000C4: EAFFFFEA    ;       B     vSupervisor_return
+000000C8:             ; 
+000000C8:             ; SVCUnknown
+000000C8: EAFFFFFE    ;       B     .                                        ; unknown SVC call, hang..
+000000CC:             ; 
+000000CC:             ; ;-- this include should define symbols :
+000000CC:             ; ;--                                      GetTimer    ; a procedure to return 
+000000CC:             ; ;--                                                  ; curent timer value in r0 
+000000CC:             ; GET   KernelTimer.s
+000000CC:             ; ;-----------------------------------------------------------------------------;
+000000CC:             ; ;---                 LAB KERNEL V1.0                                       ---;
+000000CC:             ; ;---                 ---------------                                       ---;
+000000CC:             ; ;---                 Timer                                                 ---;
+000000CC:             ; ;--- Author: James W Peach                                                 ---;
+000000CC:             ; ;-----------------------------------------------------------------------------;
+000000CC:             ; 
+000000CC:             ; ;-- this include should define symbols :
+000000CC:             ; ;--                                      GetTimer    ; a procedure to return 
+000000CC:             ; ;--                                                  ; curent timer value in r0 
+000000CC:             ; 
+000000CC:             ; TimerMemLoc   EQU   0x10000008
+000000CC:             ; GetTimer
+000000CC: E28F0FCD    ;         ADRL  r0, TimerMemLoc
+000000D0: E2800BFF    ; 
+000000D4: E28007FF    ; 
+000000D8: E2800303    ; 
+000000DC: E5500000    ;         LDRB  r0, [r0]
+000000E0: E1A0F00E    ;         MOV   PC, LR
+000000E4:             ; 
+000000E4:             ; 
+000000E4:             ; ;-- this include defines procedures to interface the KernelLCD
+000000E4:             ; GET   KernelLCD.s
+000000E4:             ; ;------------------------------------------------------------------------
+000000E4:             ; ;            IO Library
+000000E4:             ; ;           JWP 2015 - COMP227
+000000E4:             ; ;           VERSION 1.1 for use in kernal
+000000E4:             ; ;
+000000E4:             ; ; contains io utilities
+000000E4:             ; ;  incl write string, char, clear screen, convert control char to op
+000000E4:             ; ;
+000000E4:             ; ; Last modified 28/Jan, 04/Feb
+000000E4:             ; ;
+000000E4:             ; ;
+000000E4:             ; ; Known bugs: None
+000000E4:             ; ;
+000000E4:             ; ;------------------------------------------------------------------------
+000000E4:             ; 
+000000E4:             ; 
+000000E4:             ; LCD_Data      EQU 0x10000000
+000000E4:             ; LCD_Control_O EQU 0x4
+000000E4:             ; 
+000000E4:             ; ENABLE  EQU   0x01
+000000E4:             ; REGSEL  EQU   0x02
+000000E4:             ; READNW  EQU   0x04
+000000E4:             ;               
+000000E4:             ; BACKLIGHT  EQU   0x20
+000000E4:             ; CONTROL_CHAR EQU 0x20
+000000E4:             ; CLEAR   EQU   0x01
+000000E4:             ; 
+000000E4:             ; ;---------------------------
+000000E4:             ; ;procedure PrintChar(R0=char)
+000000E4:             ; ; prints a single char on the LCD
+000000E4:             ; ;---------------------------
+000000E4:             ; PrintChar
+000000E4: E92D4102    ;         PUSH{LR,r1,r8}
+000000E8:             ;         ;load Bdata and control pointers        
+000000E8: E3A08201    ;         MOV   r8, #LCD_Data
+000000EC:             ;         ; wait for device
+000000EC: EB000041    ;         BL    IOWait
+000000F0:             ; 
+000000F0:             ;         ; load control reg
+000000F0: E5981004    ;         LDR   r1, [r8, #LCD_Control_O]
+000000F4:             ;         ; setup = set write set REGSEL unset READNW
+000000F4: E3C11004    ;         BIC   r1, r1, #(READNW)
+000000F8:             ; 
+000000F8: E3500020    ;         CMP   r0, #CONTROL_CHAR
+000000FC:             ; 
+000000FC: A3811002    ;         ORRGE r1, r1, #(REGSEL) ; for data reg
+00000100: B3C11002    ;         BICLT r1, r1, #(REGSEL) ; for control reg
+00000104: BB000018    ;         BLLT  ConvertControlChar; convert control char to operation
+00000108:             ;         
+00000108: E5881004    ;         STR   r1, [r8, #LCD_Control_O]
+0000010C:             ; 
+0000010C:             ;         ; set data
+0000010C: E5080000    ;         STR   r0, [r8]
+00000110:             ; 
+00000110:             ;         ; strobe enable
+00000110: E3811001    ;         ORR   r1, r1, #(ENABLE)
+00000114: E5881004    ;         STR   r1, [r8, #LCD_Control_O]
+00000118:             ; 
+00000118:             ;         ; strobe off        
+00000118: E3C11001    ;         BIC   r1, r1, #(ENABLE)
+0000011C: E5881004    ;         STR   r1, [r8, #LCD_Control_O]
+00000120:             ; 
+00000120:             ;         ;print char
+00000120: E8BD4102    ;         POP{LR,r1,r8}
+00000124: E1A0F00E    ;         MOV   PC,LR
+00000128:             ; ;---------------------------
+00000128:             ; 
+00000128:             ; ;---------------------------
+00000128:             ; ;procedure PrintString(R0=string-pointer)
+00000128:             ; ; prints a \0 terminated string pointed to by string-pointer
+00000128:             ; ;---------------------------
+00000128:             ; PrintString
+00000128: E92D4002    ;         PUSH{LR,r1}
+0000012C: E1A01000    ;         MOV   r1, r0
+00000130:             ; PrintString_repeat
+00000130: E4D10001    ;         LDRB  r0, [r1], #1     ;load char + post increment
+00000134:             ;         ;check for termination char -> jump to end
+00000134: E3500000    ;         CMP   r0,#0
+00000138:             ; 
+00000138: 0A000001    ;         BEQ PrintString_end
+0000013C: EBFFFFE8    ;         BL PrintChar           ; PrintChar(R0=curent-char)
+00000140: EAFFFFFA    ;         B  PrintString_repeat
+00000144:             ; PrintString_end
+00000144: E8BD4002    ;         POP{LR,r1}
+00000148: E1A0F00E    ;         MOV   PC,LR
+0000014C:             ; ;---------------------------
+0000014C:             ; 
+0000014C:             ; EnableBacklight
+0000014C: E92D4101    ;         PUSH{LR,r0,r8}
+00000150:             ;         
+00000150:             ;         ;load Bdata and control pointers        
+00000150: E3A08201    ;         MOV   r8, #LCD_Data    
+00000154:             ;  
+00000154:             ;         ; wait for io to be ready 
+00000154: EB000027    ;         BL    IOWait
+00000158:             ;         
+00000158: E5980004    ;         LDR   r0, [r8, #LCD_Control_O]
+0000015C: E3800020    ;         ORR   r0, r0, #(BACKLIGHT)
+00000160: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+00000164:             ; 
+00000164: E8BD4101    ;         POP{LR,r0,r8}
+00000168: E1A0F00E    ;         MOV   PC,LR
+0000016C:             ;       
+0000016C:             ; ;---------------------------
+0000016C:             ; ;procedure ConvertControlChar(r0=char OUTPUT)
+0000016C:             ; ; converts the char in r0 to an operation
+0000016C:             ; ;
+0000016C:             ; CURSOR_POS_MASK EQU 0x7F
+0000016C:             ; 
+0000016C:             ; MOVE_CUR_OFFSET EQU 0x80
+0000016C:             ; LINE      EQU 0x40
+0000016C:             ; BEGIN_LINE_CLEAR EQU 0x1F
+0000016C:             ; 
+0000016C:             ; LINE_FEED EQU 0x0A
+0000016C:             ; CARR_RET  EQU 0x0D
+0000016C:             ; ;---------------------------
+0000016C:             ; ConvertControlChar
+0000016C: E92D4006    ;         PUSH{LR,r1,r2}
+00000170:             ;       
+00000170: EB000020    ;         BL    IOWait    ; wait for io to be ready to read
+00000174: E1A02000    ;         MOV   r2, r0
+00000178:             ; 
+00000178:             ;         ; load curent control
+00000178: E5980004    ;         LDR   r0, [r8, #LCD_Control_O]
+0000017C:             ;         ; set read&control, unset enable
+0000017C: E3800004    ;         ORR   r0, r0, #(READNW)
+00000180: E3C00003    ;         BIC   r0, r0, #(ENABLE | REGSEL)
+00000184: E5880004    ;         STR   r0, [r8, #LCD_Control_O]      
+00000188:             ;         ; enable bus too
+00000188: E3800001    ;         ORR   r0, r0, #(ENABLE)
+0000018C: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+00000190:             ;         ; read data
+00000190: E5181000    ;         LDR   r1, [r8]      
+00000194:             ;         ; disable bus
+00000194: E3C00001    ;         BIC   r0, r0, #(ENABLE)
+00000198: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+0000019C:             ; 
+0000019C:             ;         ; mask data to get curent cursor position
+0000019C: E201107F    ;         AND   r1, r1, #CURSOR_POS_MASK
+000001A0:             ;  
+000001A0:             ;         ; if line feed char then add line length to pos
+000001A0: E352000A    ;         CMP   r2, #LINE_FEED
+000001A4: 02810040    ;         ADDEQ r0, r1, #(LINE)
+000001A8:             ;         
+000001A8:             ;         ; if carrege return clear line pos bits XXXX0000 
+000001A8: E352000D    ;         CMP   r2, #CARR_RET
+000001AC: 03C1001F    ;         BICEQ r0, r1, #(BEGIN_LINE_CLEAR)        
+000001B0:             ; 
+000001B0:             ;         ; add command to position
+000001B0: E2800080    ;         ADD   r0, r0, #(MOVE_CUR_OFFSET)
+000001B4:             ; 
+000001B4: E8BD4006    ;         POP{LR,r1,r2}
+000001B8: E1A0F00E    ;         MOV PC,LR
+000001BC:             ; ;---------------------------
+000001BC:             ; 
+000001BC:             ; ;---------------------------
+000001BC:             ; ;procedure ClearScreen
+000001BC:             ; ; clears the screen and places cursor in top left corner
+000001BC:             ; ;---------------------------
+000001BC:             ; ClearScreen
+000001BC: E92D4301    ;         PUSH{LR,r0,r9,r8}
+000001C0:             ;         ;load data and control pointers        
+000001C0: E3A08201    ;         MOV   r8, #LCD_Data
+000001C4:             ;         ;wait for device
+000001C4: EB00000B    ;         BL    IOWait
+000001C8:             ;         ;clear screen
+000001C8:             ;         
+000001C8: E5980004    ;         LDR   r0, [r8, #LCD_Control_O]
+000001CC:             ;         ; set control
+000001CC: E3C00006    ;         BIC   r0, r0, #(READNW | REGSEL)
+000001D0: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+000001D4:             ;         ; set data
+000001D4: E3A00001    ;         MOV   r0, #CLEAR
+000001D8: E5080000    ;         STR   r0, [r8]
+000001DC:             ;         
+000001DC:             ;         ; strobe enable on
+000001DC: E5980004    ;         LDR   r0, [r8, #LCD_Control_O]
+000001E0: E3800001    ;         ORR   r0, r0, #(ENABLE)
+000001E4: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+000001E8:             ; 
+000001E8:             ;         ; strobe enable off
+000001E8: E3C00001    ;         BIC   r0, r0, #(ENABLE)
+000001EC: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+000001F0:             ; 
+000001F0: E8BD4301    ;         POP{LR,r0,r9,r8}
+000001F4: E1A0F00E    ;         MOV   PC,LR
+000001F8:             ; ;---------------------------
+000001F8:             ; 
+000001F8:             ; ;---------------------------
+000001F8:             ; ;procedure IOWait
+000001F8:             ; ; waits for the io to be ready
+000001F8:             ; ;---------------------------
+000001F8:             ; IOWait
+000001F8: E92D0003    ;         PUSH{r0,r1}
+000001FC:             ; 
+000001FC:             ; IOWait_repeat
+000001FC:             ; 
+000001FC:             ;         ; load curent control
+000001FC: E5980004    ;         LDR   r0, [r8, #LCD_Control_O]
+00000200:             ; 
+00000200:             ;         ; set read&control, unset enable
+00000200: E3800004    ;         ORR   r0, r0, #(READNW)
+00000204: E3C00003    ;         BIC   r0, r0, #(ENABLE | REGSEL)
+00000208: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+0000020C:             ;         
+0000020C:             ;         ; enable bus too
+0000020C: E3800001    ;         ORR   r0, r0, #(ENABLE)
+00000210: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+00000214:             ;     
+00000214:             ;         ; read data
+00000214: E5181000    ;         LDR   r1, [r8]      
+00000218:             ;             
+00000218:             ;         ; disable bus
+00000218: E3C00001    ;         BIC   r0, r0, #(ENABLE)
+0000021C: E5880004    ;         STR   r0, [r8, #LCD_Control_O]
+00000220:             ; 
+00000220:             ;         ; test bit 7 is low else repeat
+00000220: E2111080    ;         ANDS  r1, r1, #0x80
+00000224: 1AFFFFF4    ;         BNE   IOWait_repeat
+00000228:             ; 
+00000228: E8BD0003    ;         POP{r0,r1}
+0000022C: E1A0F00E    ;         MOV   PC,LR
+00000230:             ; 
+00000230:             ; ;--------------------------
+00000230:             ; ;procedure LCDInit
+00000230:             ; ; initialises control signals
+00000230:             ; ;--------------------------
+00000230:             ; LCDInit
+00000230: E92D0101    ;         PUSH{r0,r8}
+00000234: E3A08201    ;         MOV   r8, #LCD_Data
+00000238:             ; 
+00000238: E3A00000    ;         MOV   r0, #0
+0000023C: E5080000    ;         STR   r0, [r8] ; init data
+00000240: E3A00010    ;         MOV   r0, #0x00000010
+00000244: E5880004    ;         STR   r0, [r8, #LCD_Control_O] ; init control
+00000248:             ; 
+00000248: E8BD0101    ;         POP{r0,r8}
+0000024C: E1A0F00E    ;         MOV   PC, LR
+00000250:             ; ;--------------------------
+00000250:             ; 
+00000250:             ; ;-- this include defines procedures to interface the buttons
+00000250:             ; GET   KernelButtons.s
+00000250:             ; ;-----------------------------------------------------------------------------;
+00000250:             ; ;---                 LAB KERNEL V1.0                                       ---;
+00000250:             ; ;---                 ---------------                                       ---;
+00000250:             ; ;---                 Button io                                             ---;
+00000250:             ; ;--- Author: James W Peach                                                 ---;
+00000250:             ; ;-----------------------------------------------------------------------------;
+00000250:             ; ;-- this include defines procedures to interface the buttons
+00000250:             ; 
+00000250:             ; 
+00000250:             ; ButtonsMem EQU 0x10000004
+00000250:             ; ButtonsMask EQU 0x3
+00000250:             ; ButtonsShift EQU 0x6
+00000250:             ; 
+00000250:             ; GetButton
+00000250:             ;       ;load
+00000250: E28F0F6B    ;       ADRL  r0, ButtonsMem
+00000254: E2800BFF    ; 
+00000258: E28007FF    ; 
+0000025C: E2800303    ; 
+00000260: E5500000    ;       LDRB  r0, [r0]
+00000264: E1A00320    ;       MOV   r0, r0, LSR #ButtonsShift
+00000268: E2000003    ;       AND   r0, r0, #ButtonsMask
+0000026C: E1A0F00E    ;       MOV PC,LR
+00000270:             ;       
+00000270:             ; 
+00000270:             ; ;---------------
+00000270:             ; ;-- procedure PeripheralInitialise initialies perhiperals
+00000270:             ; PeripheralInitialise
+00000270: E92D4000    ;       PUSH  {LR}
+00000274: EBFFFFED    ;       BL    LCDInit           ; init control signals
+00000278: EBFFFFB3    ;       BL    EnableBacklight   ; enable backlight
+0000027C: EBFFFFCE    ;       BL    ClearScreen       ; clear screen
+00000280: E8BD4000    ;       POP   {LR}
+00000284: E1A0F00E    ;       MOV   PC, LR
+00000288:             ; ;---------------
+00000288:             ; 
+00000288:             ; ;---------------    
+00000288:             ; ;-    deals with prefetch aborts
+00000288:             ; vPreAbort
+00000288: EAFFFFFE    ;       B   .
+0000028C:             ; ;---------------
+0000028C:             ;       
+0000028C:             ; ;---------------    
+0000028C:             ; ;-    deals with data aborts
+0000028C:             ; vDataAbort
+0000028C: EAFFFFFE    ;       B   .
+00000290:             ; ;---------------
+00000290:             ;       
+00000290:             ; ;---------------    
+00000290:             ; ;-    deals with interrupt handling
+00000290:             ; vIRQ  
+00000290: EAFFFFFE    ;       B   .
+00000294:             ; ;---------------
+00000294:             ;       
+00000294:             ; ;---------------    
+00000294:             ; ;-    deals with fast interrupt handling
+00000294:             ; vFIQ
+00000294: EAFFFFFE    ;       B   .
+00000298:             ; ;---------------
+00000298:             ;      
+00000298:             ; 
+00000298:             ; GET   UserProgram.s
+00000298:             ; ;-----------------------------------------------------------------------------;
+00000298:             ; ;-----                    UserProgram Test                                ----;
+00000298:             ; ;-----                    a program to test svc calls                     ----;
+00000298:             ; ;--- Author: James W Peach                                                 ---;
+00000298:             ; ;-----------------------------------------------------------------------------;
+00000298:             ; 
+00000298:             ; ;------------------------
+00000298:             ; ;-- literals
+00000298:             ; TIMER_MAX_VAL   EQU     256
+00000298:             ; 
+00000298:             ; ;------------------------
+00000298:             ; ;-- variables memory
+00000298:             ; my_counter                ; number of 100ms passed scince bootup
+00000298: 00000000    ;         DEFW   0x0
+0000029C:             ; 
+0000029C:             ; ;------------------------
+0000029C:             ; ;- UserProgram
+0000029C:             ; ;- 
+0000029C:             ; ;-  Psudo code: 
+0000029C:             ; ;-     read timer value
+0000029C:             ; ;-     calculate difference from last read
+0000029C:             ; ;-     accumulate difference in counter
+0000029C:             ; ;-     if difference > 0 
+0000029C:             ; ;-       update display
+0000029C:             ; ;-       if countdown is reached
+0000029C:             ; ;-         reset countodwn and timer to 0
+0000029C:             ; ;-       if countdown is active
+0000029C:             ; ;-         if button still pressed: continue
+0000029C:             ; ;-         else reset countdown to 0
+0000029C:             ; ;-       else if reset button is pressed
+0000029C:             ; ;-         set countdown = gettime + 0xFF000
+0000029C:             ; ;-      
+0000029C:             ; 
+0000029C:             ; Main    
+0000029C:             ;         ; init timer
+0000029C: E3A0A000    ;         MOV   r10, #0           ; r10 is miliseconds not counted ; prev remainder
+000002A0: E3A09000    ;         MOV   r9 , #0           ; last value of counter
+000002A4: E3A08000    ;         MOV   r8 , #0           ; reset countdown
+000002A8: E50F8018    ;         STR   r8 , my_counter
+000002AC:             ; 
+000002AC: E28F0F4D    ;         ADRL  r0 , MESSAGE
+000002B0: EF000002    ;         SVC   SVC_STR
+000002B4:             ; 1
+000002B4:             ;         ; load curent counter
+000002B4: EF000003    ;         SVC   SVC_TIME
+000002B8:             ;         ; find difference
+000002B8:             ;         
+000002B8:             ;         ; if new < old
+000002B8: E1500009    ;         CMP   r0, r9
+000002BC:             ;         ;  time passed is ( 256 - (old - new) )
+000002BC: B0491000    ;         SUBLT r1, r9, r0
+000002C0: B2611C01    ;         RSBLT r1, r1, #TIMER_MAX_VAL
+000002C4:             ;         ; else 
+000002C4:             ;         ;  time passed is ( new - old )
+000002C4: A0401009    ;         SUBGE r1, r0, r9
+000002C8:             ; 
+000002C8:             ;         ; save old timer
+000002C8: E1A09000    ;         MOV   r9, r0
+000002CC:             ; 
+000002CC:             ;         ; miliseconds passed is += r0:(time passed / 100)
+000002CC: E51F303C    ;         LDR   r3, my_counter
+000002D0: E0833001    ;         ADD   r3, r3, r1
+000002D4: E50F3044    ;         STR   r3, my_counter
+000002D8:             ; 
+000002D8:             ;         ; if delta is >0 then display new value else loop
+000002D8: E3510000    ;         CMP   r1, #0
+000002DC: 0AFFFFF4    ;         BEQ   %b1
+000002E0:             ; 
+000002E0: E3A07000    ;         MOV   r7, #0
+000002E4: E1A00003    ;         MOV   r0, r3
+000002E8: EB00001D    ;         BL    DisplayTimer
+000002EC:             ; 
+000002EC:             ;         ; read button state
+000002EC: EF000005    ; 2       SVC   SVC_BUTT
+000002F0: E3500001    ;         CMP   r0, #1
+000002F4: 0AFFFFFC    ;         BEQ   %b2
+000002F8:             ; 
+000002F8:             ;         ; if(contdown!=0)
+000002F8: E3580000    ;         CMP   r8, #0
+000002FC: 0A000007    ;         BEQ   %f3
+00000300:             ;         
+00000300: E1580003    ;         CMP   r8, r3
+00000304:             ;         ; if limit reached save counter 0 and remove countdown
+00000304: 33A08000    ;         MOVLO r8, #0
+00000308: 33A00000    ;         MOVLO r0, #0
+0000030C: 350F007C    ;         STRLO r0, my_counter
+00000310:             ;         ; if button not pressed remove countdown
+00000310: EF000005    ;         SVC   SVC_BUTT
+00000314: E3500002    ;         CMP   r0, #2
+00000318: 13A08000    ;         MOVNE r8, #0
+0000031C: EAFFFFE4    ;         B     %b1     ;; repeat timer loop
+00000320:             ; 3
+00000320:             ;         ; else if (button pressed)
+00000320: EF000005    ;         SVC   SVC_BUTT
+00000324: E3500002    ;         CMP   r0, #2
+00000328:             ;         ; store limit 
+00000328: 02838C05    ;         ADDEQ r8, r3, #0x500
+0000032C: EAFFFFE0    ;         B     %b1     ;; repeat timer loop
+00000330:             ; 
+00000330:             ;         
+00000330:             ; ;------------------------
+00000330:             ; 
+00000330:             ; ;------------------------
+00000330:             ; ;- procedure Divide(R0=numerator IN/quotient OUT, R1=denominator IN
+00000330:             ; ;-      ,R2=remainder OUT) 
+00000330:             ; ;-  computed integer division R0/R1
+00000330:             ; ;-  returns quotient in R0 and remainder in R2
+00000330:             ; ;- 
+00000330:             ; ;- code adapted from bcd_conver.s @ /opt/info/courses/COMP227...
+00000330:             ; Divide
+00000330: E3A02000    ;         MOV     r2, #0                  ; AccH
+00000334: E3A03020    ;         MOV     r3, #32                 ; Number of bits in division
+00000338: E0900000    ;         ADDS    r0, r0, r0              ; Shift dividend
+0000033C:             ; 
+0000033C: E0A22002    ; 1       ADC     r2, r2, r2              ; Shift AccH, carry into LSB
+00000340: E1520001    ;         CMP     r2, r1                  ; Will it go?
+00000344: 20422001    ;         SUBHS   r2, r2, r1              ; If so, subtract
+00000348: E0B00000    ;         ADCS    r0, r0, r0              ; Shift dividend & Acc. result
+0000034C: E2433001    ;         SUB     r3, r3, #1              ; Loop count
+00000350: E1130003    ;         TST     r3, r3                  ; Leaves carry alone
+00000354: 1AFFFFF8    ;         BNE     %b1                     ; Repeat as required
+00000358:             ; 
+00000358: E1A0F00E    ;         MOV     pc, lr                  ; Return
+0000035C:             ; ;------------------------
+0000035C:             ; 
+0000035C:             ; 
+0000035C:             ; ;------------------------
+0000035C:             ; ;-procedure DisplayTimer(R0=decimal time)
+0000035C:             ; ;- displays the passed value on the LCD in the curent position
+0000035C: 00002710    ; tenthou DEFW 10000
+00000360: 000186A0    ; hundthou DEFW 100000
+00000364:             ; 
+00000364:             ; DisplayTimer
+00000364: E92D400F    ;         PUSH {r0,r1,r2,r3,LR}
+00000368:             ; 
+00000368:             ;         ; pre devide value and get remainder to wrap value if large
+00000368: E51F1010    ;         LDR     r1, hundthou
+0000036C: EBFFFFEF    ;         BL      Divide
+00000370: E1A03002    ;         MOV     r3, r2
+00000374:             ; 
+00000374:             ;         ; move cursor to beginning of line
+00000374: E3A0000D    ;         MOV     r0, #CARR_RET
+00000378: EF000001    ;         SVC     SVC_CHAR
+0000037C:             ; 
+0000037C: E1A00003    ;         MOV     r0, r3
+00000380:             ; 
+00000380:             ;         ; display values
+00000380:             ; 
+00000380:             ;         ;---- tenthou   -----
+00000380:             ;         ;Divide r0 / 10000
+00000380: E51F102C    ;         LDR     r1, tenthou
+00000384: EBFFFFE9    ;         BL      Divide
+00000388:             ;         ;Print quotient
+00000388: E2800030    ;         ADD     r0, r0, #('0')
+0000038C: EF000001    ;         SVC     SVC_CHAR
+00000390:             ; 
+00000390:             ;         ;---- thousands -----
+00000390:             ;         ;Divide r0 / 1000
+00000390: E3A01FFA    ;         MOV     r1, #1000
+00000394: E1A00002    ;         MOV     r0, r2
+00000398: EBFFFFE4    ;         BL      Divide
+0000039C:             ;         ;Print quotient
+0000039C: E2800030    ;         ADD     r0, r0, #('0')
+000003A0: EF000001    ;         SVC     SVC_CHAR
+000003A4:             ; 
+000003A4:             ;         ;--- decimal point --
+000003A4: E3A0002E    ;         MOV     r0, #('.')
+000003A8: EF000001    ;         SVC     SVC_CHAR
+000003AC:             ; 
+000003AC:             ;         ;---- hundreds  -----
+000003AC:             ;         ;Divide r0 / 100
+000003AC: E3A01064    ;         MOV     r1, #100
+000003B0: E1A00002    ;         MOV     r0, r2
+000003B4: EBFFFFDD    ;         BL      Divide
+000003B8:             ;         ;Print quotient
+000003B8: E2800030    ;         ADD     r0, r0, #('0')
+000003BC: EF000001    ;         SVC     SVC_CHAR
+000003C0:             ;         
+000003C0:             ;         ;---- tens      -----
+000003C0:             ;         ;Divide r0 / 10
+000003C0: E3A0100A    ;         MOV     r1, #10
+000003C4: E1A00002    ;         MOV     r0, r2
+000003C8: EBFFFFD8    ;         BL      Divide
+000003CC:             ;         ;Print quotient
+000003CC: E2800030    ;         ADD     r0, r0, #('0')
+000003D0: EF000001    ;         SVC     SVC_CHAR
+000003D4:             ; 
+000003D4:             ;         ;---- units -----
+000003D4:             ;         ;print remainder
+000003D4: E1A00002    ;         MOV     r0, r2
+000003D8: E2800030    ;         ADD     r0, r0, #('0')
+000003DC: EF000001    ;         SVC     SVC_CHAR
+000003E0:             ; 
+000003E0: E8BD400F    ;         POP {r0,r1,r2,r3,LR}
+000003E4: E1A0F00E    ;         MOV PC, LR
+000003E8:             ; ;------------------------
+000003E8:             ; 
+000003E8: 53 74 6F 70 ; MESSAGE DEFB 'Stopwatch v1.1\r\n', 0x0
+000003EC: 77 61 74 63 ; 
+000003F0: 68 20 76 31 ; 
+000003F4: 2E 31 0D 0A ; 
+000003F8: 00          ; 
+000003F9:             ;  
+000003F9:             ; ;---------------
+000003F9:             ; ;-    stack areas
+000003FC:             ;       ALIGN
+000003FC:             ;       DEFS  4096
+000013FC:             ; sUSR  ; user mode stack area
+000013FC:             ;       DEFS  4096
+000023FC:             ; sSVC  ; svc mode stack area
+000023FC:             ;       DEFS  4096
+000033FC:             ; sABO  ; abort mode stack area
+000033FC:             ;       DEFS  4096
+000043FC:             ; sUDE  ; undefined mode stack area
+000043FC:             ;       DEFS  4096
+000053FC:             ; sIRQ  ; interrupt mode stack area
+000053FC:             ;       DEFS  4096
+000063FC:             ; sFIQ  ; fast interrupt mode stack area
+000063FC:             ; ;---------------
+000063FC:             ; 
+000063FC:             ; 
+000063FC:             ; ; FIN
+000063FC:             ; 
+
+Symbol Table: Labels
+: SPSR_SYSMODENI                    000000DF  Value
+: SPSR_USERNI                       000000D0  Value
+: vReset                            00000020  Local -- ARM
+: vUndef                            0000004C  Local -- ARM
+: SVC_OP_MASK                       FF000000  Value
+: vSupervisor                       00000050  Local -- ARM
+: vSupervisor_return                00000074  Local -- ARM
+: SVCRoutines                       00000084  Local -- ARM
+: SVCRoutines_END                   0000009C  Local -- ARM
+: SVCMax                            00000006  Value
+: SVC_HALT                          00000000  Value
+: SVCRoutine0                       0000009C  Local -- ARM
+: SVC_CHAR                          00000001  Value
+: SVCRoutine1                       000000A0  Local -- ARM
+: SVC_STR                           00000002  Value
+: SVCRoutine2                       000000A8  Local -- ARM
+: SVC_TIME                          00000003  Value
+: SVCRoutine3                       000000B0  Local -- ARM
+: SVC_CLER                          00000004  Value
+: SVCRoutine4                       000000B8  Local -- ARM
+: SVC_BUTT                          00000005  Value
+: SVCRoutine5                       000000C0  Local -- ARM
+: SVCUnknown                        000000C8  Local -- ARM
+: TimerMemLoc                       10000008  Value
+: GetTimer                          000000CC  Local -- ARM
+: LCD_Data                          10000000  Value
+: LCD_Control_O                     00000004  Value
+: ENABLE                            00000001  Value
+: REGSEL                            00000002  Value
+: READNW                            00000004  Value
+: BACKLIGHT                         00000020  Value
+: CONTROL_CHAR                      00000020  Value
+: CLEAR                             00000001  Value
+: PrintChar                         000000E4  Local -- ARM
+: PrintString                       00000128  Local -- ARM
+: PrintString_repeat                00000130  Local -- ARM
+: PrintString_end                   00000144  Local -- ARM
+: EnableBacklight                   0000014C  Local -- ARM
+: CURSOR_POS_MASK                   0000007F  Value
+: MOVE_CUR_OFFSET                   00000080  Value
+: LINE                              00000040  Value
+: BEGIN_LINE_CLEAR                  0000001F  Value
+: LINE_FEED                         0000000A  Value
+: CARR_RET                          0000000D  Value
+: ConvertControlChar                0000016C  Local -- ARM
+: ClearScreen                       000001BC  Local -- ARM
+: IOWait                            000001F8  Local -- ARM
+: IOWait_repeat                     000001FC  Local -- ARM
+: LCDInit                           00000230  Local -- ARM
+: ButtonsMem                        10000004  Value
+: ButtonsMask                       00000003  Value
+: ButtonsShift                      00000006  Value
+: GetButton                         00000250  Local -- ARM
+: PeripheralInitialise              00000270  Local -- ARM
+: vPreAbort                         00000288  Local -- ARM
+: vDataAbort                        0000028C  Local -- ARM
+: vIRQ                              00000290  Local -- ARM
+: vFIQ                              00000294  Local -- ARM
+: TIMER_MAX_VAL                     00000100  Value
+: my_counter                        00000298  Local -- ARM
+: Main                              0000029C  Local -- ARM
+: Divide                            00000330  Local -- ARM
+: tenthou                           0000035C  Local -- ARM
+: hundthou                          00000360  Local -- ARM
+: DisplayTimer                      00000364  Local -- ARM
+: MESSAGE                           000003E8  Local -- ARM
+: sUSR                              000013FC  Local -- ARM
+: sSVC                              000023FC  Local -- ARM
+: sABO                              000033FC  Local -- ARM
+: sUDE                              000043FC  Local -- ARM
+: sIRQ                              000053FC  Local -- ARM
+: sFIQ                              000063FC  Local -- ARM

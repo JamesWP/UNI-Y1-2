@@ -1,0 +1,15 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java MinimumTankSize 1
+java MinimumTankSize 1.001
+java MinimumTankSize 8
+java MinimumTankSize 8.001
+java MinimumTankSize 100
+java MinimumTankSize 57.3
+java MinimumTankSize 0
+java MinimumTankSize -10
+
+

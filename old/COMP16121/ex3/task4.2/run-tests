@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java MaxTwoDoubles 10.0  20.0
+java MaxTwoDoubles 19.99 20.0
+java MaxTwoDoubles 20.0  19.99
+java MaxTwoDoubles 10.0  10.0
+
+

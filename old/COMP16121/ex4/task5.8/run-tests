@@ -1,0 +1,7 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java SinTable 0 10 90
+java SinTable 0 5 20

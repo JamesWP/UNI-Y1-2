@@ -1,0 +1,95 @@
+SQL> 
+SQL> DROP TRIGGER ContractInfo_duration_calc;
+
+Trigger dropped.
+
+SQL> 
+SQL> UPDATE ContractInfo SET duration = 0;
+
+13 rows updated.
+
+SQL> DELETE FROM ContractInfo WHERE HasContract = 'Goldfrat' and date_from = '10-oct-2008' and date_to = '9-oct-2010';
+
+1 row deleted.
+
+SQL> 
+SQL> CREATE OR REPLACE TRIGGER ContractInfo_duration_calc
+  2  BEFORE
+  3  UPDATE OR INSERT
+  4  ON ContractInfo
+  5  FOR EACH ROW
+  6  DECLARE
+  7  BEGIN
+  8  	     :NEW.duration := :NEW.date_to - :NEW.date_from;
+  9  END ContractInfo_duration_calc;
+ 10  /
+
+Trigger created.
+
+SQL> 
+SQL> SHOW ERRORS TRIGGER ContractInfo_duration_calc
+No errors.
+SQL> 
+SQL> -- SHOW IT WORKS
+SQL> SELECT * FROM ContractInfo;
+
+HASCONTRACT                              DATE_FROM DATE_TO     DURATION                                                                               
+---------------------------------------- --------- --------- ----------                                                                               
+Goldfrat                                 10-OCT-10 09-OCT-14          0                                                                               
+Simon Palm                               20-AUG-05 19-AUG-07          0                                                                               
+Simon Palm                               20-SEP-12 19-AUG-14          0                                                                               
+Flut                                     10-AUG-09 09-SEP-14          0                                                                               
+John Cliff                               10-MAR-06 10-APR-12          0                                                                               
+Jay Blancard                             01-JAN-04 20-JUN-14          0                                                                               
+Palmer John                              12-FEB-06 01-JUN-08          0                                                                               
+Zero7                                    31-DEC-11 26-FEB-16          0                                                                               
+JZ                                       24-MAR-05 30-DEC-07          0                                                                               
+Scandal                                  22-OCT-12 19-NOV-16          0                                                                               
+JK Rowl                                  19-APR-03 06-JAN-09          0                                                                               
+
+HASCONTRACT                              DATE_FROM DATE_TO     DURATION                                                                               
+---------------------------------------- --------- --------- ----------                                                                               
+PJ Blox                                  21-JUN-08 16-JUL-13          0                                                                               
+
+12 rows selected.
+
+SQL> 
+SQL> UPDATE ContractInfo
+  2  SET duration = duration;
+
+12 rows updated.
+
+SQL> 
+SQL> INSERT INTO ContractInfo VALUES
+  2  ('Goldfrat', '10-oct-2008', '09-oct-2010', 0);
+
+1 row created.
+
+SQL> 
+SQL> SELECT * FROM ContractInfo;
+
+HASCONTRACT                              DATE_FROM DATE_TO     DURATION                                                                               
+---------------------------------------- --------- --------- ----------                                                                               
+Goldfrat                                 10-OCT-10 09-OCT-14       1460                                                                               
+Simon Palm                               20-AUG-05 19-AUG-07        729                                                                               
+Simon Palm                               20-SEP-12 19-AUG-14        698                                                                               
+Flut                                     10-AUG-09 09-SEP-14       1856                                                                               
+John Cliff                               10-MAR-06 10-APR-12       2223                                                                               
+Jay Blancard                             01-JAN-04 20-JUN-14       3823                                                                               
+Palmer John                              12-FEB-06 01-JUN-08        840                                                                               
+Zero7                                    31-DEC-11 26-FEB-16       1518                                                                               
+JZ                                       24-MAR-05 30-DEC-07       1011                                                                               
+Scandal                                  22-OCT-12 19-NOV-16       1489                                                                               
+JK Rowl                                  19-APR-03 06-JAN-09       2089                                                                               
+
+HASCONTRACT                              DATE_FROM DATE_TO     DURATION                                                                               
+---------------------------------------- --------- --------- ----------                                                                               
+PJ Blox                                  21-JUN-08 16-JUL-13       1851                                                                               
+Goldfrat                                 10-OCT-08 09-OCT-10        729                                                                               
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SPOOL OFF

@@ -1,0 +1,108 @@
+\title{Reflective Notes - Semester 1 - 2013\\ COMP10120}
+\author{James Peach}
+\date{\today}
+
+\documentclass[12pt]{article}
+
+\begin{document}
+\maketitle
+  \section{Course-unit evaluation}
+    \subsection{What were the best things about this course-unit so far?}
+      This course unit first showed and introduced me to UNIX. It has provoked
+      me to go and delve deeper into learning how a unified system works, the
+      different parts of the system and how they interact with the programs
+      that run on them.
+      
+      I also enjoyed getting into the practice of using source control for 
+      all my work. I have had previous experience using SVN but using GIT has
+      opened my mind to a different slant on what is essentially the same 
+      concept. The ability to see the modifications made to a file over its
+      history and see what changes were made for what reasons and by whom.
+      
+      This course unit has also forced us into working as a team. Whilst this is
+      not an easy thing to do it is a required part of working in industry and
+      is a valuable part of the course. The team dynamic has evolved from the
+      first few tasks and we are organised with posting our work online for peer
+      assessment to give opinions and improvements.
+    \subsection{What were the worst things about this course-unit so far?}
+      My weak point in education has always been my writing skills; I found the
+      reading week report I found tricky to write. I split the task into smaler
+      parts and in doing this made the document difficult to put together as it
+      often lacked flow. I need to learn to proof read my work and take the time
+      to do several versions.
+      
+      With possessing some knowledge about the different parts of the web before
+      coming to university I sometimes found some of the work tedious and I also
+      found myself helping others as often as I was completing my own work.
+    \subsection{What were the most surprising things about this course-unit so
+      far?}
+      This course is focused on independent learning and soft skills. This was
+      surprising because I hadn't before expected that the school would think
+      these important. However, I now see that these are what sets us apart from
+      the other potential candidates in the field and could be the reason we get
+      employed over others.
+
+      The vast collection of different ideas for the different projects for this
+      course have been surprising. Some will definitely be interesting and their
+      implementation tricky. There are also some projects that have similar 
+      ideas and it will be interesting to see how the groups will distinguish
+      theirs from the others by adding different implementations and 
+      interactions.
+  \section{Knowledge}
+    \subsection{What are the most important things that you have learnt during
+      this course-unit (not including simple factual information)?}
+      The team-working skills I have learned, organising meetings, writing
+      minutes and organising work have been invaluable. This experience will
+      allow me to better work in groups with subsequent projects. My leadership
+      skills working to peoples advantages and splitting work equally to best
+      suit peoples skills will allow better work efficiency within the group. I
+      have also been able to work as a team member with helping others with peer
+      assessment of work and also listening to constructive criticism.
+
+      The other teamwork related knowledge I have / will learn is working with
+      a team on one code-base and the problems and techniques that can make this
+      possible. This will be useful when working in business on large projects
+      as these often employ different work strategies like pair programming and
+      also different project time-scales.
+    \subsection{What have you learnt about how you learn, and how you work as
+      a member of a team?}
+      I learn a new topic or programming technique best when I have a projector 
+      end goal to work towards. I find if I have an end goal it is often easier 
+      to go and find what is next to do and the next hurdle to complete / 
+      research to reach the end product. I also like to set myself easily 
+      achievable goals and work to add bits at a time to slowly increase my 
+      skill as it is more difficult and daunting to have one large end goal and
+      no foreseeable way to get there.
+
+      When I work in a team I usually struggle with allowing others to be given
+      tasks and ensuring they are done. This usually affects the work that was
+      assigned to me. However, with practice and experience the benefits of 
+      being a team member will allow me to help the productivity of the group.
+  \section{Personal development}
+    \subsection{How have you developed since the start of the year?}
+      I have developed many different skills in teamwork and learning whilst
+      also learning their importance to the industry. After the settling down
+      period I got more used to the new style of learning with lectures
+      introducing new topics and then examples classes and labs to test this
+      knowledge this development will hopefully continue and finish with a good
+      end result.
+    \subsection{What changes do you need to make next semester and how do
+      you plan to achieve these changes?}
+      Next semester I will have more work and more things to learn. I am finding
+      that revision would be easier if I had noted down concepts for the 
+      different courses and could now refer to these to ensure I do not miss out
+      any part of a course.
+      
+      Next semester, I will try to dedicate some time each week to write down a 
+      summary for each course and what I found difficult, in the hope
+      that it will reduce stress come exam time. I would also benefit from
+      starting my revision earlier and doing it in stages first starting a few
+      weeks after the lectures and then a month after or so. That way when it
+      comes to the final pass-through the revision is not new.
+
+      Next semester, I would like to be involved in many more extra-curricular 
+      activities: some of these computing related and some of them not. I try
+      and keep up with new technologies and take an interest in trying to learn
+      them and finding practical applications, the most recent of these included 
+      NodeJS and Graph databases.
+\end{document}

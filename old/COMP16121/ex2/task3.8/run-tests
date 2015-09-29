@@ -1,0 +1,10 @@
+#/bin/bash
+echo Compiling =============
+javac *.java
+echo Running ===============
+java RoundPennies -50
+java RoundPennies -49
+java RoundPennies 49
+java RoundPennies 50
+java RoundPennies 749
+java RoundPennies 750

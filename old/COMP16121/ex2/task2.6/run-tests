@@ -1,0 +1,5 @@
+#/bin/bash
+echo Compiling =============
+javac Quote.java
+echo Running ===============
+java Quote

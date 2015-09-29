@@ -1,0 +1,101 @@
+#!/bin/bash
+set -e
+
+
+echo Compiling *.java
+javac *.java
+echo Running...
+
+#java StreetOrder regents-crescent.txt output.txt
+#echo output for normal test
+#cat output.txt
+
+#1
+echo No command line arguments.
+java StreetOrder
+echo
+#2
+echo Only one command line argument.
+java StreetOrder regents-crescent.txt
+echo
+#3
+echo An input file that does not exist.
+java StreetOrder blah.txt output.txt
+echo
+#4
+echo An output file that has a leading directory that does not exist.
+java StreetOrder regents-crescent.txt dir/output.txt
+echo
+#5
+echo "An output file that has a leading directory which is not writable (e.g.
+the root directory on Unix, /)."
+mkdir nonwrite 2> /dev/null
+chmod -w nonwrite
+java StreetOrder regents-crescent.txt nonwrite/output.txt
+rm -rf nonwrite
+echo
+#6
+echo -e "An input file with no odd numbered houses and no even numbered
+houses (e
+.g. /dev/null or nul)."
+java StreetOrder /dev/null output.txt
+echo output for nul input
+cat output.txt
+echo
+#7
+echo "An input file with one odd numbered house and no even numbered houses (i
+.e.
+one line)."
+echo -e "1 Mr.Odd" > oneline
+java StreetOrder oneline output.txt
+echo output for one odd line input
+cat output.txt
+rm oneline
+echo
+#8
+echo "An input file with one odd numbered house and one even numbered house (i
+.e. two lines)."
+echo -e "1 Mr.Odd\n4 Mr.Even" > twoline
+java StreetOrder twoline output.txt
+echo output for two line even odd input
+cat output.txt
+rm twoline
+echo
+#9
+echo "An input file with two odd numbered houses and one even numbered house
+(i.e. three lines)."
+echo -e "1 Jacob\n2 Barry\n5 Ted" > oddeven.txt
+java StreetOrder oddeven.txt output.txt
+echo output for 2 odd 1 even
+cat output.txt
+rm output.txt oddeven.txt
+echo
+#10
+echo "An input file with two odd numbered houses and two even numbered houses
+(i.e
+. four lines)."
+echo -e "1 Jacob\n2 Barry\n4 Mildred\n5 Ted" > oddeven.txt
+java StreetOrder oddeven.txt output.txt
+echo output for 2 odd 2 even
+cat output.txt
+rm output.txt oddeven.txt
+echo
+#11
+echo "An input file with three odd numbered houses and two even numbered
+houses (i.e. five lines)."
+echo -e "1 Jacob\n2 Barry\n4 Mildred\n5 Ted\n7 Bob" > oddeven.txt
+java StreetOrder oddeven.txt output.txt
+echo output for 3 odd 2 even
+cat output.txt
+rm output.txt oddeven.txt
+echo
+#12
+echo "An input file with three odd numbered houses and three even numbered
+houses (i.e. six lines)."
+echo -e "1 Jacob\n2 Barry\n4 Mildred\n5 Ted\n7 Bob\n8 Liz" > oddeven.txt
+java StreetOrder oddeven.txt output.txt
+echo output for 3 odd 3 even
+cat output.txt
+rm output.txt oddeven.txt
+echo
+rm *.class

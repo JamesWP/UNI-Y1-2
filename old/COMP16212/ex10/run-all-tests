@@ -1,0 +1,10 @@
+#/bin/bash
+(
+for task in task*
+do
+  echo =============================
+  echo "Task $task"
+  echo -----------------------------
+  (cd $task; ./run-tests) 2>&1
+done
+)| less

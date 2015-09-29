@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo "Compiling  ------"
+javac *.java
+echo "Running ---------"
+java ThreeWeights 7 8 9

@@ -1,0 +1,34 @@
+Files in  /opt/info/courses/OpenGL/tutor:
+
+OpenGL Tutorial programs by nate Robins.
+
+NOTE: programs must be be run from within this directory in order to access
+model data.
+
+fog
+	demonstrates fog
+
+lightmaterial
+	demonstrates light and material properites
+
+lightposition
+	demonstrates positioning the light source
+
+projection
+	demonstrates changing viewing/projection parameters
+
+texture
+	demonstrates texturing
+
+transformation
+	demonstrates sequences of transformations
+
+data/
+	object data
+
+dist/
+	original distribution
+
+Please address queries to toby.howard@manchester.ac.uk
+
+[ends]

@@ -1,0 +1,296 @@
+KMD
+00000000:             ; ; COMP15111 exercise 4 - Template file
+00000000:             ; ; J.D. Garside (from an original by P.J. Jinks)
+00000000:             ; ; September 2012
+00000000:             ; 
+00000000:             ; print_char      equ     0               ; Define names to aid readability
+00000000:             ; stop            equ     2
+00000000:             ; print_str       equ     3
+00000000:             ; print_no        equ     4
+00000000:             ; 
+00000000:             ; cLF             equ     10              ; Line-feed character
+00000000:             ; 
+00000000:             ; 
+00000000: E28FD064    ;                 ADR     SP, _stack      ; set SP pointing to the end of our stack
+00000004: EA00007C    ;                 B       main
+00000008:             ; 
+00000008:             ;                 DEFS    100             ; this chunk of memory is for the stack
+0000006C:             ; _stack                                  ; This label is 'just after' the stack space
+0000006C:             ; 
+0000006C:             ; ; public class AgeHistory2 {
+0000006C:             ; 
+0000006C: 54 68 69 73 ; wasborn         DEFB    "This person was born on ",0
+00000070: 20 70 65 72 ; 
+00000074: 73 6F 6E 20 ; 
+00000078: 77 61 73 20 ; 
+0000007C: 62 6F 72 6E ; 
+00000080: 20 6F 6E 20 ; 
+00000084: 00          ; 
+00000085: 54 68 69 73 ; was             DEFB    "This person was ",0
+00000089: 20 70 65 72 ; 
+0000008D: 73 6F 6E 20 ; 
+00000091: 77 61 73 20 ; 
+00000095: 00          ; 
+00000096: 20 6F 6E 20 ; on              DEFB    " on ",0
+0000009A: 00          ; 
+0000009B: 54 68 69 73 ; is              DEFB    "This person is ",0
+0000009F: 20 70 65 72 ; 
+000000A3: 73 6F 6E 20 ; 
+000000A7: 69 73 20 00 ; 
+000000AB: 20 74 6F 64 ; today           DEFB    " today!",0
+000000AF: 61 79 21 00 ; 
+000000B3: 54 68 69 73 ; willbe          DEFB    "This person will be ",0
+000000B7: 20 70 65 72 ; 
+000000BB: 73 6F 6E 20 ; 
+000000BF: 77 69 6C 6C ; 
+000000C3: 20 62 65 20 ; 
+000000C7: 00          ; 
+000000C8:             ;                 ALIGN
+000000C8:             ; 
+000000C8: 00000017    ; pDay            DEFW    23              ; static int pDay = 23; //or whatever is today's date
+000000CC: 0000000B    ; pMonth          DEFW    11              ; static int pMonth = 11; //or whatever is this month
+000000D0: 000007D5    ; pYear           DEFW    2005            ; static int pYear = 2005; //or whatever is this year
+000000D4:             ; 
+000000D4:             ; printthedate
+000000D4:             ; ;printthedate (day,month,year) R4=year,R1=month, R6=day
+000000D4: E1A00006    ;                         MOV     R0, R6
+000000D8: EF000004    ;                         SVC     print_no
+000000DC: E3A0002F    ;                         MOV     R0, #'/'
+000000E0: EF000000    ;                         SVC     print_char
+000000E4: E1A00001    ;                         MOV     R0, R1
+000000E8: EF000004    ;                         SVC     print_no
+000000EC: E3A0002F    ;                         MOV     R0, #'/'
+000000F0: EF000000    ;                         SVC     print_char
+000000F4: E1A00004    ;                         MOV     R0, R4
+000000F8: EF000004    ;                         SVC     print_no
+000000FC: E3A0000A    ;                         MOV     R0, #cLF
+00000100: EF000000    ;                         SVC     print_char
+00000104: E1A0F00E    ;                         MOV PC, LR ; return
+00000108:             ; 
+00000108:             ; ; private static void printAgeHistory(int bDay, int bMonth, int bYear){
+00000108:             ; 
+00000108:             ; ; parameters
+00000108:             ; ;  R0 = bDay (on entry, moved to R6 to allow SVC to output via R0)
+00000108:             ; ;  R1 = bMonth
+00000108:             ; ;  R2 = bYear
+00000108:             ; ; local variables (callee-saved registers)
+00000108:             ; ;  R4 = year
+00000108:             ; ;  R5 = age
+00000108:             ; ;  R6 = bDay - originally R0
+00000108:             ; 
+00000108: E92D4070    ; printAgeHistory PUSH    {R4-R6,LR}; callee saves three registers
+0000010C:             ; 
+0000010C:             ; ; int year = bYear + 1;
+0000010C: E2824001    ;                 ADD     R4, R2, #1
+00000110:             ; ; int age = 1;
+00000110: E3A05001    ;                 MOV     R5, #1
+00000114:             ; 
+00000114:             ; ; System.out.println("This person was born on "
+00000114:             ; ;                       + bDay + "/" + bMonth + "/" + bYear);
+00000114: E24F00B0    ;                 ADRL    R0, wasborn
+00000118: EF000003    ;                 SVC     print_str
+0000011C:             ; 
+0000011C:             ; 
+0000011C:             ; ;printthedate(day,month,year)
+0000011C: E92D0010    ;                 PUSH {r4}
+00000120: E1A04002    ;                 MOV r4, r2
+00000124: EBFFFFEA    ;                 BL  printthedate
+00000128: E8BD0010    ;                 POP  {r4}
+0000012C:             ; ;r6 day, r1 month, r2 year
+0000012C:             ; 
+0000012C:             ; ; this code does: while (year < pYear) {
+0000012C: E51F0064    ; loop1   LDR     R0, pYear
+00000130: E1540000    ;                 CMP     R4, R0
+00000134: 2A000011    ;                 BHS     end1            ; Years are unsigned
+00000138:             ;         
+00000138:             ;     ;;if year != pyear: end1
+00000138: 0A000010    ;         BEQ end1
+0000013C:             ;     ;;if bmonth<pmonth: run
+0000013C: E51F0078    ;         LDR R0, pMonth
+00000140: E1510000    ;         CMP R1, R0
+00000144: CA000003    ;         BGT run
+00000148:             ;     ;;if bmonth != pmonth: end1
+00000148: 1A00000C    ;         BNE end1
+0000014C:             ;     ;;if bday >pday: end1
+0000014C: E51F008C    ;         LDR R0, pDay
+00000150: E1560000    ;         CMP R6, R0
+00000154: CA000009    ;         BGT end1
+00000158:             ;           
+00000158:             ; ; for part 4, should be changed to:
+00000158:             ; ; while (year < pYear)
+00000158:             ; ;       || year == pYear && bMonth < pMonth
+00000158:             ; ;       || year == pYear && bMonth == pMonth && bDay < pDay) {
+00000158:             ; 
+00000158:             ; ; System.out.println("This person was " + age
+00000158:             ; ;                       + " on " + bDay + "/" + bMonth + "/" + year);
+00000158: E24F00DB    ; run             ADRL    R0, was
+0000015C: EF000003    ;                 SVC     print_str
+00000160: E1A00005    ;                 MOV     R0, R5
+00000164: EF000004    ;                 SVC     print_no
+00000168: E24F00DA    ;                 ADRL    R0, on
+0000016C: EF000003    ;                 SVC     print_str
+00000170:             ; 
+00000170:             ; ;printthedate(day,month,year) 
+00000170:             ;                 ;PUSH {r4,r6} ; swaps the vals in 4,6
+00000170:             ;                 ;MOV r4,r6
+00000170:             ;                 ;LDR r6, [SP]
+00000170: EBFFFFD7    ;                 BL  printthedate
+00000174:             ;                 ;POP {r4,r6}
+00000174:             ; ;r4 day, r1 month, r6 year
+00000174:             ; 
+00000174:             ; 
+00000174:             ;                 ; year++;
+00000174: E2844001    ;                 ADD     R4, R4, #1
+00000178:             ;                 ; age++;
+00000178: E2855001    ;                 ADD     R5, R5, #1
+0000017C:             ;                 ; }
+0000017C: EAFFFFEA    ;                 B       loop1
+00000180:             ; 
+00000180:             ; end1
+00000180:             ; ; this code does: if (bMonth == pMonth)
+00000180:             ; ; for part 4, should be changed to:
+00000180:             ; ; if (bMonth == pMonth && bDay == pDay)
+00000180: E51F00BC    ;                 LDR     R0, pMonth
+00000184: E1510000    ;                 CMP     R1, R0
+00000188: 1A000008    ;                 BNE     else1
+0000018C:             ; 
+0000018C:             ; ; System.out.println("This person is "+age+" today!");
+0000018C: E24F00F9    ;                 ADRL    R0, is
+00000190: EF000003    ;                 SVC     print_str
+00000194: E1A00005    ;                 MOV     R0, R5
+00000198: EF000004    ;                 SVC     print_no
+0000019C: E24F00F9    ;                 ADRL    R0, today
+000001A0: EF000003    ;                 SVC     print_str
+000001A4: E3A0000A    ;                 MOV     R0, #cLF
+000001A8: EF000000    ;                 SVC     print_char
+000001AC:             ; 
+000001AC:             ; ; else
+000001AC: EA00000C    ;                 B       end2
+000001B0:             ; else1
+000001B0:             ; ; System.out.println("This person will be " + age
+000001B0:             ; ;                       + " on " + bDay + "/" + bMonth + "/" + year);
+000001B0: E24F0005    ;                 ADRL    R0, willbe
+000001B4: E2400C01    ; 
+000001B8: EF000003    ;                 SVC     print_str
+000001BC: E1A00005    ;                 MOV     R0, R5
+000001C0: EF000004    ;                 SVC     print_no
+000001C4: E24F0036    ;                 ADRL    R0, on
+000001C8: E2400C01    ; 
+000001CC: EF000003    ;                 SVC     print_str
+000001D0:             ; 
+000001D0:             ; ;printthedate(day,month,year)
+000001D0: E92D0050    ;                 PUSH {r4,r6} ; swaps the vals in 4,6
+000001D4: E1A04006    ;                 MOV r4,r6
+000001D8: E59D6008    ;                 LDR r6, [SP, #8]
+000001DC: EBFFFFBC    ;                 BL  printthedate
+000001E0: E8BD0050    ;                 POP {r4,r6}
+000001E4:             ; ; r6 day,r1 month, r4 year
+000001E4:             ; 
+000001E4:             ; ; }// end of printAgeHistory
+000001E4:             ; end2            
+000001E4: E8BD4070    ;                 POP     {R4-R6,LR}              ; callee saved registers
+000001E8: E1A0F00E    ;                 MOV     PC, LR
+000001EC:             ; 
+000001EC: 41 6E 6F 74 ; another         DEFB    "Another person",10,0
+000001F0: 68 65 72 20 ; 
+000001F4: 70 65 72 73 ; 
+000001F8: 6F 6E 0A 00 ; 
+000001FC:             ;                 ALIGN
+000001FC:             ; 
+000001FC:             ; ; public static void main(String [] args) {
+000001FC:             ; main
+000001FC: E59F40B0    ;         LDR     R4, =&12345678          ; Test value - not part of Java compilation
+00000200: E1A05004    ;         MOV     R5, R4                  ; See later if these registers corrupted
+00000204: E1A06004    ;         MOV     R6, R4
+00000208:             ; 
+00000208:             ; ; printAgeHistory(pDay, pMonth, 2000);
+00000208:             ; 
+00000208: E92D0046    ;                 PUSH{R1-R2,R6}
+0000020C: E3A02E7D    ;                 MOV     R2, #2000
+00000210: E51F114C    ;                 LDR     R1, pMonth
+00000214: E51F6154    ;                 LDR     R6, pDay
+00000218: EBFFFFBA    ;                 BL      printAgeHistory
+0000021C:             ; 
+0000021C:             ; ; System.out.println("Another person");
+0000021C: E24F0038    ;                 ADRL    R0, another
+00000220: EF000003    ;                 SVC     print_str
+00000224:             ; 
+00000224:             ; ; printAgeHistory(13, 11, 2000);
+00000224: E3A02E7D    ;                 MOV     R2, #2000
+00000228: E3A0100B    ;                 MOV     R1, #11
+0000022C: E3A0600D    ;                 MOV     R6, #13    
+00000230: EBFFFFB4    ;                 BL      printAgeHistory
+00000234: E8BD0046    ;                 POP{R1-R2,R6}
+00000238:             ; 
+00000238:             ;         ; Now check to see if register values intact (Not part of Java)
+00000238: E59F0074    ;         LDR     R0, =&12345678          ; Test value
+0000023C: E1540000    ;         CMP     R4, R0                  ; Did you preserve these registers?
+00000240: 01550000    ;         CMPEQ   R5, R0                  ;
+00000244: 01560000    ;         CMPEQ   R6, R0                  ;
+00000248:             ; 
+00000248: 128F0014    ;         ADRLNE  R0, whoops1             ; Oh dear!
+0000024C: 1F000003    ;         SVCNE   print_str               ;
+00000250:             ; 
+00000250: E24F0F7B    ;         ADRL    R0, _stack              ; Have you balanced pushes & pops?
+00000254: E15D0000    ;         CMP     SP, R0                  ;
+00000258:             ; 
+00000258: 128F002A    ;         ADRLNE  R0, whoops2             ; Oh no!!
+0000025C: 1F000003    ;         SVCNE   print_str               ; End of test code
+00000260:             ; 
+00000260:             ; ; }// end of main
+00000260: EF000002    ;                 SVC     stop
+00000264:             ; 
+00000264:             ; ; }// end of class
+00000264:             ; 
+00000264:             ; 
+00000264: 0A 2A 2A 20 ; whoops1         DEFB    "\n** BUT YOU CORRUPTED REGISTERS!  **\n", 0
+00000268: 42 55 54 20 ; 
+0000026C: 59 4F 55 20 ; 
+00000270: 43 4F 52 52 ; 
+00000274: 55 50 54 45 ; 
+00000278: 44 20 52 45 ; 
+0000027C: 47 49 53 54 ; 
+00000280: 45 52 53 21 ; 
+00000284: 20 20 2A 2A ; 
+00000288: 0A 00       ; 
+0000028A: 0A 2A 2A 20 ; whoops2         DEFB    "\n** BUT YOUR STACK DIDN'T BALANCE!  **\n", 0
+0000028E: 42 55 54 20 ; 
+00000292: 59 4F 55 52 ; 
+00000296: 20 53 54 41 ; 
+0000029A: 43 4B 20 44 ; 
+0000029E: 49 44 4E 27 ; 
+000002A2: 54 20 42 41 ; 
+000002A6: 4C 41 4E 43 ; 
+000002AA: 45 21 20 20 ; 
+000002AE: 2A 2A 0A 00 ; 
+000002B2:             ; 
+000002B2: 00 00       ; (padding)
+000002B4: 12345678    ; Remaining literals
+
+Symbol Table: Labels
+: print_char                        00000000  Value
+: stop                              00000002  Value
+: print_str                         00000003  Value
+: print_no                          00000004  Value
+: cLF                               0000000A  Value
+: _stack                            0000006C  Local -- ARM
+: wasborn                           0000006C  Local -- ARM
+: was                               00000085  Local -- ARM
+: on                                00000096  Local -- ARM
+: is                                0000009B  Local -- ARM
+: today                             000000AB  Local -- ARM
+: willbe                            000000B3  Local -- ARM
+: pDay                              000000C8  Local -- ARM
+: pMonth                            000000CC  Local -- ARM
+: pYear                             000000D0  Local -- ARM
+: printthedate                      000000D4  Local -- ARM
+: printAgeHistory                   00000108  Local -- ARM
+: loop1                             0000012C  Local -- ARM
+: run                               00000158  Local -- ARM
+: end1                              00000180  Local -- ARM
+: else1                             000001B0  Local -- ARM
+: end2                              000001E4  Local -- ARM
+: another                           000001EC  Local -- ARM
+: main                              000001FC  Local -- ARM
+: whoops1                           00000264  Local -- ARM
+: whoops2                           0000028A  Local -- ARM

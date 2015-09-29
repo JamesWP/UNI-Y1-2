@@ -1,0 +1,5 @@
+#/bin/bash
+echo Compiling =============
+javac HelloSolarSystem.java
+echo Running ===============
+java HelloSolarSystem

@@ -1,0 +1,1 @@
+../../../ex3/lab_submission_3/sqlScripts/drop-Orinoco-initial-tables.sql

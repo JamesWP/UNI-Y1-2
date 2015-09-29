@@ -1,0 +1,1 @@
+gcc dijkstra.c dijkstra.h graph.h graph_functions.c ordered_queue.h ordered_queue.c

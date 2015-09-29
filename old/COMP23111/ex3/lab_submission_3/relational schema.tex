@@ -1,0 +1,65 @@
+\documentclass[12pt]{article}
+\usepackage[margin=0.5in]{geometry}
+
+\begin{document}
+
+\section{Test}
+		
+\begin{table}[h]
+ 
+
+\begin{tabular}{ll}
+Manager    & (\underline{manager\_ID}, name) \\
+
+ManPhone & (\underline{manager\_ID [fk:Manager.manager\_ID], telephone}) \\
+
+Artist	    & 	 (\underline{artistic\_name}, genre, managedBy [fk:Manager.manager\_ID]) \\
+
+
+Album	 	&  (\underline{album\_ID}, title, createdBy [fk:Artist.artistic\_name])\\
+
+MasterTrack & (\underline{track\_ID}, working\_title, working\_length, \\
+&	 	 recordedBy [fk:Artist.artistic\_name], \\
+&	 	 editedBy [fk:SoundEngineer.sound\_eng\_id])\\
+
+SoundEngineer &  (\underline{sound\_eng\_ID}, name)\\
+
+ContractInfo &  (\underline{hasContract [fk:Artist.artistic\_name], date\_from, date\_to},\\
+& duration [derived as (date\_to - date\_from)])\\
+
+FinishedTrack & (\underline{originatesFrom [fk:MasterTrack.track\_ID], version}, released\_title, final\_length)\\
+
+AlbumTrack & ( \underline{album\_ID [fk:Album.album\_ID], track\_ID [fk:FinishedTrack.track\_ID],}\\
+           &  \underline{ version [fk:FinishedTrack.version]}, sequence)\\
+
+Catalogue & (\underline{release\_date, album\_ID [fk:Album.album\_ID]}, price, stock)\\
+
+Buyer & (\underline{buyer\_ID}, date\_registered)\\
+
+Order & (\underline{order\_no}, date\_placed, date\_dispatched, buyer\_ID [fk:Buyer.buyer\_ID])\\
+
+OrderItem & (\underline{order\_no [fk:Order.order\_no], release\_date[fk:Catalogue.release\_date], }\\
+&  \underline{album\_ID [fk:Catalogue.album\_ID]})\\
+
+SoloArtist	    & 	 (\underline{artistic\_name [fk:Artist.artistic\_name]}, date\_first\_performance, real\_name) \\
+
+GroupArtist	    & 	 (\underline{artistic\_name [fk:Artist.artistic\_name]}, date\_formed) \\
+
+MemberOf    & (\underline{solo\_artistic\_name [fk:Artist.artistic\_name], }\\
+ & \underline{group\_artistic\_name [fk:Artist.artistic\_name]}, date\_joined)\\
+ 
+ VinylAlbum  &  (\underline{album\_ID [fk:Album.album\_ID]}) \\
+
+VinylAlbumColor & (\underline{album\_ID [fk:VinylAlbum.album\_ID], color}) \\
+
+ CDAlbum  &  (\underline{album\_ID [fk:Album.album\_ID]}) \\
+
+CDAlbumExtra & (\underline{album\_ID [fk:CDAlbum.album\_ID], extra}) \\
+
+ TapeAlbum  &  (\underline{album\_ID [fk:Album.album\_ID]}, label) 
+\end{tabular}
+\end{table}
+
+
+\end{document}
+

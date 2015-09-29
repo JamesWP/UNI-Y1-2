@@ -1,0 +1,23 @@
+#!/bin/bash
+set -e
+
+echo "compiling java:" *.java
+javac *.java
+
+set +e
+
+#FILES=../../*/*/*.java
+FILES=*.java
+
+for file in $FILES; do
+  echo "--- running test for:" $file
+  echo "--- running unix uuencode for comparison.."
+  cat $file | uuencode $file > tmp
+  echo "--- running my java through diff..."
+  java Uuencode $file | diff tmp - 
+  echo "--- "
+  echo
+done
+
+
+rm tmp

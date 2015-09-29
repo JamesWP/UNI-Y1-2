@@ -1,0 +1,86 @@
+SQL> 
+SQL> CREATE OR REPLACE VIEW AlbumDistribution AS
+  2  SELECT al.album_id, al.title,'v' is_distributed_as
+  3  FROM Album al
+  4  JOIN VinylAlbum va ON va.album_id = al.album_id
+  5  UNION
+  6  SELECT al.album_id, al.title,'c' is_distributed_as
+  7  FROM Album al
+  8  JOIN CDAlbum ca ON ca.album_id = al.album_id
+  9  UNION
+ 10  SELECT al.album_id, al.title,'t' is_distributed_as
+ 11  FROM Album al
+ 12  JOIN TapeAlbum ta ON ta.album_id = al.album_id;
+
+View created.
+
+SQL> 
+SQL> --SHOW IT WORKS
+SQL> COLUMN is_distributed_as FORMAT a20
+SQL> SELECT * FROM AlbumDistribution;
+
+ALBUM TITLE                     IS_DISTRIBUTED_AS                                                                                                     
+----- ------------------------- --------------------                                                                                                  
+1c    20 People in a Field      c                                                                                                                     
+1t    20 People in a Field      t                                                                                                                     
+1v    20 People in a Field      v                                                                                                                     
+2c    My Feet                   c                                                                                                                     
+2v    My Feet                   v                                                                                                                     
+3c    Debut                     c                                                                                                                     
+
+6 rows selected.
+
+SQL> 
+SQL> CREATE OR REPLACE PROCEDURE Album_PlayList
+  2  (
+  3  	     album_type IN VARCHAR2,
+  4  	     album_name IN VARCHAR2
+  5  )
+  6  IS
+  7  	     sel_album_id VARCHAR2(5);
+  8  BEGIN
+  9    SELECT a.album_id INTO sel_album_id
+ 10  	     FROM Album a
+ 11  	     JOIN AlbumDistribution ad on ad.album_id = a.album_id
+ 12  	     WHERE ad.title LIKE album_name and ad.is_distributed_as = album_type and ROWNUM = 1;
+ 13  
+ 14    DECLARE
+ 15  		     CURSOR tracks IS
+ 16  			     SELECT ft.released_title trackName,a.title albumName,at.sequence
+ 17  			     FROM AlbumTrack at
+ 18  			     JOIN Album a on a.album_id = at.album_id
+ 19  			     JOIN FinishedTrack ft ON ft.originatesFrom = at.track_id AND ft.version = at.version
+ 20  			     WHERE at.album_id = sel_album_id;
+ 21  	     BEGIN
+ 22  
+ 23  		     FOR track IN tracks
+ 24  		     LOOP
+ 25  			     DBMS_OUTPUT.put_line (
+ 26  	      track.sequence || ', ' || track.trackName || ' > ' || track.albumName);
+ 27  		     END LOOP;
+ 28  	     END;
+ 29  END;
+ 30  /
+
+Procedure created.
+
+SQL> 
+SQL> SHOW ERRORS PROCEDURE Album_PlayList
+No errors.
+SQL> 
+SQL> EXEC Album_PlayList('c','%F%')
+1, Hello > 20 People in a Field                                                                                                                       
+2, Extended Hello > 20 People in a Field                                                                                                              
+3, Me > 20 People in a Field                                                                                                                          
+4, You > 20 People in a Field                                                                                                                         
+5, Them > 20 People in a Field                                                                                                                        
+6, Us > 20 People in a Field                                                                                                                          
+7, How > 20 People in a Field                                                                                                                         
+8, Be > 20 People in a Field                                                                                                                          
+9, Peace > 20 People in a Field                                                                                                                       
+10, Smile > 20 People in a Field                                                                                                                      
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> SPOOL OFF

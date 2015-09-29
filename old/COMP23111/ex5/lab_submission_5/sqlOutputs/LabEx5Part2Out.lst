@@ -1,0 +1,97 @@
+SQL> 
+SQL> CREATE OR REPLACE PROCEDURE ContractInfo_insert
+  2  (
+  3  	     newHasContract IN ContractInfo.hasContract%TYPE,
+  4  	     newDate_from IN ContractInfo.date_from%TYPE,
+  5  	     newDate_to IN ContractInfo.date_to%TYPE
+  6  )
+  7  IS
+  8    no_contracts_clash NUMBER :=0;
+  9  BEGIN
+ 10  	     IF newDate_to > newDate_from
+ 11  	     THEN -- dates are in the correct order
+ 12  		     SELECT count(1) into no_contracts_clash
+ 13  		     FROM ContractInfo
+ 14  		     WHERE
+ 15  		     (	     newDate_to BETWEEN date_from and date_to
+ 16  			     OR newDate_from BETWEEN date_from and date_to)
+ 17  		     AND newHasContract = hasContract;
+ 18  
+ 19  		     IF no_contracts_clash < 1
+ 20  	 THEN
+ 21  			     INSERT INTO ContractInfo(hasContract,date_from,date_to)
+ 22  			     VALUES (newHasContract,newDate_from,newDate_to);
+ 23  		     END IF;
+ 24    END IF;
+ 25  END;
+ 26  /
+
+Procedure created.
+
+SQL> 
+SQL> SHOW ERRORS PROCEDURE ContractInfo_insert
+No errors.
+SQL> 
+SQL> -- SHOW IT WORKS
+SQL> DELETE FROM ContractInfo
+  2  WHERE hasContract = 'Coldfrat'
+  3  AND date_from = '10-oct-2008'
+  4  AND date_to = '09-oct-2010';
+
+0 rows deleted.
+
+SQL> 
+SQL> SELECT * FROM ContractInfo;
+
+HASCONTRACT                              DATE_FROM DATE_TO     DURATION                                                                               
+---------------------------------------- --------- --------- ----------                                                                               
+Goldfrat                                 10-OCT-10 09-OCT-14       1460                                                                               
+Simon Palm                               20-AUG-05 19-AUG-07        729                                                                               
+Simon Palm                               20-SEP-12 19-AUG-14        698                                                                               
+Flut                                     10-AUG-09 09-SEP-14       1856                                                                               
+John Cliff                               10-MAR-06 10-APR-12       2223                                                                               
+Jay Blancard                             01-JAN-04 20-JUN-14       3823                                                                               
+Palmer John                              12-FEB-06 01-JUN-08        840                                                                               
+Zero7                                    31-DEC-11 26-FEB-16       1518                                                                               
+JZ                                       24-MAR-05 30-DEC-07       1011                                                                               
+Scandal                                  22-OCT-12 19-NOV-16       1489                                                                               
+JK Rowl                                  19-APR-03 06-JAN-09       2089                                                                               
+
+HASCONTRACT                              DATE_FROM DATE_TO     DURATION                                                                               
+---------------------------------------- --------- --------- ----------                                                                               
+PJ Blox                                  21-JUN-08 16-JUL-13       1851                                                                               
+
+12 rows selected.
+
+SQL> 
+SQL> EXEC ContractInfo_insert('Goldfrat','10-oct-2008','09-oct-2010');
+
+PL/SQL procedure successfully completed.
+
+SQL> 
+SQL> SELECT * FROM ContractInfo;
+
+HASCONTRACT                              DATE_FROM DATE_TO     DURATION                                                                               
+---------------------------------------- --------- --------- ----------                                                                               
+Goldfrat                                 10-OCT-10 09-OCT-14       1460                                                                               
+Simon Palm                               20-AUG-05 19-AUG-07        729                                                                               
+Simon Palm                               20-SEP-12 19-AUG-14        698                                                                               
+Flut                                     10-AUG-09 09-SEP-14       1856                                                                               
+John Cliff                               10-MAR-06 10-APR-12       2223                                                                               
+Jay Blancard                             01-JAN-04 20-JUN-14       3823                                                                               
+Palmer John                              12-FEB-06 01-JUN-08        840                                                                               
+Zero7                                    31-DEC-11 26-FEB-16       1518                                                                               
+JZ                                       24-MAR-05 30-DEC-07       1011                                                                               
+Scandal                                  22-OCT-12 19-NOV-16       1489                                                                               
+JK Rowl                                  19-APR-03 06-JAN-09       2089                                                                               
+
+HASCONTRACT                              DATE_FROM DATE_TO     DURATION                                                                               
+---------------------------------------- --------- --------- ----------                                                                               
+PJ Blox                                  21-JUN-08 16-JUL-13       1851                                                                               
+Goldfrat                                 10-OCT-08 09-OCT-10        729                                                                               
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> SPOOL OFF

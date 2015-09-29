@@ -1,0 +1,14 @@
+#!/bin/bash
+
+echo "compiling" *.java
+
+javac *.java
+
+echo "testing java files...."
+
+FILES=../../*/*/*.java
+for file in $FILES; do
+  echo "testing file: " $file
+  java CheckSum < $file
+  sum < $file
+done

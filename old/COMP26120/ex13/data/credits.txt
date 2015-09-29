@@ -1,0 +1,31 @@
+Readme for Facebook networks (facebook5.zip)
+3/23/09
+
+This .zip file contains the Facebook networks (from a date in
+Sept. 2005) for 5 colleges and universities: Caltech, Oklahoma,
+Princeton, UNC Chapel Hill, and Georgetown.  These files only include
+intra-school links.  (Note that these are the full sets of links
+inside each school, ignoring isolated nodes; we have not restricted
+this data to the largest connected component.)
+
+Each of the school .mat files has an A matrix (sparse) and a
+"local_info" variable, one row per node: ID, a student/faculty status
+flag, gender, major, second major/minor (if applicable), dorm/house,
+year, and high school. Missing data is coded 0.
+
+The paper to be cited, included in the .zip file and also
+available online (http://arxiv.org/abs/0809.0690), is
+
+Amanda L. Traud, Eric D. Kelsic, Peter J. Mucha, and Mason A. Porter,
+Community Structure in Online Collegiate Social Networks, arXiv:0809.0690.
+
+A .bib entry for this paper:
+
+@UNPUBLISHED{facebook,
+  author = {Traud, Amanda L. and Kelsic, Eric D. and Mucha, Peter J. and Porter, Mason A.},
+  title = {Community Structure in Online Collegiate Social Networks},
+  note = {ar{X}iv:0809.0960},
+  year = {2008}
+}
+
+For more information, please contact Mason Porter (porterm@maths.ox.ac.uk).

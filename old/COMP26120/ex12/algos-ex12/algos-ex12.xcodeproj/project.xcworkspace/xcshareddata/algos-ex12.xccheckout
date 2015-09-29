@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>92050F55-63BC-422E-B9E0-4777DAC8F6F5</string>
+	<key>IDESourceControlProjectName</key>
+	<string>algos-ex12</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>B4778ADE6E29EBA9F3D686FCDB0A9F23716EDC0F</key>
+		<string>ssh://gitlab.cs.man.ac.uk:22222/james.peach/compexercises.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>COMP26120/ex12/algos-ex12/algos-ex12.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>B4778ADE6E29EBA9F3D686FCDB0A9F23716EDC0F</key>
+		<string>../../../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://gitlab.cs.man.ac.uk:22222/james.peach/compexercises.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>B4778ADE6E29EBA9F3D686FCDB0A9F23716EDC0F</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>B4778ADE6E29EBA9F3D686FCDB0A9F23716EDC0F</string>
+			<key>IDESourceControlWCCName</key>
+			<string>compexercises</string>
+		</dict>
+	</array>
+</dict>
+</plist>

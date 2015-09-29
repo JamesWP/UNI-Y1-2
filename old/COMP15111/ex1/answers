@@ -1,0 +1,42 @@
+Part 1
+
+Q1) After obeying the "LDR R0" instruction, the value of PC is 4 and of R0
+is 0
+
+Q2) After obeying the "LDR R1" instruction, the value of PC is 8 and of R1
+is 4
+
+Q3) After obeying the "LDR R2" instruction, the value of PC is 12(C) and of R2
+is 3
+
+
+(For Q4 and Q5, I am asking about the registers involved in the arithmetic,
+not PC/R15)
+
+Q4) The first time the "ADD" instruction is obeyed, the value of register R0
+changes from 0 to 4
+
+Q5) The first time the "SUB" instruction is obeyed, the value of register R2
+changes from 3 to 2
+
+
+(For Q6, Q7, and Q8, I am asking about the effect of running the program
+from the beginning until it stops at the SWI instruction, not about the
+effect of just one instruction)
+
+Q6) the "BNE" instruction is obeyed 3 times but only performs the branch 2
+times
+
+Only 2 registers (other than the PC register) change value:
+
+Q7) register R2 counts down from 3 to 0
+
+Q8) register R0 is modified to be the Product of memory locations R1 and R2
+
+
+Part 2
+
+Q9) The memory location for "tom" turns red because its value is different/(has changed) from the source file.
+
+Q10) If you reset and run the program again without reloading it then what
+happens to the value of "tom" and why: the value increases from 0 by 12 each execution cycle. becuse the value "tom" is loaded, has 4 added 3 times, then saved.

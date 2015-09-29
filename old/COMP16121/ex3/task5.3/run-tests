@@ -1,0 +1,22 @@
+#!/bin/bash
+
+echo "Compiling ---"
+javac *.java
+echo "Running -----"
+java LargestSquare 0
+java LargestSquare 4
+java LargestSquare 5
+java LargestSquare 9
+java LargestSquare 24
+java LargestSquare 25
+java LargestSquare 101
+echo "Version 2"
+java LargestSquare2 0
+java LargestSquare2 4
+java LargestSquare2 5
+java LargestSquare2 9
+java LargestSquare2 24
+java LargestSquare2 25
+java LargestSquare2 101
+
+

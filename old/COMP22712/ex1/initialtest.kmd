@@ -1,0 +1,158 @@
+KMD
+00000000:             ; ;------------------------------------------------------------------------
+00000000:             ; ;            Traffic lights
+00000000:             ; ;           JWP 2015 - COMP227
+00000000:             ; ;           VERSION 1.0
+00000000:             ; ;
+00000000:             ; ; shows the traffic lights on the board working with no input
+00000000:             ; ;
+00000000:             ; ;
+00000000:             ; ; Last modified today.
+00000000:             ; ;
+00000000:             ; ;
+00000000:             ; ; Known bugs: None
+00000000:             ; ;
+00000000:             ; ;------------------------------------------------------------------------
+00000000: EA000000    ;         B     Main
+00000004:             ; ;---------------------------
+00000004:             ; ; literals
+00000004:             ; ;---------------------------
+00000004:             ; NUM_STATES  EQU   8
+00000004:             ; IOBASE      EQU   0x10000000
+00000004:             ; IO_BUTTON_OFFSET EQU 0x4
+00000004:             ; DATA_MASK   EQU   0x000000FF
+00000004:             ; DELAY_SHIFT EQU   16
+00000004:             ; DELAY_ITTERATIONS EQU 0x10000 
+00000004:             ; 
+00000004:             ; ;---------------------------
+00000004:             ; ; globals
+00000004:             ; ;---------------------------
+00000004:             ; G_BUTTON_STATE
+00000004: 00000000    ;             DEFW  0
+00000008:             ; 
+00000008:             ; 
+00000008:             ; ;---------------------------
+00000008:             ; ; main entry of program
+00000008:             ; ;---------------------------
+00000008:             ; Main
+00000008:             ;         ;- set up stack pointer
+00000008: E28FD0CC    ;         ADRL  SP, Stack_start
+0000000C: E28DDB01    ; 
+00000010:             ;         ;- initialise state to state 0
+00000010: E3A00000    ;         MOV   r0,#0                 ; state is r0=0
+00000014: EB000001    ; Main_o  BL    Output                ; output curent state: Output(R0=0)
+00000018:             ;         ;- go to next state 
+00000018: EB000014    ;         BL    GetNextState
+0000001C: EAFFFFFC    ;         B     Main_o                ; repeat
+00000020:             ; ;---------------------------
+00000020:             ; 
+00000020:             ; 
+00000020:             ; ;---------------------------
+00000020:             ; ;procedure Output(R0=state)
+00000020:             ; ;
+00000020:             ; ; sets the outputs for the given state and waits the 
+00000020:             ; ; defined time before exiting 
+00000020:             ; ; TODO: set flags if button pressed
+00000020:             ; ;---------------------------
+00000020:             ; Output
+00000020: E92D401F    ;         PUSH  {LR,r0,r1,r2,r3,r4}
+00000024: E28F1024    ;         ADR   r1, Output_table
+00000028: E3A04201    ;         MOV   r4, #IOBASE
+0000002C: E200000F    ;         AND   r0, r0, #0xF
+00000030: E7912100    ;         LDR   r2, [r1, r0 LSL #2]  ; load in state record
+00000034: E20200FF    ;         AND   r0, r2, #DATA_MASK    ; seperate delay
+00000038: E1A02822    ;         MOV   r2, r2, LSR #16
+0000003C: E20230FF    ;         AND   r3, r2, #DATA_MASK    ; seperate lights
+00000040:             ;   
+00000040: E5443000    ;         STRB  r3, [r4]             ; update lights
+00000044: EB000014    ;         BL    Delay                 ; delay for r3 seconds Delay(R0=delay)
+00000048: E8BD401F    ;         POP   {LR,r0,r1,r2,r3,r4}
+0000004C: E1A0F00E    ;         MOV   PC, LR
+00000050:             ; 
+00000050:             ; ;table base each record two bytes, one for lights and one for delay
+00000050:             ; Output_table
+00000050: 00440001    ;         DEFW  0x00440001
+00000054: 00640001    ;         DEFW  0x00640001
+00000058: 00140003    ;         DEFW  0x00140003
+0000005C: 00240001    ;         DEFW  0x00240001
+00000060: 00440001    ;         DEFW  0x00440001
+00000064: 00460001    ;         DEFW  0x00460001
+00000068: 00410003    ;         DEFW  0x00410003
+0000006C: 00420001    ;         DEFW  0x00420001
+00000070:             ; ;---------------------------
+00000070:             ; 
+00000070:             ; ;---------------------------
+00000070:             ; ;procedure GetNextState(R0=state OUTPUT)
+00000070:             ; ;
+00000070:             ; ; gets the next state given the curent state
+00000070:             ; ;---------------------------
+00000070:             ; GetNextState
+00000070: E92D0002    ;         PUSH  {r1}                 
+00000074: E51F1078    ;         LDR   r1, G_BUTTON_STATE    ; load button state
+00000078: E3510001    ;         CMP   r1, #1                ; if pressed state
+0000007C: E3A01000    ;         MOV   r1, #0                ; store 0 in button state
+00000080: A50F1084    ;         STRGE r1, G_BUTTON_STATE    ; 
+00000084: AA000001    ;         BGE   GetNextState_incr     ; skip addition if button
+00000088: E2800001    ;         ADD   r0,r0,#1              ; decide next state
+0000008C: E3500008    ;         CMP   r0,#NUM_STATES        ; if > NUM_STATES
+00000090:             ; GetNextState_incr
+00000090: A3A00000    ;         MOVGE r0,#0                 ; wrap state
+00000094: E8BD0002    ;         POP   {r1}
+00000098: E1A0F00E    ;         MOV   PC, LR
+0000009C:             ; ;---------------------------
+0000009C:             ; 
+0000009C:             ; ;---------------------------
+0000009C:             ; ;procedure Delay(R0=seconds)
+0000009C:             ; ;---------------------------
+0000009C:             ; Delay
+0000009C: E92D000F    ;         PUSH  {R0,R1,R2,R3}
+000000A0:             ; Delay_start
+000000A0: E3500001    ;         CMP   R0,#1
+000000A4: BA00000A    ;         BLT   Delay_end 
+000000A8: E28F1EF5    ;         ADRL  r1, DELAY_ITTERATIONS
+000000AC: E2811A0F    ; 
+000000B0:             ; Delay_loop
+000000B0:             ;         ; if button pressed set G_BUTTON_STATE to 1
+000000B0: E3A02201    ;         MOV   r2, #IOBASE
+000000B4: E5D22004    ;         LDRB  r2, [r2,#IO_BUTTON_OFFSET]; load button state
+000000B8: E3520010    ;         CMP   r2, #0x10             ; compare button state
+000000BC: 13A03001    ;         MOVNE r3,#1                 ; store 1 if pressed
+000000C0: 150F30C4    ;         STRNE r3, G_BUTTON_STATE 
+000000C4:             ; 
+000000C4:             ;         ; decrement count and loop again
+000000C4: E2511001    ;         SUBS  R1, R1, #1
+000000C8: 1AFFFFF8    ;         BNE   Delay_loop
+000000CC:             ; 
+000000CC:             ;         ; decrement seconds waited and call again
+000000CC: E2400001    ;         SUB   R0, R0, #1
+000000D0: EAFFFFF2    ;         B     Delay_start
+000000D4:             ; Delay_end
+000000D4: E8BD000F    ;         POP   {R0,R1,R2,R3}
+000000D8: E1A0F00E    ;         MOV   PC, LR
+000000DC:             ; ;--------------------------
+000000DC:             ; 
+000000DC:             ; Stack_end
+000000DC:             ;         DEFS  1024
+000004DC:             ; Stack_start
+000004DC:             ; 
+
+Symbol Table: Labels
+: NUM_STATES                        00000008  Value
+: IOBASE                            10000000  Value
+: IO_BUTTON_OFFSET                  00000004  Value
+: DATA_MASK                         000000FF  Value
+: DELAY_SHIFT                       00000010  Value
+: DELAY_ITTERATIONS                 00010000  Value
+: G_BUTTON_STATE                    00000004  Local -- ARM
+: Main                              00000008  Local -- ARM
+: Main_o                            00000014  Local -- ARM
+: Output                            00000020  Local -- ARM
+: Output_table                      00000050  Local -- ARM
+: GetNextState                      00000070  Local -- ARM
+: GetNextState_incr                 00000090  Local -- ARM
+: Delay                             0000009C  Local -- ARM
+: Delay_start                       000000A0  Local -- ARM
+: Delay_loop                        000000B0  Local -- ARM
+: Delay_end                         000000D4  Local -- ARM
+: Stack_end                         000000DC  Local -- ARM
+: Stack_start                       000004DC  Local -- ARM

@@ -1,0 +1,35 @@
+	How to write, compile, debug and run C programs on Linux
+	========================================================
+
+There are some prompts below, but you should add anything else you think
+will be useful.
+
+Useful sources of information
+=============================
+google
+http://www.cplusplus.com/reference/cstdio/putc/
+
+Writing C programs
+==================
+The language is a lower level than java and requires more care when working 
+with the constructs because there are not as many safety nets at runtime
+
+Compiling C programs
+====================
+you can use the gcc program to compile and link the program
+optinally you can create a makefile and save your programs compile command
+configuraton there
+
+Linking C programs
+==================
+this is done with the ld command, however the gcc program can do this 
+
+Running C programs
+==================
+as normal program ( no "java Class" )
+
+Comparing output from C and Java programs
+=========================================
+the precision of the two devisions is different
+
+

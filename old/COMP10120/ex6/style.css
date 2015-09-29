@@ -1,0 +1,142 @@
+html,body{
+	height:100%;
+	width:100%;
+	background:#012;
+	margin:0;
+	padding:0;
+	font-family: sans-serif;
+	min-width:200px;
+}
+nav{
+	width:100%;
+	display:block;
+	margin:0;
+	padding:40px 20px;
+	color:#fff;
+	list-style: none;
+	background:#9ca;
+}
+
+nav ul{
+	margin:0 auto;
+	padding:0;
+	width:90%;
+	max-width:545px;
+}
+
+nav li{
+	display: inline-block;
+}
+
+nav a{
+	border-radius:3px;
+	border-bottom:1px solid rgba(0,0,0,.2);
+	border-right:1px solid rgba(0,0,0,.1);
+	color:#012;
+	padding:15px;
+	background:rgba(255,255,255,.6);
+	text-decoration: none;
+}
+nav a.active{
+	border-left: 10px solid #f8c;
+	padding:15px 15px 15px 5px;
+}
+
+nav a:hover{
+	border-bottom:1px solid rgba(250,250,250,.2);
+	border-right:1px solid rgba(250,250,250,.1);
+	color:#012;
+	background:rgba(255,255,255,.6);
+	border-left: 10px solid #fac;
+	padding:15px 15px 15px 5px;
+}
+#wrapper h1{
+	font-size: 1.2em;
+	border-bottom: 1px solid rgba(0,0,0,0.06);
+	padding-bottom: 5px;
+}
+#wrapper{
+	background:#fff;
+	width:90%;
+	max-width: 500px;
+	margin:10px auto;
+	padding:10px;
+	color:#333;
+	border-radius: 10px
+}
+#wrapper ul{
+	margin: 0;
+}
+
+#wrapper li{
+	margin: 10px;
+	display: inline-block;
+	list-style: none;
+	background: #9ca;
+	padding: 5px 10px;
+	border-radius: 10px;
+	color:#454;
+}
+#wrapper li img{
+	margin: 0 5px;
+	vertical-align: bottom;
+}
+#wrapper .code{
+	font-family: monospace;
+}
+#wrapper pre {
+	width:100%;
+	height:300px;
+	overflow: scroll;
+	background: #fafafa;
+	padding: 5px;
+}
+#wrapper p img{
+	width:100%;
+}
+#wrapper table {
+	border-spacing: 0;
+	margin:0;
+	padding: 0;
+}
+#wrapper th {
+	margin:0;
+	padding: 5px;
+	background: #9ca;
+	color:#454;
+}
+
+#wrapper td {
+	padding: 5px;
+}
+
+#form{
+	background:rgb(153, 204, 170);
+	padding:10px;
+	border-radius:5px;
+}
+#form input[type=text]{
+	color:#252;
+	background:rgba(250,250, 250,.5);
+	border:1px solid rgba(250,250, 250,.8);
+	border-radius:3px;
+	width:48%;
+	margin:10px 0 0 0;
+}
+#form input[type=text]:last-child{
+	float:right;
+	width:48%;
+}
+#form input[type=submit],
+#form input[type=reset]{
+	padding:5px 15px;
+}
+#form hr{
+	width:60%;
+	border:none;
+	background:rgba(250,250, 250,.3);
+}
+#form input[type=text]:focus{
+	color:#575;
+	background:rgba(250,250, 250,.9);
+}

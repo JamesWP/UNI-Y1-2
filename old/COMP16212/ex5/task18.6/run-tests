@@ -1,0 +1,31 @@
+#/bin/bash
+set -e
+echo Compiling =============
+javac *.java
+echo Running ===============
+
+for field in 0 1 2 3 4;
+do
+  echo "testing program with field# $field..."
+  echo "file in, file out"
+  java DeleteField tabdata.tsv tabdataout.tsv $field
+  echo "output..."
+  cat tabdataout.tsv
+  rm tabdataout.tsv
+  echo 
+
+  echo "file in, stdout out"
+  java DeleteField tabdata.tsv - $field
+  echo
+
+  echo "stdin in, file out"
+  cat tabdata.tsv | java DeleteField - tabdataout.tsv $field
+  echo "output..."
+  cat tabdataout.tsv
+  rm tabdataout.tsv
+  echo
+
+  echo "stdin in, stdout out"
+  cat tabdata.tsv | java DeleteField - - $field
+  echo
+done

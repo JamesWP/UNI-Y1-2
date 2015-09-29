@@ -1,0 +1,5 @@
+#/bin/bash
+echo Compiling =============
+javac HelloWorld.java
+echo Running ===============
+java HelloWorld

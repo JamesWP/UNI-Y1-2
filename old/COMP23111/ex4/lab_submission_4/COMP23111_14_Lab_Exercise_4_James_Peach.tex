@@ -1,0 +1,95 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Report template for COMP23111
+% (2014-2015)
+%
+%	Alvaro A. A. Fernandes
+%	Klitos Christodoulou
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[11pt,a4paper]{article}
+
+% environment
+\usepackage{fancyhdr} % this is needed to include headers
+\usepackage{lastpage} % this is needed to include numbered pages
+\pagestyle{fancy}
+\usepackage{verbatim} % this is needed to include the SQL output
+\usepackage{graphicx} % this is needed to include figures
+\usepackage{listings} % this is needed to include the SQL output
+\usepackage{epstopdf} % this is needed to include the EPS figure
+
+% add a header consisting of your student ID and lab exercise number
+\lhead{\textbf{ID:} 8974863}
+\rhead{\textbf{COMP23111} - Lab Exercise 4}
+\cfoot{\thepage\ of \pageref{LastPage}}
+
+
+\usepackage{enumerate}
+
+% change the margins of the page
+\usepackage[margin=0.6in]{geometry}
+
+% set the parameters for the listings package
+\lstset{
+language=SQL,                           % Code langugage
+basicstyle=\ttfamily,                   % Code font, Examples: \footnotesize, \ttfamily
+}
+
+% now set up a simpler command to wrap the inclusion of SQL scripts
+\newcommand{\includesqloutput}[1]{\tiny \lstinputlisting{#1} \normalsize}
+
+%%%% Start a new document
+\begin{document}
+
+% make sure that you change the next line to the correct exercise number
+\title{\textbf{COMP23111} - Lab Exercise 4}
+
+% your full name goes here, and do not forget your student ID
+\author{James, Peach \\ \textbf{ID:} 8974863} 
+
+% remember to copy this template and change the name of the file
+% according to the rules in the Practical Sessions Manual
+
+% now LaTeX prints the title, author name, etc. here
+\maketitle
+\thispagestyle{empty} % remove page numbering on first page
+\newpage % start a new page
+
+%%%
+%  Create a new section and include the answer for each task as a subsection
+%%%
+\section{Part 1 - RA Expressions}
+
+\begin{enumerate}[I.]
+\item
+  \begin{enumerate}[A. ]
+				\item $\pi_{manager\_id,name}(Manager)$
+				\item $\pi_{manager\_id,telephone}(ManPhone)$
+				\item $\pi_{artistic\_name,genre,managed\_by}(Artist)$
+				\item $\pi_{artistic\_name,date\_first\_performance,real\_name}(SoloArtist)$
+				\item $\pi_{artistic\_name,date\_formed}(GroupArtist)$
+				\item $\pi_{sound\_eng\_id,name}(SoundEngineer)$
+  \end{enumerate}
+\item
+  \begin{enumerate}[A. ]
+				\item $\sigma_{artistic\_name='Palmer John'} \pi_{manager\_id,name}(SoloArtist)$
+				\item $\sigma_{artistic\_name='Goldfrat'} \pi_{artistic\_name,date\_formed} (GroupArtist)$
+				\item $\sigma_{editedBy='Max Spring'} \pi_{track\_id, working\_title,working\_length,recordedBy,editedBy} (MasterTrack)$
+				\item $\sigma_{group\_artistic\_name='Goldfrat'} \pi_{solo\_artistic\_name, group\_artistic\_name, date\_joined}(MemberOf)$
+  \end{enumerate}
+\item $\sigma_{group\_artistic\_name='Flut'} \pi_{solo\_artistic\_name} (MemberOf)$
+\item
+	\begin{enumerate}[A.]
+				\item $\tau_{(working\_title,A)}(\pi_{track\_id, working\_title,working\_length,recordedBy,editedBy}(MasterTrack))$
+				\item $\tau_{(working\_title,D)}(\pi_{track\_id, working\_title,working\_length,recordedBy,editedBy}(MasterTrack))$
+	\end{enumerate}
+\item $\tau_{(working\_title,D)} (\sigma_{editedBy='Max Spring'} \pi_{recordedBy} (MasterTrack))$
+\end{enumerate}
+
+
+\section{Part 2/3 - SQL queries}
+
+\includesqloutput{sqlOutputs/LabEx4Out.lst}
+
+\end{document}
+%%%% End document here

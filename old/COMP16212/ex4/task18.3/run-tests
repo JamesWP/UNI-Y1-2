@@ -1,0 +1,13 @@
+#!/bin/bash
+
+echo "compiling " *.java
+javac *.java
+
+echo "testing"
+FILES=../../*/*/*.java
+
+for file in $FILES; do
+  echo "testing $file"
+  java WordCount < $file
+  wc -w < $file
+done

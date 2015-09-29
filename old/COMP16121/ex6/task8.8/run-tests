@@ -1,0 +1,8 @@
+#!/bin/bash
+
+echo "Compiling  ------"
+javac *.java
+echo "Running ---------"
+java CalendarHighlight 3 28 9
+java CalendarHighlight 1 42 20
+java CalendarHighlight 42 42 1

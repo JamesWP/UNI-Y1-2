@@ -1,0 +1,28 @@
+#!/bin/bash
+set -e
+javac *.java
+
+
+
+echo "no input"
+echo | java ReverseLines
+
+echo "with one line of input"
+echo -e "this is line 1" | java ReverseLines
+
+echo
+echo "with two lines of input"
+echo -e "this is line one\nthis is line two" | java ReverseLines
+
+echo
+echo "with three lines of input"
+echo -e "this is line one\nthis is line two\nthis is line three" | java \
+ReverseLines
+
+echo
+echo "with the java code"
+cat Rever*.java | java ReverseLines
+
+
+
+
